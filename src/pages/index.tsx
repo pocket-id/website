@@ -11,7 +11,7 @@ const Home: React.FC = () => {
           <div className="container flex w-full items-center justify-between px-4 md:px-10">
             <div className="flex h-16 items-center">
               <img
-                src="https://docs.pocket-id.org/img/pocket-id.png"
+                src="/img/logo.png"
                 alt="Pocket ID Logo"
                 className="mr-3 h-8 w-8"
               />
@@ -20,7 +20,7 @@ const Home: React.FC = () => {
               </h2>
             </div>
             <a
-              href="https://github.com/stonith404/pocket-id"
+              href="https://github.com/pocket-id/pocket-id"
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: "hsl(0, 0%, 98%)" }}
