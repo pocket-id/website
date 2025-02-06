@@ -8,10 +8,10 @@ const config: Config = {
     "Pocket ID is a simple OIDC provider that allows users to authenticate with their passkeys to your services.",
   favicon: "img/pocket-id.png",
 
-  url: "https://docs.pocket-id.org",
+  url: "https://pocket-id.org",
   baseUrl: "/",
   organizationName: "pocket-id",
-  projectName: "pocket-id",
+  projectName: "website",
 
   onBrokenLinks: "warn",
   onBrokenMarkdownLinks: "warn",
@@ -28,7 +28,7 @@ const config: Config = {
         docs: {
           routeBasePath: "/docs",
           sidebarPath: "./sidebars.ts",
-          editUrl: "https://github.com/pocket-id/pocket-id/edit/main/docs",
+          editUrl: "https://github.com/pocket-id/website/edit/main",
         },
         blog: false,
       } satisfies Preset.Options,
