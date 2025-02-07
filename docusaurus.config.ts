@@ -6,7 +6,7 @@ const config: Config = {
   title: "Pocket ID",
   tagline:
     "Pocket ID is a simple OIDC provider that allows users to authenticate with their passkeys to your services.",
-  favicon: "img/pocket-id.png",
+  favicon: "img/logo.png",
 
   url: "https://pocket-id.org",
   baseUrl: "/",
@@ -36,7 +36,7 @@ const config: Config = {
   ],
 
   themeConfig: {
-    image: "img/pocket-id.png",
+    image: "img/logo.png",
     colorMode: {
       respectPrefersColorScheme: true,
     },
@@ -44,7 +44,7 @@ const config: Config = {
       title: "Pocket ID",
       logo: {
         alt: "Pocket ID Share Logo",
-        src: "img/pocket-id.png",
+        src: "img/logo.png",
       },
       items: [
         // Version gets replaced by the version-label.ts script
