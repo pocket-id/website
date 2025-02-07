@@ -17,12 +17,14 @@ Pocket ID can sync users and groups from an LDAP Source (lldap, OpenLDAP, Active
 2. Once you have signed in with the initial admin account, navigate to the Application Configuration section at `https://pocket.id/settings/admin/application-configuration`.
 3. Client Configuration Setup
 
-| LDAP Variable      | Example Value                      | Description                                                   |
-| ------------------ | ---------------------------------- | ------------------------------------------------------------- |
-| LDAP URL           | ldaps://ldap.mydomain.com:636      | The URL with port to connect to LDAP                          |
-| LDAP Bind DN       | cn=admin,ou=users,dc=domain,dc=com | The full DN value for the user with search privileges in LDAP |
-| LDAP Bind Password | securepassword                     | The password for the Bind DN account                          |
-| LDAP Search Base   | dc=domain,dc=com                   | The top-level path to search for users and groups             |
+| LDAP Variable              | Example Value                      | Description                                                   |
+| -------------------------- | ---------------------------------- | ------------------------------------------------------------- |
+| LDAP URL                   | ldaps://ldap.mydomain.com:636      | The URL with port to connect to LDAP                          |
+| LDAP Bind DN               | cn=admin,ou=users,dc=domain,dc=com | The full DN value for the user with search privileges in LDAP |
+| LDAP Bind Password         | securepassword                     | The password for the Bind DN account                          |
+| LDAP Search Base           | dc=domain,dc=com                   | The top-level path to search for users and groups             |
+| User Search Filter         | (objectClass=person)               | The filter to use to search for users from LDAP               |
+| User Group Search Filter   | (objectClass=groupOfUniqueNames)   | The filter to use to search for groups from LDAP              |
 
 <br />
 
