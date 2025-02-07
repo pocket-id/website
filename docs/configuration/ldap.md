@@ -24,7 +24,7 @@ Pocket ID can sync users and groups from an LDAP Source (lldap, OpenLDAP, Active
 | LDAP Bind Password         | securepassword                     | The password for the Bind DN account                          |
 | LDAP Search Base           | dc=domain,dc=com                   | The top-level path to search for users and groups             |
 | User Search Filter         | (objectClass=person)               | The filter to use to search for users from LDAP               |
-| User Group Search Filter   | (objectClass=groupOfUniqueNames)   | The filter to use to search for groups from LDAP              |
+| User Group Search Filter   | (objectClass=groupOfNames)         | The filter to use to search for groups from LDAP              |
 
 <br />
 
