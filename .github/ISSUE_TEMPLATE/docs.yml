@@ -1,0 +1,13 @@
+name: 🚀 Documentation Request
+description: "Submit a Documentation Request"
+title: "🚀 Documentation: "
+labels: [documentation]
+body:
+  - type: textarea
+    id: description
+    validations:
+      required: true
+    attributes:
+      label: "Feature description"
+      description: "A clear and concise description of what the request for documentation is."
+      placeholder: "You should add ..."
