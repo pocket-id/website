@@ -18,7 +18,7 @@ id: immich
    **`Administration > Settings > Authentication Settings > OAuth`**
 2. Enable **Login with OAuth**.
 3. Fill in the required fields:
-   - **Issuer URL**: Paste the `Authorization URL` from Pocket ID.
+   - **Issuer URL**: Paste the `OIDC Discovery URL` from Pocket ID.
    - **Client ID**: Paste the `Client ID` from Pocket ID.
    - **Client Secret**: Paste the `Client Secret` from Pocket ID.
 4. *(Optional)* Change `Button Text` to `Login with Pocket ID`.
