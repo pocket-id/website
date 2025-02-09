@@ -89,6 +89,7 @@ const sidebars: SidebarsConfig = {
         "client-examples/hoarder",
         "client-examples/immich",
         "client-examples/jellyfin",
+        "client-examples/komodo",
         "client-examples/memos",
         "client-examples/netbox",
         "client-examples/open-webui",
