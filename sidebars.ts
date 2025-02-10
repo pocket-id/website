@@ -91,6 +91,7 @@ const sidebars: SidebarsConfig = {
         "client-examples/jellyfin",
         "client-examples/komodo",
         "client-examples/memos",
+        "client-examples/minio",
         "client-examples/netbox",
         "client-examples/open-webui",
         "client-examples/pgadmin",
