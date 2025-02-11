@@ -14,7 +14,7 @@ This website is built using [Docusaurus](https://docusaurus.io/).
    ```
 2. Start the development server:
    ```bash
-   npm start
+   npx docusaurus start
    ```
 
 This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
