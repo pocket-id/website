@@ -94,6 +94,7 @@ const sidebars: SidebarsConfig = {
         "client-examples/minio",
         "client-examples/netbox",
         "client-examples/open-webui",
+        "client-examples/paperless-ngx",
         "client-examples/pgadmin",
         "client-examples/portainer",
         "client-examples/proxmox",
