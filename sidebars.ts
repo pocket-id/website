@@ -82,8 +82,10 @@ const sidebars: SidebarsConfig = {
       },
       items: [
         "client-examples/cloudflare-zero-trust",
+        "client-examples/forgejo",
         "client-examples/freshrss",
         "client-examples/gitea",
+        "client-examples/grafana",
         "client-examples/grist",
         "client-examples/headscale",
         "client-examples/hoarder",
