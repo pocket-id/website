@@ -93,7 +93,7 @@ const Home: React.FC = () => {
 
       <div className="flex flex-col items-center mt-10">
         <p className="py-3 text-xs text-muted-foreground">
-          &copy; 2025 Pocket ID
+          &copy; {new Date().getFullYear()} Pocket ID
         </p>
       </div>
     </div>
