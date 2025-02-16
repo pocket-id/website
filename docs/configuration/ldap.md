@@ -37,6 +37,7 @@ Pocket ID can sync users and groups from an LDAP Source (lldap, OpenLDAP, Active
 | User Mail Attribute               | mail               | The LDAP attribute to use for the email of users                                 |
 | User First Name Attribute         | givenName          | The LDAP attribute to use for the first name of users                            |
 | User Last Name Attribute          | sn                 | The LDAP attribute to use for the last name of users                             |
+| Group Members Attribute           | member             | The LDAP attribute to use for querying members of a group.                       |
 | Group Unique Identifier Attribute | uuid               | The LDAP attribute to uniquely identify the groups, **this should never change** |
 | Group Name Attribute              | uid                | The LDAP attribute to use as the name of synced groups                           |
 | Admin Group Name                  | \_pocket_id_admins | The group name to use for admin permissions for LDAP users                       |
