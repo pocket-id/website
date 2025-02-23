@@ -6,7 +6,7 @@ id: minio
 
 ## Pocket ID Setup
 
-1. Create a new Group named `consoleAdmin`
+1. Create a new Group named `consoleAdmin` (case sensitive)
 	- Adding your user to the `consoleAdmin` group logs you into Minio as an administrator. You can also add groups for the other built in policies, please see [ Minio Documentation ](https://min.io/docs/minio/linux/administration/identity-access-management/policy-based-access-control.html#built-in-policies) for more details.
 2. Create a new OIDC Client and name it Minio (or whatever you want)
 	- Set Callback URLs: `https://minio-console.example.com/oauth_callback`
@@ -22,7 +22,7 @@ id: minio
 	- Client Secret: Your Client Secret from Pocket ID.
 	- Claim Name: `groups`
 	- Display Name: Pocket ID (or anything you want)
-	- Scopes: `opened,profile,email,groups`
+	- Scopes: `openid,profile,email,groups`
 	- Redirect URI: `https://minio-console.example.com/oauth_callback`
 
 ## Notes
