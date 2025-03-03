@@ -1,4 +1,4 @@
-# API Endpoints Documentation for API Key Authentication
+# API Documentation
 
 ## Generating a API Key
 
