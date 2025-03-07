@@ -77,7 +77,7 @@ const sidebars: SidebarsConfig = {
         {
       type: "link",
       label: "Discord",
-      href: "https://discord.gg/Pwctrasts5",
+      href: "https://discord.gg",
     },
   ],
 };
