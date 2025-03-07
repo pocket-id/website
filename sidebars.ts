@@ -74,6 +74,11 @@ const sidebars: SidebarsConfig = {
       label: "Demo",
       href: "https://demo.pocket-id.org",
     },
+        {
+      type: "link",
+      label: "Discord",
+      href: "https://discord.gg/Pwctrasts5",
+    },
   ],
 };
 
