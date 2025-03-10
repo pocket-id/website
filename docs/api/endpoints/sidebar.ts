@@ -4,24 +4,6 @@ const sidebar: SidebarsConfig = {
   apisidebar: [
     {
       type: "category",
-      label: "Well Known",
-      items: [
-        {
-          type: "doc",
-          id: "api/endpoints/get-json-web-key-set-jwks",
-          label: "Get JSON Web Key Set (JWKS)",
-          className: "api-method get",
-        },
-        {
-          type: "doc",
-          id: "api/endpoints/get-open-id-connect-discovery-configuration",
-          label: "Get OpenID Connect discovery configuration",
-          className: "api-method get",
-        },
-      ],
-    },
-    {
-      type: "category",
       label: "API Keys",
       items: [
         {
@@ -418,6 +400,24 @@ const sidebar: SidebarsConfig = {
           type: "doc",
           id: "api/endpoints/get-user-groups",
           label: "Get user groups",
+          className: "api-method get",
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "Well Known",
+      items: [
+        {
+          type: "doc",
+          id: "api/endpoints/get-json-web-key-set-jwks",
+          label: "Get JSON Web Key Set (JWKS)",
+          className: "api-method get",
+        },
+        {
+          type: "doc",
+          id: "api/endpoints/get-open-id-connect-discovery-configuration",
+          label: "Get OpenID Connect discovery configuration",
           className: "api-method get",
         },
       ],
