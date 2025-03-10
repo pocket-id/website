@@ -1,0 +1,70 @@
+---
+id: list-user-groups
+title: "List user groups"
+description: "Get a paginated list of user groups with optional search and sorting"
+sidebar_label: "List user groups"
+hide_title: true
+hide_table_of_contents: true
+api: eJytVU1v2zAM/SuCTluRoe2OuRXFEBQbugJdT20xMDZta5MlT6K7BUH++0g5XdxWcT+wUyLS5KOeyMe1LjEWwXRkvNNzvUBSoDqojQPCUlkTSflK9RGDqoPvu6h+G2qUTxFgVUQIRaPAlSr6QMbVeqY7CNAiYYh6fr1+hHE5RLC3VeRVZSz/fYCwXCnH8ZzISMCvHsOKD8k21wMin2PRYAt6vta06pKHguBvNrPHmBdQo3J9u8QwU5EgFaqq4Ft1vAeGScAciHGENQZ2lVhBb0nPjzOI5wlMuDOEbVQdH7Ypc2jWtIZeCneUwTv1tm+dECrPwBTuY4+934v08QSFIzR9k0JvdI7XS8EqTcBCDOodxEL5oOSj91MF/At5cQ2cOZVwO9MBY+ddxCgxH4+O5OdhWV8/c3ThmTpH4j04PJCfHVIXPD8ImSFHCZSs6aWeuouAMgwnlGk1hukj+fbUghli9yT5iats+B3YHrM9fG/xyx/Mld4ZIARYybkKBl1pV+eJ2UxyU2bNtoTuLO9y+1LJfJ763lGmN19U7FZU0gM9YbgPgZ9KpjSXfjaQeoFh/xfkCezZPfd7/BKe9T+9QMaySUaoRdT0lejVIumV5p5ktWs8U6prpCSA1PDhUFj7MKhaGofKp+tyZ0IhTEpCQ1Zg2H/Hgjk0cCLMR2ohsbUdnS+ixiOhTCMy6vv1ruf/l5JvOSD8Q4cd97hLvRBsesN0yWs9viRT0XDdYl6vlxDxKtjNRsyDDKR1YCIsLTJbFdiIE5d4zarIVpqmbrcxtsMm9L6mjGe2xwTyVvHfiDuxQyYw71fJG0Fzi2SK2wf75I2Yz6yR5+DH22RXwa0cgpESuO1uOaRBKHnapQeH6JOiwG7MlSyKzXicF5++8eT/BbDrISo=
+sidebar_class_name: "get api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List user groups"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/user-groups"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get a paginated list of user groups with optional search and sorting
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"description":"Search term to filter user groups by name","in":"query","name":"search","schema":{"type":"string"}},{"description":"Page number, starting from 1","in":"query","name":"page","schema":{"type":"integer","default":1}},{"description":"Number of items per page","in":"query","name":"limit","schema":{"type":"integer","default":10}},{"description":"Column to sort by","in":"query","name":"sort_column","schema":{"type":"string","default":"\"name\""}},{"description":"Sort direction (asc or desc)","in":"query","name":"sort_direction","schema":{"type":"string","default":"\"asc\""}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"*/*":{"schema":{"properties":{"data":{"items":{"properties":{"createdAt":{"type":"string"},"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"friendlyName":{"type":"string"},"id":{"type":"string"},"ldapId":{"type":"string"},"name":{"type":"string"},"userCount":{"type":"integer"}},"type":"object"},"type":"array"},"pagination":{"properties":{"currentPage":{"type":"integer"},"itemsPerPage":{"type":"integer"},"totalItems":{"type":"integer"},"totalPages":{"type":"integer"}},"type":"object"}},"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

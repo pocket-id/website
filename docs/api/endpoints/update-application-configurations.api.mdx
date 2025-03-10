@@ -1,0 +1,70 @@
+---
+id: update-application-configurations
+title: "Update application configurations"
+description: "Update application configuration settings"
+sidebar_label: "Update application configurations"
+hide_title: true
+hide_table_of_contents: true
+api: eJydV9ty2jAQ/ZWOnskkbd/yRm5tp2nCNNAXJg+yvYASWVIlOYRh/O/dlQHb+IJTZrh496y8F+kcs2UJuNgK44VW7JLNTMI9fOLGSBFzMn6KtVqIZWaLKwfeC7V0bMQs/M3A+SudbNjlliHOg/L0sxJ+/uJo4S1z8QpSTr+M1QasF+ACVkq9flyrcRzrTPnbRIQl/MYA5uO8xbuxfERrPvAUyJfy93tQS79il18vRiwVan/5edQMxLsKea+XQj1oLxa7vG4VjyQkrbcKEY8KpiIFTAucO4l2f8Di2h0QmXAz9ngZZR7GCSb8zerMnMYG2C9II7ADwfseDYDOlMAB/khwaJT6gDvMHNhbKncY9E5Y54clRPB7/hH0xOqFkDARsc/swJj/q5jeqi+vK+56nEIlN6rXPeHOrbXt3jt924/8T6/CXOORCptw0wmb2e7BUZFhVzwBt/HqTkjf0x9CnwQ6PDh40m521NGOSb25szrtdH7Xrp0PyNnbuADQtjt6QNcINpWBp0BlmOWcKa0Ayc95br2XxIP0+dxCPBRMjWpZOS/YU1ga6ryVA0vGO0VhfYTVoKf6hmoOqay5LElHLxB7zBrTrsvFuKIT11WdYNUCvc0gVOyMVq6g/S8XF/RVX+7xJ8YN1hHhIXVNQRFukkUYVml7pLUErmgor9A+6cLQ4njjMmvz5I32HAzcWr6hduXhFMSZFR7vOt+yKzwzYMcZadX8OacWc9RS3ALdnURQCn6lsZHMZLQxDKd4dl5pz1l81H1q1+9SoG/feWokdAruvqyKzpamEwp6BGwXziNQRS9LT6dMdkBq6tiHOS5oiBZ2oCsS2IOoKF8PqhS8HtCxzvVAP1REqWp1UCFmR7adhjWtJQPXfS1zbxOqujfo05GpXZaaoC5/Q4QqroP21G2F5NRtbXWWAlO3dRd5kJODihwkosI4Qi30/oGax0SERC3C0/FlGPQG1hWlENpgtikP1Lgb56lneNKsGu9Wnt0/9AdgR3ce3v25kVwEgs2Kh4yCo+asm6OQ11ah03O23Ua463D8eU5m3MSW+PKZ2NcK2kmBLjEAeELdQioNRM6ui8TPppTKgaybwpGP9hHES8b3YquMO5lNERvt/uOkOqEQy9ckcPgZBqJN0VYEBNuWSa6WGV8StliSXv8A02vJfw==
+sidebar_class_name: "put api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Update application configurations"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/application-configuration"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Update application configuration settings
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"properties":{"allowOwnAccountEdit":{"type":"string"},"appName":{"maxLength":30,"minLength":1,"type":"string"},"emailLoginNotificationEnabled":{"type":"string"},"emailOneTimeAccessEnabled":{"type":"string"},"emailsVerified":{"type":"string"},"ldapAttributeAdminGroup":{"type":"string"},"ldapAttributeGroupMember":{"type":"string"},"ldapAttributeGroupName":{"type":"string"},"ldapAttributeGroupUniqueIdentifier":{"type":"string"},"ldapAttributeUserEmail":{"type":"string"},"ldapAttributeUserFirstName":{"type":"string"},"ldapAttributeUserLastName":{"type":"string"},"ldapAttributeUserProfilePicture":{"type":"string"},"ldapAttributeUserUniqueIdentifier":{"type":"string"},"ldapAttributeUserUsername":{"type":"string"},"ldapBase":{"type":"string"},"ldapBindDn":{"type":"string"},"ldapBindPassword":{"type":"string"},"ldapEnabled":{"type":"string"},"ldapSkipCertVerify":{"type":"string"},"ldapUrl":{"type":"string"},"ldapUserGroupSearchFilter":{"type":"string"},"ldapUserSearchFilter":{"type":"string"},"sessionDuration":{"type":"string"},"smtpFrom":{"type":"string"},"smtpHost":{"type":"string"},"smtpPassword":{"type":"string"},"smtpPort":{"type":"string"},"smtpSkipCertVerify":{"type":"string"},"smtpTls":{"enum":["none","starttls","tls"],"type":"string"},"smtpUser":{"type":"string"}},"required":["allowOwnAccountEdit","appName","emailLoginNotificationEnabled","emailOneTimeAccessEnabled","emailsVerified","ldapEnabled","sessionDuration","smtpTls"],"type":"object"}}},"description":"Application Configuration","required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"items":{"properties":{"isPublic":{"type":"boolean"},"key":{"type":"string"},"type":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

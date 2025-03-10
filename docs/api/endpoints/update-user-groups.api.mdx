@@ -1,0 +1,70 @@
+---
+id: update-user-groups
+title: "Update user groups"
+description: "Update the groups a specific user belongs to"
+sidebar_label: "Update user groups"
+hide_title: true
+hide_table_of_contents: true
+api: eJzFVU1v2zAM/SuGTluRIsWOvmXdMBQDtqFoTkEOjMXY6mxJk+iugeH/PlJOUqcxgva0HBJ9PH49kS+d0hiLYDwZZ1Wull4DYUYVZmVwrY8ZZNFjYbamyNqIIdtg7WwZM3JqpjwEaJAwRJWvute+BH73hWFGth6o4rVlA94ZzeuAf1oTUKucQoszFYsKG1B5p2jnBRUpGFuqvl8PYIz02emdIApnCS3JEryvTQESdv4YJXY3cuWD8xjIYJSd1PBNKrvTaW8ImzgRcXY4gBBgxxmMs12dulkfwW7ziAUxmuETZCRKmZJ4VntyH72zcUjz082N/Jz6+Pmd7UZ1X82vLpVatJFcc1uDaU5LPYX9xt1k/U9Qtzj1FmfVvuZqpjgfU0963ZoQ6UfqgYlb7orJ47jQjbGju41zNYKVyxouOKw18BNNXh2f8BI5RUCeB72gSRf/keFtMGh1vXsvlRcIsdOu3pKNcPlm8z6NB0EpopEGI40Q60jltAhFS0laWC5yNRfXcd4Z3afl9SBLDJBJv3/RhK/P0Pgaz2d8dUhlLazYrTuoBxTyqpKKITFU7PSJgw3DJmV5F6mB1Hd72drrY3ucZsnkZEpHyvReNd3zRPhMc89Nldq7DWmQBjoG4ZGYeRLQMSNMYcX5CqjrNhBxGeq+l2PmKHAHrtbScsHARqoVuTZR1sz5FuqIFwr5cL9Xq4/Zi6pPpnvoDLtTxwYXYtMMSFP28gwVgsaQkhgubodQ1w9i/mJ4puz97GCxKAr0NMKKGvbjPvq1fODrzf7/onFaUAH+ivjyd0rLpWLTlKazjuXEli2Ugh0iyucfgElyuw==
+sidebar_class_name: "put api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Update user groups"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/users/{id}/user-groups"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Update the groups a specific user belongs to
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"description":"User ID","in":"path","name":"id","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"properties":{"userGroupIds":{"items":{"type":"string"},"type":"array"}},"required":["userGroupIds"],"type":"object"}}},"description":"User group IDs","required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"*/*":{"schema":{"properties":{"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"email":{"type":"string"},"firstName":{"type":"string"},"id":{"type":"string"},"isAdmin":{"type":"boolean"},"lastName":{"type":"string"},"ldapId":{"type":"string"},"userGroups":{"items":{"properties":{"createdAt":{"type":"string"},"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"friendlyName":{"type":"string"},"id":{"type":"string"},"ldapId":{"type":"string"},"name":{"type":"string"}},"type":"object"},"type":"array"},"username":{"type":"string"}},"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

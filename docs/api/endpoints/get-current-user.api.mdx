@@ -1,0 +1,62 @@
+---
+id: get-current-user
+title: "Get current user"
+description: "Retrieve information about the currently authenticated user"
+sidebar_label: "Get current user"
+hide_title: true
+hide_table_of_contents: true
+api: eJzFVMGK2zAQ/RUzxyWQpcfcQimhFFoo3ZPJYSxPYu3KkiqNQo3Jv3fGzrIbMGGXPawvkmakp5mn9zxCS9kkG9kGDxv4TZwsnaiy/hBSjxqusAmFK+6oMiUl8uyGCousPVuDTG1VMiVYQaIcg8+UYTPCl/t7Ha7xf/2QbSZ4lrOavVvf6ZBNRz3qLKYQKbGdMUzJHPqvDm0/rS3TPLne9kSDDjxEkjuytOCPcF7BCV2hhYykLpHQPJJheAlgSjjoWuqxbhH1YFPmn9gvIa/AtsvhvG1761/lmhAcodekwxuArsX4fRlUad+lUOItckwifaMtL0J8IsMHUZpv3fBeKm8Q4peh3lKNcvnm4/pJEI9CTg0PcjTDfgU9cRekMjgSi84jcieLtULntUBLS2Kr6VHEAmj0SRTHslN0yZ9k5+wUrSmGzD1OoplLgx3xswmfTXdlsPHFXB/08qVjpn+8jiKPSaglTZaYG6snzjJo39p9J9VqdBwbzPSQ3Pms4b+Fkoin3qtaksVGe633gtYRtnLXpr7oC7bGUFTmLrKafg/n18Tuvv0R9v8Daw6dnw==
+sidebar_class_name: "get api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get current user"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/users/me"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Retrieve information about the currently authenticated user
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"*/*":{"schema":{"properties":{"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"email":{"type":"string"},"firstName":{"type":"string"},"id":{"type":"string"},"isAdmin":{"type":"boolean"},"lastName":{"type":"string"},"ldapId":{"type":"string"},"userGroups":{"items":{"properties":{"createdAt":{"type":"string"},"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"friendlyName":{"type":"string"},"id":{"type":"string"},"ldapId":{"type":"string"},"name":{"type":"string"}},"type":"object"},"type":"array"},"username":{"type":"string"}},"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

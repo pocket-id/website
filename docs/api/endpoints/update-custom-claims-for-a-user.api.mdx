@@ -1,0 +1,70 @@
+---
+id: update-custom-claims-for-a-user
+title: "Update custom claims for a user"
+description: "Update or create custom claims for a specific user"
+sidebar_label: "Update custom claims for a user"
+hide_title: true
+hide_table_of_contents: true
+api: eJzFVMFu2zAM/RVDpw1IkWJH37ZshwI9FEVzCnJgZDpWZ1uaRG8NDP/7SElunC7ogF2WgyPJj9Tj46NHVWHQ3jgytlel2roKCAvrC+1RVnoIZLtCt2C6UNT8AorgUJva6GII6NVKOfDQIaEPqtyNbzMyprj7yjAjWwfU8LrnAN5JgruK9x5/DMZjpUryA65U0A12oMpR0ckJMpA3/VFN0z6BMdAXW50EoW1P2JMswbnWaJCr189B7h8XqQxhF2ThvHXoyWDcfcfTlYtW6ie0A16jsKS7i+EzmMllsD08oyZJkw/AezhxMJ9cCnRvAhW2fqM02SIgRcGpwVnpS5kikeBsH1Ihn25v5e9aR6vL9JzqP6j2V2kiCI5iI7VJfDeJLwvLDmtsJRYaKJqOjVSqdarrJtW1Fp3WY7LVxCgp5/Fsl28v0LkWo01jATO9V96vfPdi2NrOBgMtUgk/Q5JASQg7PoksxTgbqIMoXnZ3HqZrI5T7edGqhZP/bQ6znIQvtHYM7IXW4NvYvCjXTl3IxTE5tMyTyFU3XIcgx/EAAbe+nSY5Zg09C7bbi1TewCHLWJkga25MDW3Ad2r68Jjd+7E4fxSucp590Z8WjeFlalmmOu0Z2SBUXMC5n5t03c2TpDgH/2HxaTVHfNYaHb2LXbrvYfvE2EP+9nS2khAPv2Q6+Rl52lh9HJN4NqoW+uMAR8GmlPL7DeZo42s=
+sidebar_class_name: "put api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Update custom claims for a user"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/custom-claims/user/{userId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Update or create custom claims for a specific user
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"description":"User ID","in":"path","name":"userId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"required":["key","value"],"type":"object"},"type":"array"}}},"description":"List of custom claims to set for the user","required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Updated custom claims","content":{"application/json":{"schema":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,70 @@
+---
+id: get-logo-image
+title: "Get logo image"
+description: "Get the logo image for the application"
+sidebar_label: "Get logo image"
+hide_title: true
+hide_table_of_contents: true
+api: eJydUk1vwjAM/StVTkNjKtqRG5omLjtuJ8TBtKbNSJMscRGo6n+fnaLRsQ9tnCrXfs7ze69TJcYiaE/aWTVXS6SMasyMq1ymG6gw27qQfoH3RheQBqfKQ4AGCUNU81V3seVJVzVljStPi24otDjJeFEJYTdubMFEnPA+Lbi3FsORC8uruTSyhstY1NiAmneKjl4aG+cMglV9v56qgNE7GzHKwP1sJp8LOh/H8LLCWUJLMpV+5d5WUnx5JFLQ3JoqFqABkme1BebX99MT9NXj1di4r24PjfkvvJcNBJXIrhZnS7IHZ7e6asNgEOvC7tSuZGyFlAyjmot8ZONdMcbk4khyYuuEiwgFhQglL2oywoz7e/Z80FVxw7tIDVvBgJNrEiEzVvyTGd3ZgL+H7SQL4YFyb4Czwi+3IYk33LVSP97F+HQZS1IzWZntug1EfAmm7+X3ELsUYx1hY5BVS8H8hfsVEf/2ih0eR0nfg2mTzBLsPQQtbJjZmidrhBJDojmAFkWBfow657kf+798fObgvAPLcla7
+sidebar_class_name: "get api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get logo image"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/application-configuration/logo"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get the logo image for the application
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"description":"Light mode logo (true) or dark mode logo (false)","in":"query","name":"light","schema":{"type":"boolean"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Logo image","content":{"image/png":{"schema":{"type":"string","format":"binary"}},"image/jpeg":{"schema":{"type":"string","format":"binary"}},"image/svg+xml":{"schema":{"type":"string","format":"binary"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

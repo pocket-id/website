@@ -1,0 +1,70 @@
+---
+id: end-oidc-session-post-method
+title: "End OIDC session (POST method)"
+description: "End user session and handle OIDC logout using POST"
+sidebar_label: "End OIDC session (POST method)"
+hide_title: true
+hide_table_of_contents: true
+api: eJydU01r3DAQ/StCpxbWbElvOTbpIVDYkI/TEsysNLtWI0uqNM4mGP/3zqzt4rCBQPfglUaj5/fePPfaYjHZJXIx6Ev9M1jVFcyqYClcUsCFhh8e1ebm+kr5eIgdcY8LB3W7uX/QK53xT4eFfkT7pi97bWIgDCRLSMk7AwK+fq2Ox2O1j7mtuuwxmGjRSlMxDbYgK3pLyCTi7jcaYuCUY8JMDoucOltTfMZQN25Ef0/95lqdjvnehFMoM0s9MFAsVI/U64zWZcavu+zOUR7vfjGMmptkDXtiQ8bbH4EXAsJzpHspqwQZWhQARnLB+M4i/ytq8N9LzkFPPzG2pBjKKP/7t4vzl9wteIrIapqPyIhZLfyfJ5fggFrACQ6Mu9UyVv200syyiTyQk1liPlDDu3V01qwx2GqKBB+5sI/zpMHILATPkRcNfP6CuYz8ZvNbCHIhsBdTyk5pmlP2RZKkRgZfGeCdyEWi/i+fk7mEr7ROHlwQVpxBgR5VbrWo5NalTvakESv4tO93UPAx+2GQMsc9c9S3vHyB7GAnwrdPjNogWMy86fUzcou+GqlXD8JB2n0nXD7/MIblSCYhu+kLa7mDq4vu1XIjVIbhL3OWVmo=
+sidebar_class_name: "post api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"End OIDC session (POST method)"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/oidc/end-session"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+End user session and handle OIDC logout using POST
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/x-www-form-urlencoded":{"schema":{"type":"object","properties":{"id_token_hint":{"description":"ID token","type":"string"},"post_logout_redirect_uri":{"description":"URL to redirect to after logout","type":"string"},"state":{"description":"State parameter to include in the redirect","type":"string"}}}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"302":{"description":"Redirect to post-logout URL or application logout page"}}}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,70 @@
+---
+id: delete-oidc-client
+title: "Delete OIDC client"
+description: "Delete an OIDC client by ID"
+sidebar_label: "Delete OIDC client"
+hide_title: true
+hide_table_of_contents: true
+api: eJyFUktLw0AQ/ithTgqFiHjKTZseCqIgeio9TDfTZnG7m+5OiiHkvzuT5NCK6Glnd17fY3uoKJloG7bBQwElOWLK0Gev63KZGWfJc7brsnUJC2gw4lHyMUGx6X+0LqfasdDqQ4NcS+ylRW62kjjSqbWRKig4trSAZGo6IhQ9cNdoVeJo/QGGYavFqQk+UdL8/d2DHtcrX0K2DJ5lrXTINDJttNyN4J4II8XHVjAUm63OYzwoblBmIHdhUgeBIkOV9MhPqyEPtjL5xD3lva2GkdI+KAIjC9GwhLKRLTuFLfmzqDKhAkk0IfERvTbM/GdlL2SVpis602xN/OfDLBbTF+eNQ1FbVrbR6YyJwwaUg5TOLCQqxAFhXQsyzff9DhN9RDcM+nxqKapwEp4xWtwpL/XYJo1Fpj26RH9Avnmbzb3NLr/Cr1jnR/SdKoeunUX8pG76KsN2uDCoXD2v3lfi8TcBXOMb
+sidebar_class_name: "delete api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Delete OIDC client"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/oidc/clients/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Delete an OIDC client by ID
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"description":"Client ID","in":"path","name":"id","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"No Content"}}}
+>
+  
+</StatusCodes>
+
+
+      

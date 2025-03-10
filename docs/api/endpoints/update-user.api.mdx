@@ -1,0 +1,70 @@
+---
+id: update-user
+title: "Update user"
+description: "Update an existing user by ID"
+sidebar_label: "Update user"
+hide_title: true
+hide_table_of_contents: true
+api: eJzFVU1v2zAM/SuBTluRIVmBXXLL2mEoNmxD0ZyCHBiLSdTZkibJXQzD/32knMRqbaTZLushlWh+Pj5StZDoM6dsUEaLmVhYCQFHoEe4Vz4ovR2VHt1oXY3ubsVYWHBQYEDnxWxZvzRmzaim+Goh7OisyYBuStLZ4a9SOZRiFlyJY+GzHRYgZrUIlWUtHxzFFE2zapXRh49GVqyRGR1QBz6CtbnKgMNOHj3HrhNX1hmLLij0fCOhygcijMVGOR++xexqUcD+K+otZTz7MB2LQunj9f24b6r8XBZKJ27XxuQImj/m8K9uGWr9quV1z7JJkV0eSk4LTJJKoqxOjsz6EbNAjsjTQE+V3hhXRLx7TYyxvTXat3hfT6f877mX71/ILmng1eTqXM+y0gdT3OSginhXAdvDc7WfWA029gnyEodI1av3JADnoOL7hXTpM0IOiy8lSs8yl2Dvhp1yAz87U9pz4GQOaZLlPAy6+I8Ib5xCLfPqb6E8A4gednVJNunIvWrexAEJsOXtF0fD8xDRQtwZyRuvDHFH8pSKCbv2k1rJhoS8pu67hfZpD4XNMVlQx7DPiNYJT0RqF2dHnU6lKyUFk0b3uD0hYzJwBSpwbEFGT5RjO6OsbY0PBUS6HjwdHgT2LV7shmQlv/puHIAMuA8TS6yL/C9dnLQWr2XM35PujAhAqO4oFxbX9Ro8LlzeNCwmCB2RcrliFjoFa66EnyLl+Uxt2EDu8Uyub+4PC+ztqHuxBhM8kkVX4sR5Bi2OBfO0WZHWDkESOpxE++GmDfXugc07w96r1YyPFvMsQxsSXV6QTUqtH4sH+rw+vIWFkazl4DfvY/qNaZlYbBzcKKuJJnpbwpZ124j89wfEO7Nf
+sidebar_class_name: "put api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Update user"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/users/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Update an existing user by ID
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"description":"User ID","in":"path","name":"id","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"properties":{"email":{"type":"string"},"firstName":{"maxLength":50,"minLength":1,"type":"string"},"isAdmin":{"type":"boolean"},"lastName":{"maxLength":50,"minLength":1,"type":"string"},"username":{"maxLength":50,"minLength":2,"type":"string"}},"required":["email","firstName","lastName","username"],"type":"object"}}},"description":"User information","required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"*/*":{"schema":{"properties":{"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"email":{"type":"string"},"firstName":{"type":"string"},"id":{"type":"string"},"isAdmin":{"type":"boolean"},"lastName":{"type":"string"},"ldapId":{"type":"string"},"userGroups":{"items":{"properties":{"createdAt":{"type":"string"},"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"friendlyName":{"type":"string"},"id":{"type":"string"},"ldapId":{"type":"string"},"name":{"type":"string"}},"type":"object"},"type":"array"},"username":{"type":"string"}},"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,70 @@
+---
+id: request-one-time-access-email
+title: "Request one-time access email"
+description: "Send a one-time access link via email"
+sidebar_label: "Request one-time access email"
+hide_title: true
+hide_table_of_contents: true
+api: eJyNUk1PwzAM/SuRz0xDiNOOoF1hgu007eC1Zg20SUjcsanqf8fuh+hgB3ponfT5+fnZDeSUsmgDW+9gAa/kcoPGO5qxrchgllFKprTuwxwtGqrQlnADkT5rSvzg8zMsGsi8Y3KsIYZQ2gyVb/6elLSBlBWSqFGIPlBkS0lPPZsEfA4k1RNH6w7QKn9uI2W8Qi6uANpegUByWGwHnt3NCPP7d8kVmOAu+1sq0qA0OVYwvvuXYErJsaauRgryqxd7d3uvn0u+J28eh961GOMhqaBNophUUEVceCGE4BNLidD1A/PR4Flv8Gz0VR17+fF2ecIqlDTxarTgt0UT76x78+NQMNOhqDLLygOSeBRtvXpFq7AKuzE5rBQy1P+zBKPGCwcms//38gxTYjrxPJRoneqoY7cJvUFbuG6QOFqokQJomj0m2sSybfVaJEdZxa2ER4wW99rtdifEBWFOUQ4NfJBAYBjYbK0yFF7WKufP4rbT+a2eX9cC3g8LX/lccyJ+6STk3Tk7rpIAursGSnSHGg+K7Tn1+QasqjEF
+sidebar_class_name: "post api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Request one-time access email"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/one-time-access-email"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Send a one-time access link via email
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"properties":{"email":{"type":"string"},"redirectPath":{"type":"string"}},"required":["email"],"type":"object"}}},"description":"Email and redirect options","required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"No Content"}}}
+>
+  
+</StatusCodes>
+
+
+      

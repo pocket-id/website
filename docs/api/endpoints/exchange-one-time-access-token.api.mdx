@@ -1,0 +1,70 @@
+---
+id: exchange-one-time-access-token
+title: "Exchange one-time access token"
+description: "Exchange a one-time access token for a session token"
+sidebar_label: "Exchange one-time access token"
+hide_title: true
+hide_table_of_contents: true
+api: eJzFVE1v2zAM/SuBTluRIMWOvgXDMAwD1mFbT0EOjE3HWm1JpeiigeH/PlLOR1uoQbfLcpFEii/U83scTIWxJBvYemcK8+mxbMDtcAYz73DBtpNtWWKMM/Z36Ga1J8lFCUjBFDNzE4CgQ0aKplgPLzBvckBSZDUZgBvZOymX0zFFeN9bwsoUTD3OTSwb7MAUg+F90IuRybqdGceNXo7BO2lJ8x+ur3V50cFXwSy9Y3Ss2avllS5n1EA+ILGdMMo+su8+tmC7dLaM0+b5tTvcZzqamwdoe8z1Oj9G/PY3lmzOASCCvZ6lH9tmUWtLkb8lmjJZW+XDcVV1yvMpt/W+RXCabOECYFtB+JIH7SPSZ/J9uEROSQiM1YqzEP+R4Zosuqrd/y2VFwhxeai3dKNcvrlcfxKEnbrM3Ea1m+hfjNf4Sr3kIycziqUKszwaeDH5bpHMtRzSMib/1T59KjEGlPqhFN1yq/8p+QfBn/yjnSp4B0lKB7OeZkV2UgjAMxMOZwP+65Q50MH4yMsg2kkq7in5ZXr02mQfLbXFtBG6GmVJbg7DFiLeUjuOGr7vkURt643KiyxslQadZTbqXvitoY144VXvfhym1vvZayMv+4KjJtzenKSt/Cf1H0biuJGLDUKFlLqacitBD/ykSgfb+FQS329+/hLh/AED9gRA
+sidebar_class_name: "post api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Exchange one-time access token"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/one-time-access-token/{token}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Exchange a one-time access token for a session token
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"description":"One-time access token","in":"path","name":"token","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"*/*":{"schema":{"properties":{"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"email":{"type":"string"},"firstName":{"type":"string"},"id":{"type":"string"},"isAdmin":{"type":"boolean"},"lastName":{"type":"string"},"ldapId":{"type":"string"},"userGroups":{"items":{"properties":{"createdAt":{"type":"string"},"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"friendlyName":{"type":"string"},"id":{"type":"string"},"ldapId":{"type":"string"},"name":{"type":"string"}},"type":"object"},"type":"array"},"username":{"type":"string"}},"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

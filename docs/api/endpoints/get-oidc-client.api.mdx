@@ -1,0 +1,70 @@
+---
+id: get-oidc-client
+title: "Get OIDC client"
+description: "Get detailed information about an OIDC client"
+sidebar_label: "Get OIDC client"
+hide_title: true
+hide_table_of_contents: true
+api: eJydlFFPGzEMx7/KKU+bhNRpj31jBSEktE1oPKE++BK3DeSSkDhs1em+++xcGQc90La+9BLbsfN3fu6VwayTjWSDV0t1gdQYJLAOTWP9JqQOxNRAGwo14Jtvl2erRjuLntSJipCgQ8KU1fK2f3XYqno1l2fsaGUjAu3423MIr6zh74QPxSY0akmp4InKeocdqGWvaB/FK1OyfquGYS3OOQafMYv986dP8jebclI559DBk5TL3hCjs7oaFndZQvpJyphCxER2TADOhZ9objKmixRKrJuWsMvHvjohEJpTmqmcCyiZQrdyYLv3DrnH/Wz4I7iCc5KcPO2E9g41qecNSAn2st4kFsS4/deq+czh3IW5bWcgXs6b/FtHFVZqFYqfimBZ+i2mvytWs+Qt6Pub66uXOh2leh25g3wVtmHi24bgEPw7V7T5e2n5NcwHOT6u0Oq/K3pTpXiv8dxD69DMZT7WSX4MBuqSLO0rZ18QEqbTwjgtb9eCBsFWEFSCp+I1Q7kLnEBtceRUXNUiWKMXI7150VszVDQ3VTjBBLQ0T2qw5KQItj8y3SNdtfyQqYMKzoFjmRkvp8ILJvtn/v55vByUIPxFi8j41M6U5Co79Uq3Sq4kkI+X4q8l95sV2HGhYu/7FjLeJDcMsv1QMImIa+EqWenDOLpsPvRkAy7jO5f4cH2YWR+b6YSbrfXpVfi9+sOxaFpRl4c5rOX1IhhmRMoYDadaY6RJyNHcGqY9vjj/wc/kN03y+Y4=
+sidebar_class_name: "get api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get OIDC client"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/oidc/clients/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get detailed information about an OIDC client
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"description":"Client ID","in":"path","name":"id","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Client information","content":{"application/json":{"schema":{"properties":{"allowedUserGroups":{"items":{"properties":{"createdAt":{"type":"string"},"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"friendlyName":{"type":"string"},"id":{"type":"string"},"ldapId":{"type":"string"},"name":{"type":"string"},"userCount":{"type":"integer"}},"type":"object"},"type":"array"},"callbackURLs":{"items":{"type":"string"},"type":"array"},"hasLogo":{"type":"boolean"},"id":{"type":"string"},"isPublic":{"type":"boolean"},"logoutCallbackURLs":{"items":{"type":"string"},"type":"array"},"name":{"type":"string"},"pkceEnabled":{"type":"boolean"}},"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,70 @@
+---
+id: create-one-time-access-token
+title: "Create one-time access token"
+description: "Generate a one-time access token for a specific user"
+sidebar_label: "Create one-time access token"
+hide_title: true
+hide_table_of_contents: true
+api: eJydU8Fu2zAM/RVDp61I4G5H37puKHra0KWnpAfGZmK1tqRJdJfA8L+PlO3FSYwd1kNKWaT4+N5jqwoMudeOtDUqUw9o0ANhAok1uCRdc5jnGEJC9g1NsrOe74LDXO90njQBvVooBx5qJPRBZev24s1nzkkev3KalqMDKjk2XMAnXXDs8VejPRYqI9/gQoW8xBpU1io6OskK5LXZq6576ZMx0BdbHCUjt4bQkITgXKVzkLbpa5De7eQp561DTxqDnPDguGO4o5kuCyVjPRZzAKZg15NX/tYwwqHGbl8xJ67honNGVpFKG4/hav7YIzi+6qF+vv0k/86faJPNZqOiJhJk8dijlCjp+NkJNTfpzTkbVxgFJcFeBIyKBZmENS1tIaLZQFFn1i5Tqcwa0lYXXTraZNnbZBkhcaoI8HSS6tsBalfhBfUjryfGJyJos7OjwpDLGAJRk7yiuOSdMfRkSLYgrCFqPljr3qM4edbH6kKSiY/+dwcGRgkPlLoK2OtiJF9F70Xe1nFKETyLtp+njmkvhW1Ob9stBHz2VdfJZybTs+fXHL6D17AVJmTddJCY2dtBFfAfo314Gpz2MTlt5Szw4SOYozANVTOQ/obHfmu7F84qEQoeXkD0F/d9q+VKyk+FV5vZLcaKO57d0SRXrNpNvffj+88V32+Hha9tIWkefsvm8G/ENS4TJ8RvrarA7BvYS27fUv7+AGWZrlg=
+sidebar_class_name: "post api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Create one-time access token"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/users/{id}/one-time-access-token"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Generate a one-time access token for a specific user
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"description":"User ID","in":"path","name":"id","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"properties":{"expiresAt":{"type":"string"},"userId":{"type":"string"}},"required":["expiresAt","userId"],"type":"object"}}},"description":"Token options","required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"201":{"description":"{ \\\"token\\\": \\\"string\\\" }","content":{"*/*":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,70 @@
+---
+id: update-current-users-profile-picture
+title: "Update current user's profile picture"
+description: "Update the currently authenticated user's profile picture"
+sidebar_label: "Update current user's profile picture"
+hide_title: true
+hide_table_of_contents: true
+api: eJylUj1v20AM/SsHLk0AGyqKTB5TFAE6BB7iyfBwkmjrWt1HeLyghqD/HlJS4Qhtpy7S8evx8ZEDtJgbcoldDLCDQ2oto+EOTVOIMHB/NbaIHdg1EmpNyUifskkUz65Hk1zDhRA2QPhaMPNjbK+wG6CJgaVKn7707JIlrs6R/FZaWHXnpkM/vfiaULrH+gc2LFACnpDYYdao9tH/mup+TcA4by9oJtfd/vlpY77v5RNJ/t+e7gV0aZKZXLiIrVys8IPaBUtXGMd5BkfYwu44tz2NazdTwcmRUwx55vfl88Of9J6j+boooAhsL1lBD6JehtMGPHIXBRBSmSa23IlRqbq58lgt+m5v+rpwjr+FtY0Kq7iOVRyQ+JtUzr1BAilm9jZoQbAeb7td9vrvPa7m+LDH/zqORXzGX1yl3rqgHAv12mGe/QjT7KDSzCewml8k62QkzRuG2mY8UD+O6park+3tjvJ8s+RsrYIcT4LfoW2RxBjgJ0oKLBvZvigbTe+LsvrbfY4fd7Q/vEh6vVy2j61Wae6Uurk9te84vgODRSg5
+sidebar_class_name: "put api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Update current user's profile picture"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/users/me/profile-picture"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Update the currently authenticated user's profile picture
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"multipart/form-data":{"schema":{"type":"object","properties":{"file":{"description":"Profile picture image file (PNG, JPG, or JPEG)","type":"string","format":"binary"}},"required":["file"]}}},"required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"No Content"}}}
+>
+  
+</StatusCodes>
+
+
+      
