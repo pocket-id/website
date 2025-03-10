@@ -1,0 +1,62 @@
+---
+id: setup-initial-admin
+title: "Setup initial admin"
+description: "Generate setup access token for initial admin user configuration"
+sidebar_label: "Setup initial admin"
+hide_title: true
+hide_table_of_contents: true
+api: eJzFVMFu2zAM/RVD5wQphu3SW7BDUQxYB3Q7BTkoMhOzlSWNoosZhv99pO2hDSYELTpgJ1uk+Eg+6nEwNWRHmBhjMNfmBgKQZagycJcq6xzkXHF8hFAdI1UYkNH6ytYthqrLQJWL4YinTqIUYmUIcoohQzbXg/lwdaWf8yR3X+SahDEEVq9NyaOb4jcPWa8MJrsGWqt/iWICYpwBXZc5tp+9xXY6I8P8c37tEXr9cJ9AEmYmDCczrsyT9R0UPOJaLPHwAI7Ns8ES2V7PUg/6IuoRKfNX25aQVwbrsjlvlcQXvkOMHmxQp7cXAH1t020ZVCdyQ7FLl8hxBDLiestFiP/I8JEQQu37t1J5gZBQhnpNNcrlq8NHtX0svfb7WUleSK97UUubPDC8RQGlVJ9KqW4FUEr2ol56EmkCUaT3ZdJO7UkmvjPbjhtBWaIFdurM7FemBW6i8G9SzCyOZLmR0yYGWDO2sJ73yHraI5tptcgtDMc4PUepzjqtTpMhey1B/NJBnvvSaSh0a6d656EsxJ5tJIk6Y2R4bv1frLaFHoZfvEkikEmqHU1LYe55Z4o9S2z+Q1ajHMnFYTjYDD/Ij6Oaf3ZAoqjdXiVEaA9Kw24vCRp5OEByWERntoKclOdFa38PdXw5lG93999llr8BY7YN0g==
+sidebar_class_name: "post api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Setup initial admin"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/one-time-access-token/setup"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Generate setup access token for initial admin user configuration
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"properties":{"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"email":{"type":"string"},"firstName":{"type":"string"},"id":{"type":"string"},"isAdmin":{"type":"boolean"},"lastName":{"type":"string"},"ldapId":{"type":"string"},"userGroups":{"items":{"properties":{"createdAt":{"type":"string"},"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"friendlyName":{"type":"string"},"id":{"type":"string"},"ldapId":{"type":"string"},"name":{"type":"string"}},"type":"object"},"type":"array"},"username":{"type":"string"}},"type":"object"}}}},"400":{"description":"Setup already complete","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

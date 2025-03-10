@@ -1,0 +1,70 @@
+---
+id: update-background-image
+title: "Update background image"
+description: "Update the application background image"
+sidebar_label: "Update background image"
+hide_title: true
+hide_table_of_contents: true
+api: eJydVE2P2jAQ/SuRjysQbEsv3KDSSr1UPSwn4DCxB3A3sd2xg0oj//fOBBChbIvKKRN7Pt68medWGYyabEjWOzVVi2AgYZF2WEAIldUgF0UJ+m1LvnGmsDVsUQ0U4Y8GY5p7c1DTVmnvErokZt1UyQagNNp4qoecEOQ46h3WnZUOAbmWL7+jTpwqkA9IyWKU242tUL7XwOZ/ICg6t8E5V0xk3Zb/pSQwDFVaB3RQOR+hWkKjpstj9nW+Pk7UYHcQg3fxCOPDeHKL4qsvPp8aZf/JeHzr0q4UEnlaqWmxUl/cHiprOrQrlRlgj6in0dO/iMkdysn4+V6RhYMm7TzZX2geLfLxXpEXT6U1Bt1jFT7d56ozixpj5Pk+UoXLRNQN2cQruWzVHIGQZswN/67zmrcFtlG2YNbbbR7oxm4b6v4UO9XIZPJWqNB02wkSr0Y9PQx1P2Z0UcfwrA7rNv4sC9DSAINLNslqK77fI8UjB7JIwcdUg5MABzVedPiO7q4Y7OnuP6R7Yi7hzzQKFVgnGBqqJN+x26X6a7ccf9Mvk7bjFiSubUuIuKAqZznmN4JkGGzugSyUQgDPggMQDFI3pzdkF3US1vBV0Il71QjK916TPDgHzbTGkHrusia5P8Rvi1eBfHqmam/ES1J1mQYXU2Dl/BvlMbwv
+sidebar_class_name: "put api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Update background image"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/application-configuration/background-image"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Update the application background image
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"multipart/form-data":{"schema":{"type":"object","properties":{"file":{"description":"Background image file","type":"string","format":"binary"}},"required":["file"]}}},"required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"No Content"},"400":{"description":"{\"error\": \"Invalid file\"}","content":{"*/*":{"schema":{"type":"object"}}}},"401":{"description":"{\"error\": \"Unauthorized\"}","content":{"*/*":{"schema":{"type":"object"}}}},"403":{"description":"{\"error\": \"Forbidden\"}","content":{"*/*":{"schema":{"type":"object"}}}},"500":{"description":"{\"error\": \"error message\"}","content":{"*/*":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

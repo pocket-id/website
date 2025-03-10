@@ -1,0 +1,70 @@
+---
+id: update-custom-claims-for-a-user
+title: "Update custom claims for a user"
+description: "Update or create custom claims for a specific user"
+sidebar_label: "Update custom claims for a user"
+hide_title: true
+hide_table_of_contents: true
+api: eJzFVT1v2zAQ/SsCpxZw4LRNF29J2gIBOhRBMgUeaPJsMZVE9nhK4wr6772jqNhOhBRpCtSDTFL3+e7xqVMWokEXyPlGLdR1sJqg8FgYBFmZNpKvC1NpV8dizS90EQMYt3amaCOgmqmgUddAgFEtbrrHEdmmuPjEZk62QVPJ64YdeCcBLizvEX60DsGqBWELMxVNCbVWi07RNohlJHTNRvX9cjCGSGfebsXC+IagIVnqECpntKSe30bJ3+2FcgR1lEVAHwDJQdp9h+1Eopm601ULUyXsl3uT3EdjLi4b+9UtGJIw+UAj6i0788khQF9dpMKvHyFNvohACXAqYUT6EKZUSAy+iUMj74+P5W9qovYwPIf6D6j9ERo+Opnq4UzbIg9dqMkpnE3lFoDo8SXdPKoh53w3gVujWyo9ul9gX5/gw9MEXzyunLXQvD76yUT5cu0aLwxqm1c38HFqKhccEBtdMVHxjrP9g1lwqgimRUfbJCVnoBHwlAfB26XcfdIbURl1PtD5fKSz9Bvl/rEQld6K0rSUtEl81Xyg/9FA/7lcp3k3qE/PVlLb5U5VPt/rOlSQSkg8H1n8QO8HWi9F19Z+1CFtpG+htiMJoMSFKxsQE84HH6nWCYksgllzp5Q2X/sD3PcE7+/kOsNOcE/zwIaNlNVile54gutGHcDFPtl1kQWbuy65D7HsupWOcI1V38sxY4gyu6VAhU6vMozWRVnzYNa6ivBMT28us8i9LXbfjsmaR/lotnuD4eUwslxqv2TLErTlBnbzPB/SHV1JiJ3zE772s9Hj1BgI9KztPvu+XV+x7Sp/ompvxQX1TxFxfqY6feo+qWk661Slm02rN2I7hJTfb8+9pBU=
+sidebar_class_name: "put api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Update custom claims for a user"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/custom-claims/user/{userId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Update or create custom claims for a specific user
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"description":"User ID","in":"path","name":"userId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"required":["key","value"],"type":"object"},"type":"array"}}},"description":"List of custom claims to set for the user","required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Updated custom claims","content":{"application/json":{"schema":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"}}}},"400":{"description":"Bad request or validation error","content":{"application/json":{"schema":{"type":"object"}}}},"401":{"description":"Unauthorized","content":{"application/json":{"schema":{"type":"object"}}}},"403":{"description":"Forbidden","content":{"application/json":{"schema":{"type":"object"}}}},"404":{"description":"User not found","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

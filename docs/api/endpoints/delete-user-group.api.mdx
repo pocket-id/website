@@ -1,0 +1,70 @@
+---
+id: delete-user-group
+title: "Delete user group"
+description: "Delete a specific user group by ID"
+sidebar_label: "Delete user group"
+hide_title: true
+hide_table_of_contents: true
+api: eJylVMFu2zAM/RVBpw3IkGzrLr61SzYUGHYYllORAyMzsTpH0ii6mGf430c6BpLWQTEgvliWHvkeqUd3tsTsyCf2MdjCLrFGRgMmJ3R+551pMpLZU2yS2bbmfmlnNgHBQWCUbfHQvciwVvzXAT+AvW4m4ErWQcLky5eyJvzdeMLSFkwNzmx2FR7AFp3lNikqM/mwt32/UXBOMWTMev5hcaOv57Tfo/kcA2Ng28/szWIxhdxBaZQVMwu/G9ECg5Rq70Bh88es2G4qJ24f0UlyeTT/+2n+dYCGq0j+L5bXE3ycEnyJtPVlieH67Bc6uD5ddIhsdrEJV5fx6dI93EtCClAbIXwSTiSKdB2TUGV0DXluB0veIRDSrVyHfG7UQQx7deuZPbOVbbFxFcWDIlGNP5hbg+xcff9uaEeed77sByvvovKrUHAqVHjZc61q5FyKyccS1YMpZj7AIH30/Thcp4mSmGet6U49+L9JHDvB+IfnqQaZNSFuqNZUx0Ie7FkhElHI8EndlYjTw67bQsY11X2v2zIcpB2U5ROQh62WpiPus66lUTuoM74i+82Pca7fmpd/gotix00IrTYQ6mbs5S9sj3+KfiOoCqFEGqQcD26dw8RnIRPH9Oe3u1x9W/1ciVX+AXsIr+A=
+sidebar_class_name: "delete api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Delete user group"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/user-groups/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Delete a specific user group by ID
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"description":"User Group ID","in":"path","name":"id","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"No Content"},"400":{"description":"Bad request","content":{"application/json":{"schema":{"type":"object"}}}},"401":{"description":"Unauthorized","content":{"application/json":{"schema":{"type":"object"}}}},"403":{"description":"Forbidden","content":{"application/json":{"schema":{"type":"object"}}}},"404":{"description":"User group not found","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

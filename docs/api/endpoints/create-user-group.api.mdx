@@ -1,0 +1,70 @@
+---
+id: create-user-group
+title: "Create user group"
+description: "Create a new user group"
+sidebar_label: "Create user group"
+hide_title: true
+hide_table_of_contents: true
+api: eJztVsFy0zAQ/RWNzuk0FHIgt7QDTGcYYKA9ZXpQrI2jYktiJbcJHv87u7KTJtgE2jLDhRwcS9590r5dvVUtNYQMjY/GWTmVFwgqglDCwr2oAqDI0VVejiTCtwpCPHd6I6e1zJyNYCO/Ku8LkylGOL0NDFPLkK2gVPzm0XnAaCDwaIkGrC42H1QJPC7V+j3YPK7kdDIeydLY7fBsJOPGk5EMEY3NZTOStu91Npn8xq1p924QtJzOD3fQQd7snNziFrJITuR1yMz1jgxh7NJhmQKW++ARK0irBe9saAM+G7/gvyGW9SHBT2Q0a7FmybHHWFaF6MqLQpkyWZsI7cshyFfYDLrfqaKCgS9Nj7DdhEJUGx7/nOoeuNGD04VW/nL4k/0VFBN5LL5/SAMlzRSDqEuDIT6WHRNmmsp979vCuQKUTdSpI4BHeGX63nEZHuXwf6H9yW6Yyye79y2SEr0aj/sicq606ERZOBTEoNFJMgQgOnyMogyvOSBc11ZVceXQfCe9e/YCL/sLvHW4MFqDfT766wHddXZJOFGcdErOiRKqoMrWGwFrE2J47sKToVxdEiBVRSGoOO5I8/9ChmipAFmFJtKJmtfyHBQCzipugvObhluaygN3vNS5uuNN0yVQBqnspXch0h68Yhd5yoV7krdmI8lb+PzQ8t+sVekL6LfwbXFvz8z+saM2ub0qqIyD5PI2kWEkORARoaWHrXk3pUphd0jdXeSgSR7QuncLOXJx6aiLsI6nnvQpKWWFSZPb2OdyP3aiaMXM0HRdL1SAayyahqeJDWSyb1iv0KgFR0JckwMVEGDKQ1I4rjTe2MkVL76Tt36Sm9HWY5Zl4ONR2/3kffr45YqMF911rHSafVDd842Enolhl4hKwpvmauoQNq9UzrYtJv9+ANWqdtA=
+sidebar_class_name: "post api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Create user group"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/user-groups"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Create a new user group
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"properties":{"friendlyName":{"maxLength":50,"minLength":2,"type":"string"},"name":{"maxLength":255,"minLength":2,"type":"string"}},"required":["friendlyName","name"],"type":"object"}}},"description":"User group information","required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"201":{"description":"Created user group","content":{"application/json":{"schema":{"properties":{"createdAt":{"type":"string"},"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"friendlyName":{"type":"string"},"id":{"type":"string"},"ldapId":{"type":"string"},"name":{"type":"string"},"users":{"items":{"properties":{"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"email":{"type":"string"},"firstName":{"type":"string"},"id":{"type":"string"},"isAdmin":{"type":"boolean"},"lastName":{"type":"string"},"ldapId":{"type":"string"},"userGroups":{"items":{"properties":{"createdAt":{"type":"string"},"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"friendlyName":{"type":"string"},"id":{"type":"string"},"ldapId":{"type":"string"},"name":{"type":"string"}},"type":"object"},"type":"array"},"username":{"type":"string"}},"type":"object"},"type":"array"}},"type":"object"}}}},"400":{"description":"Bad request or validation error","content":{"application/json":{"schema":{"type":"object"}}}},"401":{"description":"Unauthorized","content":{"application/json":{"schema":{"type":"object"}}}},"403":{"description":"Forbidden","content":{"application/json":{"schema":{"type":"object"}}}},"409":{"description":"Conflict - group name already exists","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

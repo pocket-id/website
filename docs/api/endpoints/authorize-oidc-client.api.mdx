@@ -1,0 +1,70 @@
+---
+id: authorize-oidc-client
+title: "Authorize OIDC client"
+description: "Start the OIDC authorization process for a client"
+sidebar_label: "Authorize OIDC client"
+hide_title: true
+hide_table_of_contents: true
+api: eJy1VU1v2zAM/SuCzhnSbd2ltybdIcCGDv04FT0wMpOodSSNkrt2Rv77SNlOHMTtsGXLIXHEj0c9ks+1LjAasiFZ7/SZvk5ASaUVqsvZxVRBlVae7E8QswrkDcaoFp4UKFNadEmPNOH3CmOa+OJFn9XaeJfEwI8QQmlNDh4/RAGodTQrXIM8cbqAlCzGHAZlOQfzeHv1Rf6ml4BcT0xk3VJvRrqBm10MG32B0xVnQLfE33t8Rb5WMejnvDPDGaLxYciyaRiwhJzxbldnF3E/6iL8/AFN4ggO2af9fI/nllAVgGCNCSnqPkaiCjNoDN7Fhr0PJyfy81ZWYUCBK1THtBKqR/+tXww3zNYBG3x2OlT/BIotFzxyT1DaorkLEnn6k9qHMd8fYt66buaZ6qMBPg4ARCTlfFI7nLxQ23U6EvL0EHKaU2fQha/c0ff6NNSsGSckB6Xi+z3xFf9Bi2Tp0FRkEwvLXa0nCIQkU81/7zeyWLCMsnQiVowlJsZqMWTz1u2m6+CjkBtAgvXY28KMtx1gg9RztROyz8+wDiUeDHo3x3096p3ty9Arhk59duZWdHYHrdb01sm6he/UFYzQKZtkk9SoOYIpj00jxFtuu4ZMsGMJ6WlBK+zbadtrYk+8/+pN0LYw4XMahxKsk1oqKrN6ZObvtDDPrjvuuUsraQ7b6noOEW+p3GzkmLtB0nl+fAKyMJfLcuM5AKFAykPxiC8y4k3d726kAnEvK6nkYOI2oy7i3BgM6U3f/vx8u7y+Yed5+5JbZ3XTBD9Emvk7N8FnHrM85rNal+CWFeRhaHLK5xeR0Zd+
+sidebar_class_name: "post api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Authorize OIDC client"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/oidc/authorize"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Start the OIDC authorization process for a client
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"properties":{"callbackURL":{"type":"string"},"clientID":{"type":"string"},"codeChallenge":{"type":"string"},"codeChallengeMethod":{"type":"string"},"nonce":{"type":"string"},"scope":{"type":"string"}},"required":["clientID","scope"],"type":"object"}}},"description":"Authorization request parameters","required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Authorization code and callback URL","content":{"application/json":{"schema":{"properties":{"callbackURL":{"type":"string"},"code":{"type":"string"}},"type":"object"}}}},"400":{"description":"Bad request or validation error","content":{"application/json":{"schema":{"type":"object"}}}},"401":{"description":"Unauthorized","content":{"application/json":{"schema":{"type":"object"}}}},"403":{"description":"User not authorized for client","content":{"application/json":{"schema":{"type":"object"}}}},"404":{"description":"Client not found","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

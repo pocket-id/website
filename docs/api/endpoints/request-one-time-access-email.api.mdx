@@ -1,0 +1,70 @@
+---
+id: request-one-time-access-email
+title: "Request one-time access email"
+description: "Send a one-time access link via email"
+sidebar_label: "Request one-time access email"
+hide_title: true
+hide_table_of_contents: true
+api: eJylVMFu2zAM/RVB5wQJiu6w3Nqhh122Ys1OQQ+MzcZqbUmT6KyB4X8fKVuYMwdDgeTgyPbje+Qj6U6XGItgPBln9UY/oS0VKGdxSaZBBUWBMara2Dd1NKCwAVPrhQ74q8VI96486U2nC2cJLckRvK9NAcK3eo1C2ulYVBwoJx+cx0AGo9wNbHygk0dWjxSMPehe+EsTsKBHoOoCoB8yYEipN7uR53mRYW7/yrEMY9x5fQ+CVMBFZgXl0ruop5QUWkwa0fOrIdmb9a38nfN9c+rLWDvjb9frOeQeRCzZxRofdmpWSuK/kMJQknWkXlxry6s1bj7PNbbOqQbsKRcSr1X5dMmpr0wYLNQqYjhiUBiCC9cpsRTBIcqQ3LVUMcsYLdPSIFWOu629S73xadj0Kk//cpj+ZR56Efzxd/Af3qHxNU4GOc/nv/M7GWxjX1zeGCikJknRkPBoDuS64+CGoCUx9l0CLDQCGfVnG5pzPHN0spgf3uzRQ8J3WvkajJU82pDWdDBopy8bxI5WYiQDum4PEX+Guu/lMacc+Dux4+MRgoG9VLt7ZuIKocTAN51+Q4bocZuWW0lD4HUr6cz63i9yxB3n4Om/2GmvH78/bRm8H79cjSslJsBv6RpfUxfyN4EB6Vmna7CHFg6CHTjl9wcfZ9Co
+sidebar_class_name: "post api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Request one-time access email"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/one-time-access-email"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Send a one-time access link via email
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"properties":{"email":{"type":"string"},"redirectPath":{"type":"string"}},"required":["email"],"type":"object"}}},"description":"Email and redirect options","required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"No Content"},"400":{"description":"Bad request","content":{"application/json":{"schema":{"type":"object"}}}},"404":{"description":"Email not found","content":{"application/json":{"schema":{"type":"object"}}}},"429":{"description":"Too many requests","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

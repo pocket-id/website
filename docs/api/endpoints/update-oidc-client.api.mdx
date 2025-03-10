@@ -1,0 +1,70 @@
+---
+id: update-oidc-client
+title: "Update OIDC client"
+description: "Update an existing OIDC client"
+sidebar_label: "Update OIDC client"
+hide_title: true
+hide_table_of_contents: true
+api: eJy9Vslu2zAQ/RWBpxZw4XS7+Ja4CwwEbRDUJ8OHsTix2VCkOqRSu4L/vTOUnMiRmrZJUR9kiZyNb5bHWmkMOZkyGu/URM1LDREzcBluTYjGrbPPs3fTLLcGXVQjVQJBgREpqMmivqc9TVLZ7B0LGlkoIW743bEKfxnN74TfKkOo1SRShSMV8g0WoCa1irtSpEIkdqv2+2UjjCGeeb0Tidy7KGHwK5SlNTmI4/HXIN7rjqmSfIkUDYakBtauIL+eX56nbxOxCAMeR4cFIIKdfJtwUa3YT0d45b1FcLJr/dpXcfpo6w0stSpge45uzVBN3p6M+nrldY7vHaysoNYPZN8FdXF82tbJ8taqX33FPLISaw0mz7grT0UCtpet5CmU3oUG2FcnJ/I3VEL6rmQemTU+hv+Oeh6QPpKvymNw72WYUHyexkHc8ypEX0wtmOIhI9e4G1S/AVvhUIH2QO2n+IoYBG13n9pU94wbPbhsNZSz4S33K1MVIzX1leuCYBj6NdKfBfv4PtlAOOdmGG6TXxzx//TWI5qp1ym89mao0s9AZ+2EyjxlXCdGp9rOkMjT35T+sM+XA93loIobT+YH6qc7eN138MHTymiN7unW3/Stt0PG+Zhdcak++Qhvh/IyY4PkwGbcEDdI/yIb7CpgXpGJu8R7ZwiEdFrJzF4shaoirIUSldAl+2oOGmTyMl1uvBY2rBoGFSU19kbn42ZIhnFt9J73JJTLO857v4WitNjnsMWhoJfdPmoIdahzuvItGbcL9xqinfJCAgfChVwQk74wUWJRrMOohgbr1FI+xAIShq3x9hpxfHU4SlKHzH9/6WjzEXEbxyWP8TQhKrJphic4F0rglBy3uI/UhOcOH3fDwcl+Xa8g4Jzsfi/LjDFJKpcy38nI8ZsLjQktFFdgAz4Q9bPLlhufZ917z2Csh+nkduqWTwTHRDkyIPdLmaIImme1hNFsTBtnL76I+p1ir3j3o4PGaZ5jGR+U7VbkxfwLy67a61XhtagQfBfm52eK0aezp6mb1mplwa0rWItsY1J+PwHeTIlN
+sidebar_class_name: "put api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Update OIDC client"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/oidc/clients/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Update an existing OIDC client
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"description":"Client ID","in":"path","name":"id","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"properties":{"callbackURLs":{"items":{"type":"string"},"type":"array"},"isPublic":{"type":"boolean"},"logoutCallbackURLs":{"items":{"type":"string"},"type":"array"},"name":{"maxLength":50,"type":"string"},"pkceEnabled":{"type":"boolean"}},"required":["callbackURLs","name"],"type":"object"}}},"description":"Client information","required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Updated client","content":{"application/json":{"schema":{"properties":{"allowedUserGroups":{"items":{"properties":{"createdAt":{"type":"string"},"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"friendlyName":{"type":"string"},"id":{"type":"string"},"ldapId":{"type":"string"},"name":{"type":"string"},"userCount":{"type":"integer"}},"type":"object"},"type":"array"},"callbackURLs":{"items":{"type":"string"},"type":"array"},"hasLogo":{"type":"boolean"},"id":{"type":"string"},"isPublic":{"type":"boolean"},"logoutCallbackURLs":{"items":{"type":"string"},"type":"array"},"name":{"type":"string"},"pkceEnabled":{"type":"boolean"}},"type":"object"}}}},"400":{"description":"Bad request or validation error","content":{"application/json":{"schema":{"type":"object"}}}},"401":{"description":"Unauthorized","content":{"application/json":{"schema":{"type":"object"}}}},"403":{"description":"Forbidden","content":{"application/json":{"schema":{"type":"object"}}}},"404":{"description":"Client not found","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,70 @@
+---
+id: create-oidc-tokens
+title: "Create OIDC tokens"
+description: "Exchange authorization code for ID and access tokens"
+sidebar_label: "Create OIDC tokens"
+hide_title: true
+hide_table_of_contents: true
+api: eJylVE1vGjEQ/SuWL0mlRaRVe+EGJKpQD4nU9AQIDd4BnOzaW9vLR9H+987Y0EABRS0nxp7ZN+8xz7OVOXrldBW0NbIjH9ZqAWaOAuqwsE7/Ak4IZXMUM+vE4F6AyQUohd6LYF/ReJlJhz9r9KFn843sbKWyJqAJHEJVFVpFlPa6tVqtWgRTtmpXoGHUnIu8WmAJHIVNhUTDTl9QBQKunK3QBY0+4haaYCc6fnRMvB9TzO9Wz4SxQdRem7nogddKdEnNB4LbwfvgKCebbI/oUTkMF1FT+h+RSdwpYPfkbz337dwBkUrXfyN85ZzgnLgtax/EFMXN0bQmDHtzkdRkiU7PNLpT7Kdv/Yc06z81JyBNmrZ2PLqh3Ek4YDxumlTkK2t8Gtynu7vTblsxGo2kzifRRhx34k3qxFEWz8ls71XFdGTwVtNDcOg4Eo3MLtnyxTOdyy5Mej6fk9CDXOy8L+h1aLOEQuf7uV7Z7+Npv8G+QfIluTKnXw2Fv7bdl3PyBgToDBT0ABw5QqBz1l3XiVoFmHu2zuPgvk9g/CRYRAKR40yWSG4md8nK+rgEICzo1LY6V+04Z7rUZmb3uwYUc2FoHQpuSHni65MKNj4jlRDZGSi5pO8QAgom8bbHjuQf7LH/3Ys7/QHXoV0VoA1zod3H4EnVULIqLo26SP2CRdP9djsFjz9c0TR8TSZztFyHFC7BaZiy0OGY8BYIOb/m4Va+4oalJdqtZ+7O5UXNLN5fxU22h+iSkCpc+DjOuTkc1NPj92cqnu72fxl3nzxAzg4PTLtpfgPpgT+Q
+sidebar_class_name: "post api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Create OIDC tokens"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/oidc/token"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Exchange authorization code for ID and access tokens
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/x-www-form-urlencoded":{"schema":{"type":"object","properties":{"client_id":{"description":"Client ID (if not using Basic Auth)","type":"string"},"client_secret":{"description":"Client secret (if not using Basic Auth)","type":"string"},"code":{"description":"Authorization code","type":"string"},"grant_type":{"description":"Grant type (must be 'authorization_code')","type":"string"},"code_verifier":{"description":"PKCE code verifier","type":"string"}},"required":["code","grant_type"]}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"{ \\\"id_token\\\": \\\"string\\\", \\\"access_token\\\": \\\"string\\\", \\\"token_type\\\": \\\"Bearer\\\" }","content":{"application/json":{"schema":{"type":"object"}}}},"400":{"description":"Bad request or invalid code","content":{"application/json":{"schema":{"type":"object"}}}},"401":{"description":"Invalid client credentials","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

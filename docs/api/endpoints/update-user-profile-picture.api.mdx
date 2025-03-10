@@ -1,0 +1,70 @@
+---
+id: update-user-profile-picture
+title: "Update user profile picture"
+description: "Update a specific user's profile picture"
+sidebar_label: "Update user profile picture"
+hide_title: true
+hide_table_of_contents: true
+api: eJylVE1vGjEQ/SuWL02kjaBteuEW+hGlhwhV4RRxGNYDON213bEXlaL9753ZNQICjVRxYb3e8cx7D7+31QZjSTYk650e6WkwkFCBigFLu7ClaiLSu6gC+YWtUAVbpoZQFzoAQY0JKerR8/Z1Hz6lHr5wmZXXAGnFa8cH+M0aXhP+aiyh0aNEDRY6liusQY+2Om2CVMVE1i112876Yoxp7M1GKkrvEroky7qpkmUoabDwVN8w+q7HSTc/f8EyCWzyASlZjPJVOMnzGP3kmKyyNSxRdVtXk8f7Qn2f8I8nfn69v+amx5ALLViA8em5dUAbJnFI+LkfO2uPt0WHbiMG72KP78Pw9hTeo1efswJcfzscnpaMwagsmuC0bg2VNT2FDK44lBFCqGwJcnrwEqXFvzVsO9y3w/enY6cOmrTyZP+guXzAx9MB3zzNrTHoLu9+Rtju1jqfWKLGXUzg07k/5oEbkoNK8ag1T0MiT5dN4lERy4Zs2nROHCMQ0h3/Efw6E/skWIpJO36Rh+3u9ySbmUvYyStvxKpN5xIx7EgPxP1xsLWmHeQEuNkngHULv7MjlIKdoSSbxFKavzO/2LOWexp8TDV0bHIO5LCRGWfy5Ui3A8//T0ZlsRL+ToNQAWcRA2mokoY9xWfdZFFGXSy9ZsnSrBi4FG63c4g4paptZZvNRSI4L9dAFuZCW4LQRlmzlguoIr5B5OpH9v612uflWch5E9xGZIWqyQr/xE2fp+2Mq1YIBqkD0X/IKXHzJMf3B89lZlvsDt2VJYZ0UH5yH9vD+zKZPnHtPCdz7Y0ckb5d22K/lLvYtn8BqVA3YQ==
+sidebar_class_name: "put api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Update user profile picture"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/users/{id}/profile-picture"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Update a specific user's profile picture
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"description":"User ID","in":"path","name":"id","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"multipart/form-data":{"schema":{"type":"object","properties":{"file":{"description":"Profile picture image file (PNG, JPG, or JPEG)","type":"string","format":"binary"}},"required":["file"]}}},"required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"No Content"},"400":{"description":"Bad request or invalid file format","content":{"application/json":{"schema":{"type":"object"}}}},"401":{"description":"Unauthorized","content":{"application/json":{"schema":{"type":"object"}}}},"403":{"description":"Forbidden","content":{"application/json":{"schema":{"type":"object"}}}},"404":{"description":"User not found","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

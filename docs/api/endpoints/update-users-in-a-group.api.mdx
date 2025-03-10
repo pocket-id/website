@@ -1,0 +1,70 @@
+---
+id: update-users-in-a-group
+title: "Update users in a group"
+description: "Update the list of users belonging to a specific user group"
+sidebar_label: "Update users in a group"
+hide_title: true
+hide_table_of_contents: true
+api: eJztVktz2jAQ/isandoZMqRteuEG6WOYdtpOJpwyHGRrsZXakiqt01AP/727MhAILtOEQy/lALK8z2+X/baVGmIejEfjrBzJmdcKQWAJojIRhVuIJkKIIoPK2cLYQqATSkQPuVmYPL0VRXCNlwPpVVA1IMnL0U372DRLfmRJMX1HwoYvvcKSzpbU6MloOgf40ZgAWo4wNDCQMS+hVnLUSlx6looYKA65Ws07YYg4cXrJErmzCBb5qLyvTK7Y+fA2cgTtjikfnIeABiI/cRJTnY4GoY49zgabCxWCWpLz3UBvthbmWzmX3UKOJEiS+0B83gGWoIgJ0RhNYfmEpYlbQPexSD6jdzZ2Yb8+P+effetfP5HeM3HIA1D19Rh7AcibiK6+rJSp96HaN/Idlr3qd6pqoK+MB5A9xnogF8GA1dXyS+qTHuPUOX3XlVZ+2v/K/slU6vcj+f1DGKhopuq1ujAh4lPRMXGsa2N33mXOVaBsgk4dMXgEV4Yv/cuPYvi/0f4mGsby2eqHEmkWXfQNjYnSYj1KnzI9+u2/OrQ/s6rB0gXzC/TpDt4cOvjgQma0Bnu69Yue8LckJ6xDsXCNPTmNt311mJJBqnglyOEd+YQQXDjNE7mKkDfB4DKR8gRUgDCmctDjnDkUVcF8vUPQiceIyEunmaMbTNzOGnLIPXmWsIjD1ujVsJuXA8nBXD3Q8ft7VfsK9uj1ZtO+c/4n2YXbcLbKOTfuWIOsI8ke5R87VLi3vYtYq5TtellYryrdemIsLSUb1tzDdGcpOHG7WWOLcI9DT8MpjckmpIHcodPtAWt0SGOUFpoOIEK0pBxYqG0zFWEWqtWKrwmywLWZ8+gKRmWMAK9PJvKZSrBQVYQjeb24Wu8JL8XjLas36M2gsEu5HZcMeZqoPOJWXKASlIaQQuleXHYOz65Z/UHxoCNXg43GOM/B41HZ3U77Nrsm2Wy9zNVOs0pQP3kTou8Uo0v5JwJIdy0xlS0aVbBsZ5I/vwGx+r4c
+sidebar_class_name: "put api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Update users in a group"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/user-groups/{id}/users"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Update the list of users belonging to a specific user group
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"description":"User Group ID","in":"path","name":"id","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"properties":{"userIds":{"items":{"type":"string"},"type":"array"}},"required":["userIds"],"type":"object"}}},"description":"List of user IDs to assign to this group","required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"properties":{"createdAt":{"type":"string"},"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"friendlyName":{"type":"string"},"id":{"type":"string"},"ldapId":{"type":"string"},"name":{"type":"string"},"users":{"items":{"properties":{"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"email":{"type":"string"},"firstName":{"type":"string"},"id":{"type":"string"},"isAdmin":{"type":"boolean"},"lastName":{"type":"string"},"ldapId":{"type":"string"},"userGroups":{"items":{"properties":{"createdAt":{"type":"string"},"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"friendlyName":{"type":"string"},"id":{"type":"string"},"ldapId":{"type":"string"},"name":{"type":"string"}},"type":"object"},"type":"array"},"username":{"type":"string"}},"type":"object"},"type":"array"}},"type":"object"}}}},"400":{"description":"Bad request","content":{"application/json":{"schema":{"type":"object"}}}},"401":{"description":"Unauthorized","content":{"application/json":{"schema":{"type":"object"}}}},"403":{"description":"Forbidden","content":{"application/json":{"schema":{"type":"object"}}}},"404":{"description":"User group not found","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

@@ -29,6 +29,15 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: "category",
+      label: "API Documentation",
+      link: {
+        type: "doc",
+        id: "api/api",
+      },
+      items: [...require("./docs/api/endpoints/sidebar.ts")],
+    },
+    {
+      type: "category",
       label: "Guides",
       items: [
         {

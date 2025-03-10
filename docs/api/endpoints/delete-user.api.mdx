@@ -1,0 +1,70 @@
+---
+id: delete-user
+title: "Delete user"
+description: "Delete a specific user by ID"
+sidebar_label: "Delete user"
+hide_title: true
+hide_table_of_contents: true
+api: eJylU8Fu2zAM/RVBpw0IkKztLr61TQoUGHYYllORAy0ztTpHUim6mGf430c6BtrOwXqIL5aoJ75H6rG3FWZHPrGPwRZ2jQ0yGjA5ofN770ybkUzZmfu1XdgEBAcBULbFQ//P3a0iR5jXbQKuZR3kgux8JWvC59YTVrZganFhs6vxALboLXdJUZnJh0c7DDsF5xRDxqznF6sr/b0n/B7NbQyMge2wsFer1RxyA5VRVsws/G5CCwxSarwDhS2fsmL7uZxYPqGT5PJp/i/z/NsALdeR/B+szie4nBPcRSp9VWE4P/uJDo5PFiKbfWzD2QV8PfUC95KQAjRGqF6EDYkincckVBldS5670YY3CIR0LQ8h2516h+FRHTrWl60ExLR1FN+JODX4aGWF26X6Oy97Xw2jcfdROVUcOBUnXOy5UQVyLgXkY1nquBQzH2CUO7l8Gh/NKeh3jehfK/5oyqaKGX/zMjUg0yRkLTWa5Cj7wY6yBVvIYEl9tUjRcN+XkHFLzTBoWIxP2iNZvgB5KLUQHVyfdS0N2UOT8T9SP/2YZvazeZ3vkwKnIIROGwVNO/XsF3bH+R92gqoRKmmOijgeXDuHid9cmblhePt+6823zc+N2OAvrVibcQ==
+sidebar_class_name: "delete api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Delete user"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/users/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Delete a specific user by ID
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"description":"User ID","in":"path","name":"id","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"No Content"},"400":{"description":"Bad request","content":{"application/json":{"schema":{"type":"object"}}}},"401":{"description":"Unauthorized","content":{"application/json":{"schema":{"type":"object"}}}},"403":{"description":"Forbidden","content":{"application/json":{"schema":{"type":"object"}}}},"404":{"description":"User not found","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

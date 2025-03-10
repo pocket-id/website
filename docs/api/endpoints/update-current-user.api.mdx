@@ -1,0 +1,70 @@
+---
+id: update-current-user
+title: "Update current user"
+description: "Update the currently authenticated user's information"
+sidebar_label: "Update current user"
+hide_title: true
+hide_table_of_contents: true
+api: eJzFVktv2zAM/iuCLrukSNu1h+WWFMNQbNiGoTkFPSg2k6izJY2i22RB/vtIOQ+3NvoG1kMqySQ/8eNLa51DzNAGst7pgR6H3BAoWoDKKkRwVKyUqXjvyGb8KVdVBPwQlXUzj6VJej2N8KeCSCOfr/RgrTPviDVkaUIoRJPl+jdRQNY6ZgsojawC+gBIFqLs+NAWsqBVAL5NJLRurjc9PbMY6bspQb6WZvkN3JwWenB+3NOldbvtSa+tauMwZ5GG2an3BRgnHwvzWrNCg3tS87SluanJsgi5Hky2LjcdbFyqgXK9N+SnN5ARG2JLD4LHwh1xqaEIK0jYMXgXa75Pj4/l330rP76y3isDmFWRfHlRGFumvSWoF/fFfsOqM8q3pqig48um5fz+wCCaleyfmTvt9Mi7j5+bNS3NIjfhstuoRPML+io8Rk6GIHU2pE4T/5HhGVpwebF6KZWPEOK6TT3nNs36e1I9FctZV7aPTK62zUt5VMyPzVOuK0D0+JJS6MY8aWOOnXRUj/YvF+abAT62AYZZ5itHCnJLynlSpij83XuAnXV4I11HQGaM+Q4Qn9oQF97N2A6pI5XKnP3hIslXCpY2Unwr5nlXYlyyQU6wQrF7t+zhO6QDQ0XgsWqJi3Oy1iMwCDisZFBMrjfS4s08ylQQTqP0/BI4Ubh2dKiIwYMRWd2X5I/9NCEE+Ndh+n5emjIU0Jimu7K41wgPh/tGJwOi2doOIodSaxY7z5ndqDeZ8CFlZ0mwNSsxZ7FmUqSDj1SaxNDW0valsX1lpFeFfjDQGu+IVz9MtlEgWFI/cNdM/bvCNClqNifJP0mieswu+Kpyul5PTYQxFpuNHDPDKGG7liaK1kzFUY4aK3Aq8uUloqntSrrKrY+uBHvfc9vpsuntNLhgIdCjss1k+Dm+Ytnp9rFV+lxU0NzJwOffxL9PJKZhkM7WHFo3r8xcZGuT8vcPlh92SQ==
+sidebar_class_name: "put api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Update current user"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/users/me"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Update the currently authenticated user's information
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"properties":{"email":{"type":"string"},"firstName":{"maxLength":50,"minLength":1,"type":"string"},"isAdmin":{"type":"boolean"},"lastName":{"maxLength":50,"minLength":1,"type":"string"},"username":{"maxLength":50,"minLength":2,"type":"string"}},"required":["email","firstName","lastName","username"],"type":"object"}}},"description":"User information","required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"properties":{"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"email":{"type":"string"},"firstName":{"type":"string"},"id":{"type":"string"},"isAdmin":{"type":"boolean"},"lastName":{"type":"string"},"ldapId":{"type":"string"},"userGroups":{"items":{"properties":{"createdAt":{"type":"string"},"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"friendlyName":{"type":"string"},"id":{"type":"string"},"ldapId":{"type":"string"},"name":{"type":"string"}},"type":"object"},"type":"array"},"username":{"type":"string"}},"type":"object"}}}},"400":{"description":"Bad request or validation error","content":{"application/json":{"schema":{"type":"object"}}}},"401":{"description":"Unauthorized","content":{"application/json":{"schema":{"type":"object"}}}},"403":{"description":"Account edit not allowed","content":{"application/json":{"schema":{"type":"object"}}}},"404":{"description":"User not found","content":{"application/json":{"schema":{"type":"object"}}}},"409":{"description":"Conflict - email already exists","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
