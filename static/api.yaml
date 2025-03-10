@@ -1764,7 +1764,6 @@ paths:
       summary: Get user profile picture
       tags:
         - Users
-        - Profile Picture
   /users/{id}/user-groups:
     put:
       description: Update the groups a specific user belongs to

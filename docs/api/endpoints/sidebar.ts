@@ -422,18 +422,6 @@ const sidebar: SidebarsConfig = {
         },
       ],
     },
-    {
-      type: "category",
-      label: "Profile Picture",
-      items: [
-        {
-          type: "doc",
-          id: "api/endpoints/get-user-profile-picture",
-          label: "Get user profile picture",
-          className: "api-method get",
-        },
-      ],
-    },
   ],
 };
 
