@@ -5,7 +5,7 @@ description: "Get a paginated list of API keys belonging to the current user"
 sidebar_label: "List API keys"
 hide_title: true
 hide_table_of_contents: true
-api: eJyllE1PG0EMhv/KaE6tlAKp2ktugVYItaoitZxIhJxdJxk6uzP1eFHTVf577UkgAbaBktNqvvy89tpva0tMBbnILtR2YM+RDZgIc1cDY2m8S2zCzAxHF+YnLpOZog+1nM4NB8MLNEVDhDWbJiHZno1AUCEjJTu4ah9FH8EcTd1UU6SeSQzEGmhGoTJ9eev0zq8GaSmLWsLIUqSgrFKxwArsoLW8jLrvasZ5JpY4g8azHfRXq95j4rcM0wwcY5VMlMUmZBfNu8rxS3EnHbyz4Juq1tqkQGymy3+A9PS6yJe7cIlJKrNLs2NbEOo/uQYeW9vB/q7E0hEWumHeQCpMIKOX3u6Tcf/kxUo0ZNYw6VnCFEOdMOmj9ycn+nmoqzXjsbwBBv0OzNWk5HA0jO4LLj9x6OXjTcvJi/Wlhp1PR6P7XbMSDUWQ31CzIiBG74p8dHyTlNM+FR+mN5KZ6JRq2Q9d2k6hNIRSlcSHx+8/jX9ZQ8OLQO4PlocCPnYlcCEBqQZvZPxupbmRKNBhJEEllLF2vMwzfIpASEPJQ5YT/ecMcx1vq64gPzFZ2ZOhX4RSIs2Rsw/odXsM0b1T48gNOAtKVGlQqDQhsWOvfDkX+WmdlJWDGBJXkMVumvWretGdEeWO3ClEu834cBPb1ITxNx9HDzI5Iqghr5h1Ylf2PjHJfSFada9tp5DwkvxqpdvrYcs26BJMvbTAYAY+4R7tz1hkpzKRsXXKW/ANrmv4P9w9RrmHeeeXr4R2ueUe2kPTfCXzGZd8Dr9rllsFE12QUwl5RqQlEErpJf3569fDosC4W6snY7nanaLzzz9kGP8CpfiaIA==
+api: eJylVE1v2zAM/SuCTluRIemOuQXDUBQdtgBbT21QMDZja5MtT6KLBoH/+0jZ+XaStjsZIk29xyfyrXSKIfGmIuNKPdY3SApUBZkpgTBV1gRSbqEm01v1B5dBzdG6krOZIqcoR5XU3mNJqg7o9UBX4KFAQh/0+GF1cPsUMlRlXczRD1Qg8CQXLbwr1DXXGvnnb41+yYeSr+EjU0E+hSTHAvR4pWlZSdyUhFlETHEBtSU9vm6awSHi9wgmHRjCIqiKD92VfWjWFIZeCzfqwfvibF2Uok1wntR8eQJIsk9J/LkPLpBnZXbR9KNOPMqbPAE9at2D/VMQU+MxkYD6ACFRziv56eM5GpuSVzORKyOH2UB7DJUrAwYp+jwayWef1487Lk8cK1iSZK+GV/LZQlXe8buQae9IgWI0PthxulNhQsckm8E+ck8eXyruNpyoNmlv2EKg+3ASs9XyKMGZLuLmv1lgvQ2A97CUc7doHduDRtvFkp3pGURhKwJN0Z/+gxyBvV3reCIv5b354wZ6Ik0MQibrrsUl7tglNM8Fm0DuWE+dIUVfoJwPQ6jMJzGSOJALFxvl0YBEtJWrDFkB4Pwzm0g7QVEqF6iAqFM3vN/Em9bGpI/efjNx/29qXdOELzSsLPAmMaHa2/hosbEHvWmMe8+Zq8RWqzkEvPe2aSTcLl+0RRNgbpHlWYANeIb7BcvsZcY0ts75DLbGVsO34J4xzjOYa/98J2ife55B2zfRd2JecM1L8LvmuWUwk4M3QoHfe8YlOULKsySP31ZPkgSrXa3EFpvdxbn5+osX7B99ZJel
 sidebar_class_name: "get api-method"
 custom_edit_url: null
 ---
@@ -61,7 +61,7 @@ Get a paginated list of API keys belonging to the current user
 <StatusCodes
   id={undefined}
   label={undefined}
-  responses={{"200":{"description":"{ \\\"data\\\": []dto.ApiKeyDto, \\\"pagination\\\": utils.Pagination }","content":{"application/json":{"schema":{"type":"object"}}}},"400":{"description":"Bad request","content":{"application/json":{"schema":{"type":"object"}}}},"401":{"description":"Unauthorized","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+  responses={{"200":{"description":"OK","content":{"*/*":{"schema":{"properties":{"data":{"items":{"properties":{"createdAt":{"type":"string"},"description":{"type":"string"},"expiresAt":{"type":"string"},"id":{"type":"string"},"lastUsedAt":{"type":"string"},"name":{"type":"string"}},"type":"object"},"type":"array"},"pagination":{"properties":{"currentPage":{"type":"integer"},"itemsPerPage":{"type":"integer"},"totalItems":{"type":"integer"},"totalPages":{"type":"integer"}},"type":"object"}},"type":"object"}}}}}}
 >
   
 </StatusCodes>

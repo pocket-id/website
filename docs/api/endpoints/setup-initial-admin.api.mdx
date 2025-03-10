@@ -5,7 +5,7 @@ description: "Generate setup access token for initial admin user configuration"
 sidebar_label: "Setup initial admin"
 hide_title: true
 hide_table_of_contents: true
-api: eJzFVMFu2zAM/RVD5wQphu3SW7BDUQxYB3Q7BTkoMhOzlSWNoosZhv99pO2hDSYELTpgJ1uk+Eg+6nEwNWRHmBhjMNfmBgKQZagycJcq6xzkXHF8hFAdI1UYkNH6ytYthqrLQJWL4YinTqIUYmUIcoohQzbXg/lwdaWf8yR3X+SahDEEVq9NyaOb4jcPWa8MJrsGWqt/iWICYpwBXZc5tp+9xXY6I8P8c37tEXr9cJ9AEmYmDCczrsyT9R0UPOJaLPHwAI7Ns8ES2V7PUg/6IuoRKfNX25aQVwbrsjlvlcQXvkOMHmxQp7cXAH1t020ZVCdyQ7FLl8hxBDLiestFiP/I8JEQQu37t1J5gZBQhnpNNcrlq8NHtX0svfb7WUleSK97UUubPDC8RQGlVJ9KqW4FUEr2ol56EmkCUaT3ZdJO7UkmvjPbjhtBWaIFdurM7FemBW6i8G9SzCyOZLmR0yYGWDO2sJ73yHraI5tptcgtDMc4PUepzjqtTpMhey1B/NJBnvvSaSh0a6d656EsxJ5tJIk6Y2R4bv1frLaFHoZfvEkikEmqHU1LYe55Z4o9S2z+Q1ajHMnFYTjYDD/Ij6Oaf3ZAoqjdXiVEaA9Kw24vCRp5OEByWERntoKclOdFa38PdXw5lG93999llr8BY7YN0g==
+api: eJzFVMFqIzEM/ZXBx5KQssfewh7KstAutD2FHBSPJqOtx/bKmtIw5N9Xmgm0gSG0UOhcbEnWs/ykN4OrsXimLJSiu3G3GJFBsCoofa7AeyylkvSMsWoSVxRJCEIFdUex6gty5VNsaN9rlkEsHGPJKRYs7mZwP66vbTm/5P63HtM0wSgWvVpd2VJ8ix3YLnPKyEIThu+LpO5nAOpGmwSnzfmxZzzYIoeMekcRprh3x4V7gdDjTERDJ0/a/UUv7s0BzHAwW+uhMIvaEBe5g24OeeGonneXtfH2LrZLKSBECwa4ABhqyL/mQa0Jt5z6fIkcz6hdrdcyC/GNDDdMGOtw+CyVFwiJ81Afqca4/HC6feqEvZKzcU+aWtx24TqUNmllLqciOugZpFVrlSIuhTpcTqJajqJajTrTUxSbNDZKZQHe2mTYJMFu1PiLok/qsToNuoNxkKZy3cOo1zN5ataZ7oY3zX2Fzk9sCL7KKuvojEPc8yiX6c0bN/tmzZ1erWS1xpEeHIYdFHzicDya+1+PrLO22dpwMcHOaNhs9YIWoUZW4zSObq3I2Xg+TeH4Nzm+78Of+4dH7dZ/vdCwuQ==
 sidebar_class_name: "post api-method"
 custom_edit_url: null
 ---
@@ -53,7 +53,7 @@ Generate setup access token for initial admin user configuration
 <StatusCodes
   id={undefined}
   label={undefined}
-  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"properties":{"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"email":{"type":"string"},"firstName":{"type":"string"},"id":{"type":"string"},"isAdmin":{"type":"boolean"},"lastName":{"type":"string"},"ldapId":{"type":"string"},"userGroups":{"items":{"properties":{"createdAt":{"type":"string"},"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"friendlyName":{"type":"string"},"id":{"type":"string"},"ldapId":{"type":"string"},"name":{"type":"string"}},"type":"object"},"type":"array"},"username":{"type":"string"}},"type":"object"}}}},"400":{"description":"Setup already complete","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+  responses={{"200":{"description":"OK","content":{"*/*":{"schema":{"properties":{"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"email":{"type":"string"},"firstName":{"type":"string"},"id":{"type":"string"},"isAdmin":{"type":"boolean"},"lastName":{"type":"string"},"ldapId":{"type":"string"},"userGroups":{"items":{"properties":{"createdAt":{"type":"string"},"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"friendlyName":{"type":"string"},"id":{"type":"string"},"ldapId":{"type":"string"},"name":{"type":"string"}},"type":"object"},"type":"array"},"username":{"type":"string"}},"type":"object"}}}}}}
 >
   
 </StatusCodes>

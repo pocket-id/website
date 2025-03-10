@@ -5,7 +5,7 @@ description: "Create a new API key for the current user"
 sidebar_label: "Create API key"
 hide_title: true
 hide_table_of_contents: true
-api: eJytVE1v2zAM/SuCzi6SffSSWzLsUGzAiq05BT0wNhursSWNkvMxw/99pO2kSZ0O67ocApsm+cjHR9Y6w5CS8dE4qyf6EyFEVKAsbtX09katca8eHKmYo0orIrRRVQFJJ5rwZ4Uhzly215Nap85G/iqP4H1hUpCco8cgiWsd0hxLkCdPziNFg0HezvBrHfceuY4QydiVbhKNO28IwzRe/GqhRPlQwu4r2lXM9eR6nOjS2MPrh+R5VNOVzlkzPVmcAPTp7o8RbvmIaeQIDjnn6UCNsUxO2XaqT9NGqrDFCd7Z0HX6fvxu0HBPeHbkemtirqJbo+T7R0rBmy+4H9rTDusFKt82CJNdNBcQ4jy8iHkY33BCzybAhpaTv/Ftx/VxPB6SPYNM9apVrOkNFCZrKVVI5Og1jF/GvDDguYUq5o7ML9bFGwGuLzV1wwnJQqF4KzdI/6MVhgrI224iq2hR6xkCIU0r2afFfSMLAqsgyyOyZa0FWZoSuU+WgfYuyDJ5EH89YjlercUn0QL+/elsfN5B6Qsc9tQP90x0T8ZONafi4y08nCBIpWVRhYmSWnMA0xK6xOIt5ZXQktBn6q9ev4N6sAtHKl91H3teI+7iyBdgrIBXVLSL2XKz0EdumL9caGNbXS8h4JyKphEzs0UyBn7cABlYSlc8BQ5AyBhJJiRlc3VdnVd3gizuRSUVDMbfJIeIaZqij3/0PZ3s7bcfd+y87E9+6TKJIdjK8eP/lm3X8tZenNZW8xWwqwpW4tvllN9vWMY8CQ==
+api: eJyllMFu2zAMhl/F4LFwkW7DLrl1ww7DBqzY2lPQA2NzsRpb0iS6SWD43UfKTurU7bBhOQQ2Rf4kP1LuoKRYBOPZOAtL+BgImTLMLO2y65vP2ZYO2U8XMq4oK9oQyHLWRgqQQ6BfLUX+4MoDLDsonGU51Uf0vjYFqubiIapwB7GoqEF98sF5Cmwo6ttZ/g744EnqiByM3UCfA+29CRSv+cVTiw3pQYP7r2Q3XMHy/VUOjbHH13f586h+KF1US1iuJglGuftThFs/UMESISHnnI5ojBU4TeoUprIcWkp5onc2Dp2+vXoza3gEXp5Y7wxXGbstqd4E6cXi4k8U0ZsvdJjbi0H+FXr/x96UL5prjHwXX815nNh8KM+giyFh+BvfPo2IcRN1ospSaESdZENcOSkUvIs6YY+6FLAQYJdb9clBN/T70y5/2mPja5qPakx/huXJOPQ1xSOrcbwXWCgMLdGwSoMEPFKIg7B6a3kNpm5HpfEqjosBs2mdluOfLu0IjmnPC1+jsZq8DXVancRmBSc2wq9SbGLrujVGugt136tZaAVZt5U8PmIwuNauVveiVRGWkmm56kDLluqGOi9vNbO6161WMPtG9Pkx4rooyPPEV5e/nw7z5tuPWzlfj5+expXqFnCnl1D+E2CXUKVrkGydrKbdtLhR3yGl/n4DIp+06Q==
 sidebar_class_name: "post api-method"
 custom_edit_url: null
 ---
@@ -61,7 +61,7 @@ Create a new API key for the current user
 <StatusCodes
   id={undefined}
   label={undefined}
-  responses={{"201":{"description":"Created API key with token","content":{"application/json":{"schema":{"properties":{"apiKey":{"properties":{"createdAt":{"type":"string"},"description":{"type":"string"},"expiresAt":{"type":"string"},"id":{"type":"string"},"lastUsedAt":{"type":"string"},"name":{"type":"string"}},"type":"object"},"token":{"type":"string"}},"type":"object"}}}},"400":{"description":"Bad request or validation error","content":{"application/json":{"schema":{"type":"object"}}}},"401":{"description":"Unauthorized","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+  responses={{"201":{"description":"Created API key with token","content":{"*/*":{"schema":{"properties":{"apiKey":{"properties":{"createdAt":{"type":"string"},"description":{"type":"string"},"expiresAt":{"type":"string"},"id":{"type":"string"},"lastUsedAt":{"type":"string"},"name":{"type":"string"}},"type":"object"},"token":{"type":"string"}},"type":"object"}}}}}}
 >
   
 </StatusCodes>

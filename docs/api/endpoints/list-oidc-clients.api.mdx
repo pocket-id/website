@@ -5,7 +5,7 @@ description: "Get a paginated list of OIDC clients with optional search and sort
 sidebar_label: "List OIDC clients"
 hide_title: true
 hide_table_of_contents: true
-api: eJytVU1PGzEQ/SuWT60UkdCPy94otAipKkiUE4kqx54kpl57a8/Spqv89854U1jIslDoaWOPZ96b5/FLIw0kHW2FNnhZyGNAoUSlltYrBCOcTSjCQpyeHB0K7Sx4TOKnxZUIOUU5kUBFvRLKG5FCROuXciQrFVUJCDHJ4rK5B3LeZlC0FBjEwjr6eVN9vhaecqmI5cM/aohrWuS9QrZotE56BaWSRSNxXeUIRsbebEb38c7UEoSvyznEkUioMkmxiKEU+w/AkALQB2I9whIihQwsVO1QFvs9iF8yGAtnEcokKlpsS/ahOVtafCrcpAfvMLi69CwmXwFJ+JB6FP2m8+EBCTtocppTp7JP13PGMjaC5g3xSiUtQhR86PUQgZuUJ3OgypnCbCQjpCr4BIlz3kwm/LlLqxHT6VQahYq/hbicGQx7p9bowzxiRxhG+ch2zCmrPVijdWnv7GZXbIiGDnQHHhlGVZWzOofGV4mxml3+YX5FzRFXEky+m+zv8rvwqsZViPY3mJcDvN0F+BTi3BoD/qXV3/fJe0IFY/vw4zXNNcQY4suQCCqBrqPFdbaLD/TIIR6QSrSc8a2jWrKTSPYhwmovMkmKkMusgqF6S8BsPJwkx4Gue7y1lDyLi8DYTFJpJkmYaNExE4pTI6ltT1KgCglLlWlv5/Yz+2DXBPOAdmRpbvv/bya6FQrhF44rp+g9Ebc6OkZr+7yU3CeLfyvIishzpGnmKsFFdJsNb7cPMZuxTWruaPaKhXIJBhp5qlH3Ev0O665fXytXQ6vvv1B4xLsHkLd++0zcAQcfwPxr5M8E7bPxIW3vuPkzMR8x8cfgu15+y2DGi2iZQn7BNJWgDP2R8fy12QdaQ9XVasc0Nt3XffzxK1nFH2so98U=
+api: eJytVVFPGzEM/itRnjZUqbDHvjGGEBoaaIwnQJMv57YZucst8bFVVf/77NxBjxIKVHu6Sxz7cz47n5e6xGiCbcj6Wk/0CZIC1cDM1kBYKmcjKT9V56dfjpRxFmuK6o+lufLJBZyKCMHMFdSlij6QrWd6pBsIUCFhiHpyvdwAuew82Fop8mpqHf8+Ri8WqmZfDmLl8O8Ww4IXaW+iOzReRzPHCvRkqWnRJAsFwV6tRpt4FzBDVbdVgWGkIkFKUk2Dr9TBCzDMAOZAbE04w8CmEqfQOtKTgwzitwQmxFnCKqqGF33IHJqzlaW3wu1n8I68a6tayJQSMIUvscfWnyYd3kLhAE3fJNcbneP1UrBKG9DIhvoA0SgflBz6uC2BR5c358CRUwq3Ix0wNr6OGMXn0/6+fJ6mdf6VvY1n6moS6954Tz5rpCZ4LgjZLkYJlHZTpZ6bDThXgLm7+n4WnxzbaLvRwwaEAAtZzyGe+ZkfnC28dwi1GG2ZjWHjRVs4a/JOjsO1dLRzRl0RMgebO4PHNRQOyxzyOpQvfnHpcrF7zUgleMZhGwIXQ95hprnl2nKFCwwvnyBP4E43brppF/es/fkFMjsr2YzIyVpaJNn6zGKD4bClOS9vpfsIZqJoWvRQ85o1bu6ZMz1DSrInR/XY29KMe0FLL2Ga2kCaEow0pcBbcoLP9nvWya53E5M+UgWJxv7VnIkKDyU4PY9Bzy/X/f7fJLynh/AvjRsHNnVgG1wqb7rntZZ7ymPrs2JC5py8WJbLAiJeBbdayXYnA2kU2Nj32RRcxC0XeeuYyCZ6h4vhtLgH12LH73tSeGVybEHu1X5H3C3zYwvmwxjZETQ3RLZx+2SW7Ij5ygh5DX44SdYZ3MoiWEkhvVvuSoSSdUD6r/M+NAabIVcyJFbDB31y/IM14R8yHxqD
 sidebar_class_name: "get api-method"
 custom_edit_url: null
 ---
@@ -61,7 +61,7 @@ Get a paginated list of OIDC clients with optional search and sorting
 <StatusCodes
   id={undefined}
   label={undefined}
-  responses={{"200":{"description":"{ \\\"data\\\": []dto.OidcClientDto, \\\"pagination\\\": utils.Pagination }","content":{"application/json":{"schema":{"type":"object"}}}},"401":{"description":"Unauthorized","content":{"application/json":{"schema":{"type":"object"}}}},"403":{"description":"Forbidden","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+  responses={{"200":{"description":"OK","content":{"*/*":{"schema":{"properties":{"data":{"items":{"properties":{"callbackURLs":{"items":{"type":"string"},"type":"array"},"hasLogo":{"type":"boolean"},"id":{"type":"string"},"isPublic":{"type":"boolean"},"logoutCallbackURLs":{"items":{"type":"string"},"type":"array"},"name":{"type":"string"},"pkceEnabled":{"type":"boolean"}},"type":"object"},"type":"array"},"pagination":{"properties":{"currentPage":{"type":"integer"},"itemsPerPage":{"type":"integer"},"totalItems":{"type":"integer"},"totalPages":{"type":"integer"}},"type":"object"}},"type":"object"}}}}}}
 >
   
 </StatusCodes>

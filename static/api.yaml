@@ -126,6 +126,27 @@ definitions:
       value:
         type: string
     type: object
+  github_com_pocket-id_pocket-id_backend_internal_dto.AuditLogDto:
+    properties:
+      city:
+        type: string
+      country:
+        type: string
+      createdAt:
+        type: string
+      data:
+        $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_model.AuditLogData"
+      device:
+        type: string
+      event:
+        $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_model.AuditLogEvent"
+      id:
+        type: string
+      ipAddress:
+        type: string
+      userID:
+        type: string
+    type: object
   github_com_pocket-id_pocket-id_backend_internal_dto.AuthorizationRequiredDto:
     properties:
       clientID:
@@ -282,6 +303,62 @@ definitions:
       - expiresAt
       - userId
     type: object
+  github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-github_com_pocket-id_pocket-id_backend_internal_dto_ApiKeyDto:
+    properties:
+      data:
+        items:
+          $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.ApiKeyDto"
+        type: array
+      pagination:
+        $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Pagination"
+    type: object
+  github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-github_com_pocket-id_pocket-id_backend_internal_dto_AuditLogDto:
+    properties:
+      data:
+        items:
+          $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.AuditLogDto"
+        type: array
+      pagination:
+        $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Pagination"
+    type: object
+  github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-github_com_pocket-id_pocket-id_backend_internal_dto_OidcClientDto:
+    properties:
+      data:
+        items:
+          $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.OidcClientDto"
+        type: array
+      pagination:
+        $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Pagination"
+    type: object
+  github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-github_com_pocket-id_pocket-id_backend_internal_dto_UserDto:
+    properties:
+      data:
+        items:
+          $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.UserDto"
+        type: array
+      pagination:
+        $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Pagination"
+    type: object
+  github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-github_com_pocket-id_pocket-id_backend_internal_dto_UserGroupDtoWithUserCount:
+    properties:
+      data:
+        items:
+          $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.UserGroupDtoWithUserCount"
+        type: array
+      pagination:
+        $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Pagination"
+    type: object
+  github_com_pocket-id_pocket-id_backend_internal_dto.Pagination:
+    properties:
+      currentPage:
+        type: integer
+      itemsPerPage:
+        type: integer
+      totalItems:
+        type: integer
+      totalPages:
+        type: integer
+    type: object
   github_com_pocket-id_pocket-id_backend_internal_dto.PublicAppConfigVariableDto:
     properties:
       key:
@@ -429,6 +506,22 @@ definitions:
     required:
       - userGroupIds
     type: object
+  github_com_pocket-id_pocket-id_backend_internal_model.AuditLogData:
+    additionalProperties:
+      type: string
+    type: object
+  github_com_pocket-id_pocket-id_backend_internal_model.AuditLogEvent:
+    enum:
+      - SIGN_IN
+      - TOKEN_SIGN_IN
+      - CLIENT_AUTHORIZATION
+      - NEW_CLIENT_AUTHORIZATION
+    type: string
+    x-enum-varnames:
+      - AuditLogEventSignIn
+      - AuditLogEventOneTimeAccessTokenSignIn
+      - AuditLogEventClientAuthorization
+      - AuditLogEventNewClientAuthorization
 info:
   contact: {}
 paths:
@@ -442,20 +535,14 @@ paths:
           description: '{ \"keys\": []interface{} }'
           schema:
             type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       summary: Get JSON Web Key Set (JWKS)
       tags:
-        - OIDC Discovery
+        - Well Known
   /.well-known/openid-configuration:
     get:
       description:
         Returns the OpenID Connect discovery document with endpoints and
         capabilities
-      produces:
-        - application/json
       responses:
         "200":
           description: OpenID Connect configuration
@@ -463,11 +550,9 @@ paths:
             type: object
       summary: Get OpenID Connect discovery configuration
       tags:
-        - OIDC Discovery
+        - Well Known
   /api-keys:
     get:
-      consumes:
-        - application/json
       description: Get a paginated list of API keys belonging to the current user
       parameters:
         - default: 1
@@ -490,35 +575,15 @@ paths:
           in: query
           name: sort_direction
           type: string
-      produces:
-        - application/json
       responses:
         "200":
-          description:
-            '{ \"data\": []dto.ApiKeyDto, \"pagination\": utils.Pagination
-            }'
+          description: OK
           schema:
-            type: object
-        "400":
-          description: Bad request
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
-      security:
-        - BearerAuth: []
+            $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-github_com_pocket-id_pocket-id_backend_internal_dto_ApiKeyDto"
       summary: List API keys
       tags:
         - API Keys
     post:
-      consumes:
-        - application/json
       description: Create a new API key for the current user
       parameters:
         - description: API key information
@@ -527,34 +592,16 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.ApiKeyCreateDto"
-      produces:
-        - application/json
       responses:
         "201":
           description: Created API key with token
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.ApiKeyResponseDto"
-        "400":
-          description: Bad request or validation error
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
-      security:
-        - BearerAuth: []
       summary: Create API key
       tags:
         - API Keys
   /api-keys/{id}:
     delete:
-      consumes:
-        - application/json
       description: Revoke (delete) an existing API key by ID
       parameters:
         - description: API Key ID
@@ -562,33 +609,9 @@ paths:
           name: id
           required: true
           type: string
-      produces:
-        - application/json
       responses:
         "204":
           description: No Content
-        "400":
-          description: Bad request
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden - Not owner of the API key
-          schema:
-            type: object
-        "404":
-          description: API key not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
-      security:
-        - BearerAuth: []
       summary: Revoke API key
       tags:
         - API Keys
@@ -633,22 +656,6 @@ paths:
             items:
               $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.AppConfigVariableDto"
             type: array
-        "400":
-          description: '{"error": "Validation error"}'
-          schema:
-            type: object
-        "401":
-          description: '{"error": "Unauthorized"}'
-          schema:
-            type: object
-        "403":
-          description: '{"error": "Forbidden"}'
-          schema:
-            type: object
-        "500":
-          description: '{"error": "error message"}'
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Update application configurations
@@ -668,18 +675,6 @@ paths:
             items:
               $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.AppConfigVariableDto"
             type: array
-        "401":
-          description: '{"error": "Unauthorized"}'
-          schema:
-            type: object
-        "403":
-          description: '{"error": "Forbidden"}'
-          schema:
-            type: object
-        "500":
-          description: '{"error": "error message"}'
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: List all application configurations
@@ -716,22 +711,6 @@ paths:
       responses:
         "204":
           description: No Content
-        "400":
-          description: '{"error": "Invalid file"}'
-          schema:
-            type: object
-        "401":
-          description: '{"error": "Unauthorized"}'
-          schema:
-            type: object
-        "403":
-          description: '{"error": "Forbidden"}'
-          schema:
-            type: object
-        "500":
-          description: '{"error": "error message"}'
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Update background image
@@ -767,22 +746,6 @@ paths:
       responses:
         "204":
           description: No Content
-        "400":
-          description: '{"error": "Invalid file type, expected .ico"}'
-          schema:
-            type: object
-        "401":
-          description: '{"error": "Unauthorized"}'
-          schema:
-            type: object
-        "403":
-          description: '{"error": "Forbidden"}'
-          schema:
-            type: object
-        "500":
-          description: '{"error": "error message"}'
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Update favicon
@@ -805,10 +768,6 @@ paths:
           description: Logo image
           schema:
             type: file
-        "404":
-          description: '{"error": "File not found"}'
-          schema:
-            type: object
       summary: Get logo image
       tags:
         - Application Configuration
@@ -829,22 +788,6 @@ paths:
       responses:
         "204":
           description: No Content
-        "400":
-          description: '{"error": "Invalid file"}'
-          schema:
-            type: object
-        "401":
-          description: '{"error": "Unauthorized"}'
-          schema:
-            type: object
-        "403":
-          description: '{"error": "Forbidden"}'
-          schema:
-            type: object
-        "500":
-          description: '{"error": "error message"}'
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Update logo
@@ -856,18 +799,6 @@ paths:
       responses:
         "204":
           description: No Content
-        "401":
-          description: '{"error": "Unauthorized"}'
-          schema:
-            type: object
-        "403":
-          description: '{"error": "Forbidden"}'
-          schema:
-            type: object
-        "500":
-          description: '{"error": "error message"}'
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Synchronize LDAP
@@ -879,18 +810,6 @@ paths:
       responses:
         "204":
           description: No Content
-        "401":
-          description: '{"error": "Unauthorized"}'
-          schema:
-            type: object
-        "403":
-          description: '{"error": "Forbidden"}'
-          schema:
-            type: object
-        "500":
-          description: '{"error": "error message"}'
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Send test email
@@ -898,8 +817,6 @@ paths:
         - Application Configuration
   /audit-logs:
     get:
-      consumes:
-        - application/json
       description: Get a paginated list of audit logs for the current user
       parameters:
         - default: 1
@@ -922,29 +839,11 @@ paths:
           in: query
           name: sort_direction
           type: string
-      produces:
-        - application/json
       responses:
         "200":
-          description:
-            '{ \"data\": []dto.AuditLogDto, \"pagination\": utils.Pagination
-            }'
+          description: OK
           schema:
-            type: object
-        "400":
-          description: Bad request
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
-      security:
-        - BearerAuth: []
+            $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-github_com_pocket-id_pocket-id_backend_internal_dto_AuditLogDto"
       summary: List audit logs
       tags:
         - Audit Logs
@@ -1005,32 +904,11 @@ paths:
             items:
               $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.CustomClaimDto"
             type: array
-        "400":
-          description: Bad request or validation error
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "404":
-          description: User group not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Update custom claims for a user group
       tags:
         - Custom Claims
-        - User Groups
   /custom-claims/user/{userId}:
     put:
       consumes:
@@ -1059,32 +937,9 @@ paths:
             items:
               $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.CustomClaimDto"
             type: array
-        "400":
-          description: Bad request or validation error
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "404":
-          description: User not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
-      security:
-        - BearerAuth: []
       summary: Update custom claims for a user
       tags:
         - Custom Claims
-        - Users
   /oidc/authorization-required:
     post:
       consumes:
@@ -1104,28 +959,11 @@ paths:
           description: '{ \"authorizationRequired\": true/false }'
           schema:
             type: object
-        "400":
-          description: Bad request
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "404":
-          description: Client not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Check if authorization confirmation is required
       tags:
         - OIDC
-        - Authentication
   /oidc/authorize:
     post:
       consumes:
@@ -1145,32 +983,11 @@ paths:
           description: Authorization code and callback URL
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.AuthorizeOidcClientResponseDto"
-        "400":
-          description: Bad request or validation error
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: User not authorized for client
-          schema:
-            type: object
-        "404":
-          description: Client not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Authorize OIDC client
       tags:
         - OIDC
-        - Authentication
   /oidc/clients:
     get:
       description: Get a paginated list of OIDC clients with optional search and sorting
@@ -1199,33 +1016,16 @@ paths:
           in: query
           name: sort_direction
           type: string
-      produces:
-        - application/json
       responses:
         "200":
-          description:
-            '{ \"data\": []dto.OidcClientDto, \"pagination\": utils.Pagination
-            }'
+          description: OK
           schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
+            $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-github_com_pocket-id_pocket-id_backend_internal_dto_OidcClientDto"
       security:
         - BearerAuth: []
       summary: List OIDC clients
       tags:
         - OIDC
-        - Clients
     post:
       consumes:
         - application/json
@@ -1244,32 +1044,11 @@ paths:
           description: Created client
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.OidcClientWithAllowedUserGroupsDto"
-        "400":
-          description: Bad request or validation error
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "409":
-          description: Conflict - client ID already exists
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Create OIDC client
       tags:
         - OIDC
-        - Clients
   /oidc/clients/{id}:
     delete:
       description: Delete an OIDC client by ID
@@ -1282,28 +1061,11 @@ paths:
       responses:
         "204":
           description: No Content
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "404":
-          description: Client not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Delete OIDC client
       tags:
         - OIDC
-        - Clients
     get:
       description: Get detailed information about an OIDC client
       parameters:
@@ -1319,28 +1081,11 @@ paths:
           description: Client information
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.OidcClientWithAllowedUserGroupsDto"
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "404":
-          description: Client not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Get OIDC client
       tags:
         - OIDC
-        - Clients
     put:
       consumes:
         - application/json
@@ -1364,32 +1109,11 @@ paths:
           description: Updated client
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.OidcClientWithAllowedUserGroupsDto"
-        "400":
-          description: Bad request or validation error
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "404":
-          description: Client not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Update OIDC client
       tags:
         - OIDC
-        - Clients
   /oidc/clients/{id}/allowed-user-groups:
     put:
       consumes:
@@ -1414,33 +1138,11 @@ paths:
           description: Updated client
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.OidcClientDto"
-        "400":
-          description: Bad request
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "404":
-          description: Client not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Update allowed user groups
       tags:
         - OIDC
-        - Clients
-        - User Groups
   /oidc/clients/{id}/logo:
     delete:
       description: Delete the logo for an OIDC client
@@ -1453,28 +1155,11 @@ paths:
       responses:
         "204":
           description: No Content
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "404":
-          description: Client or logo not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Delete client logo
       tags:
         - OIDC
-        - Clients
     get:
       description: Get the logo image for an OIDC client
       parameters:
@@ -1492,18 +1177,9 @@ paths:
           description: Logo image
           schema:
             type: file
-        "404":
-          description: Client or logo not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       summary: Get client logo
       tags:
         - OIDC
-        - Clients
     post:
       consumes:
         - multipart/form-data
@@ -1522,36 +1198,11 @@ paths:
       responses:
         "204":
           description: No Content
-        "400":
-          description: Bad request or invalid file
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "404":
-          description: Client not found
-          schema:
-            type: object
-        "413":
-          description: File too large (max 2MB)
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Update client logo
       tags:
         - OIDC
-        - Clients
   /oidc/clients/{id}/meta:
     get:
       description: Get OIDC client metadata for discovery and configuration
@@ -1568,18 +1219,9 @@ paths:
           description: Client metadata
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.OidcClientMetaDataDto"
-        "404":
-          description: Client not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       summary: Get client metadata
       tags:
         - OIDC
-        - Clients
   /oidc/clients/{id}/secret:
     post:
       description: Generate a new secret for an OIDC client
@@ -1596,28 +1238,11 @@ paths:
           description: '{ \"secret\": \"string\" }'
           schema:
             type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "404":
-          description: Client not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Create client secret
       tags:
         - OIDC
-        - Clients
   /oidc/end-session:
     get:
       consumes:
@@ -1641,18 +1266,9 @@ paths:
       responses:
         "302":
           description: Redirect to post-logout URL or application logout page
-        "400":
-          description: Bad request
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       summary: End OIDC session
       tags:
         - OIDC
-        - Authentication
     post:
       consumes:
         - application/x-www-form-urlencoded
@@ -1675,18 +1291,9 @@ paths:
       responses:
         "302":
           description: Redirect to post-logout URL or application logout page
-        "400":
-          description: Bad request
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       summary: End OIDC session (POST method)
       tags:
         - OIDC
-        - Authentication
   /oidc/token:
     post:
       consumes:
@@ -1724,22 +1331,9 @@ paths:
             \"token_type\": \"Bearer\" }'
           schema:
             type: object
-        "400":
-          description: Bad request or invalid code
-          schema:
-            type: object
-        "401":
-          description: Invalid client credentials
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       summary: Create OIDC tokens
       tags:
         - OIDC
-        - Authentication
   /oidc/userinfo:
     get:
       consumes:
@@ -1752,24 +1346,11 @@ paths:
           description: User claims based on requested scopes
           schema:
             type: object
-        "400":
-          description: Missing access token
-          schema:
-            type: object
-        "401":
-          description: Invalid access token
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       security:
         - OAuth2AccessToken: []
       summary: Get user information
       tags:
         - OIDC
-        - Authentication
     post:
       consumes:
         - application/json
@@ -1781,28 +1362,13 @@ paths:
           description: User claims based on requested scopes
           schema:
             type: object
-        "400":
-          description: Missing access token
-          schema:
-            type: object
-        "401":
-          description: Invalid access token
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       security:
         - OAuth2AccessToken: []
       summary: Get user information (POST method)
       tags:
         - OIDC
-        - Authentication
   /one-time-access-email:
     post:
-      consumes:
-        - application/json
       description: Send a one-time access link via email
       parameters:
         - description: Email and redirect options
@@ -1811,34 +1377,14 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.OneTimeAccessEmailDto"
-      produces:
-        - application/json
       responses:
         "204":
           description: No Content
-        "400":
-          description: Bad request
-          schema:
-            type: object
-        "404":
-          description: Email not found
-          schema:
-            type: object
-        "429":
-          description: Too many requests
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       summary: Request one-time access email
       tags:
-        - Authentication
+        - Users
   /one-time-access-token/{token}:
     post:
-      consumes:
-        - application/json
       description: Exchange a one-time access token for a session token
       parameters:
         - description: One-time access token
@@ -1846,64 +1392,27 @@ paths:
           name: token
           required: true
           type: string
-      produces:
-        - application/json
       responses:
         "200":
           description: OK
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.UserDto"
-        "400":
-          description: Bad request
-          schema:
-            type: object
-        "404":
-          description: Token not found
-          schema:
-            type: object
-        "410":
-          description: Token expired
-          schema:
-            type: object
-        "429":
-          description: Too many requests
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       summary: Exchange one-time access token
       tags:
-        - Authentication
+        - Users
   /one-time-access-token/setup:
     post:
-      consumes:
-        - application/json
       description: Generate setup access token for initial admin user configuration
-      produces:
-        - application/json
       responses:
         "200":
           description: OK
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.UserDto"
-        "400":
-          description: Setup already complete
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       summary: Setup initial admin
       tags:
-        - Authentication
-        - Setup
+        - Users
   /user-groups:
     get:
-      consumes:
-        - application/json
       description: Get a paginated list of user groups with optional search and sorting
       parameters:
         - description: Search term to filter user groups by name
@@ -1930,33 +1439,11 @@ paths:
           in: query
           name: sort_direction
           type: string
-      produces:
-        - application/json
       responses:
         "200":
-          description:
-            '{ \"data\": []dto.UserGroupDtoWithUserCount, \"pagination\":
-            utils.Pagination }'
+          description: OK
           schema:
-            type: object
-        "400":
-          description: Bad request
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
-      security:
-        - BearerAuth: []
+            $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-github_com_pocket-id_pocket-id_backend_internal_dto_UserGroupDtoWithUserCount"
       summary: List user groups
       tags:
         - User Groups
@@ -1978,26 +1465,6 @@ paths:
           description: Created user group
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.UserGroupDtoWithUsers"
-        "400":
-          description: Bad request or validation error
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "409":
-          description: Conflict - group name already exists
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Create user group
@@ -2019,26 +1486,6 @@ paths:
       responses:
         "204":
           description: No Content
-        "400":
-          description: Bad request
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "404":
-          description: User group not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Delete user group
@@ -2063,26 +1510,6 @@ paths:
           description: OK
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.UserGroupDtoWithUsers"
-        "400":
-          description: Bad request
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "404":
-          description: User group not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Get user group by ID
@@ -2111,30 +1538,6 @@ paths:
           description: Updated user group
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.UserGroupDtoWithUsers"
-        "400":
-          description: Bad request or validation error
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "404":
-          description: User group not found
-          schema:
-            type: object
-        "409":
-          description: Conflict - group name already exists
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Update user group
@@ -2164,26 +1567,6 @@ paths:
           description: OK
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.UserGroupDtoWithUsers"
-        "400":
-          description: Bad request
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "404":
-          description: User group not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       security:
         - BearerAuth: []
       summary: Update users in a group
@@ -2191,8 +1574,6 @@ paths:
         - User Groups
   /users:
     get:
-      consumes:
-        - application/json
       description: Get a paginated list of users with optional search and sorting
       parameters:
         - description: Search term to filter users
@@ -2219,39 +1600,15 @@ paths:
           in: query
           name: sort_direction
           type: string
-      produces:
-        - application/json
       responses:
         "200":
-          description:
-            '{ \"data\": []dto.UserDto, \"pagination\": utils.Pagination
-            }'
+          description: OK
           schema:
-            type: object
-        "400":
-          description: Bad request
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
-      security:
-        - BearerAuth: []
+            $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-github_com_pocket-id_pocket-id_backend_internal_dto_UserDto"
       summary: List users
       tags:
         - Users
     post:
-      consumes:
-        - application/json
       description: Create a new user
       parameters:
         - description: User information
@@ -2260,42 +1617,16 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.UserCreateDto"
-      produces:
-        - application/json
       responses:
         "201":
           description: Created
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.UserDto"
-        "400":
-          description: Bad request or validation error
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "409":
-          description: Conflict - email already exists
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
-      security:
-        - BearerAuth: []
       summary: Create user
       tags:
         - Users
   /users/{id}:
     delete:
-      consumes:
-        - application/json
       description: Delete a specific user by ID
       parameters:
         - description: User ID
@@ -2303,39 +1634,13 @@ paths:
           name: id
           required: true
           type: string
-      produces:
-        - application/json
       responses:
         "204":
           description: No Content
-        "400":
-          description: Bad request
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "404":
-          description: User not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
-      security:
-        - BearerAuth: []
       summary: Delete user
       tags:
         - Users
     get:
-      consumes:
-        - application/json
       description: Retrieve detailed information about a specific user
       parameters:
         - description: User ID
@@ -2343,41 +1648,15 @@ paths:
           name: id
           required: true
           type: string
-      produces:
-        - application/json
       responses:
         "200":
           description: OK
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.UserDto"
-        "400":
-          description: Bad request
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "404":
-          description: User not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
-      security:
-        - BearerAuth: []
       summary: Get user by ID
       tags:
         - Users
     put:
-      consumes:
-        - application/json
       description: Update an existing user by ID
       parameters:
         - description: User ID
@@ -2391,46 +1670,16 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.UserCreateDto"
-      produces:
-        - application/json
       responses:
         "200":
           description: OK
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.UserDto"
-        "400":
-          description: Bad request or validation error
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "404":
-          description: User not found
-          schema:
-            type: object
-        "409":
-          description: Conflict - email already exists
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
-      security:
-        - BearerAuth: []
       summary: Update user
       tags:
         - Users
   /users/{id}/groups:
     get:
-      consumes:
-        - application/json
       description: Retrieve all groups a specific user belongs to
       parameters:
         - description: User ID
@@ -2438,8 +1687,6 @@ paths:
           name: id
           required: true
           type: string
-      produces:
-        - application/json
       responses:
         "200":
           description: OK
@@ -2447,36 +1694,12 @@ paths:
             items:
               $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.UserGroupDtoWithUsers"
             type: array
-        "400":
-          description: Bad request
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "404":
-          description: User not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
-      security:
-        - BearerAuth: []
       summary: Get user groups
       tags:
         - Users
         - User Groups
   /users/{id}/one-time-access-token:
     post:
-      consumes:
-        - application/json
       description: Generate a one-time access token for a specific user
       parameters:
         - description: User ID
@@ -2490,38 +1713,14 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.OneTimeAccessTokenCreateDto"
-      produces:
-        - application/json
       responses:
         "201":
           description: '{ \"token\": \"string\" }'
           schema:
             type: object
-        "400":
-          description: Bad request
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "404":
-          description: User not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
-      security:
-        - BearerAuth: []
       summary: Create one-time access token
       tags:
-        - Authentication
+        - Users
   /users/{id}/profile-picture:
     put:
       consumes:
@@ -2543,32 +1742,9 @@ paths:
       responses:
         "204":
           description: No Content
-        "400":
-          description: Bad request or invalid file format
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "404":
-          description: User not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
-      security:
-        - BearerAuth: []
       summary: Update user profile picture
       tags:
         - Users
-        - Profile Picture
   /users/{id}/profile-picture.png:
     get:
       description: Retrieve a specific user's profile picture
@@ -2585,26 +1761,12 @@ paths:
           description: PNG image
           schema:
             type: file
-        "400":
-          description: Bad request
-          schema:
-            type: object
-        "404":
-          description: User or profile picture not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
       summary: Get user profile picture
       tags:
         - Users
         - Profile Picture
   /users/{id}/user-groups:
     put:
-      consumes:
-        - application/json
       description: Update the groups a specific user belongs to
       parameters:
         - description: User ID
@@ -2618,71 +1780,26 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.UserUpdateUserGroupDto"
-      produces:
-        - application/json
       responses:
         "200":
           description: OK
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.UserDto"
-        "400":
-          description: Bad request
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Forbidden
-          schema:
-            type: object
-        "404":
-          description: User not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
-      security:
-        - BearerAuth: []
       summary: Update user groups
       tags:
         - Users
-        - User Groups
   /users/me:
     get:
-      consumes:
-        - application/json
       description: Retrieve information about the currently authenticated user
-      produces:
-        - application/json
       responses:
         "200":
           description: OK
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.UserDto"
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "404":
-          description: User not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
-      security:
-        - BearerAuth: []
       summary: Get current user
       tags:
         - Users
     put:
-      consumes:
-        - application/json
       description: Update the currently authenticated user's information
       parameters:
         - description: User information
@@ -2691,39 +1808,11 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.UserCreateDto"
-      produces:
-        - application/json
       responses:
         "200":
           description: OK
           schema:
             $ref: "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.UserDto"
-        "400":
-          description: Bad request or validation error
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "403":
-          description: Account edit not allowed
-          schema:
-            type: object
-        "404":
-          description: User not found
-          schema:
-            type: object
-        "409":
-          description: Conflict - email already exists
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
-      security:
-        - BearerAuth: []
       summary: Update current user
       tags:
         - Users
@@ -2743,28 +1832,9 @@ paths:
       responses:
         "204":
           description: No Content
-        "400":
-          description: Bad request or invalid file format
-          schema:
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "404":
-          description: User not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
-      security:
-        - BearerAuth: []
       summary: Update current user's profile picture
       tags:
         - Users
-        - Profile Picture
   /users/me/profile-picture.png:
     get:
       description: Retrieve the currently authenticated user's profile picture
@@ -2775,22 +1845,7 @@ paths:
           description: PNG image
           schema:
             type: file
-        "401":
-          description: Unauthorized
-          schema:
-            type: object
-        "404":
-          description: Profile picture not found
-          schema:
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            type: object
-      security:
-        - BearerAuth: []
       summary: Get current user's profile picture
       tags:
         - Users
-        - Profile Picture
 swagger: "2.0"

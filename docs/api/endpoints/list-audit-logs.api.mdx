@@ -5,7 +5,7 @@ description: "Get a paginated list of audit logs for the current user"
 sidebar_label: "List audit logs"
 hide_title: true
 hide_table_of_contents: true
-api: eJylVE1vE0EM/SvWnEAK/UBwya0FVCFVqBL01ETI2XU2U2Z3Fo+3Iqzy37EnoUnbJS3taeSZsd/z1+tdSalg34qPjRu7MxJAaLHyDQqVEHwSiHPArvQCIVYJ5pFBFgRFx0yNQJeI3ci1yFiTECc3vurvhb3AiqDp6hnxCJIgi28qmHOs4Vh9vf352REv1Wg0jJrKgdRKxYJqdOPeybK1e98IVRmxpDl2Qdz4eLUa3Uf8ksGMuheqE7RqbEIOoQVfe3kq3NEA3ocYuroBiZAiC8yW/wCy1+9F/jwEl4S1MrtobuIKJmvGd5SJcwPYXw2x9EyFXcArTAVok+zT6300bl2ezMRCZg7TkWNKbWwSJXN6e3Rkx11ePUwm6oOCdo7halpKPDixUTqP1UeJo/xhM23qs/7WiQ/p4OL2FlbKoojaiEYMBNs2+CI/HV4nQ+of0o+za81NmWq93LshdqdYApPWJcnL4x8/jH/ZYCeLyP43lS8FeD+UwGcNyA0G0AW80fEm5sgvQ1KoRLrYXpZ5i08JmfhE81Bzal0XrGzBXe4iaBuT01td/EUsNVZFkrXAHNxhVo03php5DOfRUI0eFkZP0cRLMA76rimkdWJOH9qYpMZMeDOy5yZFWx3Kk7lTjn6b9wtUbFMSoV9y2AbU1VEuHQeLv87qyu1kpakvlKjd9v0ME11yWK3ser1vWQl9wlnQGRjPMSTaQ/sRlRzk9oOWW7G8wdDRuoD/g7tHK/dg/pXMZ4IOCeYetLu6+UzMR4TyMfhdvdwymJrB3ijkJdGRICx1mqz5a++ToqB2t1YP9nK1u0Rnn77pNv4BbZ+aeA==
+api: eJylVW1v2jAQ/iuWP20VVdt95BvqUBe1gmqlmrQWIZMcwasTZ/aFlSH+++5MGFAM7bovie7Ffs738txCZuBTpyvUtpRteQUolKhUrkuFkAmjPQo7EarONApjcy8m1gmcgkhr56BEUXtwsiUr5VQBCM7L9sPixbW3KgdR1sUYXEt4VA51mYuJs4W4oLOafX7W4OYklHQNiRQDkOTTKRRKthcS5xXrdYmQB8QMJqo2KNsXy2XrJWIvgHHoGqHwoiKhuTKGZnSh8a1w5xG8S2vqohRohbcOxXh+AIitozQ4x+A8OsrMNpp8lKkDLsZI4aOUEew7Rsy0g5QV4oPyqaAisdPHY2H8PfLmSPjKEMOwJR34ypYePB/6dH7Ov924+td0PLWUwRLZenJ2wr8NVOUs1QX16o5MYdCGgu2bU43z/fiWjFCX6A7YVqnrYNS6RlQZdTfFrMztDuTegUZhxz8oceEGmOkUor4wa54N1Pg0E/IuueqNkh7lZNC/7vZGG/nyJun2BqPO/eBL/2vyvTNI+qzudb+NoqZha69Kz6cMczpTjivMMyg7PLM3Nu9yIHc6LxMu9I62X8JAF9BJU/B+YJ+gjPtdGk3fTo1T6/Rv1fTMjksPfsW8hpQJnUUTpKtOllEXxVPNtJJ8jphiZWgUyjk1Z7khsNCGe3204i2mpMicc1zcf7fgDnugRWWSdZsesPPxqH3/ARHNMihVvqmkoEx7Lj2x7NRSSmUOGIgXpyScBYo+ZYoOMz+x4bE0fSrlNuTrNBoGIfuMeHo1pCFd1mOhQq4afrhh3t+QfqCBrdFebMb6P1ZG82aEZzyrjCKe4ro7E2oWXvUgt15FT59SoKxdLMbKw70zyyWrV+QW1o72amyAsjNRxsORsF9ZSdHYnmC+2UwzZWpYJfBfcI8spiOY6/30TtDYdjqCtruk3on5ylZ6DX57OW0iGLLgNIdA9WZymYLKqJu4+KvTTGbVdq547Sy35+aqO6AJ+wMvhw8k
 sidebar_class_name: "get api-method"
 custom_edit_url: null
 ---
@@ -61,7 +61,7 @@ Get a paginated list of audit logs for the current user
 <StatusCodes
   id={undefined}
   label={undefined}
-  responses={{"200":{"description":"{ \\\"data\\\": []dto.AuditLogDto, \\\"pagination\\\": utils.Pagination }","content":{"application/json":{"schema":{"type":"object"}}}},"400":{"description":"Bad request","content":{"application/json":{"schema":{"type":"object"}}}},"401":{"description":"Unauthorized","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+  responses={{"200":{"description":"OK","content":{"*/*":{"schema":{"properties":{"data":{"items":{"properties":{"city":{"type":"string"},"country":{"type":"string"},"createdAt":{"type":"string"},"data":{"additionalProperties":{"type":"string"},"type":"object"},"device":{"type":"string"},"event":{"enum":["SIGN_IN","TOKEN_SIGN_IN","CLIENT_AUTHORIZATION","NEW_CLIENT_AUTHORIZATION"],"type":"string","x-enum-varnames":["AuditLogEventSignIn","AuditLogEventOneTimeAccessTokenSignIn","AuditLogEventClientAuthorization","AuditLogEventNewClientAuthorization"]},"id":{"type":"string"},"ipAddress":{"type":"string"},"userID":{"type":"string"}},"type":"object"},"type":"array"},"pagination":{"properties":{"currentPage":{"type":"integer"},"itemsPerPage":{"type":"integer"},"totalItems":{"type":"integer"},"totalPages":{"type":"integer"}},"type":"object"}},"type":"object"}}}}}}
 >
   
 </StatusCodes>
