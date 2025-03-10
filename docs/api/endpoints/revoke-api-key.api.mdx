@@ -1,0 +1,70 @@
+---
+id: revoke-api-key
+title: "Revoke API key"
+description: "Revoke (delete) an existing API key by ID"
+sidebar_label: "Revoke API key"
+hide_title: true
+hide_table_of_contents: true
+api: eJylVE1v2zAM/SuCTi2QIlnXXXJL1xQINhRDsZ6KHGibqdU6kkbRWTPD/32k46BNHQwY4otl6YmPH++5sQWmnFxkF7yd2nvchBc0ZwVWyHhuwBt8dYmdfzKzHwvzgluTbc3ixo5sBIK1oCjZ6WPzIZCCv2GPdLoTgUtZe7kjX66QNeGv2hEWdspU48imvMQ12GljeRsVlZiE2bbtUsEpBp8w6fnl5Epfh5x3wXwNntGzbUf2ajIZQq6hMMqKiYU/79ECgxgrl4PCxs9Jsc0wnZA9Yy7B5dH4n4bxHzzUXAZyf7A4neDzkOA2UOaKAr25MHeBTfjtkUxYGS5xP6HTiY80dz99L6SrUPuTy/tybD4LCUgeKpOQNlIYEgU6jUmoEuY1Od52Or1GIKSZjEk+l6oshieV8F6zycqeCLsMIky7c0Ind71hxxDdhTQijRtXtJ24V0GZNUXINUVhZMeV5iHnUkbaFaeqjCHxGrqkeyf0lnub3UFHmrfS/8ucfR8YX3kcKxAHCnlNlUbcVfJo95UIfCp+lKpLyU5PmiaDhA9Uta1ui19ImyfLDZCDTGtTy7uka2nTCqqE/0j97L63+rk5+DMcTbPfBK/d2EBV953U9nR/jnYpqBKhQOry2B3M8hwjv7syUEr7frA38+/zn3ORyF9lRLDq
+sidebar_class_name: "delete api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Revoke API key"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/api-keys/{id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Revoke (delete) an existing API key by ID
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"description":"API Key ID","in":"path","name":"id","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"No Content"},"400":{"description":"Bad request","content":{"application/json":{"schema":{"type":"object"}}}},"401":{"description":"Unauthorized","content":{"application/json":{"schema":{"type":"object"}}}},"403":{"description":"Forbidden - Not owner of the API key","content":{"application/json":{"schema":{"type":"object"}}}},"404":{"description":"API key not found","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,70 @@
+---
+id: update-logo
+title: "Update logo"
+description: "Update the application logo"
+sidebar_label: "Update logo"
+hide_title: true
+hide_table_of_contents: true
+api: eJydVMFu2zAM/RVDp7VIkGzLLrmlAwYMGIYdmlOTg2zTtlZZ0ig5WGbo30fKDuo2bQPkZEskHx8pPvaiBF+gckFZI9Zi60oZIAsNZNI5rQrJhkzb2oqZcBJlCwHQi/VD/yL0h6qbkLW2hOSefQjYwU1mMSslPk4NldQebghPcdyfDvBIB0PQdNQMQ0dfNNBKse5FODo25NZqkEbEuJ8JBArz4c6WR3YprAlgAv+2nQ6KiIZFZbGdUzkJ5AzO5r+h4EQOrQMMCjxbK6WBvy9qY96qlTVkyWF2QvEBlanpzMlkYJrKSKonxoGkQiipWQPuPj6/5g6lC++s8QOBT8vVef6fNvs6lkj+q+Xy3KXfCUC0uBPrbCe+m4PUqkxsdyISwUmLbhe377UkJpar5cdLSbZGdqGxqP5BeW2Sz5eSfLOYq7IEc12GL5d7lX6zFryn970mC6XxUHSowjHp4g4kAm6oN3Tc87gGWbNkxGaiKXrQStUdppMgJ1JWY2kqhOvSXEqOF4uJDufFNGYxqlKZyp5EIAsmTYSCCjzIguwH0utQNw+Psz60JCMKGBU3an5Ee9apibIurIaxKwH+hoXTkpRNuTrUjDFU8iDerITiEww1oSF67Nv3ufSwRR0jXw9LIi0d5WWuWT1pjbxD+IqF9GoVj3Cc7CXSVZcay+96kKiYTXpnIg+yBEw0h6BRtPN7xn2KfW1HxdkpaFMU4KapeATjdEB+be/JnI/LjwuhS4ZKSLOnX6YV43+CowDe
+sidebar_class_name: "put api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Update logo"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/application-configuration/logo"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Update the application logo
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"description":"Light mode logo (true) or dark mode logo (false)","in":"query","name":"light","schema":{"type":"boolean"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"multipart/form-data":{"schema":{"type":"object","properties":{"file":{"description":"Logo image file","type":"string","format":"binary"}},"required":["file"]}}},"required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"No Content"},"400":{"description":"{\"error\": \"Invalid file\"}","content":{"*/*":{"schema":{"type":"object"}}}},"401":{"description":"{\"error\": \"Unauthorized\"}","content":{"*/*":{"schema":{"type":"object"}}}},"403":{"description":"{\"error\": \"Forbidden\"}","content":{"*/*":{"schema":{"type":"object"}}}},"500":{"description":"{\"error\": \"error message\"}","content":{"*/*":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

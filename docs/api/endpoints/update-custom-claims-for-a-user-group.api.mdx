@@ -1,0 +1,70 @@
+---
+id: update-custom-claims-for-a-user-group
+title: "Update custom claims for a user group"
+description: "Update or create custom claims for a specific user group"
+sidebar_label: "Update custom claims for a user group"
+hide_title: true
+hide_table_of_contents: true
+api: eJzFVU1v2zAM/SuCThuQIt3WXXJruw8U2GEo2lORgyIxsTpb0ii5a2b4v4+UncZOjRZDBiyHRGb48fhIPTfSQNRoQ7LeyYW8DUYlEB6FRuCTrmPyldClslUUa/pDiRhA27XVoo6AYoO+DnImg0JVQQKMcnHXHOZlz6/sKa4+kbNlY1CpoLOjMHriZNnjypAR4WdtEYxcJKxhJqMuoFJy0ci0DeweE1q3kW277JwhpgtvtuyhvUvgEh9VCKXVilHM7yNDaQapbIIq8iGgD4DJQn76AduJQjP5oMoapiAM4d7l8J0zgeud/eoedOI0vUEhqi0Fk2XM1Tcbk/DrA+qTFxFSnkAqYEz9mKwMJwbvYtfO+9NT/pkatBkXoVT/gbtXCSLT2VQPF8qIfvS8sVTCmgxXAKLHv+nmAENf890Eb07VqfBof4M5vsCH5wW+eFxZY8Adn/1sAv7T2gjneZtqd3QbH6dmc0UJ0amSlhYfqOY/mAiViqBrtGmbFeYCFAKe0zjocck6kNSGxUdedkt9uVvqvfpEvpGkUoU3LEB1ysLFGeS8uwon3VWY8wU7yUzNm4E0tRTAYK/3kvP5UVWhhIwpr/9uuZ+2/mnbl6x8a78TKaWZCN54mziB5BAS0I5CvgrBx1SpTE0vk71CT+nySBNG4xho4jES388kwWOaB3J3DLHGMstAZvFOjlikmD2P9LAYijyRUVB7HNQ0KxXhFsu2ZTNRizzjJTOIVq16do2NfKbRrVUZ4YUm31z3kvhWHL56JpvYSY7bDqZGx26eQ9TtktwLUAZwMPHLrvLJDefZZ3i24u1sF3GuNYT0ou9wVb/f3pDvqn/DVd5wCKpfrP70ncH6TESW4WxrZKncplYb9u1S8ucP1GrDBQ==
+sidebar_class_name: "put api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Update custom claims for a user group"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/custom-claims/user-group/{userGroupId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Update or create custom claims for a specific user group
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"description":"User Group ID","in":"path","name":"userGroupId","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"required":["key","value"],"type":"object"},"type":"array"}}},"description":"List of custom claims to set for the user group","required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Updated custom claims","content":{"application/json":{"schema":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"}}}},"400":{"description":"Bad request or validation error","content":{"application/json":{"schema":{"type":"object"}}}},"401":{"description":"Unauthorized","content":{"application/json":{"schema":{"type":"object"}}}},"403":{"description":"Forbidden","content":{"application/json":{"schema":{"type":"object"}}}},"404":{"description":"User group not found","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

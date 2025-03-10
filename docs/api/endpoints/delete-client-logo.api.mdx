@@ -1,0 +1,70 @@
+---
+id: delete-client-logo
+title: "Delete client logo"
+description: "Delete the logo for an OIDC client"
+sidebar_label: "Delete client logo"
+hide_title: true
+hide_table_of_contents: true
+api: eJydU02P0zAQ/SuWT7CqlALLpbelLVIlBBJiT6seps60Mbh2djxZUaL8d2YSS3S3KwSbS/zx/PzmzXNva8yOfMs+RbuwKwzIaLhBE9IhmX0iA9F82ayWxgWPke3MtkBwFBhlu7jrnzAsR5TZrATodaEFbmQc5YjMfC1jwvvOE9Z2wdThzGbX4BHsord8ahWVmXw82GHYKji3KWbMuv92fq2/x1d+TmaZIqu4YWav528uIbcROm4S+V+oAlyBC+6qutLfhYS0+45OCOVTzneXnB8T7XxdY3wR4TN1FOvE8tH7mFj87+JLBL+fzy/5N8JBEYLJSA9IBokS/Te5sGd0HXk+je3/gEBIN2KvTLfaMYaDJsNqaoR+Kitb2ZHUNEnaLsI0Z2OW9Jytkq9dNSUsV72vh0o9GDO0TypERYJTkSKAPQeVJftSSJ7K0+a3KfMRoh4ogSuJnqhNIX3kS//HgH/Lf/GE8SdXbQBJudzcUVCqqZ47q/WotaX2mV2MyR/vFyMa0amwvt9BxlsKw6DL9x2SuirDByAPO61Sn5jPOhbn9hAy/qWAV1/L23ptzl/is5LLIsST+gihK5b+wNP0UoetoBqEGmmUMW3cOIctnx3R0Azn3V2tP62/rSUtvwHBDXOR
+sidebar_class_name: "delete api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Delete client logo"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/oidc/clients/{id}/logo"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Delete the logo for an OIDC client
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"description":"Client ID","in":"path","name":"id","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"No Content"},"401":{"description":"Unauthorized","content":{"*/*":{"schema":{"type":"object"}}}},"403":{"description":"Forbidden","content":{"*/*":{"schema":{"type":"object"}}}},"404":{"description":"Client or logo not found","content":{"*/*":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"*/*":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

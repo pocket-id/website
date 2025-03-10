@@ -1,6 +1,8 @@
 import type * as Preset from "@docusaurus/preset-classic";
 import type { Config } from "@docusaurus/types";
 import { themes as prismThemes } from "prism-react-renderer";
+import type * as OpenApiPlugin from "docusaurus-plugin-openapi-docs";
+import type * as Plugin from "@docusaurus/types/src/plugin";
 
 const config: Config = {
   title: "Pocket ID",
@@ -28,6 +30,7 @@ const config: Config = {
         docs: {
           routeBasePath: "/docs",
           sidebarPath: "./sidebars.ts",
+          docItemComponent: "@theme/ApiItem",
           editUrl: "https://github.com/pocket-id/website/edit/main",
         },
         blog: false,
@@ -66,6 +69,32 @@ const config: Config = {
     },
   } satisfies Preset.ThemeConfig,
 
+  // Everytime new api docs are generated from swagger and put into static/api.yaml
+  // we need to run this command: npx docusaurus gen-api-docs all to regenerate the api doc files.
+
+  plugins: [
+    [
+      "docusaurus-plugin-openapi-docs",
+      {
+        id: "openapi",
+        docsPluginId: "classic",
+        config: {
+          pocketid: {
+            specPath: "static/api.yaml",
+            outputDir: "docs/api/endpoints",
+            // downloadUrl:
+            //   "https://raw.githubusercontent.com/PaloAltoNetworks/docusaurus-template-openapi-docs/main/examples/petstore.yaml",
+            sidebarOptions: {
+              groupPathsBy: "tag",
+              categoryLinkSource: "tag",
+            },
+          } satisfies OpenApiPlugin.Options,
+        } satisfies Plugin.PluginOptions,
+      },
+    ],
+  ],
+
   clientModules: [require.resolve("./src/version-label.ts")],
+  themes: ["docusaurus-theme-openapi-docs"],
 };
 export default config;

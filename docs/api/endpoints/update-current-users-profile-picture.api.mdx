@@ -1,0 +1,70 @@
+---
+id: update-current-users-profile-picture
+title: "Update current user's profile picture"
+description: "Update the currently authenticated user's profile picture"
+sidebar_label: "Update current user's profile picture"
+hide_title: true
+hide_table_of_contents: true
+api: eJylVMGO2jAQ/RXLl7ZSUGhFL9yWVbVqDysOywlxMMkA3ia2Ox6jUpR/70xiBAj2xCWxnZl5b57n5ahriBXaQNY7PdWLUBsCRTtQVUIER81BmcR7R7biT7VKEfBTVAH9xjaggq0oIehCI/xJEGnm64OeHnXlHXGWLNvUkA0Gqdx4bEcMYeQ4Vjto+xUdAjC6X79DRVyKiwdAshDlq+DI+5rq/JqAsq3ZguqPPs9fXwr1a84Pj/z+8fKFi2aQSGjdlvfCxTA/vbbO4EF33dCDRaj1dDnArrrrY8IE/UEM3sWB37fx5Jbeq1fPWQGOn4zHtyEzU6ssmvC0bm8aWw8tZHLFpYwmhEYugbPL9yglPtaw63lPxl9vYRdOLtSj/ccNPQxwp/UFT4hynriJ5B6G+H5Pup9cEJ1pFEPtGQ0QPT6GxFAReOgt8fguj3oGBgGfWCrerroVD5DZRhkM6S8y2GkC59kCHNICK8tjokPq59hIti7FM7FsocyuGZ1dY93Gn+xiKmHORMiSjLzm79xdHHqWOQo+Umv6Xpxp4ezY7NaP3Xml34U7H7J8VpHgL5WhMdYJx4SNIAy9L3XKarUwGPuqf5Zsxy1J3PG4NhEW2HSdHLMtUC6Cl3uD1qxFEL4HTgBTA/Z39Bs4RGefjd6EjYQ3SVjd++t0xSnpqaog0EX4zbx0l/c5X7xx7Dr/21pfS4rU7csW56Vw7Lr/4Anb0w==
+sidebar_class_name: "put api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Update current user's profile picture"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/users/me/profile-picture"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Update the currently authenticated user's profile picture
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"multipart/form-data":{"schema":{"type":"object","properties":{"file":{"description":"Profile picture image file (PNG, JPG, or JPEG)","type":"string","format":"binary"}},"required":["file"]}}},"required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"204":{"description":"No Content"},"400":{"description":"Bad request or invalid file format","content":{"application/json":{"schema":{"type":"object"}}}},"401":{"description":"Unauthorized","content":{"application/json":{"schema":{"type":"object"}}}},"404":{"description":"User not found","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

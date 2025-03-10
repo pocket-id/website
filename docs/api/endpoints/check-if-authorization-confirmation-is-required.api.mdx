@@ -1,0 +1,70 @@
+---
+id: check-if-authorization-confirmation-is-required
+title: "Check if authorization confirmation is required"
+description: "Check if the user needs to confirm authorization for the client"
+sidebar_label: "Check if authorization confirmation is required"
+hide_title: true
+hide_table_of_contents: true
+api: eJytVE1z2jAQ/SsancmQdtILt0B64JROmpwgh0VeQIktqSs5DfX4v3dXxok9pJ3OUA4gpH378fbtNrrAaMiGZL3TM73Yo3lWdqvSHlUdkZRDLKJKXhnvtpYqBXXae7K/QCBq6ynbmtKiS3qiCX/UGNPcFwc9azSjkjzwEUIorcmw6VOUcI2OZo8VyCmQD0jJYsyw7G55I+d0CMipxUTW7XQ7YZCXm5OXtotuCQs9W7376BGPkx7hN09oEiMYMibgelSdyXQEIKgwIUU9jJCoxhwyBu9il/fny0v5Gfts1Hq91iPe7o5e5GGmxNN0C2VE1XKIf+bspBpO5+qjDOZQqGNjzvf/6dT/g+urY2LODnB1GmCRe6mcT6y42p0d5MtHLC3ZITkoFev+haWPRJ7OiyRqRVOTTTwNq0bPEQhJRMZ/H1tRJOyiqPV2ebPgWPLEsY4xRLKsvL1nuengc/cCCFhPvS3MdCSqizdtTrQkd/c+il9foQoljkerH5y3iRrMmHVb388vGKmdL5NN4kMzgvmJHWtiLalVkNlwPCrDRTJeF8cl0v2xUQ0yHvVisDj+w0469iXha5qGEqyTnGsq897JdK600MmmfyCU+7AX+tmwaTYQ8YHKtpVrppikt3x8AbKwEYa4tQxAKJBy25/xIIV0JV3cSzpiXtaS1omm2kmPuDYGQ/qr7VAh326/37Px5rh7K18IhuCn7C3+zp3zmeK8rfJdo0twuxp2Ytv5lM9vu0MidQ==
+sidebar_class_name: "post api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Check if authorization confirmation is required"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/oidc/authorization-required"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Check if the user needs to confirm authorization for the client
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"properties":{"clientID":{"type":"string"},"scope":{"type":"string"}},"required":["clientID","scope"],"type":"object"}}},"description":"Authorization check parameters","required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"{ \\\"authorizationRequired\\\": true/false }","content":{"application/json":{"schema":{"type":"object"}}}},"400":{"description":"Bad request","content":{"application/json":{"schema":{"type":"object"}}}},"401":{"description":"Unauthorized","content":{"application/json":{"schema":{"type":"object"}}}},"404":{"description":"Client not found","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

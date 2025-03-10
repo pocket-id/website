@@ -1,0 +1,70 @@
+---
+id: create-user
+title: "Create user"
+description: "Create a new user"
+sidebar_label: "Create user"
+hide_title: true
+hide_table_of_contents: true
+api: eJzFVk1v2zAM/SuGzimaduthuaXFNhQYtmFrT0EPisUk6mxJo+Q2meH/PlJ2EgcW0q8ByyGRZH7I75GPqYUCn6N2QVsjJuIKQQbIZGbgMas8oBgJhN8V+HBp1UZMapFbE8AEXkrnCp1L9j299xygFj5fQSl55dA6wKDB844OdcGLsHFAmXxAbZaiGYmFRh++yhL4aSnXX8Asw0pMLsYjUWqz3Z6Nhq7aTxWZ9MLOrS1AGn5YyNeG5Rc3T3qeDzybFiyNoMRk1r1y/wV7l+pludsFsvN7yAMFokiHxNyScabNwmIZ8Rb9VAEriLm9s8a3eJ+Pz/gnRa8i51eymFc+2PKqkLqMex2gXRya/YJNkuoHWVSQeNIMENgdSES54f0zC2hYIyp9/NzSGXgWSrrrdFCm9DPayh0DJ29JmIZkiP+I8AI1GFVsXgrlEUBMOtRzbtNvwifdY8e8H4+HJX8pVdYpWGYxI3y0irWeAaLFl7RCOmeizW6NrMLKov7zsl5LJ3g3TPDJ4lwrBebt0T8kVMKaBcUJ2UkWmy6TBZWs2mSw1j74t+a8SNF0TQGJ7iIj1h9I6v4BOZTKQ16hDtQqs1pcgkTAacXaPbtrWHXl0rNQs7h6luESiDaqZOGsD5TdSTYWp1U0GAlO+2M/Dj+uZekK6I23bYkeiNL+cCc6rNh9mdmb7Mu+33gk/NvZK3NGg1tAB84tyIkQ8y2ObM2XL2XEp4vUjfVuoB8g3xvoyenf4RpgHU4dqVLUxwqjErfwzES1xW/FsNFBXc+lh1ssmoaPCTBkDu5Yn1DLOd+bKCAHqitKw/RERePa48uc3HDanZwNuW9GW49pnoMLR237zH7/9vOGjOfdv5nSKvZB+cgTlb4jnjaCE4U2ntVElVlWcsm2bUz+/AXx7i7w
+sidebar_class_name: "post api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Create user"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/users"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Create a new user
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"properties":{"email":{"type":"string"},"firstName":{"maxLength":50,"minLength":1,"type":"string"},"isAdmin":{"type":"boolean"},"lastName":{"maxLength":50,"minLength":1,"type":"string"},"username":{"maxLength":50,"minLength":2,"type":"string"}},"required":["email","firstName","lastName","username"],"type":"object"}}},"description":"User information","required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"201":{"description":"Created","content":{"application/json":{"schema":{"properties":{"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"email":{"type":"string"},"firstName":{"type":"string"},"id":{"type":"string"},"isAdmin":{"type":"boolean"},"lastName":{"type":"string"},"ldapId":{"type":"string"},"userGroups":{"items":{"properties":{"createdAt":{"type":"string"},"customClaims":{"items":{"properties":{"key":{"type":"string"},"value":{"type":"string"}},"type":"object"},"type":"array"},"friendlyName":{"type":"string"},"id":{"type":"string"},"ldapId":{"type":"string"},"name":{"type":"string"}},"type":"object"},"type":"array"},"username":{"type":"string"}},"type":"object"}}}},"400":{"description":"Bad request or validation error","content":{"application/json":{"schema":{"type":"object"}}}},"401":{"description":"Unauthorized","content":{"application/json":{"schema":{"type":"object"}}}},"403":{"description":"Forbidden","content":{"application/json":{"schema":{"type":"object"}}}},"409":{"description":"Conflict - email already exists","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

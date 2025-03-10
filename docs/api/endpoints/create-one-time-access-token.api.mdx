@@ -1,0 +1,70 @@
+---
+id: create-one-time-access-token
+title: "Create one-time access token"
+description: "Generate a one-time access token for a specific user"
+sidebar_label: "Create one-time access token"
+hide_title: true
+hide_table_of_contents: true
+api: eJylVU1vGjEQ/Ssrn1oJRNqml71B+qGcWqXhBByG9QBOFtsde1Poav97Z7xLIWEVVYUDjO35fPZ71EpjKMj4aJxVufqKFgkiZpA5i8NotmwWBYaQRfeINls54rPgsTArU2RVQFID5YFgixEpqHxWv8g5ZZ/s9hO7GVl6iBu2LQfwymi2CX9WhlCrPFKFAxWKDW5B5bWKey9eIZKxa9U0i9YZQ5w4vRePwtmINooJ3pemACk7eghSuz5J5cl5pGgwyAp3niuGceypMlAy1q3ua+C02dlJlr8x3GEX45YPWESO4aDniNwnKF1ahrP5U43g+aht9f3VO/l5nqLO5vO5SnciRp6WbZdiZQ2n/WdozhrmFq6vrs6rTkBnHf6X5++ZamqhihtH5jfqywt8OC/wxdHSaI328uzXPe3LS7cuMksqe/EAH/tu4JYTkoUy41JPXA2JHF1WiUsFLCoycZ/YO0EgpDFfBC8XQrkIayG2kj0u0iWXp86k3zgtrHbpSSRy52okZAij2uhmdNCRYasjw/Rm2VVauzty+fMOtr7EF9w8EO9IyROWGrtyBwmAQmbnzWiiZFEcwviEFjXxlg63kNDotOeGUKSuV+jUC86eCM3/imSHfMRdHPkSWAxFaahM4pRwm6UpRRHypIv90DHsG0Gb3et6CQGnVDaNbDOYJHfI5hOQgaUgIXpsgtiM3grKgK+M9uauk6K32VG2exvvNsHuBWkoqw70R9y3st4s2GuDoHl4aaI9uGlLDe8l/Bh49mabwSFizLP7+Krv6UP8/u3HPTsvu7+HrdMSQ/BLdJa/U5MH6WWHtFerEuy6grX4tjnl8wfiQnSM
+sidebar_class_name: "post api-method"
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Create one-time access token"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/users/{id}/one-time-access-token"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Generate a one-time access token for a specific user
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"description":"User ID","in":"path","name":"id","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"properties":{"expiresAt":{"type":"string"},"userId":{"type":"string"}},"required":["expiresAt","userId"],"type":"object"}}},"description":"Token options","required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"201":{"description":"{ \\\"token\\\": \\\"string\\\" }","content":{"application/json":{"schema":{"type":"object"}}}},"400":{"description":"Bad request","content":{"application/json":{"schema":{"type":"object"}}}},"401":{"description":"Unauthorized","content":{"application/json":{"schema":{"type":"object"}}}},"403":{"description":"Forbidden","content":{"application/json":{"schema":{"type":"object"}}}},"404":{"description":"User not found","content":{"application/json":{"schema":{"type":"object"}}}},"500":{"description":"Internal server error","content":{"application/json":{"schema":{"type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
