@@ -11,7 +11,7 @@ id: memos
 3. Set the callback URL to: `https://< Memos Host >/auth/callback`  
 4. Copy the `Client ID`, `Client Secret`, `Authorization endpoint`, `Token endpoint`, and `User endpoint` for the next steps.  
 
-## Gitea Setup
+## Memos Setup
 
 1. Log in to Memos as an admin.
 2. Go to **Settings → SSO → Create**.  
