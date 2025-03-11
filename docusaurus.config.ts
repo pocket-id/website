@@ -69,9 +69,6 @@ const config: Config = {
     },
   } satisfies Preset.ThemeConfig,
 
-  // Everytime new api docs are generated from swagger and put into static/api.yaml
-  // we need to run this command: npx docusaurus gen-api-docs all to regenerate the api doc files.
-
   plugins: [
     [
       "docusaurus-plugin-openapi-docs",
@@ -80,10 +77,8 @@ const config: Config = {
         docsPluginId: "classic",
         config: {
           pocketid: {
-            specPath: "static/api.yaml",
+            specPath: "static/swagger.yaml",
             outputDir: "docs/api/endpoints",
-            // downloadUrl:
-            //   "https://raw.githubusercontent.com/PaloAltoNetworks/docusaurus-template-openapi-docs/main/examples/petstore.yaml",
             sidebarOptions: {
               groupPathsBy: "tag",
               categoryLinkSource: "tag",
