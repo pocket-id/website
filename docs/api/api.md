@@ -20,4 +20,8 @@ Make sure you copy the API Key from the Dialog window it will not be shown again
 
 ## Endpoints
 
+:::important  
+All endpoints should have the `X-API-KEY` header with the content being the API Key when sending a request. 
+:::
+
 See the next pages for the endpoints that are available in the API.
