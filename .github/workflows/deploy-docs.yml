@@ -35,6 +35,9 @@ jobs:
         run: |
           cd pocket-id/backend
           swag init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml -o ../../static
+      
+      - name: Remove Pocket ID repo
+        run: rm -rf pocket-id
 
       - name: Install dependencies
         run: npm install
