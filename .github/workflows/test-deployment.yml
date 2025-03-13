@@ -19,6 +19,32 @@ jobs:
             cache: "npm"
             cache-dependency-path: package-lock.json
 
+      - name: Checkout pocket-id/pocket-id repo
+        uses: actions/checkout@v4
+        with:
+          repository: pocket-id/pocket-id
+          path: pocket-id
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: "npm"
+          cache-dependency-path: package-lock.json
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+
+      - name: Install swag
+        run: go install github.com/swaggo/swag/cmd/swag@latest
+      
+      - name: Generate Swagger docs
+        run: |
+          cd pocket-id/backend
+          swag init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml -o ../../static
+      
+      - name: Remove Pocket ID repo
+        run: rm -rf pocket-id
+
       - name: Install dependencies
         run: npm install
       - name: Test build website
