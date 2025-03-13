@@ -69,8 +69,10 @@ Required tools:
 You can now sign in with the admin account on `http://localhost/login/setup`.
 
 # Unofficial Installation Methods
-> [!IMPORTANT]
-> These installation methods are not official supported and services may not work as expected. 
+
+:::important
+These installation methods are not official supported and services may not work as expected. 
+:::
 
 ### Proxmox
 
