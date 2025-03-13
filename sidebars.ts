@@ -34,7 +34,10 @@ const sidebars: SidebarsConfig = {
         type: "doc",
         id: "api/api",
       },
-      items: [...require("./docs/api/endpoints/sidebar.ts")],
+      items:
+        process.env.API_DOCS_DISABLED === "true"
+          ? []
+          : [...require("./docs/api/endpoints/sidebar.ts")],
     },
     {
       type: "category",
@@ -83,7 +86,7 @@ const sidebars: SidebarsConfig = {
       label: "Demo",
       href: "https://demo.pocket-id.org",
     },
-        {
+    {
       type: "link",
       label: "Discord",
       href: "https://discord.gg/Pwctrasts5",
