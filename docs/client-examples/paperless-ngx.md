@@ -26,6 +26,6 @@ PAPERLESS_SOCIALACCOUNT_PROVIDERS='{"openid_connect":{"SCOPE":["openid","profile
 2. Restart your docker containers.
 3. Now you should be able to login to paperless using OAuth.
 3. To allow for your existing paperless-ngx user ID to be linked to the user in Pocked ID
-   - Login to paperless-ngx using the password authetication.
+   - Login to paperless-ngx using the password authentication.
    - Click on your user name on the top right corner and click **My Profile**.
    - Link the account to Pocket ID using the **Connect new social account** option.

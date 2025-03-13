@@ -16,6 +16,6 @@ id: miniflux
    OAUTH2_OIDC_DISCOVERY_ENDPOINT=https://<POCKET ID DOMAIN> # no trailing slashes or ".well-known/openid-configuration"
    OAUTH2_OIDC_PROVIDER_NAME=PocketID
    OAUTH2_USER_CREATION=1 # optional, if you want nes users to be created automatically
-   DISABLE_LOCAL_AUTH=1 # optiona, if you want to disable local authentication
+   DISABLE_LOCAL_AUTH=1 # optional, if you want to disable local authentication
    ```
 5. Restart Miniflux and enjoy!

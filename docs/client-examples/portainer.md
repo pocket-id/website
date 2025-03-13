@@ -20,7 +20,7 @@ The following example variables are used, and should be replaced with your actua
 
 # Portainer Setup
 
-- While initally setting up OAuth in Portainer, its recommended to keep the `Hide internal authentication prompt` set to `Off` incase you need a fallback login
+- While initially setting up OAuth in Portainer, its recommended to keep the `Hide internal authentication prompt` set to `Off` incase you need a fallback login
 - This guide does **NOT** cover how to setup group claims in Portainer.
 
 > Make sure to enabled the `Automatic user provisioning` option so users are auto-created in Portainer.
