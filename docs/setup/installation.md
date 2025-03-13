@@ -23,22 +23,6 @@ Pocket ID requires a [secure context](https://developer.mozilla.org/en-US/docs/W
 
 You can now sign in with the admin account on `http://localhost/login/setup`.
 
-### Proxmox
-
-Run the [helper script](https://community-scripts.github.io/ProxmoxVE/scripts?id=pocketid) as root in your Proxmox shell. 
-
-**Configuration Paths**
-- /opt/pocket-id/backend/.env
-- /opt/pocket-id/frontend/.env
-
-```bash
-bash -c "$(wget -qLO - https://github.com/community-scripts/ProxmoxVE/raw/main/ct/pocketid.sh)"
-```
-
-### Unraid
-
-Pocket ID is available as a template on the Community Apps store.
-
 ### Stand-alone Installation (advanced)
 
 Required tools:
@@ -81,5 +65,25 @@ Required tools:
    cd ..
    pm2 start --name pocket-id-caddy caddy -- run --config reverse-proxy/Caddyfile
    ```
-
+   
 You can now sign in with the admin account on `http://localhost/login/setup`.
+
+# Unofficial Installation Methods
+> [!IMPORTANT]
+> These installation methods are not official supported and services may not work as expected. 
+
+### Proxmox
+
+Run the [helper script](https://community-scripts.github.io/ProxmoxVE/scripts?id=pocketid) as root in your Proxmox shell. 
+
+**Configuration Paths**
+- /opt/pocket-id/backend/.env
+- /opt/pocket-id/frontend/.env
+
+```bash
+bash -c "$(wget -qLO - https://github.com/community-scripts/ProxmoxVE/raw/main/ct/pocketid.sh)"
+```
+
+### Unraid
+
+Pocket ID is available as a template on the Community Apps store.
