@@ -1,0 +1,15 @@
+# Typos configuration file
+
+[default]
+extend-ignore-re = [
+  # Add regex patterns to ignore specific cases here
+]
+
+[files]
+extend-exclude = [
+  # Add filenames or patterns to exclude from checking
+  "package-lock.json",
+  "node_modules/",
+  ".docusaurus/",
+  "build/"
+]
