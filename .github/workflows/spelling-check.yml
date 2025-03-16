@@ -22,3 +22,11 @@ jobs:
           # Optional configuration settings
           config: ./.github/workflows/typos-config.toml # Only needed if you want a custom config
           write_changes: false # Don't automatically fix typos
+          
+      - name: Find typos manually and display them
+        if: ${{ failure() }}
+        run: |
+          echo "::group::Found typos"
+          typos --config ./.github/workflows/typos-config.toml
+          echo "::endgroup::"
+        continue-on-error: true
