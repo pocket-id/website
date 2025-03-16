@@ -1,0 +1,25 @@
+name: Check Spelling
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-typos:
+    name: Check Spelling
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run typos check
+        uses: crate-ci/typos@v1.16.24
+        with:
+          # Optional configuration settings
+          config: ./.github/typos-config.toml # Only needed if you want a custom config
+          write_changes: false # Don't automatically fix typos
+          isolated: true # Exit with error code on typos
