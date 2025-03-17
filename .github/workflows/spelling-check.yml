@@ -19,14 +19,5 @@ jobs:
       - name: Run typos check
         uses: crate-ci/typos@v1.16.24
         with:
-          # Optional configuration settings
-          config: ./.github/workflows/typos-config.toml # Only needed if you want a custom config
-          write_changes: false # Don't automatically fix typos
-          
-      - name: Find typos manually and display them
-        if: ${{ failure() }}
-        run: |
-          echo "::group::Found typos"
-          typos --config ./.github/workflows/typos-config.toml
-          echo "::endgroup::"
-        continue-on-error: true
+          config: ./.github/workflows/typos-config.toml
+          write_changes: false 
