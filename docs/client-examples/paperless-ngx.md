@@ -21,7 +21,7 @@ Below URLs are used as placeholders for the paperless-ngx and Pocket ID instance
 1. Add The below environment variables for the paperless-ngx web server container. See the [docs](https://docs.paperless-ngx.com/configuration/#PAPERLESS_SOCIALACCOUNT_PROVIDERS) for more information. **NOTE:** The `provider_id` value, for e.g. `pocket-id` should match what is in the callback URL in the Pocket ID configuration described above. 
 ```yaml
 PAPERLESS_APPS=allauth.socialaccount.providers.openid_connect
-PAPERLESS_SOCIALACCOUNT_PROVIDERS='{"openid_connect":{"SCOPE":["openid","profile","email"],"OAUTH_PKCE_ENABLED":true,"APPS":[{"provider_id":"pocket-id","name":"Pocket-ID","client_id":"Place the Client ID","secret":"Place the Client Secret","settings":{"server_url":"pocketid.example.com"}}]}}' 
+PAPERLESS_SOCIALACCOUNT_PROVIDERS='{"openid_connect":{"SCOPE":["openid","profile","email"],"OAUTH_PKCE_ENABLED":true,"APPS":[{"provider_id":"pocket-id","name":"Pocket-ID","client_id":"Place the Client ID","secret":"Place the Client Secret","settings":{"server_url":"https://pocketid.example.com"}}]}}' 
 ```
 2. Restart your docker containers.
 3. Now you should be able to login to paperless using OAuth.
