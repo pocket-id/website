@@ -65,7 +65,7 @@ Set the **Advanced permission Claim** under **Settings → Authentication → Op
   "canAccessAllTags": false,          //Allow access to all tags (only set to true if nothing is specified below)
   "canCreateEReader": false,          
   "tagsAreDenylist": false,           //Invert the allowed tags list to a deny list
-  "allowedLibraries": [   //Specify which libarys are allowed to be accessed via the Libary ID
+  "allowedLibraries": [   //Specify which libraries are allowed to be accessed via the library ID
     "5406ba8a-16e1-451d-96d7-4931b0a0d966", //You can get this ID via the Audiobookshelf api
     "918fd848-7c1d-4a02-818a-847435a879ca"  //https://audiobookshelf.example.com/api/libraries
   ],
