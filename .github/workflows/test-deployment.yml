@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - main
-      
+
 jobs:
   test-deploy:
     name: Test deployment
@@ -15,9 +15,9 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-            node-version: lts/*
-            cache: "npm"
-            cache-dependency-path: package-lock.json
+          node-version: lts/*
+          cache: "npm"
+          cache-dependency-path: package-lock.json
 
       - name: Checkout pocket-id/pocket-id repo
         uses: actions/checkout@v4
@@ -34,14 +34,14 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
 
-      - name: Install swag
-        run: go install github.com/swaggo/swag/cmd/swag@latest
-      
+      - name: Install swagger2openapi3
+        run: go install github.com/zxmfke/swagger2openapi3/cmd/swag2op@latest
+
       - name: Generate Swagger docs
         run: |
           cd pocket-id/backend
-          swag init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml -o ../../static
-      
+          swag2op init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml -o ../../static
+
       - name: Remove Pocket ID repo
         run: rm -rf pocket-id
 
