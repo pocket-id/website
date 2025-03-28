@@ -18,7 +18,7 @@ The following example variables are used, and should be replaced with your actua
 
 ## FreshRSS Setup
 
-See [FreshRSS’ OpenID Connect documentation](16_OpenID-Connect.md) for general OIDC settings.
+See [FreshRSS’ OpenID Connect documentation](https://freshrss.github.io/FreshRSS/en/admins/16_OpenID-Connect.html) for general OIDC settings.
 
 This is an example docker-compose file for FreshRSS with OIDC enabled.
 

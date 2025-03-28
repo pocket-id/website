@@ -46,7 +46,7 @@ const config: Config = {
     navbar: {
       title: "Pocket ID",
       logo: {
-        alt: "Pocket ID Share Logo",
+        alt: "Pocket ID Logo",
         src: "img/logo.png",
       },
       items: [
