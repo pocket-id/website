@@ -89,3 +89,7 @@ bash -c "$(wget -qLO - https://github.com/community-scripts/ProxmoxVE/raw/main/c
 ### Unraid
 
 Pocket ID is available as a template on the Community Apps store.
+
+### Kubernetes Helm Chart
+
+A Helm chart maintained by @hobit44 is available [here](https://github.com/hobbit44/pocket-id-helm).
