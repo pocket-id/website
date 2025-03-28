@@ -40,7 +40,7 @@ jobs:
       - name: Generate Swagger docs
         run: |
           cd pocket-id/backend
-          swag2op init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml -o ../../static
+          swag2op init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml,json -o ../../static
 
       - name: Remove Pocket ID repo
         run: rm -rf pocket-id
