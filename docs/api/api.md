@@ -20,7 +20,7 @@ Make sure you copy the API Key from the Dialog window it will not be shown again
 
 ## Custom Dashboards
 
-If you are wanting to use Pocket ID's API to build custom dashboards, or portals. See [kmendell/pocket-id-portal](https://github.com/kmendell/pocket-id-portal) for a example on how to do this.
+If you are wanting to use Pocket ID's API to build custom dashboards, or portals. See [pocket-id/pocket-id-portal](https://github.com/pocket-id/pocket-id-portal) for a example to get you started.
 
 ## Endpoints
 
