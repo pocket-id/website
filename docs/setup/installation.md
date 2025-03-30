@@ -1,10 +1,11 @@
 ---
 id: installation
+sidebar_position: 1
 ---
 
 # Installation
 
-# Before you start
+## Before you start
 
 Pocket ID requires a [secure context](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts), meaning it must be served over HTTPS. This is necessary because Pocket ID uses the [WebAuthn API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Authentication_API).
 
@@ -68,7 +69,7 @@ Required tools:
    
 You can now sign in with the admin account on `http://localhost/login/setup`.
 
-# Unofficial Installation Methods
+## Unofficial Installation Methods
 
 :::important
 These installation methods are not officially supported, and services may not work as expected. 

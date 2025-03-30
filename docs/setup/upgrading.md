@@ -1,19 +1,20 @@
 ---
 id: upgrading
+sidebar_position: 3
 ---
 
 # Upgrading
 
 Updating to a New Version
 
-#### Docker
+## Docker
 
 ```bash
 docker compose pull
 docker compose up -d
 ```
 
-#### Stand-alone
+## Stand-alone
 
 1. Stop the running services:
    ```bash
