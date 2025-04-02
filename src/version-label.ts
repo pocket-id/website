@@ -14,7 +14,7 @@ if (ExecutionEnvironment.canUseDOM) {
       .then((version) => {
         const versionLabels = document.querySelectorAll('[href="#version"]');
         versionLabels.forEach((label) => {
-          (label as HTMLElement).innerText = `v${version}`;
+          (label as HTMLElement).innerText = `v${version}-Next`;
         });
       })
       .catch((error) => console.error("Error fetching version:", error));
