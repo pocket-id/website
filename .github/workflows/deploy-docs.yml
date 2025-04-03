@@ -37,6 +37,11 @@ jobs:
           cd pocket-id/backend
           swag init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml,json -o ../../static
 
+      - name: Add API doc tags
+        run: |
+          chmod +x ./scripts/add-api-doc-tags.sh
+          ./scripts/add-api-doc-tags.sh
+
       - name: Remove Pocket ID repo
         run: rm -rf pocket-id
 

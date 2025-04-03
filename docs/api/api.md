@@ -25,7 +25,7 @@ If you are wanting to use Pocket ID's API to build custom dashboards, or portals
 ## Endpoints
 
 :::important  
-All endpoints should have the `X-API-KEY` header with the content being the API Key when sending a request. 
+All endpoints should have the `X-API-KEY` header with the content being the API Key when sending a request.
 :::
 
 See the next pages for the endpoints that are available in the API.
