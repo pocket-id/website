@@ -29,13 +29,13 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
 
-      - name: Install swagger2openapi3
-        run: go install github.com/zxmfke/swagger2openapi3/cmd/swag2op@latest
+      - name: Install swag
+        run: go install github.com/swaggo/swag/cmd/swag@latest
 
       - name: Generate Swagger docs
         run: |
           cd pocket-id/backend
-          swag2op init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml,json -o ../../static
+          swag init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml,json -o ../../static
 
       - name: Remove Pocket ID repo
         run: rm -rf pocket-id
