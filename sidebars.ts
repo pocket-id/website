@@ -30,10 +30,6 @@ const sidebars: SidebarsConfig = {
     {
       type: "category",
       label: "API Documentation",
-      link: {
-        type: "doc",
-        id: "api/api",
-      },
       items:
         process.env.API_DOCS_DISABLED === "true"
           ? []

@@ -4,7 +4,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     permissions:
       contents: read
       deployments: write
@@ -31,12 +31,12 @@ jobs:
 
       - name: Install swag
         run: go install github.com/swaggo/swag/cmd/swag@latest
-      
+
       - name: Generate Swagger docs
         run: |
           cd pocket-id/backend
-          swag init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml -o ../../static
-      
+          swag init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml -o ../../static -md ../../static
+
       - name: Add API doc tags
         run: |
           chmod +x ./scripts/add-api-doc-tags.sh

@@ -1,10 +1,3 @@
----
-sidebar_position: 1
-id: api
----
-
-# API Documentation
-
 ## Generating a API Key
 
 1. Navigate to https://id.example.com/settings/admin/api-keys

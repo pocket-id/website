@@ -40,7 +40,7 @@ jobs:
       - name: Generate Swagger docs
         run: |
           cd pocket-id/backend
-          swag init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml,json -o ../../static
+          swag init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml,json -o ../../static -md ../../static
 
       - name: Add API doc tags
         run: |
