@@ -1,18 +1,18 @@
-name: Deploy Docs
-
 on:
   push:
-    branches:
-      - main
   workflow_dispatch:
-
 jobs:
-  build:
-    name: Build Docusaurus
+  deploy:
     runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      deployments: write
+
+    name: Deploy to Cloudflare Pages
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Checkout pocket-id/pocket-id repo
         uses: actions/checkout@v4
@@ -31,12 +31,12 @@ jobs:
 
       - name: Install swag
         run: go install github.com/swaggo/swag/cmd/swag@latest
-
+      
       - name: Generate Swagger docs
         run: |
           cd pocket-id/backend
-          swag init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml,json -o ../../static
-
+          swag init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml -o ../../static
+      
       - name: Remove Pocket ID repo
         run: rm -rf pocket-id
 
@@ -50,25 +50,11 @@ jobs:
       - name: Build website
         run: npm run build
 
-      - name: Upload Build Artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Publish
+        uses: cloudflare/pages-action@v1
         with:
-          path: build
-
-  deploy:
-    name: Deploy to GitHub Pages
-    needs: build
-
-    permissions:
-      pages: write
-      id-token: write
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: pocket-id-website
+          directory: build
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
