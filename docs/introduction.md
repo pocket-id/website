@@ -16,7 +16,7 @@ Additionally, what makes Pocket ID special is that it only supports [passkey](ht
 
 → [Try the Demo of Pocket ID](https://demo.pocket-id.org)
 
-<img src="https://github.com/user-attachments/assets/96ac549d-b897-404a-8811-f42b16ea58e2" width="700"/>
+<img src="/img/landing/authorize-screenshot.png" width="700"/>
 
 ## Useful Links
 - [Installation](/docs/setup/installation)
