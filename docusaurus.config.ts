@@ -33,6 +33,9 @@ const config: Config = {
           docItemComponent: "@theme/ApiItem",
           editUrl: "https://github.com/pocket-id/website/edit/main",
         },
+        theme: {
+          customCss: "static/api-styles.css",
+        },
         blog: false,
       } satisfies Preset.Options,
     ],
@@ -79,6 +82,7 @@ const config: Config = {
           pocketid: {
             specPath: "static/swagger.yaml",
             outputDir: "docs/api/endpoints",
+            hideSendButton: true,
             sidebarOptions: {
               groupPathsBy: "tag",
               categoryLinkSource: "tag",
