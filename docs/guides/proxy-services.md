@@ -12,7 +12,7 @@ Almost every reverse proxy supports protecting your services with OIDC.  For one
 - [Traefik](#traefik)
 - [OAuth2 Proxy](#oauth2-proxy)
 
-We would really appreciate if you contribute to this documentation by adding instructions or linking to existing documentation for configuring your reverse proxy with Pocket ID.
+We would really appreciate your contributions to this documentation, whether by adding instructions or linking to existing resources for configuring your reverse proxy with Pocket ID.
 
 ## Caddy
 
