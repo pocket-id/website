@@ -4,28 +4,25 @@ id: proxy-services
 
 # Proxy Services
 
-The goal of Pocket ID is to function exclusively as an OIDC provider. As such, we don't have a built-in proxy provider. However, you can use other tools that act as a middleware to protect your services and support OIDC as an authentication provider.
+The goal of Pocket ID is to function exclusively as an OIDC provider. As such, we don't have a built-in proxy provider. However, most proxies provide some sort of mechanism to support OIDC authentication provider.
 
-There are two ways to do this:
+Almost every reverse proxy supports protecting your services with OIDC.  For ones not documented here, you should be able to find instructions in the proxy's documentation.
 
-- Implement OIDC into your reverse proxy
-- Use [OAuth2 Proxy](https://oauth2-proxy.github.io/oauth2-proxy/)
+- [Caddy](#caddy)
+- [OAuth2 Proxy](#oauth2-proxy)
+- [Traefik](#traefik)
 
-## Reverse Proxy
+We would really appreciate your contributions to this documentation, whether by adding instructions or linking to existing resources for configuring your reverse proxy with Pocket ID.
 
-Almost every reverse proxy somehow supports protecting your services with OIDC. Currently only Caddy is documented but you can search on Google for your reverse proxy and OIDC.
-
-We would really appreciate if you contribute to this documentation by adding your reverse proxy and how to configure it with Pocket ID.
-
-### Caddy
+## Caddy
 
 With [caddy-security](https://github.com/greenpau/caddy-security) you can easily protect your services with Pocket ID.
 
-#### 1. Create a new OIDC client in Pocket ID.
+### 1. Create a new OIDC client in Pocket ID.
 
 Create a new OIDC client in Pocket ID by navigating to `https://<your-domain>/settings/admin/oidc-clients`. Now enter `https://<domain-of-proxied-service>/caddy-security/oauth2/generic/authorization-code-callback` as the callback URL. After adding the client, you will obtain the client ID and client secret, which you will need in the next step.
 
-#### 2. Install caddy-security
+### 2. Install caddy-security
 
 Run the following command to install caddy-security:
 
@@ -33,7 +30,7 @@ Run the following command to install caddy-security:
 caddy add-package github.com/greenpau/caddy-security
 ```
 
-#### 3. Create your Caddyfile
+### 3. Create your Caddyfile
 
 ```bash
 {
@@ -91,7 +88,7 @@ https://<domain-of-your-service> {
 
 For additional configuration options, refer to the official [caddy-security documentation](https://docs.authcrunch.com/docs/intro).
 
-#### 4. Start Caddy
+### 4. Start Caddy
 
 ```bash
 caddy run --config Caddyfile
@@ -102,6 +99,8 @@ caddy run --config Caddyfile
 Your service should now be protected by Pocket ID.
 
 ## OAuth2 Proxy
+
+[OAuth2 Proxy](https://oauth2-proxy.github.io/oauth2-proxy/) can be used as either as a standalone reverse proxy much like any of the other reverse proxies, or it can be used as an authentication only  middleware.
 
 ### Docker Installation
 
@@ -180,3 +179,11 @@ You can now access the service through OAuth2 Proxy by visiting `http://localhos
 Setting up OAuth2 Proxy with Pocket ID without Docker is similar to the Docker setup. As the setup depends on your environment, you have to adjust the steps accordingly but is should be similar to the Docker setup.
 
 You can visit the official [OAuth2 Proxy documentation](https://oauth2-proxy.github.io/oauth2-proxy/installation) for more information.
+
+## Traefik
+
+[Traefik](https://traefik.io/traefik/) does not have built-in support for OIDC, but there are many [plugins](https://plugins.traefik.io/plugins) available that add support.  
+
+[Traefik OpenID Connect Middleware](https://plugins.traefik.io/plugins/66b63d12d29fd1c421b503f5/oidc-authentication) works with Pocket ID.  See the [Pocket ID configuration docs](https://traefik-oidc-auth.sevensolutions.cc/docs/identity-providers/pocket-id) for Pocket ID specific instructions, and [Getting Started](https://traefik-oidc-auth.sevensolutions.cc/docs/getting-started) for more details on how to apply the configuration to a specific endpoint.
+
+Traefik Enterprise has an [OIDC middleware](https://doc.traefik.io/traefik-enterprise/middlewares/oidc/) out of the box if you happen to be using that.  It is similar to configure.
