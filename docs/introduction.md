@@ -18,7 +18,14 @@ Additionally, what makes Pocket ID special is that it only supports [passkey](ht
 
 <img src="/img/landing/authorize-screenshot.png" width="700"/>
 
+## Creator Reviews
+
+→ Check out the video from **Jim's Garage** <br />
+
+&nbsp;<iframe width="560" height="315" src="https://www.youtube.com/embed/QC5IUmu7cgw" frameborder="20" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Useful Links
+
 - [Installation](/docs/setup/installation)
 - [Proxy Services](/docs/guides/proxy-services)
 - [Client Examples](/docs/client-examples)
