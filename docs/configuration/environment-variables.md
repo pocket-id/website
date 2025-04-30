@@ -87,3 +87,28 @@ To enable environment variable overrides, set `PUBLIC_UI_CONFIG_DISABLED` to `tr
 | `LDAP_ATTRIBUTE_GROUP_UNIQUE_IDENTIFIER` | `-`                          | LDAP attribute for group unique identifier. The value of this attribute should never change.                                                               |
 | `LDAP_ATTRIBUTE_GROUP_NAME`              | `-`                          | LDAP attribute for group name.                                                                                                                             |
 | `LDAP_ATTRIBUTE_ADMIN_GROUP`             | `-`                          | LDAP attribute for admin group. Members of this group will have Admin Privileges in Pocket ID.                                                             |
+
+## Observability
+
+You can configure Pocket ID to emit metrics and/or traces. Metrics and traces are emitted in the OpenTelemetry format. For metrics it's also possible to enable the Prometheus exposition format and scrape them from the `/metrics` endpoint.
+
+By default, this functionality is disabled. You have to explicitly set at least one trace exporter for tracing to happen, and at least one metric exporter for metrics to be collected. Anything else can be configured through the standard [OpenTelemetry SDK environment variables](https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/).
+
+For traces and metrics, the following expoters can be configured:
+* `grpc`, for OTLP GRPC.
+* `http`, for OTLP HTTP.
+* `stdout`, for development only.
+
+To enable Prometheus metrics, you can use:
+* `prometheus`
+
+For example:
+```
+TRACES_EXPORTERS="grpc"
+METRICS_EXPORTERS="grpc,prometheus"
+```
+
+| Variable                                 | Default Value                | Description                                                                                                                                                |
+| ---------------------------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `TRACES_EXPORTERS`                               | `nil`                  | The name(s) of the traces exporters to enable.                                                                                                                                       |
+| `METRICS_EXPORTERS`                               | `nil`                  | The name(s) of the metrics exporters to enable.                                                                                                                                       |
