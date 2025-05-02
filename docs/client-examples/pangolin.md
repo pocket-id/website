@@ -10,7 +10,6 @@ id: pangolin
 	- Copy the `Client ID`, `Client Secret`, `Authorization URL` and `Token URL` for the following steps
     
 We'll be coming back to set the Callback URL once we've setup Pangolin.
-	- Set Callback URLs: `https://pangolin.example.com/auth/idp/1/oidc/callback`
 
 ## Pangolin Setup
 
