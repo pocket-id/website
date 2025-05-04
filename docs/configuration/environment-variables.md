@@ -90,25 +90,22 @@ To enable environment variable overrides, set `PUBLIC_UI_CONFIG_DISABLED` to `tr
 
 ## Observability
 
-You can configure Pocket ID to emit metrics and/or traces. Metrics and traces are emitted in the OpenTelemetry format. For metrics it's also possible to enable the Prometheus exposition format and scrape them from the `/metrics` endpoint.
-
-By default, this functionality is disabled. You have to explicitly set at least one trace exporter for tracing to happen, and at least one metric exporter for metrics to be collected. Anything else can be configured through the standard [OpenTelemetry SDK environment variables](https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/).
-
-For traces and metrics, the following expoters can be configured:
-* `grpc`, for OTLP GRPC.
-* `http`, for OTLP HTTP.
-* `stdout`, for development only.
-
-To enable Prometheus metrics, you can use:
-* `prometheus`
-
-For example:
-```
-TRACES_EXPORTERS="grpc"
-METRICS_EXPORTERS="grpc,prometheus"
-```
+You can configure Pocket ID to emit metrics and/or traces. This is done using OpenTelemetry. For metrics, Prometheus is also supported.
 
 | Variable                                 | Default Value                | Description                                                                                                                                                |
 | ---------------------------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `TRACES_EXPORTERS`                               | `nil`                  | The name(s) of the traces exporters to enable.                                                                                                                                       |
-| `METRICS_EXPORTERS`                               | `nil`                  | The name(s) of the metrics exporters to enable.                                                                                                                                       |
+| `TRACING_ENABLED`                               | `false`                  | Enables OpenTelemetry tracing.                                                                                                                                       |
+| `METRICS_ENABLED`                               | `false`                  | Enables OpenTelemetry metrics.                                                                                                                                       |
+
+The behaviour of metrics, traces and which metric and trace exporters are enabled can be controlled using the `OTEL` environment variables. These are documented in the [OpenTelemetry SDK environment variables documentation](https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/).
+
+If you want to enable the `/metrics` endpoint for Prometheus metrics scraping instead of using OTLP metrics pushing, you'll need to also set:
+
+```
+OTEL_METRICS_EXPORTER=prometheus
+```
+
+This will start a **second** HTTP server with just the metrics endpoint. It is by default bound to:
+
+* `OTEL_EXPORTER_PROMETHEUS_HOST`: `localhost`
+* `OTEL_EXPORTER_PROMETHEUS_PORT`: `9464`
