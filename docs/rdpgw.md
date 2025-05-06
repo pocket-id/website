@@ -61,7 +61,7 @@ Security:
 
 ## Caddy config
 
-First you need to setup your caddy proxy with caddy-security and pocket-id config following the [pocket-id documentation](https://pocket-id.org/docs/guides/proxy-services#caddy).
+You then need to setup your caddy proxy with caddy-security and pocket-id config following the [pocket-id documentation](https://pocket-id.org/docs/guides/proxy-services#caddy).
 
 :::note You should have two different oidc clients, one for caddy-security and one for rdpgw.  For caddy-security the callback looks like `https://example.com/auth/oauth2/generic/authorization-code-callback` and for rdpgw its: `https://rd.example.com/callback` you need both oidc clients.  For the `/auth/oath2/generic/` route this is the route that caddy-security is handling (not rdpgw, rdpgw is handling `rd.example.com/connect?host=` and then `rd.example.com/callback`). :::
 
