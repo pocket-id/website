@@ -11,7 +11,7 @@ The following example variables are used and should be replaced with your actual
 2. Set a logo for this OIDC Client if you would like to.
 3. Set the callback URL to: `https://nextcloud.example.com/apps/user_oidc/code`.
 4. Set the Logout Callback URLs to the address the nextcloud/user_oidc plugin will give you. For most of the time it will be the address below with the portion `PocketID` being the name you gave to it on Nextcloud. e.g:`https://nextcloud.example.com/apps/user_oidc/backchannel-logout/PocketID`.
-5. Leave `Public Client` and `PKCE`unchecked.
+5. Leave `Public Client` and `PKCE` unchecked.
 6. Copy the `Client ID`, `Client Secret`, `OIDC Discovery URL` and `Logout URL` for use in the next steps.
 
 ## Nextcloud Setup
@@ -22,15 +22,15 @@ The following example variables are used and should be replaced with your actual
 4. After installing, go to `Administration settings`-> `OpenID Connect`.
 5. Click the `+` and add the information and add the information as follows:
 	1. `Identifier` -> `PocketID` (suggestion only)
-	2. `Client ID`-> `Client ID`from Pocket ID
-	3. `Client secret`-> `Client Secret` from Pocket ID
-	4. `Discovery endpoint`-> `OIDC Discovery URL`from Pocket ID
+	2. `Client ID` -> `Client ID`from Pocket ID
+	3. `Client secret` -> `Client Secret` from Pocket ID
+	4. `Discovery endpoint` -> `OIDC Discovery URL`from Pocket ID
 	5. `Custom end session endpoint`-> `Logout URL`from Pocket ID
-	6. `Scope`-> openid email profile
-	7. `User ID mapping`-> preferred_username (!! If this is not setup this way, Nextcloud will create new users instead of matching Pocket ID usernames with Nextcloud!!)
+	6. `Scope` -> openid email profile
+	7. `User ID mapping` -> preferred_username (!! If this is not setup this way, Nextcloud will create new users instead of matching Pocket ID usernames with Nextcloud!!)
 	8. (Optional) Check `Use group provisioning`if you want Pocket ID groups to be replicated on Nextcloud
-	9. `Use unique user ID` -> Checked, `Send ID token hint on logout`-> UNchecked
-6. After the creation of the Provider, make sure `Backchannel Logout URL`and `Redirect URI` matches the setting on Pocket ID.
+	9. `Use unique user ID` -> Checked, `Send ID token hint on logout` -> Unchecked
+6. After the creation of the Provider, make sure `Backchannel Logout URL` and `Redirect URI` matches the setting on Pocket ID.
 
 ## Logging In on Nextcloud on mobile (Important)
 
