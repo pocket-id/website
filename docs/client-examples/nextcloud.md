@@ -38,14 +38,14 @@ The mobile app for Nextcloud on IOS does not accept passkey input, which create 
 
 ## Disabling traditional login In on Nextcloud
 
-You can disable the bult-in login form with 2 different ways, which are going to produce slightly different outcomes:
+You can disable the built-in login form with 2 different ways, which are going to produce slightly different outcomes:
 
-1. Disabling login form: On the `config.php`of Nextcloud, set an entry for `'hide_login_form' => true`. This will still show Nextcloud login page when going to `nextcloud.example.com`, but it show that "The Nextcloud login form is disabled." and a buttom to `Login with PocketID`will appear instead. 
+1. Disabling login form: On the `config.php`of Nextcloud, set an entry for `'hide_login_form' => true`. This will still show Nextcloud login page when going to `nextcloud.example.com`, but it show that "The Nextcloud login form is disabled." and a button to `Login with PocketID`will appear instead. 
 	1. The login form is only hidden and can be access by appending login?direct=1 to the URL `nextcloud.example.com/login?direct=1`.
 ![Img 1](https://github.com/user-attachments/assets/a34b5ea2-bc86-4d10-8a0e-6c253329235e)
 
 
-1. Remove bult-in login form: You have to execute a command inside the container using Nextcloud CLI method. Since there are many containers and platforms, please make sure use the appropriate form for you container/platform combo
+1. Remove built-in login form: You have to execute a command inside the container using Nextcloud CLI method. Since there are many containers and platforms, please make sure use the appropriate form for you container/platform combo
 	1. Run -> `occ config:app:set user_oidc allow_multiple_user_backends --value=0`
 	2. The built-in login form won't be available anymore when going to `nextcloud.example.com`and will be automatically redirected to login with Pocket ID
 	3. This only works if the user have a single OIDC provider and no other login methods
