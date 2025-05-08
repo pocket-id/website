@@ -2,7 +2,7 @@
 id: mealie
 ---
 
-# Open WebUI
+# Mealie
 
 1. In Pocket-ID, create a new OIDC Client, name it i.e. `Mealie`.
 2. Set the callback URL to: `https://<your-mealie-domain>/oauth/oidc/callback`
