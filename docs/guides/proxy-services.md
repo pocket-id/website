@@ -6,13 +6,20 @@ id: proxy-services
 
 The goal of Pocket ID is to function exclusively as an OIDC provider. As such, we don't have a built-in proxy provider. However, most proxies provide some sort of mechanism to support OIDC authentication provider.
 
-Almost every reverse proxy supports protecting your services with OIDC.  For ones not documented here, you should be able to find instructions in the proxy's documentation.
+Almost every reverse proxy supports protecting your services with OIDC. For ones not documented here, you should be able to find instructions in the proxy's documentation.
 
+- [Tinyauth](#tinyauth)
 - [Caddy](#caddy)
 - [OAuth2 Proxy](#oauth2-proxy)
 - [Traefik](#traefik)
 
 We would really appreciate your contributions to this documentation, whether by adding instructions or linking to existing resources for configuring your reverse proxy with Pocket ID.
+
+## Tinyauth
+
+[Tinyauth](https://tinyauth.app/) is a lightweight authentication middleware designed specifically for homelabs. Currently it integrates with Traefik, Caddy and Nginx Proxy Manager.
+
+Refer to the offical [Tinyauth Pocket ID documentation](https://tinyauth.app/docs/guides/pocket-id.html) for detailed instructions on how to set up Tinyauth with Pocket ID.
 
 ## Caddy
 
@@ -100,7 +107,7 @@ Your service should now be protected by Pocket ID.
 
 ## OAuth2 Proxy
 
-[OAuth2 Proxy](https://oauth2-proxy.github.io/oauth2-proxy/) can be used as either as a standalone reverse proxy much like any of the other reverse proxies, or it can be used as an authentication only  middleware.
+[OAuth2 Proxy](https://oauth2-proxy.github.io/oauth2-proxy/) can be used as either as a standalone reverse proxy much like any of the other reverse proxies, or it can be used as an authentication only middleware.
 
 ### Docker Installation
 
@@ -182,8 +189,8 @@ You can visit the official [OAuth2 Proxy documentation](https://oauth2-proxy.git
 
 ## Traefik
 
-[Traefik](https://traefik.io/traefik/) does not have built-in support for OIDC, but there are many [plugins](https://plugins.traefik.io/plugins) available that add support.  
+[Traefik](https://traefik.io/traefik/) does not have built-in support for OIDC, but there are many [plugins](https://plugins.traefik.io/plugins) available that add support.
 
-[Traefik OpenID Connect Middleware](https://plugins.traefik.io/plugins/66b63d12d29fd1c421b503f5/oidc-authentication) works with Pocket ID.  See the [Pocket ID configuration docs](https://traefik-oidc-auth.sevensolutions.cc/docs/identity-providers/pocket-id) for Pocket ID specific instructions, and [Getting Started](https://traefik-oidc-auth.sevensolutions.cc/docs/getting-started) for more details on how to apply the configuration to a specific endpoint.
+[Traefik OpenID Connect Middleware](https://plugins.traefik.io/plugins/66b63d12d29fd1c421b503f5/oidc-authentication) works with Pocket ID. See the [Pocket ID configuration docs](https://traefik-oidc-auth.sevensolutions.cc/docs/identity-providers/pocket-id) for Pocket ID specific instructions, and [Getting Started](https://traefik-oidc-auth.sevensolutions.cc/docs/getting-started) for more details on how to apply the configuration to a specific endpoint.
 
-Traefik Enterprise has an [OIDC middleware](https://doc.traefik.io/traefik-enterprise/middlewares/oidc/) out of the box if you happen to be using that.  It is similar to configure.
+Traefik Enterprise has an [OIDC middleware](https://doc.traefik.io/traefik-enterprise/middlewares/oidc/) out of the box if you happen to be using that. It is similar to configure.
