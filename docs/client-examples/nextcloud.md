@@ -27,7 +27,14 @@ The following example variables are used and should be replaced with your actual
 	4. `Discovery endpoint` -> `OIDC Discovery URL`from Pocket ID
 	5. `Custom end session endpoint`-> `Logout URL`from Pocket ID
 	6. `Scope` -> openid email profile
-	7. `User ID mapping` -> preferred_username (!! If this is not setup this way, Nextcloud will create new users instead of matching Pocket ID usernames with Nextcloud!!)
+	7. By default, Nextcloud will create a new user when logging in using Pocket ID. If you want to log in with an existing Nextcloud user, you need to tell Nextcloud how to match Pocket ID users with Nextcloud users. You can either:
+ 		- Match accounts using a custom claim: `User ID mapping` -> nextcloud_username
+
+		  And for each user in the Pocket ID configuration, add a custom claim `nextcloud_username` -> the Nextcloud account name to log into.
+
+		- If you have unchecked `Enable Self-Account Editing` in the Pocket ID configuration, match accounts using the Pocket ID username directly: `User ID mapping` -> preferred_username
+  
+		  (if `Enable Self-Account Editing` is enabled, Pocket ID users are allowed to change their own username and therefore chose the Nextcloud account they log into!)
 	8. (Optional) Check `Use group provisioning`if you want Pocket ID groups to be replicated on Nextcloud
 	9. `Use unique user ID` -> Checked, `Send ID token hint on logout` -> Unchecked
 6. After the creation of the Provider, make sure `Backchannel Logout URL` and `Redirect URI` matches the setting on Pocket ID.
