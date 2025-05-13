@@ -14,6 +14,7 @@ id: freescout
     ```
     https://<FREESCOUT-DOMAIN>/oauth-login/callback/*
     ```
+3. *Optional:* Download a PNG or SVG **logo** from the [FreeScout project](https://github.com/freescout-help-desk/freescout/tree/dist/public/img) and upload.
 4. Copy the **Client ID**, **Client Secret**, and **OIDC Discovery URL** for use in the next section.
 
 ## Configure FreeScout
