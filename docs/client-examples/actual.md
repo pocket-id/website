@@ -31,6 +31,10 @@ id: actual
 5. Click **OK** and you will be redirected to the login page.
 6. Provide your existing file password, and test OpenID login. The first successful login will become the administrator.
 
+## Managing multi-users
+
+After setting up the integration, you can manage users in Actual by following [these instructions](https://www.actualbudget.com/docs/experimental/multi-user).
+
 ## Configure Actual with other methods
 You can also configure OpenID via the following methods. Check out Actual's documentation for more information.
 
