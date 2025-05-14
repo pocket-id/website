@@ -1,6 +1,6 @@
 ---
 id: advanced-topics
-sidebar_position: 4
+sidebar_position: 5
 sidebar_label: Advanced
 ---
 
@@ -38,6 +38,7 @@ step crypto jwk create \
   --size=3072 \
   --no-password --insecure
 ```
+
 </details>
 
 <details>
@@ -51,6 +52,7 @@ step crypto jwk create \
   --use=sig \
   --no-password --insecure
 ```
+
 </details>
 
 <details>
@@ -65,6 +67,7 @@ step crypto jwk create \
   --crv=Ed25519 \
   --no-password --insecure
 ```
+
 </details>
 
 > Note that the private key is used for all OAuth2 clients. If choosing an algorithm different than RS256 (RSA), make sure that your clients support that.

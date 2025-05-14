@@ -6,28 +6,45 @@ import "/styles.css";
 const Home: React.FC = () => {
   return (
     <div className="text-white h-screen flex flex-col bg-muted/40">
-      <header style={{ backgroundColor: "hsl(240, 10%, 3.9%)" }}>
-        <div className="w-full border-b border-black">
-          <div className="container flex w-full items-center justify-between px-4 md:px-10">
-            <div className="flex h-16 items-center">
-              <img
-                src="/img/logo.png"
-                alt="Pocket ID Logo"
-                className="mr-3 h-8 w-8"
-              />
-              <h2 className="text-sm font-medium" style={{ margin: 0 }}>
-                Pocket ID
-              </h2>
+      <header>
+        {/* Announcement Banner */}
+        <div className="bg-rose-600/50 py-1.5 text-center text-md font-medium text-block  dark:text-white">
+          <span>🚀</span>{" "}
+          Pocket ID v1.0.0 has been released! -{" "}
+          <a 
+            href="/docs/setup/migrate-to-v1" 
+            target="_blank" 
+            className="inline-flex items-center font-semibold underline-offset-2 hover:underline"
+            style={{ color: "rgb(209 213 219)" }}
+          >
+            See how to migrate →
+          </a>
+        </div>
+        
+        {/* Main Header Content */}
+        <div style={{ backgroundColor: "hsl(240, 10%, 3.9%)" }}>
+          <div className="w-full border-b border-black">
+            <div className="container flex w-full items-center justify-between px-4 md:px-10">
+              <div className="flex h-16 items-center">
+                <img
+                  src="/img/logo.png"
+                  alt="Pocket ID Logo"
+                  className="mr-3 h-8 w-8"
+                />
+                <h2 className="text-sm font-medium" style={{ margin: 0 }}>
+                  Pocket ID
+                </h2>
+              </div>
+              <a
+                href="https://github.com/pocket-id/pocket-id"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "hsl(0, 0%, 98%)" }}
+                className="text-white text-2xl"
+              >
+                <i className="fab fa-github" aria-hidden="true"></i>
+              </a>
             </div>
-            <a
-              href="https://github.com/pocket-id/pocket-id"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: "hsl(0, 0%, 98%)" }}
-              className="text-white text-2xl"
-            >
-              <i className="fab fa-github" aria-hidden="true"></i>
-            </a>
           </div>
         </div>
       </header>
