@@ -1,11 +1,28 @@
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import FeatureBox from "../components/feature-box";
 import "/styles.css";
 
 const Home: React.FC = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    // Check for dark mode preference on component mount
+    const isDark =
+      window.matchMedia("(prefers-color-scheme: dark)").matches ||
+      document.documentElement.classList.contains("dark");
+    setIsDarkMode(isDark);
+
+    // Listen for changes to color scheme preference
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleChange = (e: MediaQueryListEvent) => setIsDarkMode(e.matches);
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+
   return (
-    <div className="text-white h-screen flex flex-col bg-muted/40">
+    <div className="text-gray-800 dark:text-white h-screen flex flex-col bg-muted/40 dark:bg-muted/40">
       <header style={{ backgroundColor: "hsl(240, 10%, 3.9%)" }}>
         <div className="w-full border-b border-black">
           <div className="container flex w-full items-center justify-between px-4 md:px-10">
@@ -15,7 +32,10 @@ const Home: React.FC = () => {
                 alt="Pocket ID Logo"
                 className="mr-3 h-8 w-8"
               />
-              <h2 className="text-sm font-medium" style={{ margin: 0 }}>
+              <h2
+                className="text-white text-sm font-medium"
+                style={{ margin: 0, color: "white" }}
+              >
                 Pocket ID
               </h2>
             </div>
@@ -44,10 +64,14 @@ const Home: React.FC = () => {
             </p>
             <a
               href="/docs/introduction"
-              className="mt-6 inline-block text-black px-6 py-3 rounded-lg font-semibold"
+              className="mt-6 inline-block px-6 py-3 rounded-lg font-semibold"
               style={{
-                backgroundColor: "hsl(0, 0%, 98%)",
-                color: "hsl(240, 10%, 3.9%)",
+                backgroundColor: isDarkMode
+                  ? "hsl(0, 0%, 98%)"
+                  : "hsl(240, 10%, 3.9%)",
+                color: isDarkMode
+                  ? "hsl(240, 10%, 3.9%)"
+                  : "hsl(0, 0%, 98%)",
               }}
             >
               Get Started
@@ -92,7 +116,7 @@ const Home: React.FC = () => {
       </main>
 
       <div className="flex flex-col items-center mt-10">
-        <p className="py-3 text-xs text-muted-foreground">
+        <p className="py-3 text-xs text-gray-600 dark:text-muted-foreground">
           &copy; {new Date().getFullYear()} Pocket ID
         </p>
       </div>
