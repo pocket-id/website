@@ -22,17 +22,16 @@ Pocket ID requires a [secure context](https://developer.mozilla.org/en-US/docs/W
 2. Edit the `.env` file so that it fits your needs. See the [environment variables](/docs/configuration/environment-variables) section for more information.
 3. Run `docker compose up -d`
 
-You can now sign in with the admin account on `http://localhost:3000/login/setup`.
+You can now sign in with the admin account on `http://localhost:1411/login/setup`.
 
 ### Stand-alone Installation (advanced)
 
 Required tools:
 
 - [Node.js](https://nodejs.org/en/download/) >= 22
-- [Go](https://golang.org/doc/install) >= 1.23
+- [Go](https://golang.org/doc/install) >= 1.24
 - [Git](https://git-scm.com/downloads)
 - [PM2](https://pm2.keymetrics.io/)
-- [Caddy](https://caddyserver.com/docs/install) (optional)
 
 1. Copy the `.env.example` file in the `frontend` and `backend` folder to `.env` and change it so that it fits your needs.
 
@@ -61,25 +60,22 @@ Required tools:
    npm install
    npm run build
    pm2 start --name pocket-id-frontend --node-args="--env-file .env" build/index.js
-
-   # Optional: Start Caddy (You can use any other reverse proxy)
-   cd ..
-   pm2 start --name pocket-id-caddy caddy -- run --config reverse-proxy/Caddyfile
    ```
-   
-You can now sign in with the admin account on `http://localhost/login/setup`.
+
+You can now sign in with the admin account on `http://localhost:1411/login/setup`.
 
 ## Unofficial Installation Methods
 
 :::important
-These installation methods are not officially supported, and services may not work as expected. 
+These installation methods are not officially supported, and services may not work as expected.
 :::
 
 ### Proxmox
 
-Run the [helper script](https://community-scripts.github.io/ProxmoxVE/scripts?id=pocketid) as root in your Proxmox shell. 
+Run the [helper script](https://community-scripts.github.io/ProxmoxVE/scripts?id=pocketid) as root in your Proxmox shell.
 
 **Configuration Paths**
+
 - /opt/pocket-id/backend/.env
 - /opt/pocket-id/frontend/.env
 
@@ -93,7 +89,7 @@ Pocket ID is available as a template on the Community Apps store.
 
 ### Kubernetes Helm Chart
 
-* A Helm chart maintained by @hobit44 is available [here](https://github.com/hobbit44/pocket-id-helm).
-* A Helm chart maintained by anza-labs:
+- A Helm chart maintained by @hobit44 is available [here](https://github.com/hobbit44/pocket-id-helm).
+- A Helm chart maintained by anza-labs:
 
 <div class="artifacthub-widget" data-url="https://artifacthub.io/packages/helm/anza-labs/pocket-id" data-theme="light" data-header="true" data-stars="true" data-responsive="false"><blockquote><p lang="en" dir="ltr"><b>pocket-id</b>: _pocket-id_ is a simple and easy-to-use OIDC provider that allows users to authenticate with their passkeys to your services. </p>&mdash; Open in <a href="https://artifacthub.io/packages/helm/anza-labs/pocket-id">Artifact Hub</a></blockquote></div><script async src="https://artifacthub.io/artifacthub-widget.js"></script>

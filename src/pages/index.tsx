@@ -15,7 +15,7 @@ const Home: React.FC = () => {
             href="/docs/setup/migrate-to-v1" 
             target="_blank" 
             className="inline-flex items-center font-semibold underline-offset-2 hover:underline"
-            style={{ color: "rgb(209 213 219)" }}
+            style={{ color: "white" }}
           >
             See how to migrate →
           </a>
