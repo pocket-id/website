@@ -5,7 +5,7 @@ id: mealie
 # Mealie
 
 1. In Pocket-ID, create a new OIDC Client, name it i.e. `Mealie`.
-2. Set the callback URL to: `https://<your-mealie-domain>/oauth/oidc/callback`
+2. Set the callback URL to: `https://<your-mealie-domain>/login`
 3. Add the following to your docker `.env` file for Mealie:
 
 
