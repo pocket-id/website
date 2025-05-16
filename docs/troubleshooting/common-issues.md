@@ -6,12 +6,12 @@ id: common-issues
 
 ## Unable to Add a Passkey
 
-Ensure that the `PUBLIC_APP_URL` is set correctly to the public URL of the Pocket ID instance.
+Ensure that the `APP_URL` is set correctly to the public URL of the Pocket ID instance.
 
 Example:
 
 ```ini
-PUBLIC_APP_URL=https://id.example.com
+APP_URL=https://id.example.com
 ```
 
 ## Unable to Access the Admin UI After Setup
