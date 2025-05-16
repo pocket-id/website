@@ -32,6 +32,7 @@ This guide outlines the **breaking** changes in Pocket ID v1.0 and how to migrat
 
 | Previous Variable            | New Variable              | Notes                                                           |
 | ---------------------------- | ------------------------- | --------------------------------------------------------------- |
+| `PUBLIC_APP_URL`             | `APP_URL`                 | Variable renamed                                                |
 | `PUBLIC_UI_CONFIG_DISABLED`  | `UI_CONFIG_DISABLED`      | Variable renamed                                                |
 | `CADDY_DISABLED`             | Removed                   | No direct replacement                                           |
 | `CADDY_PORT`                 | `PORT`                    | Use new `PORT` variable                                         |
@@ -73,29 +74,17 @@ If you previously disabled Caddy (`CADDY_DISABLED=true`), you likely had path ma
 
 ## Migration Steps
 
-### Important: Two-Step Migration Required
+Follow the following steps to migrate from previous versions to v1.0.0.
 
-You **must** first upgrade to **v0.53.0** before upgrading to **v1.0.0** to ensure proper migration of all components.
+### Docker
 
-1. First, upgrade to v0.53.0:
+1. You **must** first upgrade to **v0.53.0** before upgrading to **v1.0.0** to ensure proper migration of all components. Change the image tag to `v0.53.0` and start the container with `docker compose up -d`:
 
    ```yaml
    services:
      pocket-id:
        image: ghcr.io/pocket-id/pocket-id:v0.53.0
-       restart: unless-stopped
-       env_file: .env
-       ports:
-         - 80:80
-       volumes:
-         - "./data:/app/backend/data"
-       # Optional healthcheck
-       healthcheck:
-         test: "curl -f http://localhost/healthz"
-         interval: 1m30s
-         timeout: 5s
-         retries: 2
-         start_period: 10s
+       # ...
    ```
 
 2. Update your `docker-compose.yml` for upgrading to v1.0.0:
@@ -105,21 +94,26 @@ You **must** first upgrade to **v0.53.0** before upgrading to **v1.0.0** to ensu
      pocket-id:
        image: pocketid/pocket-id:1.0.0
        ports:
-         - "1411:1411"
-       environment:
-         - PORT=1411 # This is only needed if you want to set a custom port
-         # If you had PUBLIC_UI_CONFIG_DISABLED, change to:
-         - UI_CONFIG_DISABLED=true
-         # Only needed if you want to customize the database location:
-         # - DB_CONNECTION_STRING=file:/data/custom-sqlite.db?_journal_mode=WAL&_busy_timeout=2500&_txlock=immediate
+         - "1411:1411" # Make sure to change the port to 1411
        volumes:
-         - ./data:/app/data # Mount point for SQLite database
+         - ./data:/app/data # Make sure to change the volume path to /app/data
        healthcheck:
-         test: "curl -f http://localhost:1411/healthz"
+         test: "curl -f http://localhost:1411/healthz" # Make sure to change the port to 1411
          interval: 1m30s
          timeout: 5s
          retries: 2
          start_period: 10s
    ```
 
-3. Enjoy Pocket ID v1.0.0! We're grateful for your ongoing support and contributions that made this milestone release possible.
+3. Adapt the environment variables [mentioned above](#environment-variables) in your `.env` file.
+4. Apply the changes by running:
+
+   ```bash
+   docker compose up -d
+   ```
+
+5. Enjoy Pocket ID v1.0.0! We're grateful for your ongoing support and contributions that made this milestone release possible.
+
+### Standalone
+
+WIP
