@@ -92,7 +92,7 @@ const Home: React.FC = () => {
               imgLeft={false}
             />
             <FeatureBox
-              title="Personal Audit Logs"
+              title="Audit Logs"
               description="Keep track of personal and global account activities. If SMTP is configured, you can even receive sign-in notifications."
               imgSrc="/img/landing/auditlog-screenshot.png"
             />
