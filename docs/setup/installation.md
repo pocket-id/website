@@ -31,7 +31,6 @@ Required tools:
 - [Node.js](https://nodejs.org/en/download/) >= 22
 - [Go](https://golang.org/doc/install) >= 1.24
 - [Git](https://git-scm.com/downloads)
-- [PM2](https://pm2.keymetrics.io/)
 
 1. Copy the `.env.example` file in the `frontend` and `backend` folder to `.env` and change it so that it fits your needs.
 
@@ -43,23 +42,22 @@ Required tools:
 2. Run the following commands:
 
    ```bash
+   #Clone the official repo
    git clone https://github.com/pocket-id/pocket-id
    cd pocket-id
 
-   # Checkout the latest version
+   #Checkout latest version
    git fetch --tags && git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
 
-   # Start the backend
-   cd backend/cmd
-   go build -o ../pocket-id-backend
-   cd ..
-   pm2 start pocket-id-backend --name pocket-id-backend
-
-   # Start the frontend
-   cd ../frontend
-   npm install
+   #Build hte frontend
+   cd frontend
+   npm ci
    npm run build
-   pm2 start --name pocket-id-frontend --node-args="--env-file .env" build/index.js
+
+   #Start the Backend
+   cd ../backend/cmd
+   go build -o pocket-id
+   ./pocket-id
    ```
 
 You can now sign in with the admin account on `http://localhost:1411/login/setup`.
