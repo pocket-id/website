@@ -92,14 +92,20 @@ const Home: React.FC = () => {
               imgLeft={false}
             />
             <FeatureBox
-              title="Audit Logs"
-              description="Keep track of your account activities. If SMTP is configured, you can even receive sign-in notifications."
-              imgSrc="/img/landing/audit-log-screenshot.png"
+              title="Personal Audit Logs"
+              description="Keep track of personal and global account activities. If SMTP is configured, you can even receive sign-in notifications."
+              imgSrc="/img/landing/auditlog-screenshot.png"
             />
             <FeatureBox
               title="LDAP"
               description="Sync your users and groups from your LDAP server to Pocket ID."
               imgSrc="/img/landing/ldap-screenshot.png"
+              imgLeft={false}
+            />
+            <FeatureBox
+              title="API Keys"
+              description="Control and access information via the Pocket ID API."
+              imgSrc="/img/landing/apikey-screenshot.png"
               imgLeft={false}
             />
           </div>
