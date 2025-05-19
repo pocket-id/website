@@ -163,6 +163,9 @@ email_domains = ["*"]
 # If you are using HTTPS
 cookie_secure="true"
 
+# Should use the "__Host-" or "__Secure-" prefix for HTTPS
+cookie_name="__Host-oauth2-proxy"
+
 # Listen on all interfaces
 http_address="0.0.0.0:4180"
 ```
