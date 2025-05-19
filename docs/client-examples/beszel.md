@@ -17,6 +17,10 @@ id: beszel
 3. *Optional:* Download a PNG or SVG **logo** from the [Beszel project](https://github.com/henrygd/beszel) and upload.
 4. Copy the **Client ID**, **Client Secret**, and **Authorization URL**, **Token URL**, and **Userinfo URL** for use in the next section.
 
+## Configure Pocket ID
+1. Open the Pocket ID settings page and navigate to **`Application Configuration`**.
+2. Enable **Emails Verified**.
+
 ## Configure Beszel
 
 1. Open the Beszel superuser interface (`/_/#settings`) and navigate to: **`Settings > Application`** 
