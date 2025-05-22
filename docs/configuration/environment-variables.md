@@ -94,6 +94,9 @@ To enable environment variable overrides, set `PUBLIC_UI_CONFIG_DISABLED` to `tr
 | `LDAP_ATTRIBUTE_GROUP_UNIQUE_IDENTIFIER`           | `-`                          | LDAP attribute for group unique identifier. The value of this attribute should never change.                                                                                      |
 | `LDAP_ATTRIBUTE_GROUP_NAME`                        | `-`                          | LDAP attribute for group name.                                                                                                                                                    |
 | `LDAP_ATTRIBUTE_ADMIN_GROUP`                       | `-`                          | LDAP attribute for admin group. Members of this group will have Admin Privileges in Pocket ID.                                                                                    |
+| `BACKGROUND_IMAGE_TYPE`                            | `jpg`                        | File type of the background image,                                                                                                                                                |
+| `LOGO_LIGHT_IMAGE_TYPE`                            | `jpg`                        | File type of the logo for light mode,                                                                                                                                             |
+| `LOGO_DARK_IMAGE_TYPE`                             | `jpg`                        | File type of the logo for dark mode,                                                                                                                                              |
 
 ## Observability
 
