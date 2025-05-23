@@ -31,7 +31,7 @@ To configure Outline, use the following variables to utilize OpenID Connect.
 
 1. Add the following to your **Outline** container `docker.env`:
 
-    ```bash
+    ```
     OIDC_CLIENT_ID=Client ID
     OIDC_CLIENT_SECRET=Client Secret
     OIDC_AUTH_URI=Authorization URL
@@ -53,4 +53,4 @@ To configure Outline, use the following variables to utilize OpenID Connect.
 
 1. Login to **Outline** with your Pocket ID
 1. Review and update SSO settings at:
-    **`Settings >> Workspace >> Security`**
+    **Settings > Workspace > Security**
