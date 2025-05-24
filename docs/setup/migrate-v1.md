@@ -64,16 +64,20 @@ Follow the following steps to migrate from previous versions to v1.0.
 
 1. Adapt your `docker-compose.yml` for the new version:
 
+   - **Change the port**: Update the internal port to `1411`
+   - **Change the volume path**: Update the target path for the volume to `/app/data`
+   - **Update the healthcheck**: Change the port in the healthcheck to `1411`
+
    ```yaml
    services:
      pocket-id:
        image: pocketid/pocket-id:latest
        ports:
-         - "1411:1411" # Make sure to change the internal port (right side) to 1411. The exposed port (left side) can remain the same.
+         - "1411:1411" # Change the port
        volumes:
-         - ./data:/app/data # Make sure to change the target for the volume (path on the right side) to `/app/data`. The source for the volume (path on the left side) can remain the same.
+         - ./data:/app/data # Update the volume path
        healthcheck:
-         test: "curl -f http://localhost:1411/healthz" # Make sure to change the port to 1411 regardless of the exposed port.
+         test: "curl -f http://localhost:1411/healthz" # Update the port in the healthcheck
          interval: 1m30s
          timeout: 5s
          retries: 2
