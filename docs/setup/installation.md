@@ -93,6 +93,17 @@ Pocket ID is available as a template on the Community Apps store.
 
 <div class="artifacthub-widget" data-url="https://artifacthub.io/packages/helm/anza-labs/pocket-id" data-theme="light" data-header="true" data-stars="true" data-responsive="false"><blockquote><p lang="en" dir="ltr"><b>pocket-id</b>: _pocket-id_ is a simple and easy-to-use OIDC provider that allows users to authenticate with their passkeys to your services. </p>&mdash; Open in <a href="https://artifacthub.io/packages/helm/anza-labs/pocket-id">Artifact Hub</a></blockquote></div><script async src="https://artifacthub.io/artifacthub-widget.js"></script>
 
+### NixOS
+
+A pocket-id module is available in NixOS Unstable.
+It can be enabled by adding the following to your `configuration.nix`:
+
+```nix
+    services.pocket-id.enable = true;
+```
+
+For further configuration of the module, see the available [settings](https://search.nixos.org/options?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=pocket-id)
+
 ## Installation from Source
 
 It's not recommended to install Pocket ID from source unless you know what you're doing. The following instructions are provided for advanced users who want to customize or contribute to the project.

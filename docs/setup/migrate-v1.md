@@ -93,7 +93,7 @@ While you still can build Pocket ID from source, it's now much easier to install
 To migrate from previous versions to v1.0 and use the prebuilt binaries, follow these steps:
 
 1. Stop Pocket ID if it's currently running.
-2. Create a backup of the repository directy:
+2. Create a backup of the folder that contains your Pocket ID installation.
    ```bash
    cp -r /path/to/pocket-id /path/to/pocket-id-old
    ```

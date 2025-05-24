@@ -1,4 +1,4 @@
-# Integrate with oCIS
+# oCIS
 
 ## What is oCIS
 
