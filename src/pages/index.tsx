@@ -23,6 +23,18 @@ const Home: React.FC = () => {
 
   return (
     <div className="text-gray-800 dark:text-white h-screen flex flex-col bg-muted/40 dark:bg-muted/40">
+      {/* Announcement Banner */}
+      <div className="bg-rose-600/50 py-1.5 text-center text-md font-medium text-block  dark:text-white">
+        <span>🚀</span> Pocket ID v1.0 has been released! -{" "}
+        <a
+          href="/docs/setup/migrate-to-v1"
+          target="_blank"
+          className="inline-flex items-center font-semibold underline-offset-2 hover:underline"
+          style={{ color: "white" }}
+        >
+          See how to migrate →
+        </a>
+      </div>
       <header style={{ backgroundColor: "hsl(240, 10%, 3.9%)" }}>
         <div className="w-full border-b border-black">
           <div className="container flex w-full items-center justify-between px-4 md:px-10">
@@ -39,15 +51,6 @@ const Home: React.FC = () => {
                 Pocket ID
               </h2>
             </div>
-            <a
-              href="https://github.com/pocket-id/pocket-id"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: "hsl(0, 0%, 98%)" }}
-              className="text-white text-2xl"
-            >
-              <i className="fab fa-github" aria-hidden="true"></i>
-            </a>
           </div>
         </div>
       </header>
@@ -69,9 +72,7 @@ const Home: React.FC = () => {
                 backgroundColor: isDarkMode
                   ? "hsl(0, 0%, 98%)"
                   : "hsl(240, 10%, 3.9%)",
-                color: isDarkMode
-                  ? "hsl(240, 10%, 3.9%)"
-                  : "hsl(0, 0%, 98%)",
+                color: isDarkMode ? "hsl(240, 10%, 3.9%)" : "hsl(0, 0%, 98%)",
               }}
             >
               Get Started
@@ -100,13 +101,19 @@ const Home: React.FC = () => {
             />
             <FeatureBox
               title="Audit Logs"
-              description="Keep track of your account activities. If SMTP is configured, you can even receive sign-in notifications."
-              imgSrc="/img/landing/audit-log-screenshot.png"
+              description="Keep track of personal and global account activities. If SMTP is configured, you can even receive sign-in notifications."
+              imgSrc="/img/landing/auditlog-screenshot.png"
             />
             <FeatureBox
               title="LDAP"
               description="Sync your users and groups from your LDAP server to Pocket ID."
               imgSrc="/img/landing/ldap-screenshot.png"
+              imgLeft={false}
+            />
+            <FeatureBox
+              title="API Keys"
+              description="Control and access information via the Pocket ID API."
+              imgSrc="/img/landing/apikey-screenshot.png"
               imgLeft={false}
             />
           </div>
