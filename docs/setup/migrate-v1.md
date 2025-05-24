@@ -71,7 +71,7 @@ Follow the following steps to migrate from previous versions to v1.0.
    ```yaml
    services:
      pocket-id:
-       image: pocketid/pocket-id:latest
+       image: ghcr.io/pocket-id/pocket-id:latest
        ports:
          - "1411:1411" # Change the port
        volumes:
