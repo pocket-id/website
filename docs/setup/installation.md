@@ -102,7 +102,7 @@ It can be enabled by adding the following to your `configuration.nix`:
     services.pocket-id.enable = true;
 ```
 
-For further configuration of the module, see the available [settings](https://search.nixos.org/options?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=pocket-id)
+For further configuration of the module, see the available [settings](https://search.nixos.org/options?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=pocket-id).
 
 ## Installation from Source
 

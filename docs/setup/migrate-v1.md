@@ -24,12 +24,12 @@ We hate breaking changes as much as you do, but we decided to bundle them all in
 | ---------------------------- | ---------------------- | ---------------------------------------------------------------------------------------- |
 | `PUBLIC_APP_URL`             | `APP_URL`              | Variable renamed                                                                         |
 | `PUBLIC_UI_CONFIG_DISABLED`  | `UI_CONFIG_DISABLED`   | Variable renamed                                                                         |
-| `CADDY_DISABLED`             | Removed                | Not neccessary anymore                                                                   |
+| `CADDY_DISABLED`             | Removed                | Not necessary anymore                                                                    |
 | `CADDY_PORT`                 | `PORT`                 | Use new `PORT` variable                                                                  |
 | `BACKEND_PORT`               | `PORT`                 | Use new `PORT` variable                                                                  |
 | `POSTGRES_CONNECTION_STRING` | `DB_CONNECTION_STRING` | Variable renamed. See [Database Configuration](#database-configuration)                  |
 | `SQLITE_DB_PATH`             | `DB_CONNECTION_STRING` | Now uses connection string format. See [Database Configuration](#database-configuration) |
-| `INTERNAL_BACKEND_URL`       | Removed                | Not neccessary anymore                                                                   |
+| `INTERNAL_BACKEND_URL`       | Removed                | Not necessary anymore                                                                    |
 
 ### Database Configuration
 
