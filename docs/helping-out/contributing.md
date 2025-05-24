@@ -1,7 +1,3 @@
----
-id: contributing
----
-
 # Contributing
 
 I am happy that you want to contribute to Pocket ID and help to make it better! All contributions are welcome, including issues, suggestions, pull requests and more.
@@ -21,7 +17,7 @@ Before you submit the pull request for review please ensure that
   example:
 
   ```
-  feat(share): add password protection
+  fix: hide global audit log switch for non admin users
   ```
 
   Where `TYPE` can be:
@@ -34,53 +30,65 @@ Before you submit the pull request for review please ensure that
 - Your pull request has a detailed description
 - You run `npm run format` to format the code
 
-## Setup project
+## Development Environment
 
-Pocket ID consists of a frontend, backend and a reverse proxy. There are two ways to get the development environment setup:
+Pocket ID consists of a frontend and backend. In production the frontend gets statically served by the backend, but in development they run as separate processes to enable hot reloading.
 
-## 1. Using DevContainers
+There are two ways to get the development environment setup:
+
+### 1. Install required tools
+
+#### With Dev Containers
+
+If you use [Dev Containers](https://code.visualstudio.com/docs/remote/containers) in VS Code, you don't need to install anything manually, just follow the steps below.
 
 1. Make sure you have [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension installed
 2. Clone and open the repo in VS Code
 3. VS Code will detect .devcontainer and will prompt you to open the folder in devcontainer
 4. If the auto prompt does not work, hit `F1` and select `Dev Containers: Open Folder in Container.`, then select the pocket-id repo root folder and it'll open in container.
 
-## 2. Manual
+#### Without Dev Containers
 
-### Backend
+If you don't use Dev Containers, you need to install the following tools manually:
 
-The backend is built with [Gin](https://gin-gonic.com) and written in Go.
+- [Node.js](https://nodejs.org/en/download/) >= 22
+- [Go](https://golang.org/doc/install) >= 1.24
+- [Git](https://git-scm.com/downloads)
 
-#### Setup
+### 2. Setup
+
+#### Backend
+
+The backend is built with [Gin](https://gin-gonic.com) and written in Go. To set it up, follow these steps:
 
 1. Open the `backend` folder
-2. Copy the `.env.example` file to `.env` and change the `APP_ENV` to `development`
-3. Start the backend with `go run cmd/main.go`
+2. Copy the `.env.development-example` file to `.env` and edit the variables as needed
+3. Start the backend with `go run -tags exclude_frontend ./cmd`
 
 ### Frontend
 
-The frontend is built with [SvelteKit](https://kit.svelte.dev) and written in TypeScript.
-
-#### Setup
+The frontend is built with [SvelteKit](https://kit.svelte.dev) and written in TypeScript. To set it up, follow these steps:
 
 1. Open the `frontend` folder
-2. Copy the `.env.example` file to `.env`
+2. Copy the `.env.development-example` file to `.env` and edit the variables as needed
 3. Install the dependencies with `npm install`
 4. Start the frontend with `npm run dev`
 
-You're all set!
-
-## Debugging
-
-1. The VS Code is currently setup to auto launch caddy on opening the folder. (Defined in [tasks.json](.vscode/tasks.json))
-2. Press `F5` to start a debug session. This will launch both frontend and backend and attach debuggers to those process. (Defined in [launch.json](.vscode/launch.json))
+You're all set! The application is now listening on `localhost:3000`. The backend gets proxied trough the frontend in development mode.
 
 ### Testing
 
 We are using [Playwright](https://playwright.dev) for end-to-end testing.
 
+If you are contributing to a new feature please ensure that you add tests for it. The tests are located in the `tests` folder at the root of the project.
+
 The tests can be run like this:
 
-1. Start the backend normally
-2. Start the frontend in production mode with `npm run build && node --env-file=.env build/index.js`
-3. Run the tests with `npm run test`
+1. Visit the setup folder by running `cd tests/setup`
+
+2. Start the test environment by running `docker compose up -d --build`
+
+3. Go back to the test folder by running `cd ..`
+4. Run the tests with `npx playwright test`
+
+If you make any changes to the application, you have to rebuild the test environment by running `docker compose up -d --build` again.
