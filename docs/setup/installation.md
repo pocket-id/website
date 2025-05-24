@@ -9,6 +9,8 @@ sidebar_position: 1
 
 Pocket ID requires a [secure context](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts), meaning it must be served over HTTPS. This is necessary because Pocket ID uses the [WebAuthn API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Authentication_API).
 
+## Installation Methods
+
 ### Installation with Docker (recommended)
 
 1. Download the `docker-compose.yml` and `.env` file:
@@ -24,45 +26,44 @@ Pocket ID requires a [secure context](https://developer.mozilla.org/en-US/docs/W
 
 You can now sign in with the admin account on `http://localhost:1411/login/setup`.
 
-### Stand-alone Installation (advanced)
+### Stand-alone Installation
 
-Required tools:
+1. Download the latest binary from the [releases page](https://github.com/pocket-id/pocket-id/releases/latest).
 
-- [Node.js](https://nodejs.org/en/download/) >= 22
-- [Go](https://golang.org/doc/install) >= 1.24
-- [Git](https://git-scm.com/downloads)
+   Make sure to download the correct version for your operating system. The binary names follow this pattern:
 
-1. Copy the `.env.example` file in the `frontend` and `backend` folder to `.env` and change it so that it fits your needs.
+   - `pocket-id-<operating-system>-<architecture>`
+   - Example: `pocket-id-linux-amd64`
+
+   You can use curl to download the binary directly. For example, for Linux on AMD64 architecture:
 
    ```bash
-   cp frontend/.env.example frontend/.env
-   cp backend/.env.example backend/.env
+   curl -L -o pocket-id-linux-amd64 https://github.com/pocket-id/pocket-id/releases/latest/download/pocket-id-linux-amd64
    ```
 
-2. Run the following commands:
+2. Rename the binary and make it executable:
 
    ```bash
-   #Clone the official repo
-   git clone https://github.com/pocket-id/pocket-id
-   cd pocket-id
+   mv pocket-id-<operating-system>-<architecture> pocket-id
+   chmod +x pocket-id
+   ```
 
-   #Checkout latest version
-   git fetch --tags && git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
+3. Download the `.env` file:
 
-   #Build hte frontend
-   cd frontend
-   npm ci
-   npm run build
+   ```bash
+   curl -o .env https://raw.githubusercontent.com/pocket-id/pocket-id/main/.env.example
+   ```
 
-   #Start the Backend
-   cd ../backend/cmd
-   go build -o pocket-id
+4. Edit the `.env` file so that it fits your needs. See the [environment variables](/docs/configuration/environment-variables) section for more information.
+5. Run the binary:
+
+   ```bash
    ./pocket-id
    ```
 
 You can now sign in with the admin account on `http://localhost:1411/login/setup`.
 
-## Unofficial Installation Methods
+## Community Installation Methods
 
 :::important
 These installation methods are not officially supported, and services may not work as expected.
@@ -91,3 +92,46 @@ Pocket ID is available as a template on the Community Apps store.
 - A Helm chart maintained by anza-labs:
 
 <div class="artifacthub-widget" data-url="https://artifacthub.io/packages/helm/anza-labs/pocket-id" data-theme="light" data-header="true" data-stars="true" data-responsive="false"><blockquote><p lang="en" dir="ltr"><b>pocket-id</b>: _pocket-id_ is a simple and easy-to-use OIDC provider that allows users to authenticate with their passkeys to your services. </p>&mdash; Open in <a href="https://artifacthub.io/packages/helm/anza-labs/pocket-id">Artifact Hub</a></blockquote></div><script async src="https://artifacthub.io/artifacthub-widget.js"></script>
+
+## Installation from Source
+
+It's not recommended to install Pocket ID from source unless you know what you're doing. The following instructions are provided for advanced users who want to customize or contribute to the project.
+
+Required tools:
+
+- [Node.js](https://nodejs.org/en/download/) >= 22
+- [Go](https://golang.org/doc/install) >= 1.24
+- [Git](https://git-scm.com/downloads)
+
+1. Run the following commands:
+
+   ```bash
+   # Clone the repo
+   git clone https://github.com/pocket-id/pocket-id
+   cd pocket-id
+
+   # Checkout latest version
+   git fetch --tags && git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
+
+   # Build the frontend
+   cd frontend
+   npm ci
+   npm run build
+
+   # Build the backend
+   cd ../backend/cmd
+   go build -o ../../pocket-id
+
+   # Create the .env file
+   cd ../../
+   cp .env.example .env
+   ```
+
+2. Edit the `.env` file so that it fits your needs. See the [environment variables](/docs/configuration/environment-variables) section for more information.
+3. Run the binary:
+
+```bash
+./pocket-id
+```
+
+You can now sign in with the admin account on `http://localhost:1411/login/setup`.
