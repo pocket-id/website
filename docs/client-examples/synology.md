@@ -32,5 +32,5 @@ The following example variables are used, and should be replaced with your actua
 12. Set the `Authorization scope` field to: `openid email profile`
 13. Set the `Username claim` field to `preferred_username`. (This will use the users username vs the email. If the Pocket ID username matches the local Synology DSM account name, it will log in as the existing user.)
 14. Press the `Save` button.
-15. Press the `Apply` buton on the `Control Panel` page.
+15. Press the `Apply` button on the `Control Panel` page.
 16. Test the new OAuth login by logging out and logging back in again. The login page should now have a `SSO Authentication` tab that lets you `Continue with PocketID`.
