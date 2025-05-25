@@ -37,8 +37,8 @@ We hate breaking changes as much as you do, but we decided to bundle them all in
 
 - The `SQLITE_DB_PATH` environment variable has been removed (**deprecated** since [v0.45.0](https://github.com/pocket-id/pocket-id/releases/tag/v0.45.0))
 - You must now use the `DB_CONNECTION_STRING` with SQLite connection string format:
-  - Old: `SQLITE_DB_PATH=/data/db.sqlite`
-  - New: `DB_CONNECTION_STRING=file:/data/db.sqlite?_journal_mode=WAL&_busy_timeout=2500&_txlock=immediate`
+  - Old: `SQLITE_DB_PATH=data/pocket-id.db`
+  - New: `DB_CONNECTION_STRING=file:data/pocket-id.db?_pragma=journal_mode(WAL)&_pragma=busy_timeout(2500)&_txlock=immediate`
 
 #### PostgreSQL Connection
 
