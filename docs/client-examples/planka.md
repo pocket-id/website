@@ -46,4 +46,4 @@ To control **admin** access to Planka using Pocket ID groups:
 
 ## Additional information
 
-Additional informations about Planka OIDC can be found [here](https://docs.planka.cloud/docs/configuration/oidc)
+More information about Planka OIDC can be found [here](https://docs.planka.cloud/docs/configuration/oidc)
