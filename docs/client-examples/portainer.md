@@ -32,7 +32,7 @@ The following example variables are used, and should be replaced with your actua
 5. Paste the `Authorization URL` from Pocket ID into the `Authorization URL` field in Portainer.
 6. Paste the `Token URL` from Pocket ID into the `Access token URL` field in Portainer.
 7. Paste the `Userinfo URL` from Pocket ID into the `Resource URL` field in Portainer.
-8. Set the `Redirect URL` to `https://portainer.example.com`
+8. Set the `Redirect URL` to `https://portainer.example.com/`
 9. Paste the `Logout URL` from Pocket ID into the `Logout URL` field in Portainer.
 10. Set the `User identifier` field to `preferred_username`. (This will use the users username vs the email)
 11. Set the `Scopes` field to: `email openid profile`
