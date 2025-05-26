@@ -6,7 +6,7 @@ id: freshrss
 
 The following example variables are used, and should be replaced with your actual URLs.
 
-- `freshrss.example.com` (The URL of your Proxmox instance.)
+- `freshrss.example.com` (The URL of your FreshRSS instance.)
 - `id.example.com` (The URL of your Pocket ID instance.)
 
 ## Pocket ID Setup
