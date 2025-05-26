@@ -8,7 +8,9 @@ id: pangolin
 
 1. In Pocket ID create a new OIDC Client, name it, for example, `pangolin`
 2. In the "callback URL" field, enter any URL - this will be overwritten in a future step.
-	a. NOTE: You cannot proceed with generating the Client ID, Secret, Auth/Token URL's unless or until this field is filled out. This has been raised under a [Feature Request](https://github.com/pocket-id/pocket-id/issues/538)
+	- NOTE: You cannot proceed with generating the Client ID, Secret, Auth/Token URL's unless or until this field is filled out. This has been raised under a [Feature Request](https://github.com/pocket-id/pocket-id/issues/538)
+	- Additional guidance can be found in the [Pangolin docs](https://docs.fossorial.io/Pangolin/Identity%20Providers/Providers/pocket-id) for PocketID setup
+
 3. Copy the `Client ID`, `Client Secret`, `Authorization URL` and `Token URL` for the following steps
     
 We'll be coming back to set the Callback URL once we've setup Pangolin.
