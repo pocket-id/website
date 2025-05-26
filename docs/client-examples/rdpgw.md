@@ -2,9 +2,9 @@
 id: rdpgw
 ---
 
-# RDPGW [(bolkedebruin/rdpgw)](https://github.com/bolkedebruin/rdpgw)
+# RDPGW 
 
-RDPGW allows you to connect with the official Microsoft RDP clients to remote desktops over HTTPS.
+[RDPGW](https://github.com/bolkedebruin/rdpgw) allows you to connect with the official Microsoft RDP clients to remote desktops over HTTPS.
 The following example assumes you want to deploy rdpgw behind caddy reverse proxy with pocket-id.
 
 ## Pocket ID Setup
