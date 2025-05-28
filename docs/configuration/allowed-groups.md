@@ -1,5 +1,6 @@
 ---
 id: allowed-groups
+sidebar_position: 2
 ---
 
 # OIDC Client Allowed Groups
