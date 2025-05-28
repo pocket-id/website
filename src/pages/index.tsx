@@ -68,10 +68,7 @@ const Home: React.FC = () => {
               Pocket ID is a simple and easy-to-use OIDC provider that allows
               users to authenticate with their passkeys to your services.
             </p>
-            <a
-              href="/docs/introduction"
-              className="mt-6 inline-block px-6 py-3 rounded-lg font-semibold dark:bg-white dark:text-black! bg-black text-white!"
-            >
+            <a href="/docs/introduction" className="mt-6 primary-button">
               Get Started
             </a>
           </div>
