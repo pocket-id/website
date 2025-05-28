@@ -1,28 +1,20 @@
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import React, { useEffect, useState } from "react";
 import FeatureBox from "../components/feature-box";
+import { getInstanceCount } from "../utils/instance-count";
 import "/styles.css";
 
 const Home: React.FC = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [instanceCount, setInstanceCount] = useState<number | undefined>();
 
   useEffect(() => {
-    // Check for dark mode preference on component mount
-    const isDark =
-      window.matchMedia("(prefers-color-scheme: dark)").matches ||
-      document.documentElement.classList.contains("dark");
-    setIsDarkMode(isDark);
-
-    // Listen for changes to color scheme preference
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const handleChange = (e: MediaQueryListEvent) => setIsDarkMode(e.matches);
-    mediaQuery.addEventListener("change", handleChange);
-
-    return () => mediaQuery.removeEventListener("change", handleChange);
+    getInstanceCount()
+      .then((c) => setInstanceCount(c))
+      .catch();
   }, []);
 
   return (
-    <div className="text-gray-800 dark:text-white h-screen flex flex-col bg-muted/40 dark:bg-muted/40">
+    <div className="text-gray-800 dark:text-white h-screen flex flex-col bg-muted/40 dark:bg-muted/40 dark:bg-neutral-900 bg-white">
       {/* Announcement Banner */}
       <div className="bg-rose-600/50 py-1.5 text-center text-md font-medium text-block  dark:text-white">
         <span>🚀</span> Pocket ID v1.0 has been released! -{" "}
@@ -51,6 +43,17 @@ const Home: React.FC = () => {
                 Pocket ID
               </h2>
             </div>
+            {/* Instance count badge */}
+            {!!instanceCount && (
+              <div className="flex items-center space-x-2">
+                <div className="px-3 py-1 bg-green-600/20 border border-green-600/30 rounded-full">
+                  <span className="text-xs text-green-400 font-medium">
+                    <i className="fas fa-server mr-1"></i>
+                    {instanceCount} active instances
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </header>
@@ -67,13 +70,7 @@ const Home: React.FC = () => {
             </p>
             <a
               href="/docs/introduction"
-              className="mt-6 inline-block px-6 py-3 rounded-lg font-semibold"
-              style={{
-                backgroundColor: isDarkMode
-                  ? "hsl(0, 0%, 98%)"
-                  : "hsl(240, 10%, 3.9%)",
-                color: isDarkMode ? "hsl(240, 10%, 3.9%)" : "hsl(0, 0%, 98%)",
-              }}
+              className="mt-6 inline-block px-6 py-3 rounded-lg font-semibold dark:bg-white dark:text-black! bg-black text-white!"
             >
               Get Started
             </a>
