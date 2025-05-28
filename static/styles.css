@@ -3,6 +3,10 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
+.primary-button {
+  @apply px-6 py-3 rounded-lg font-semibold dark:bg-white dark:text-black bg-black text-white inline-block;
+}
+
 .glass {
   background: #09090b;
   backdrop-filter: blur(10px);
