@@ -19,7 +19,7 @@ We do not log or store IP addresses, user agents, or any other potentially ident
 
 ## Opting Out
 
-Analytics can be disabled at any time by setting the environment variable `ANALYTICS_ENABLED` to `true`. When disabled, no data is sent to our servers.
+Analytics can be disabled at any time by setting the environment variable `ANALYTICS_DISABLED` to `true`. When disabled, no data is sent to our servers.
 
 ## Public Statistics
 
