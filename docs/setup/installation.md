@@ -9,6 +9,8 @@ sidebar_position: 1
 
 Pocket ID requires a [secure context](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts), meaning it must be served over HTTPS. This is necessary because Pocket ID uses the [WebAuthn API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Authentication_API).
 
+You can use a reverse proxy like [Caddy](https://caddyserver.com/) or [NGINX](https://www.nginx.com/) to serve Pocket ID over HTTPS. Alternatively, you can use a service like [Cloudflare](https://www.cloudflare.com/) to provide HTTPS for your domain.
+
 ## Installation Methods
 
 ### Installation with Docker (recommended)
@@ -24,7 +26,7 @@ Pocket ID requires a [secure context](https://developer.mozilla.org/en-US/docs/W
 2. Edit the `.env` file so that it fits your needs. See the [environment variables](/docs/configuration/environment-variables) section for more information.
 3. Run `docker compose up -d`
 
-You can now sign in with the admin account on `http://localhost:1411/login/setup`.
+You can now sign in with the admin account on `https://<your-app-url>/login/setup`.
 
 ### Stand-alone Installation
 
@@ -61,7 +63,7 @@ You can now sign in with the admin account on `http://localhost:1411/login/setup
    ./pocket-id
    ```
 
-You can now sign in with the admin account on `http://localhost:1411/login/setup`.
+You can now sign in with the admin account on `https://<your-app-url>/login/setup`.
 
 ## Community Installation Methods
 
@@ -145,4 +147,4 @@ Required tools:
 ./pocket-id
 ```
 
-You can now sign in with the admin account on `http://localhost:1411/login/setup`.
+You can now sign in with the admin account on `https://<your-app-url>/login/setup`.
