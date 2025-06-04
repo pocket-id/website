@@ -49,5 +49,5 @@ id: kasm
 ## Testing
 
 Once setup, save all configurations and login to Kasm in a private/incognito browser window. You should be able to click PocketID to login accordingly.  If auto-login was enabled, it will redirect to PocketID immediately, skipping the Kasm local login.
-    
-    **NOTE**: In case you need to login to Kasm using local accounts (for instance, admin access), this can be done by click "Cancel" in PocketID before selecting your passkey. If auto login is enabled, this has to be done quickly before PocketID redirects to Kasm.
+
+**Note**: In case you need to login to Kasm using local accounts (for instance, admin access), this can be done by click "Cancel" in PocketID before selecting your passkey. If auto login is enabled, this has to be done quickly before PocketID redirects to Kasm.
