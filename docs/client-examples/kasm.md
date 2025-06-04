@@ -34,7 +34,7 @@ id: kasm
 
     g. User Info URL: Enter the Userinfo URL copied from PocketID
 
-    h. Scope: The following values can be entered: [`openid, email, profile, groups`]. These values can be extracted by entering the OIDC Disovery URL in a web browser, and looking for the "scopes_supported" string
+    h. Scope: The following values can be entered: [`openid, email, profile, groups`]. These values can be extracted by entering the OIDC Discovery URL in a web browser, and looking for the "scopes_supported" string
 
     i. Username attribute: Enter "preferred_username"
 
@@ -44,7 +44,7 @@ id: kasm
 
     l. OpenID Connect Issuer: This URL is optional and is simply the base URL where PocketID is accessed (example: `https://auth.domain.com`)
 
-    m. Logout with OIDC provider: This is configured in conjunction with the value from step `l` above. If configured, this will prompt a user who logs out of Kasm to also log out of PocketID for additional securit.
+    m. Logout with OIDC provider: This is configured in conjunction with the value from step `l` above. If configured, this will prompt a user who logs out of Kasm to also log out of PocketID for additional security.
 
 ## Testing
 
