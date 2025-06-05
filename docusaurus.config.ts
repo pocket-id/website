@@ -22,6 +22,16 @@ const config: Config = {
     defaultLocale: "en",
     locales: ["en"],
   },
+  future: {
+    v4: {
+      removeLegacyPostBuildHeadAttribute: true,
+    },
+    experimental_faster: true,
+    experimental_faster: {
+      rspackBundler: true, // required flag
+      rspackPersistentCache: true, // new flag
+    },
+  },
 
   presets: [
     [
