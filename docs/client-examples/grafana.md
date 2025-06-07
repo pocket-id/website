@@ -41,5 +41,5 @@ Below URLs are used as placeholders for the Grafana and Pocket ID instances. Rep
 ## Common problems
 
 - In case you get locked out of your account before the OAuth setup is completed successfully and need to reset the password refer this [link](https://grafana.com/docs/grafana/latest/cli/#reset-admin-password).
-- In case login fails with informtion that the callback url is wrong and you are behind reverse-proxy, you might need to set `root_url` in the grafana.ini to use properly set `https`, for example: `https://grafana.example.com/`.
+- In case login fails with information that the callback url is wrong and you are behind reverse-proxy, you might need to set `root_url` in the grafana.ini to use properly set `https`, for example: `https://grafana.example.com/`.
 - In case everything is set as according to the steps described above and you are still getting `Login failed: Sign up is disabled`, you might need to set `oauth_allow_insecure_email_lookup=true` in the `[auth]` section in the grafana.ini file.
