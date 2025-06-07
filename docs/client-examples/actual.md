@@ -14,7 +14,7 @@ id: actual
 1. Create a new OIDC Client in Pocket ID (e.g., `actual`).
 2. Set the **Callback URL** to the value below:
     ```
-    https://<actual-domain.tld>/path/openid/callback
+    https://<actual-domain.tld>/openid/callback
     ```
 3. *Optional:* Download a PNG or SVG **logo** from the [Actual project](https://github.com/actualbudget/actual) and upload.
 4. Copy the **Client ID**, **Client Secret**, and **OIDC Discovery URL** for use in the next section.
