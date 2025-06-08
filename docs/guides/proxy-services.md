@@ -1,5 +1,6 @@
 ---
 id: proxy-services
+sidebar_position: 1
 ---
 
 # Proxy Services
