@@ -9,13 +9,13 @@ ownCloud Infinite Scale (oCIS) is the new file sync & share platform that will b
 ## Preparation
 
 - `ocis.company.com` is the FQDN of the ocis server.
-- `pocketid.company.com` is the FQDN of the pocket-id server.
+- `pocket-id.company.com` is the FQDN of the pocket-id server.
 
 :::note
 This documentation lists only the settings that you need to change from their default values. Be aware that any changes other than those explicitly mentioned in this guide could cause issues accessing your application.
 :::
 :::info
-Pocket ID sends the Access-Control-Allow-Origin "pocketid.company.com" for pocketid.company.com/.well-known/openid-configuration . See https://github.com/pocket-id/pocket-id/issues/329
+Pocket ID sends the Access-Control-Allow-Origin "pocket-id.company.com" for pocket-id.company.com/.well-known/openid-configuration . See https://github.com/pocket-id/pocket-id/issues/329
 If you use nginx instead of caddy (CADDY_DISABLED=true) add to the location part of your nginx configuration for Pocket ID
 
 ```
@@ -92,7 +92,7 @@ Add your client id from Pocket ID to WEB_OIDC_CLIENT_ID=
 OCIS_URL=https://ocis.company.com
 PROXY_AUTOPROVISION_ACCOUNTS=true
 PROXY_ROLE_ASSIGNMENT_DRIVER=oidc
-OCIS_OIDC_ISSUER=https://pocketid.company.ch
+OCIS_OIDC_ISSUER=https://pocket-id.company.ch
 PROXY_OIDC_REWRITE_WELLKNOWN=true
 WEB_OIDC_CLIENT_ID=**<insert your client id from pocket id>**
 PROXY_USER_OIDC_CLAIM=preferred_username
@@ -102,7 +102,7 @@ PROXY_CSP_CONFIG_FILE_LOCATION=/etc/ocis/csp.yaml
 
 example of csp.yaml see https://github.com/owncloud/ocis/blob/master/deployments/examples/ocis_keycloak/config/ocis/csp.yaml
 
-change line 7 (pocketid.company.com) under connect-src to your Pocket ID URL and mount it to /etc/ocis/csp.yaml in your podman or docker settings.
+change line 9 (pocket-id.company.com) under connect-src to your Pocket ID URL and mount it to /etc/ocis/csp.yaml in your podman or docker settings.
 
 ```
 directives:
@@ -113,8 +113,7 @@ directives:
     - 'blob:'
     - 'https://raw.githubusercontent.com/owncloud/awesome-ocis/'
     # In contrary to bash and docker the default is given after the | character
-    - 'https://pocketid.company.com/'
-
+    - 'https://pocket-id.company.com/'
   default-src:
     - '''none'''
   font-src:
