@@ -8,8 +8,8 @@ ownCloud Infinite Scale (oCIS) is the new file sync & share platform that will b
 
 ## Preparation
 
-- `ocis.company.com` is the FQDN of the ocis installation.
-- `pocketid.company.com` is the FQDN of the ocis installation.
+- `ocis.company.com` is the FQDN of the ocis server.
+- `pocketid.company.com` is the FQDN of the pocket-id server.
 
 :::note
 This documentation lists only the settings that you need to change from their default values. Be aware that any changes other than those explicitly mentioned in this guide could cause issues accessing your application.
