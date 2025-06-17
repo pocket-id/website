@@ -103,5 +103,5 @@ services:
     volumes:
       - ./oauth2-proxy.cfg:/oauth2-proxy.cfg
     ports:
-      - 8000:4180
+      - 1234:4180
 ```
