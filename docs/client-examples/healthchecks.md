@@ -5,7 +5,7 @@ id: healthchecks
 
 ## Requirements
 
-- [Healthchecks.io](https://healthchecks.io/docs/self_hosted_docker/) continer self hosted on Docker
+- [Healthchecks.io](https://healthchecks.io/docs/self_hosted_docker/) container self hosted on Docker
 - [oauth2-proxy](https://github.com/oauth2-proxy/oauth2-proxy) reverse proxy container for authentication
 - Reverse proxy with SSL termination at the edge (HTTPS)
 
