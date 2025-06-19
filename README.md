@@ -21,3 +21,4 @@ This command starts a local development server and opens up a browser window. Mo
 
 ### Structure
 The markdown files are located in the `docs` folder. The sidebar is defined in `sidebars.ts`.
+
