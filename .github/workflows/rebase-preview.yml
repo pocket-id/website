@@ -1,0 +1,34 @@
+name: Rebase preview onto main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  rebase-preview:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0 
+
+      - name: Set up Git user
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch preview branch
+        run: git fetch origin preview:preview
+
+      - name: Rebase preview onto main
+        run: |
+          git checkout preview
+          git rebase main
+
+      - name: Push rebased preview branch
+        run: |
+          git push --force-with-lease origin preview
