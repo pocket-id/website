@@ -1,4 +1,4 @@
-name: Rebase preview onto main
+name: Rebase preview
 
 on:
   push:
@@ -8,13 +8,16 @@ on:
 jobs:
   rebase-preview:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
+      
     steps:
       - name: Checkout main branch
         uses: actions/checkout@v4
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
-          fetch-depth: 0 
+          fetch-depth: 0
 
       - name: Set up Git user
         run: |
@@ -24,7 +27,7 @@ jobs:
       - name: Fetch preview branch
         run: git fetch origin preview:preview
 
-      - name: Rebase preview onto main
+      - name: Rebase preview
         run: |
           git checkout preview
           git rebase main
@@ -32,3 +35,5 @@ jobs:
       - name: Push rebased preview branch
         run: |
           git push --force-with-lease origin preview
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
