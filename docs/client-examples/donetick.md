@@ -1,9 +1,7 @@
 ---
 id: donetick
 ---
-# [Donetick](https://github.com/donetick/donetick)
-
-**Note: Donetick an open-source, user-friendly app for managing tasks and chores, featuring customizable options to help you and others stay organized.**
+# Donetick
 
 ## Pocket ID Setup
 
