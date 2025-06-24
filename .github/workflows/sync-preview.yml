@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@master
-      - uses: connor-baer/action-sync-branch@main
+        uses: actions/checkout@v4
+      - uses: connor-baer/action-sync-branch@v1.1.0
         with:
           branch: preview
           token: ${{ secrets.GITHUB_TOKEN }}
