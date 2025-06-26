@@ -43,53 +43,21 @@ find ./data -type f -exec chmod 0600 {} \;
 
 To run the container as non-root and with a read-only root file system, use one of the options below.
 
-<details>
-  <summary>Docker CLI</summary>
+- **Docker CLI**: Add the `--user 1000:1000 --read-only` flags to the `docker run` command.
+- **Docker Compose**: Set these options in the `pocket-id` service:
 
-Add the `--user 1000:1000 --read-only` flags to the `docker run` command.
-</details>
+   - `read_only: true`
+   - `user: "1000:1000"`
 
-<details>
-  <summary>Docker Compose</summary>
+   Example:
 
-Set these options in the `pocket-id` service:
-
-- `read_only: true`
-- `user: "1000:1000"`
-
-Example:
-
-```yaml
-services:
-  pocket-id:
-    # ...
-    read_only: true
-    user: "1000:1000"
-```
-</details>
-
-<details>
-  <summary>Kubernetes Pod spec (including Podman)</summary>
-
-Set these options in the Pod's `securityContext`:
-
-- `readOnlyRootFilesystem: true`
-- `runAsUser: 1000`
-- `runAsGroup: 1000`
-
-Example:
-
-```yaml
-spec:
-  containers:
-    - name: "pocket-id"
-      # ...
-      securityContext:
-        readOnlyRootFilesystem: true
-        runAsUser: 1000
-        runAsGroup: 1000
-```
-</details>
+   ```yaml
+   services:
+     pocket-id:
+       # ...
+       read_only: true
+       user: "1000:1000"
+   ```
 
 ## Use custom private keys
 
