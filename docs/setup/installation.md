@@ -26,7 +26,7 @@ You can use a reverse proxy like [Caddy](https://caddyserver.com/) or [NGINX](ht
 2. Edit the `.env` file so that it fits your needs. See the [environment variables](/docs/configuration/environment-variables) section for more information.
 3. Run `docker compose up -d`
 
-You can now sign in with the admin account on `https://<your-app-url>/login/setup`.
+You can now sign in with the admin account on `https://<your-app-url>/setup`.
 
 ### Stand-alone Installation
 
@@ -63,7 +63,7 @@ You can now sign in with the admin account on `https://<your-app-url>/login/setu
    ./pocket-id
    ```
 
-You can now sign in with the admin account on `https://<your-app-url>/login/setup`.
+You can now sign in with the admin account on `https://<your-app-url>/setup`.
 
 ## Community Installation Methods
 
@@ -147,4 +147,4 @@ Required tools:
 ./pocket-id
 ```
 
-You can now sign in with the admin account on `https://<your-app-url>/login/setup`.
+You can now sign in with the admin account on `https://<your-app-url>/setup`.

@@ -19,7 +19,7 @@ APP_URL=https://id.example.com
 To set up the initial passkey for the admin user, navigate to:
 
 ```
-https://id.example.com/login/setup
+https://id.example.com/setup
 ```
 
 ## Invalid Callback URL

@@ -132,10 +132,5 @@ pocketid.example.com {
 	route /caddy-security/* {
 		authenticate with myportal
 	}
-	route /login/setup {
-		respond "Forbidden" 403 {
-			close
-		}
-	}
 }
 ```
