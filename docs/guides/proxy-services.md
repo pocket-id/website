@@ -63,6 +63,7 @@ caddy add-package github.com/greenpau/caddy-security
 			crypto default token lifetime 3600 # Seconds until you have to re-authenticate
 			enable identity provider generic
 			cookie insecure off # Set to "on" if you're not using HTTPS
+			# cookie domain service.example.com - If using mutiple clients/portals you have to set the cookie domain for each one so they do not conflict when trying to refresh the session.
 
 			transform user {
 				match realm generic
