@@ -1,8 +1,8 @@
 import type * as Preset from '@docusaurus/preset-classic';
 import type { Config } from '@docusaurus/types';
-import { themes as prismThemes } from 'prism-react-renderer';
-import type * as OpenApiPlugin from 'docusaurus-plugin-openapi-docs';
 import type * as Plugin from '@docusaurus/types/src/plugin';
+import type * as OpenApiPlugin from 'docusaurus-plugin-openapi-docs';
+import { themes as prismThemes } from 'prism-react-renderer';
 
 const config: Config = {
   title: 'Pocket ID',
@@ -23,7 +23,6 @@ const config: Config = {
   },
   future: {
     v4: true,
-    experimental_faster: true,
   },
 
   presets: [
