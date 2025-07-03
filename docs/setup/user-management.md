@@ -39,3 +39,17 @@ Once users have been created using one of the methods above, follow the steps be
 4. Have the user click on the **Don't have access to your passkey?** link at the bottom of the page.
 5. Have the user enter their email associated with their Pocket ID account and click **Submit**.
 6. The user will receive an email with a **One-Time Access** link to set up their passkey.
+
+### Signup Tokens 
+
+Since Pocket ID [v1.5.0+](https://github.com/pocket-id/pocket-id/pull/672), an admin can create a Signup Token Link with a customizable expiry date and use limit. Users can use this link to create their account and initial passkey.
+
+To enable this functionality:
+
+1. Goto **Application Configuration** > **Enable User Signups**
+2. Change the dropdown value to `Signup with token`
+3. Goto **Users** > **Add User** dropdown > **Create Signup Token**
+
+You can also view existing tokens and revoke them:
+
+1. Goto **Users** > **Add User** dropdown > **View Active Signup Tokens**
