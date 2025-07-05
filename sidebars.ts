@@ -29,6 +29,20 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: "category",
+      label: "API Documentation",
+      link: {
+        type: "generated-index",
+        title: "API Documentation",
+        description: "Explore the Pocket ID API endpoints and functionality",
+        slug: "api-documentation",
+      },
+      items:
+        process.env.API_DOCS_DISABLED === "true"
+          ? []
+          : [...require("./docs/api/endpoints/sidebar.ts")],
+    },
+    {
+      type: "category",
       label: "Guides",
       items: [
         {
