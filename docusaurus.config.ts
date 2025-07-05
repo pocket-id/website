@@ -36,7 +36,7 @@ const config: Config = {
           editUrl: 'https://github.com/pocket-id/website/edit/main',
         },
         theme: {
-          customCss: 'static/api-styles.css',
+          customCss: 'static/styles.css',
         },
         blog: false,
       } satisfies Preset.Options,
