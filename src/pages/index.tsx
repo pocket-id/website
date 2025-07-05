@@ -14,7 +14,7 @@ import {
   Users,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import ConnectArrow from "../components/conect-arrow";
+import ConnectArrow from "../components/connect-arrow";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import {

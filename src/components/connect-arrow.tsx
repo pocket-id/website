@@ -1,4 +1,4 @@
-export default function ConectArrow({
+export default function ConnectArrow({
   className = "",
 }: {
   className?: string;
