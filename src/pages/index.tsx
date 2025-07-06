@@ -33,6 +33,8 @@ export default function Component() {
     getInstanceCount()
       .then((c) => setInstanceCount(c))
       .catch();
+
+    document.documentElement.setAttribute("data-theme", "dark");
   }, []);
 
   const mainFeatures = [
@@ -113,7 +115,7 @@ export default function Component() {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white" data-theme="dark">
       {/* Header */}
       <header className="border-b border-border bg-black/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
