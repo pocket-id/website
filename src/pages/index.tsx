@@ -223,8 +223,6 @@ export default function Component() {
                     <img
                       src={`/img/landing/${feature.image}`}
                       alt={feature.title}
-                      width={500}
-                      height={300}
                       className="rounded-lg w-full"
                     />
                   </div>
