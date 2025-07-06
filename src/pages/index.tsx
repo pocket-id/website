@@ -25,13 +25,19 @@ import {
   CardTitle,
 } from "../components/ui/card";
 import { getInstanceCount } from "../utils/instance-count";
+import { readVersionFile } from "../version-label";
 
 export default function Component() {
   const [instanceCount, setInstanceCount] = useState<number | undefined>();
+  const [version, setVersion] = useState<string | undefined>();
 
   useEffect(() => {
     getInstanceCount()
       .then((c) => setInstanceCount(c))
+      .catch();
+
+    readVersionFile()
+      .then((v) => setVersion(v))
       .catch();
 
     document.documentElement.setAttribute("data-theme", "dark");
@@ -119,15 +125,19 @@ export default function Component() {
       {/* Header */}
       <header className="border-b border-border bg-black/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-3">
             <img
               src="/img/logo.png"
               alt="Pocket ID Logo"
               className="mr-3 h-8 w-8"
             />
             <span className="text-xl font-bold">Pocket ID</span>
+            {version && (
+              <Badge variant="outline" className="hidden sm:block">
+                v{version}
+              </Badge>
+            )}
           </div>
-
           <div className="flex items-center space-x-3">
             <Button asChild>
               <a href="/docs" className="no-underline">

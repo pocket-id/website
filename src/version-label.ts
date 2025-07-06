@@ -1,14 +1,14 @@
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 
-if (ExecutionEnvironment.canUseDOM) {
-  function readVersionFile() {
-    return fetch(
-      "https://raw.githubusercontent.com/pocket-id/pocket-id/refs/heads/main/.version"
-    )
-      .then((response) => response.text())
-      .catch((error) => `Error reading version file: ${error}`);
-  }
+export function readVersionFile(): Promise<string> {
+  return fetch(
+    "https://raw.githubusercontent.com/pocket-id/pocket-id/refs/heads/main/.version"
+  )
+    .then((response) => response.text())
+    .catch((error) => `Error reading version file: ${error}`);
+}
 
+if (ExecutionEnvironment.canUseDOM) {
   function getVersion() {
     readVersionFile()
       .then((version) => {
