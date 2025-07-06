@@ -131,8 +131,8 @@ export default function Component() {
           <div className="flex items-center space-x-3">
             <Button asChild>
               <a href="/docs" className="no-underline">
-                <BookOpen className="w-5 h-5 mr-2" />
-                Documentation
+                <BookOpen className="w-5 h-5" />
+                <span className="ml-1 hidden sm:flex">Documentation</span>
               </a>
             </Button>
             <Button variant="outline" className="text-white" asChild>
