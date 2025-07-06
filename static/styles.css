@@ -48,20 +48,6 @@
 }
 
 @layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
-  }
-
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: hsl(var(--border)) transparent;
-    border-color: hsl(var(--border));
-  }
-
   :root {
     --radius: 0.625rem;
     --background: oklch(1 0 0);
