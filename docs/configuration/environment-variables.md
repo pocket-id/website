@@ -18,9 +18,12 @@ Be cautious when modifying environment variables that are not recommended to cha
 | `MAXMIND_LICENSE_KEY`  | `-`                                                                                                     | yes                   | License Key for the GeoLite2 Database. The license key is required to retrieve the geographical location of IP addresses in the audit log. If the key is not provided, IP locations will be marked as "unknown." You can obtain a license key for free [here](https://www.maxmind.com/en/geolite2/signup).                                                                |
 | `PUID` and `PGID`      | `1000`                                                                                                  | yes                   | The user and group ID of the user who should run Pocket ID inside the Docker container and owns the files that are mounted with the volume. You can get the `PUID` and `GUID` of your user on your host machine by using the command `id`. For more information see [this article](https://docs.linuxserver.io/general/understanding-puid-and-pgid/#using-the-variables). |
 | `DB_PROVIDER`          | `sqlite`                                                                                                | no                    | The database provider you want to use. Currently `sqlite` and `postgres` are supported.                                                                                                                                                                                                                                                                                   |
-| `DB_CONNECTION_STRING` | `file:data/pocket-id.db?_pragma=journal_mode(WAL)&_pragma=busy_timeout(2500)&_txlock=immediate`         | no                    | Specifies the connection string used to connect to the database. See the [Database connection string](#database-connection-string) section below for more details.                                                                                                                                                                                                        |
+| `DB_CONNECTION_STRING` | `file:data/pocket-id.db?_pragma=journal_mode(WAL)&_pragma=busy_timeout(2500)&_txlock=immediate` | no | Specifies the connection string used to connect to the database.<br/>See the [Database connection string](#database-connection-string) section below for more details. |
 | `UPLOAD_PATH`          | `data/uploads`                                                                                          | no                    | The path where the uploaded files are stored.                                                                                                                                                                                                                                                                                                                             |
-| `KEYS_PATH`            | `data/keys`                                                                                             | no                    | The path where the private keys are stored.                                                                                                                                                                                                                                                                                                                               |
+| `KEYS_STORAGE` | `file`| no | Location where to store the private keys: `file` (default) or `database` (requires an encryption key).|
+| `ENCRYPTION_KEY` | `-` | yes | Key used to encrypt data, including the private keys. It's recommended to use a random sequence of characters, for example generated with `openssl rand -base64 32`<br/>See the [Encryption keys](#encryption-keys) section below for more details. |
+| `ENCRYPTION_KEY_FILE` | `-` | yes | Alternative to passing the encryption key with the `ENCRYPTION_KEY` variable, set to the path of a file containing a random encryption key. |
+| `KEYS_PATH` | `data/keys` | no | When `KEYS_STORAGE` is `file`, this is the path where the private keys are stored.|
 | `GEOLITE_DB_PATH`      | `data/GeoLite2-City.mmdb`                                                                               | no                    | The path where the GeoLite2 database should be stored.                                                                                                                                                                                                                                                                                                                    |
 | `GEOLITE_DB_URL`       | `https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=%s&suffix=tar.gz` | no                    | The custom download URL for the Geolite DB (default value should be fine for most users.)                                                                                                                                                                                                                                                                                 |
 | `PORT`                 | `1411`                                                                                                  | no                    | The port on which Pocket ID should listen.                                                                                                                                                                                                                                                                                                                                |
@@ -39,7 +42,7 @@ The `DB_CONNECTION_STRING` environmental variable configures how Pocket ID conne
 
 When using **SQLite** (`DB_PROVIDER=sqlite`, the default), this contains the path to the database file as well as some additional parameters. Most users should not modify the default value `file:data/pocket-id.db?_pragma=journal_mode(WAL)&_pragma=busy_timeout(2500)&_txlock=immediate`.
 
-> We **do not recommend** storing the SQLite database inside a networked filesystem, such as a NFS or SMB share. However, if you absolutely must, and are [aware of the risks](https://www.sqlite.org/useovernet.html), you need to modify `DB_CONNECTION_STRING` and disable journaling, by setting `_journal_mode=DELETE`. Note that this is not a recommended or supported scenario by the SQLite developers, and you should ensure to have proper backups for your database.
+> We **do NOT recommend** storing the SQLite database inside a networked filesystem, such as a NFS or SMB share. However, if you absolutely must, and are [aware of the risks](https://www.sqlite.org/useovernet.html), you need to modify `DB_CONNECTION_STRING` and disable journaling, by setting `_journal_mode=DELETE`. Note that this is not a recommended or supported scenario by the SQLite developers, and you should ensure to have proper backups for your database.
 
 When using **PostgreSQL** (`DB_PROVIDER=postgres`), the connection string is a DSN as supported by libpq:
 
@@ -50,6 +53,21 @@ postgresql://[user[:password]@][netloc][:port][/dbname][?param1=value1&...]
 Example:
 postgres://pocketid:123456@localhost:5432/pocketid
 ```
+
+### Encryption keys
+
+We recommend setting an encryption key so Pocket ID can encrypt sensitive data, such as the token signing keys. Additionally, providing an encryption key is required when you want to store the token signing keys in the database (`KEYS_STORAGE=database`).
+
+A good encryption key is a 32-characters-long random string. You can generate one using tools like OpenSSL:
+
+```sh
+openssl rand -base64 32
+```
+
+You can pass the encryption key to Pocket ID in two ways:
+
+1. Set its value in the `ENCRYPTION_KEY` variable directly
+2. Save it to a file mounted inside the container and set `ENCRYPTION_KEY_FILE` to its path. This also works with Docker Secrets.
 
 ## Overriding the UI configuration
 
