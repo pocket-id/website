@@ -36,7 +36,7 @@ methods:
     clientSecret: << Client Secret >>
     issuerUrl: https://id.example.com
     scopes: email openid profile groups
-    userIdentifier: username
+    userIdentifier: preferred_username
     disableVerifyTLS: false
     createUser: true
     # Below is optional. Also add 'groups' to 'scopes' if using this
