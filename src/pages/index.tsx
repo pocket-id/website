@@ -30,10 +30,16 @@ import { readVersionFile } from "../version-label";
 export default function Component() {
   const [instanceCount, setInstanceCount] = useState<number | undefined>();
   const [version, setVersion] = useState<string | undefined>();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [instanceCountLoaded, setInstanceCountLoaded] = useState(false);
 
   useEffect(() => {
     getInstanceCount()
-      .then((c) => setInstanceCount(c))
+      .then((c) => {
+        setInstanceCount(c);
+        // Trigger instance count animation after a slight delay, for some reason it doesnt animation properly without a seperate state.
+        setTimeout(() => setInstanceCountLoaded(true), 100);
+      })
       .catch();
 
     readVersionFile()
@@ -41,7 +47,26 @@ export default function Component() {
       .catch();
 
     document.documentElement.setAttribute("data-theme", "dark");
+    
+    setTimeout(() => setIsLoaded(true), 100);
   }, []);
+
+  const fadeInUp = (delay = 0) => ({
+    transform: isLoaded ? 'translateY(0)' : 'translateY(30px)',
+    opacity: isLoaded ? 1 : 0,
+    transition: `all 0.6s ease-out ${Math.min(delay, 200)}ms`
+  });
+
+  const fadeIn = (delay = 0) => ({
+    opacity: isLoaded ? 1 : 0,
+    transition: `opacity 0.6s ease-out ${Math.min(delay, 200)}ms`
+  });
+
+  const fadeInInstanceCount = (delay = 0) => ({
+    transform: instanceCountLoaded ? 'translateY(0)' : 'translateY(30px)',
+    opacity: instanceCountLoaded ? 1 : 0,
+    transition: `all 0.6s ease-out ${Math.min(delay, 200)}ms`
+  });
 
   const mainFeatures = [
     {
@@ -122,8 +147,10 @@ export default function Component() {
 
   return (
     <div className="min-h-screen bg-black text-white" data-theme="dark">
-      {/* Header */}
-      <header className="border-b border-border bg-black/50 backdrop-blur-sm sticky top-0 z-50">
+      <header 
+        className="border-b border-border bg-black/50 backdrop-blur-sm sticky top-0 z-50"
+        style={fadeIn(0)}
+      >
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <img
@@ -160,14 +187,23 @@ export default function Component() {
 
       <section className="py-20 px-4">
         <div className="container mx-auto text-center max-w-4xl">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent font-playfair">
+          <h1 
+            className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent font-playfair"
+            style={fadeInUp(50)}
+          >
             Pocket ID
           </h1>
-          <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
+          <p 
+            className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed"
+            style={fadeInUp(100)}
+          >
             A simple and easy-to-use OIDC provider that allows users to
             authenticate with their passkeys to your services.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div 
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+            style={fadeInUp(150)}
+          >
             <Button size="lg" asChild>
               <a href="/docs" className="no-underline">
                 <BookOpen className="w-5 h-5 mr-2" />
@@ -185,7 +221,11 @@ export default function Component() {
             </Button>
           </div>
           {instanceCount && (
-            <Badge variant="outline" className="mt-6">
+            <Badge 
+              variant="outline" 
+              className="mt-6"
+              style={fadeInInstanceCount(200)}
+            >
               <div className="bg-green-400 rounded-full w-2 h-2 animate-pulse inline-block mr-1"></div>
               {instanceCount} Active Instances
             </Badge>
@@ -195,7 +235,10 @@ export default function Component() {
 
       <section id="features" className="pt-20 pb-10 px-4">
         <div className="container mx-auto">
-          <div className="text-center mb-16">
+          <div 
+            className="text-center mb-16"
+            style={fadeInUp(50)} // Reduced from 200
+          >
             <h2 className="text-4xl font-bold mb-4 font-playfair">
               Key Features
             </h2>
@@ -211,8 +254,9 @@ export default function Component() {
               const IconComponent = feature.icon;
               return (
                 <div
-                  key={index}
+                  key={feature.title}
                   className="grid md:grid-cols-2 gap-8 items-center"
+                  style={fadeInUp(100 + (index * 20))}
                 >
                   <div className={`${imageFirst ? "md:order-2" : ""}`}>
                     <div className="flex items-center mb-4">
@@ -243,8 +287,11 @@ export default function Component() {
         </div>
       </section>
 
-      <section className="pb-20 px-4 ">
-        <div className="flex flex-col items-center py-16">
+      <section className="pb-20 px-4">
+        <div 
+          className="flex flex-col items-center py-16"
+          style={fadeIn(150)}
+        >
           <ConnectArrow className="h-12 rotate-90 mx-auto mb-8 text-gray-400" />
         </div>
         <div className="container mx-auto">
@@ -252,7 +299,11 @@ export default function Component() {
             {additionalFeatures.map((feature, index) => {
               const IconComponent = feature.icon;
               return (
-                <Card key={index} className="bg-card border-border">
+                <Card 
+                  key={feature.title} 
+                  className="bg-card border-border hover:border-gray-600 transition-all duration-300"
+                  style={fadeInUp(100 + (index * 15))}
+                >
                   <CardHeader>
                     <div className="flex items-center space-x-2">
                       <IconComponent className="w-6 h-6 text-white" />
@@ -274,7 +325,10 @@ export default function Component() {
       </section>
 
       <section className="py-20 px-4">
-        <div className="container mx-auto text-center max-w-3xl">
+        <div 
+          className="container mx-auto text-center max-w-3xl"
+          style={fadeInUp(150)}
+        >
           <h2 className="text-3xl md:text-4xl font-bold mb-6 font-playfair">
             Ready to get started?
           </h2>
