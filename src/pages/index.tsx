@@ -37,7 +37,7 @@ export default function Component() {
     getInstanceCount()
       .then((c) => {
         setInstanceCount(c);
-        // Trigger instance count animation after a slight delay, for some reason it doesnt animation properly without a seperate state.
+        // Trigger instance count animation after a slight delay, for some reason it doesnt animation properly without a separate state.
         setTimeout(() => setInstanceCountLoaded(true), 100);
       })
       .catch();
