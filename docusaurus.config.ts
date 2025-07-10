@@ -93,6 +93,12 @@ const config: Config = {
         } satisfies Plugin.PluginOptions,
       },
     ],
+    [
+      "docusaurus-plugin-generate-llms-txt",
+      {
+        outputFile: "llms.txt",
+      },
+    ],
   ],
 
   clientModules: [require.resolve('./src/version-label.ts')],
