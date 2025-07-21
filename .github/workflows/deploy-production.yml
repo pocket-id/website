@@ -7,8 +7,9 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      deployments: write
+        actions: read
+        deployments: write
+        contents: read
     name: Publish Production Website to Cloudflare Pages
     steps:
       - name: Checkout

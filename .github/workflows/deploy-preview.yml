@@ -12,9 +12,10 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      deployments: write
-    name: Build and Deploy Website Preview
+        actions: read
+        deployments: write
+        contents: read
+        pull-requests: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
