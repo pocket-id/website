@@ -21,6 +21,13 @@ id: beszel
 1. Open the Pocket ID settings page and navigate to **`Application Configuration`**.
 2. Enable **Emails Verified**.
 
+> **ℹ️ Note:**  
+> Beszel requires the OAuth provider to return a valid, verified email address to create new users.  
+> If you see an error like:  
+> `Failed to create record. { "email": "cannot be blank" }`  
+> It means your OAuth provider is not returning a usable email.  
+> Make sure **"Emails Verified"** is enabled in Pocket ID or that your identity provider returns a verified email in its `userinfo` response.
+
 ## Configure Beszel
 
 1. Open the Beszel superuser interface (`/_/#settings`) and navigate to: **`Settings > Application`** 
