@@ -1,15 +1,20 @@
-on:
-  workflow_dispatch:
-    
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+name: Build and Deploy Website Preview
 
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       deployments: write
-
-    name: Deploy to Cloudflare Pages
+    name: Build and Deploy Website Preview
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -52,14 +57,19 @@ jobs:
         run: |
           npx docusaurus gen-api-docs all
 
-      - name: Build website
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build site
         run: npm run build
 
-      - name: Publish
-        uses: cloudflare/pages-action@v1
+      - name: Publish to Cloudflare Pages
+        uses: AdrianGonz97/refined-cf-pages-action@v1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
           projectName: pocket-id-website
           directory: build
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          deploymentName: Preview
+          wranglerVersion: '3'
