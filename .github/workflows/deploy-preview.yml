@@ -1,76 +1,41 @@
-name: Build and Deploy Website Preview
-
+name: Upload Preview Deployment
 on:
-  pull_request:
-    types: [opened, synchronize]
+  workflow_run:
+    workflows: ['Build Preview Deployment']
+    types:
+      - completed
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
   cancel-in-progress: true
 
+permissions:
+  actions: read
+  deployments: write
+  contents: read
+  pull-requests: write
+
 jobs:
-  publish:
+  deploy-preview:
     runs-on: ubuntu-latest
-    permissions:
-        actions: read
-        deployments: write
-        contents: read
-        pull-requests: write
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    name: Deploy Preview to Cloudflare Pages
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Checkout pocket-id/pocket-id repo
-        uses: actions/checkout@v4
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        id: preview-build-artifact
         with:
-          repository: pocket-id/pocket-id
-          path: pocket-id
+          name: preview-build
+          path: build
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-          cache: "npm"
-          cache-dependency-path: package-lock.json
-
-      - name: Setup Go
-        uses: actions/setup-go@v5
-
-      - name: Install swag
-        run: go install github.com/swaggo/swag/cmd/swag@latest
-
-      - name: Generate Swagger docs
-        run: |
-          cd pocket-id/backend
-          swag init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml -o ../../static -md ../../static
-
-      - name: Add API doc tags
-        run: |
-          chmod +x ./scripts/add-api-doc-tags.sh
-          ./scripts/add-api-doc-tags.sh
-
-      - name: Remove Pocket ID repo
-        run: rm -rf pocket-id
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Generate API docs with Docusaurus
-        run: |
-          npx docusaurus gen-api-docs all
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build site
-        run: npm run build
-
-      - name: Publish to Cloudflare Pages
+      - name: Deploy to Cloudflare Pages
         uses: AdrianGonz97/refined-cf-pages-action@v1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           projectName: pocket-id-website
-          directory: build
           deploymentName: Preview
-          wranglerVersion: '3'
+          directory: ${{ steps.preview-build-artifact.outputs.download-path }}
