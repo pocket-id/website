@@ -1,0 +1,67 @@
+name: Build Preview Deployment
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches:
+      - preview
+
+jobs:
+  build-preview:
+    environment: Preview
+    runs-on: ubuntu-latest
+    name: Build Preview Site and Upload Build Artifact
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Checkout pocket-id/pocket-id repo
+        uses: actions/checkout@v4
+        with:
+          repository: pocket-id/pocket-id
+          path: pocket-id
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+
+      - name: Install swag
+        run: go install github.com/swaggo/swag/cmd/swag@latest
+
+      - name: Generate Swagger docs
+        run: |
+          cd pocket-id/backend
+          swag init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml -o ../../static -md ../../static
+
+      - name: Add API doc tags
+        run: |
+          chmod +x ./scripts/add-api-doc-tags.sh
+          ./scripts/add-api-doc-tags.sh
+
+      - name: Remove Pocket ID repo
+        run: rm -rf pocket-id
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate API docs with Docusaurus
+        run: |
+          npx docusaurus gen-api-docs all
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build site
+        run: npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-build
+          path: build
