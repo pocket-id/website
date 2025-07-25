@@ -1,6 +1,7 @@
 ---
 id: nginx-reverse-proxy
 sidebar_label: Use Nginx as Reverse Proxy
+sidebar_position: 2
 ---
 
 # Use Nginx as Reverse Proxy
