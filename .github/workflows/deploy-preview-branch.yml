@@ -6,6 +6,11 @@ on:
     branches:
       - preview
 
+permissions:
+  actions: read
+  deployments: write
+  contents: read
+
 jobs:
   deploy-preview-branch:
     environment: Preview
