@@ -84,11 +84,13 @@ If you are contributing to a new feature please ensure that you add tests for it
 
 The tests can be run like this:
 
-1. Visit the setup folder by running `cd tests/setup`
+1. Install the dependencies from the root of the project `pnpm install`
 
-2. Start the test environment by running `docker compose up -d --build`
+2. Visit the setup folder by running `cd tests/setup`
 
-3. Go back to the test folder by running `cd ..`
-4. Run the tests with `npx playwright test`
+3. Start the test environment by running `docker compose up -d --build`
+
+4. Go back to the test folder by running `cd ..`
+5. Run the tests with `pnpm dlx playwright test` or from the root project folder `pnpm test`
 
 If you make any changes to the application, you have to rebuild the test environment by running `docker compose up -d --build` again.
