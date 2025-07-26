@@ -1,6 +1,7 @@
 name: Deploy Preview Branch
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - preview
