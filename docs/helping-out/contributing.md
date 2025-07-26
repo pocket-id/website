@@ -1,6 +1,6 @@
 # Contributing
 
-I am happy that you want to contribute to Pocket ID and help to make it better! All contributions are welcome, including issues, suggestions, pull requests and more.
+We are happy that you want to contribute to Pocket ID and help to make it better! All contributions are welcome, including issues, suggestions, pull requests and more.
 
 ## Getting started
 
@@ -28,7 +28,7 @@ Before you submit the pull request for review please ensure that
   - **refactor** - code change that neither fixes a bug nor adds a feature
 
 - Your pull request has a detailed description
-- You run `npm run format` to format the code
+- You run `pnpm format` to format the code
 
 ## Development Environment
 
@@ -69,10 +69,10 @@ The backend is built with [Gin](https://gin-gonic.com) and written in Go. To set
 
 The frontend is built with [SvelteKit](https://kit.svelte.dev) and written in TypeScript. To set it up, follow these steps:
 
-1. Open the `frontend` folder
-2. Copy the `.env.development-example` file to `.env` and edit the variables as needed
-3. Install the dependencies with `npm install`
-4. Start the frontend with `npm run dev`
+1. Open the `pocket-id` project folder
+2. Copy the `frontend/.env.development-example` file to `frontend/.env` and edit the variables as needed
+3. Install the dependencies with `pnpm install`
+4. Start the frontend with `pnpm dev`
 
 You're all set! The application is now listening on `localhost:3000`. The backend gets proxied trough the frontend in development mode.
 
