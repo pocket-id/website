@@ -99,6 +99,17 @@ const config: Config = {
         outputFile: "llms.txt",
       },
     ],
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          {
+            to: '/docs/advanced/distroless-container-security-hardening',
+            from: ['/docs/advanced/container-security-hardening'],
+          },
+        ],
+      },
+    ],
   ],
 
   clientModules: [require.resolve('./src/version-label.ts')],

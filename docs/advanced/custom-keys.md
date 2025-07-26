@@ -1,6 +1,7 @@
 ---
 id: custom-keys
 sidebar_label: Custom Private Keys
+sidebar_position: 3
 ---
 
 # Use custom private keys

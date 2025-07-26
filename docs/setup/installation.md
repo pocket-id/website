@@ -15,7 +15,7 @@ You can use a reverse proxy like [Caddy](https://caddyserver.com/) or [NGINX](ht
 
 ### Installation with Docker (recommended)
 
-1. Download the `docker-compose.yml` and `.env` file:
+1. Download the [`docker-compose.yml`](https://raw.githubusercontent.com/pocket-id/pocket-id/main/docker-compose.yml) and [`.env`](https://raw.githubusercontent.com/pocket-id/pocket-id/main/.env.example) file:
 
    ```bash
     curl -O https://raw.githubusercontent.com/pocket-id/pocket-id/main/docker-compose.yml

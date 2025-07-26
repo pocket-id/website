@@ -17,6 +17,7 @@
   "dependencies": {
     "@docusaurus/core": "3.8.1",
     "@docusaurus/faster": "^3.8.1",
+    "@docusaurus/plugin-client-redirects": "^3.8.1",
     "@docusaurus/preset-classic": "3.8.1",
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@mdx-js/react": "^3.1.0",
