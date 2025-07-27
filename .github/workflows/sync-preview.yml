@@ -19,4 +19,4 @@ jobs:
         with:
           branch: preview
           token: ${{ secrets.GITHUB_TOKEN }}
-          force: true
+          force: false
