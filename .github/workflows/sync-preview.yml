@@ -15,8 +15,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - uses: connor-baer/action-sync-branch@v1.1.0
         with:
-          branch: preview
-          token: ${{ secrets.GITHUB_TOKEN }}
-          force: false
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Sync preview branch
+        run: |
+          git checkout preview
+          git rebase origin/main
+          git push -u origin preview --force
