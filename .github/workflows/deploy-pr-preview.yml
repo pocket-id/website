@@ -1,7 +1,7 @@
-name: Upload Preview Deployment
+name: Deploy Pull Request Preview
 on:
   workflow_run:
-    workflows: ['Build Preview Deployment']
+    workflows: ['Build Pull Request Preview']
     types:
       - completed
 
@@ -19,7 +19,6 @@ jobs:
   deploy-preview:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    name: Deploy Preview to Cloudflare Pages
     steps:
       - name: Download build artifact
         uses: actions/download-artifact@v4

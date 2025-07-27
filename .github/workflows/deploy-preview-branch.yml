@@ -5,6 +5,14 @@ on:
   push:
     branches:
       - preview
+    paths:
+      - 'src/**'
+      - 'docs/**'
+      - 'static/**'
+      - 'package.json'
+      - 'sidebars.ts'
+      - 'tsconfig.json'
+      - 'docusaurus.config.ts'
 
 permissions:
   actions: read

@@ -1,14 +1,21 @@
-name: Build Preview Deployment
+name: Build Pull Request Preview
 
 on:
   pull_request:
     types: [opened, synchronize]
+    paths:
+      - 'src/**'
+      - 'docs/**'
+      - 'static/**'
+      - 'package.json'
+      - 'sidebars.ts'
+      - 'tsconfig.json'
+      - 'docusaurus.config.ts'
 
 jobs:
   build-preview:
     environment: Preview
     runs-on: ubuntu-latest
-    name: Build Preview Site and Upload Build Artifact
     steps:
       - name: Checkout
         uses: actions/checkout@v4
