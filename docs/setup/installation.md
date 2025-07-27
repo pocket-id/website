@@ -127,9 +127,8 @@ Required tools:
    git fetch --tags && git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
 
    # Build the frontend
-   cd frontend
-   npm ci
-   npm run build
+   pnpm --filter pocket-id-frontend install
+   pnpm --filter pocket-id-frontend build
 
    # Build the backend
    cd ../backend/cmd
