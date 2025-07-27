@@ -1,29 +1,40 @@
 import React from 'react';
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle, Code } from 'lucide-react';
 import { readVersionFile } from '../version-label';
 
 export default function Root({ children }) {
-  const [showPreviewBanner, setShowPreviewBanner] = React.useState(false);
+  const [showBanner, setShowBanner] = React.useState(false);
+  const [bannerMessage, setBannerMessage] = React.useState('');
+  const [bannerIcon, setBannerIcon] = React.useState<React.ReactNode>(null);
   const [version, setVersion] = React.useState<string | undefined>();
 
   React.useEffect(() => {
-    // Check if we're on preview or localhost for development purposes only
-    const isPreviewSite =
-      typeof window !== 'undefined' &&
-      (window.location.hostname === 'preview.pocket-id.org' || window.location.hostname === 'localhost');
+    if (typeof window !== 'undefined') {
+      const hostname = window.location.hostname;
+      const isProductionSite = hostname === 'pocket-id.org';
 
-    setShowPreviewBanner(isPreviewSite);
+      if (!isProductionSite) {
+        setShowBanner(true);
 
-    if (isPreviewSite) {
-      readVersionFile()
-        .then((v) => setVersion(v))
-        .catch(() => setVersion(undefined));
+        if (hostname === 'localhost' || hostname === '127.0.0.1') {
+          setBannerMessage('Development environment - documentation may not reflect the production version');
+          setBannerIcon(<Code className="size-4" />);
+        } else {
+          // For preview.pocket-id.org and other preview URLs
+          setBannerMessage('This documentation is for an unreleased version of Pocket ID');
+          setBannerIcon(<AlertTriangle className="size-4" />);
+        }
+
+        readVersionFile()
+          .then((v) => setVersion(v))
+          .catch(() => setVersion(undefined));
+      }
     }
   }, []);
 
   return (
     <>
-      {showPreviewBanner && (
+      {showBanner && (
         <div
           className="preview-banner"
           style={{
@@ -48,20 +59,25 @@ export default function Root({ children }) {
               gap: '8px',
             }}
           >
-            <AlertTriangle className="size-4" />
+            {bannerIcon}
             <span>
-              This documentation is for an unreleased version of Pocket ID. See the{' '}
-              <a
-                href="https://pocket-id.org/docs"
-                style={{
-                  color: 'var(--ifm-color-primary)',
-                  textDecoration: 'underline',
-                  fontWeight: '600',
-                }}
-              >
-                latest version
-              </a>
-              {version && ` (v${version})`}
+              {bannerMessage}
+              {!bannerMessage.includes('Development') && (
+                <>
+                  . See the{' '}
+                  <a
+                    href="https://pocket-id.org/docs"
+                    style={{
+                      color: 'var(--ifm-color-primary)',
+                      textDecoration: 'underline',
+                      fontWeight: '600',
+                    }}
+                  >
+                    latest version
+                  </a>
+                  {version && ` (v${version})`}
+                </>
+              )}
             </span>
           </div>
         </div>
