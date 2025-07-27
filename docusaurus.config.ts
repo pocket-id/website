@@ -6,7 +6,8 @@ import { themes as prismThemes } from 'prism-react-renderer';
 
 const config: Config = {
   title: 'Pocket ID',
-  tagline: 'Pocket ID is a simple OIDC provider that allows users to authenticate with their passkeys to your services.',
+  tagline:
+    'Pocket ID is a simple OIDC provider that allows users to authenticate with their passkeys to your services.',
   favicon: 'img/logo.png',
 
   url: 'https://pocket-id.org',
@@ -94,9 +95,9 @@ const config: Config = {
       },
     ],
     [
-      "docusaurus-plugin-generate-llms-txt",
+      'docusaurus-plugin-generate-llms-txt',
       {
-        outputFile: "llms.txt",
+        outputFile: 'llms.txt',
       },
     ],
     [
@@ -112,7 +113,7 @@ const config: Config = {
     ],
   ],
 
-  clientModules: [require.resolve('./src/version-label.ts')],
+  clientModules: [require.resolve('./src/version-label.ts'), require.resolve('./src/theme/Root.tsx')],
   themes: ['docusaurus-theme-openapi-docs'],
 };
 export default config;

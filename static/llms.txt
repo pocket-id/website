@@ -2,11 +2,11 @@
 
 # Container security hardening
 
-By default, the Pocket ID container starts as the root user, which is used to set permissions on the file system before dropping its privileges and starting the main process. This is done for convenience, while still running the Pocket ID binary as non-root.
+By default, the Pocket ID container starts as the root user, which is used to set permissions on the file system before dropping its privileges and starting the main process. This is done for convenience, while still running the Pocket ID binary as non-root. If you prefer, you can run the Pocket ID container as a **non-root** user entirely and even ensure it uses a **read-only root file system**.
 
-If you prefer, you can run the Pocket ID container as a **non-root** user entirely and even ensure it uses a **read-only root file system**.
+Additionally, you can also switch to a **distroless** container, which is leaner and has a smaller potential attack surface.
 
-### Prerequisites
+## System requirements
 
 Make sure that the Pocket ID data volume is writable by the chosen user. This is the volume/folder mounted in the container at `/app/data`.
 
@@ -21,9 +21,9 @@ find ./data -type d -exec chmod 0700 {} \;
 find ./data -type f -exec chmod 0600 {} \;
 ```
 
-> Alternatively, you can start up the Pocket ID container with the default configuration once (where it starts as root before dropping privileges), and it will create the directories and set permissions automatically.
+> Alternatively, you can start up the regular (non-distroless) Pocket ID container with the default configuration once (where it starts as root before dropping privileges), and it will create the directories and set permissions automatically.
 
-### Container configuration
+## Container configuration
 
 To run the container as non-root and with a read-only root file system, use one of the options below.
 
@@ -42,6 +42,47 @@ To run the container as non-root and with a read-only root file system, use one 
        read_only: true
        user: "1000:1000"
    ```
+
+## Distroless container
+
+Distroless containers are based on a minimal image, which includes "just enough" to run Pocket ID. These images are leaner, resulting in faster pulls, and because they do not include a shell or other system libraries, they also have a reduced potential attack surface.
+
+To use distroless container, append `-distroless` to the container image, for example:
+
+```
+ghcr.io/pocket-id/pocket-id:v1-distroless
+```
+
+You can also use a specific version (such as `v1.x.x-distroless`) or branch (`v1.x-distroless`).
+
+Note that distroless containers are non-root by default. You will need to **set permissions on the mountpoints** as described in the [System requirements](#system-requirements) section.
+
+> Distroless containers do not include a shell, so you will not be able to enter into the container (e.g. with `docker exec`) for debugging purposes.
+
+## Docker Compose
+
+This `docker-compose.yml` includes a full example of using Pocket ID's distroless containers, with non-root user and a read-only root filesystem.
+
+```yaml
+services:
+  pocket-id:
+    image: ghcr.io/pocket-id/pocket-id:v1
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - 1411:1411
+    volumes:
+      - "./data:/app/data"
+    read_only: true
+    user: "1000:1000"
+    # Optional healthcheck
+    healthcheck:
+      test: [ "CMD", "/app/pocket-id", "healthcheck" ]
+      interval: 1m30s
+      timeout: 5s
+      retries: 2
+      start_period: 10s
+```
 
 ---
 
@@ -3120,7 +3161,7 @@ Inside your application, you can [obtain a token](https://learn.microsoft.com/en
 
 # Contributing
 
-I am happy that you want to contribute to Pocket ID and help to make it better! All contributions are welcome, including issues, suggestions, pull requests and more.
+We are happy that you want to contribute to Pocket ID and help to make it better! All contributions are welcome, including issues, suggestions, pull requests and more.
 
 ## Getting started
 
@@ -3148,7 +3189,7 @@ Before you submit the pull request for review please ensure that
   - **refactor** - code change that neither fixes a bug nor adds a feature
 
 - Your pull request has a detailed description
-- You run `npm run format` to format the code
+- You run `pnpm format` to format the code
 
 ## Development Environment
 
@@ -3189,10 +3230,10 @@ The backend is built with [Gin](https://gin-gonic.com) and written in Go. To set
 
 The frontend is built with [SvelteKit](https://kit.svelte.dev) and written in TypeScript. To set it up, follow these steps:
 
-1. Open the `frontend` folder
-2. Copy the `.env.development-example` file to `.env` and edit the variables as needed
-3. Install the dependencies with `npm install`
-4. Start the frontend with `npm run dev`
+1. Open the `pocket-id` project folder
+2. Copy the `frontend/.env.development-example` file to `frontend/.env` and edit the variables as needed
+3. Install the dependencies with `pnpm install`
+4. Start the frontend with `pnpm dev`
 
 You're all set! The application is now listening on `localhost:3000`. The backend gets proxied trough the frontend in development mode.
 
@@ -3204,12 +3245,14 @@ If you are contributing to a new feature please ensure that you add tests for it
 
 The tests can be run like this:
 
-1. Visit the setup folder by running `cd tests/setup`
+1. Install the dependencies from the root of the project `pnpm install`
 
-2. Start the test environment by running `docker compose up -d --build`
+2. Visit the setup folder by running `cd tests/setup`
 
-3. Go back to the test folder by running `cd ..`
-4. Run the tests with `npx playwright test`
+3. Start the test environment by running `docker compose up -d --build`
+
+4. Go back to the test folder by running `cd ..`
+5. Run the tests with `pnpm dlx playwright test` or from the root project folder `pnpm test`
 
 If you make any changes to the application, you have to rebuild the test environment by running `docker compose up -d --build` again.
 
@@ -3290,7 +3333,7 @@ You can use a reverse proxy like [Caddy](https://caddyserver.com/) or [NGINX](ht
 
 ### Installation with Docker (recommended)
 
-1. Download the `docker-compose.yml` and `.env` file:
+1. Download the [`docker-compose.yml`](https://raw.githubusercontent.com/pocket-id/pocket-id/main/docker-compose.yml) and [`.env`](https://raw.githubusercontent.com/pocket-id/pocket-id/main/.env.example) file:
 
    ```bash
     curl -O https://raw.githubusercontent.com/pocket-id/pocket-id/main/docker-compose.yml
@@ -3402,9 +3445,8 @@ Required tools:
    git fetch --tags && git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
 
    # Build the frontend
-   cd frontend
-   npm ci
-   npm run build
+   pnpm --filter pocket-id-frontend install
+   pnpm --filter pocket-id-frontend build
 
    # Build the backend
    cd ../backend/cmd
