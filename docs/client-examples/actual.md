@@ -5,7 +5,7 @@ id: actual
 
 ## Requirements
 
-- [Actual Budget](https://actualbudget.org/docs/experimental/oauth-auth) Client and Server version `25.1.0` or higher
+- [Actual Budget](https://actualbudget.org/docs/config/oauth-auth) Client and Server version `25.1.0` or higher
 - HTTPS connection to your Actual server
 
 **NOTE:** At the time of writing, OpenID support in Actual is considered experimental.
@@ -33,13 +33,13 @@ id: actual
 
 ## Managing multi-users
 
-After setting up the integration, you can manage users in Actual by following [these instructions](https://www.actualbudget.com/docs/experimental/multi-user).
+After setting up the integration, you can manage users in Actual by following [these instructions](https://actualbudget.org/docs/config/multi-user).
 
 ## Configure Actual with other methods
 You can also configure OpenID via the following methods. Check out Actual's documentation for more information.
 
-- [Environment variables](https://actualbudget.org/docs/experimental/oauth-auth/#configuration-using-environment-variables)
-- [Configuration file](https://actualbudget.org/docs/experimental/oauth-auth/#configuration-using-a-configuration-file)
+- [Environment variables](https://actualbudget.org/docs/config/oauth-auth#configuration-using-environment-variables)
+- [Configuration file](https://actualbudget.org/docs/config/oauth-auth#configuration-using-a-configuration-file)
 
 
 **Example with `.env`:**
