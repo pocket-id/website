@@ -17,11 +17,16 @@ async function getGithubStarCount(): Promise<number> {
 
 export default function GithubLink() {
   const [stars, setStars] = useState(FALLBACK_STAR_COUNT);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchStars = async () => {
-      const starCount = await getGithubStarCount();
-      setStars(starCount);
+      try {
+        const starCount = await getGithubStarCount();
+        setStars(starCount);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchStars();
@@ -35,7 +40,7 @@ export default function GithubLink() {
     <Button asChild variant="outline" className="shadow-none">
       <a href="https://github.com/pocket-id/pocket-id" target="_blank" rel="noreferrer" className="no-underline">
         <Icons.gitHub className="text-white" />
-        <span className="text-muted-foreground text-xs tabular-nums">{formatStars(stars)}</span>
+        <span className="text-muted-foreground text-xs tabular-nums">{isLoading ? '' : formatStars(stars)}</span>
       </a>
     </Button>
   );
