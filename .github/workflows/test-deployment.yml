@@ -4,32 +4,32 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - 'src/**'
+      - 'docs/**'
+      - 'static/**'
+      - 'scripts/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'svelte.config.js'
+      - '.github/workflows/test-deployment.yml'
 
 jobs:
   test-deploy:
     name: Test deployment
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-          cache: "npm"
-          cache-dependency-path: package-lock.json
 
-      - name: Checkout pocket-id/pocket-id repo
+      - name: Checkout pocket-id repo (for swagger generation)
         uses: actions/checkout@v4
         with:
           repository: pocket-id/pocket-id
           path: pocket-id
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-          cache: "npm"
-          cache-dependency-path: package-lock.json
+          ref: main
 
       - name: Setup Go
         uses: actions/setup-go@v5
@@ -37,9 +37,10 @@ jobs:
       - name: Install swag
         run: go install github.com/swaggo/swag/cmd/swag@latest
 
-      - name: Generate Swagger docs
+      - name: Generate swagger docs
         run: |
           cd pocket-id/backend
+            # yaml + json output (json optional if you still need it)
           swag init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml,json -o ../../static -md ../../static
 
       - name: Add API doc tags
@@ -47,15 +48,23 @@ jobs:
           chmod +x ./scripts/add-api-doc-tags.sh
           ./scripts/add-api-doc-tags.sh
 
-      - name: Remove Pocket ID repo
+      - name: Remove pocket-id repo
         run: rm -rf pocket-id
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
+
       - name: Install dependencies
-        run: npm install
+        run: pnpm install --frozen-lockfile
 
-      - name: Generate API docs with Docusaurus
-        run: |
-          npx docusaurus gen-api-docs all
-
-      - name: Test build website
-        run: npm run build
+      - name: Build (SvelteKit)
+        run: pnpm build
