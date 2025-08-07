@@ -1,4 +1,7 @@
-export const mainNavItems = [{ href: '/docs', label: 'Docs' }];
+export const mainNavItems = [
+  { href: '/docs', label: 'Docs' },
+  { href: '/docs/api', label: 'API Reference' },
+];
 
 export type NavItem = {
   title: string;
@@ -40,10 +43,6 @@ export const SidebarNavItems: SidebarNavItem[] = [
   {
     title: 'Guides',
     items: [{ title: 'Proxy Services', href: '/docs/guides/proxy-services', items: [] }],
-  },
-  {
-    title: 'API',
-    items: [{ title: 'API Reference', href: '/docs/api', items: [] }],
   },
   {
     title: 'Advanced',

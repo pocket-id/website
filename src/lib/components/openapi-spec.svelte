@@ -195,9 +195,9 @@
                             {#each Object.entries(operation.requestBody.content) as [contentType, content]}
                               <div>
                                 <Badge variant="outline" class="mb-2">{contentType}</Badge>
-                                {#if content.schema}
+                                {#if (content as any).schema}
                                   <pre class="bg-muted p-3 rounded text-sm overflow-x-auto"><code
-                                      >{JSON.stringify(content.schema, null, 2)}</code></pre>
+                                      >{JSON.stringify((content as any).schema, null, 2)}</code></pre>
                                 {/if}
                               </div>
                             {/each}
@@ -211,7 +211,8 @@
                       <div>
                         <h4 class="font-semibold mb-3">Responses</h4>
                         <div class="space-y-4">
-                          {#each Object.entries(operation.responses) as [statusCode, response]}
+                          {#each Object.entries(operation.responses) as [statusCode, responseObj]}
+                            {@const response = responseObj as any}
                             <div class="border rounded p-3">
                               <div class="flex items-center gap-2 mb-2">
                                 <Badge
@@ -277,12 +278,13 @@
                       </thead>
                       <tbody>
                         {#each Object.entries(model.properties) as [propName, propSchema]}
+                          {@const schema = propSchema as { description?: string }}
                           <tr>
                             <td class="border border-border p-2">
                               <code class="text-sm">{propName}</code>
                             </td>
                             <td class="border border-border p-2">
-                              <Badge variant="outline">{formatPropertyType(propSchema)}</Badge>
+                              <Badge variant="outline">{formatPropertyType(schema)}</Badge>
                             </td>
                             <td class="border border-border p-2">
                               {#if model.required && model.required.includes(propName)}
@@ -292,7 +294,7 @@
                               {/if}
                             </td>
                             <td class="border border-border p-2 text-sm text-muted-foreground">
-                              {propSchema.description || ''}
+                              {schema.description || ''}
                             </td>
                           </tr>
                         {/each}
