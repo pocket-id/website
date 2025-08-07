@@ -3,6 +3,7 @@
   import yaml from 'js-yaml';
   import Badge from '$lib/components/ui/badge/badge.svelte';
   import { Card, CardContent, CardHeader, CardTitle } from '$lib/components/ui/card/index.js';
+  import * as Accordion from '$lib/components/ui/accordion/index.js';
 
   interface Props {
     src?: string;
@@ -107,132 +108,140 @@
             {/if}
           {/if}
 
-          <div class="space-y-6">
-            {#each endpoints as { path, method, operation }}
-              <Card>
-                <CardHeader>
-                  <div class="flex items-center gap-3">
-                    <Badge class={`${getMethodColor(method)} text-white font-mono`}>
+          <Accordion.Root type="multiple" class="space-y-2">
+            {#each endpoints as { path, method, operation }, index}
+              <Accordion.Item value="endpoint-{tagName}-{index}" class="border rounded-lg">
+                <Accordion.Trigger class="px-4 py-3 hover:no-underline">
+                  <div class="flex items-center gap-3 w-full text-left">
+                    <Badge class={`${getMethodColor(method)} text-white font-mono text-xs px-2 py-1`}>
                       {method.toUpperCase()}
                     </Badge>
-                    <code class="text-lg font-mono">{path}</code>
+                    <code class="text-sm font-mono flex-1">{path}</code>
+                    {#if operation.summary}
+                      <span class="text-sm text-muted-foreground truncate max-w-md">{operation.summary}</span>
+                    {/if}
                   </div>
-                  {#if operation.summary}
-                    <CardTitle class="text-xl">{operation.summary}</CardTitle>
-                  {/if}
-                </CardHeader>
+                </Accordion.Trigger>
 
-                <CardContent class="space-y-6">
-                  {#if operation.description}
-                    <div>
-                      <h4 class="font-semibold mb-2">Description</h4>
-                      <p class="text-muted-foreground">{operation.description}</p>
-                    </div>
-                  {/if}
-
-                  <!-- Parameters -->
-                  {#if operation.parameters && operation.parameters.length > 0}
-                    <div>
-                      <h4 class="font-semibold mb-3">Parameters</h4>
-                      <div class="overflow-x-auto">
-                        <table class="w-full border-collapse border border-border">
-                          <thead>
-                            <tr class="bg-muted">
-                              <th class="border border-border p-2 text-left">Name</th>
-                              <th class="border border-border p-2 text-left">Type</th>
-                              <th class="border border-border p-2 text-left">In</th>
-                              <th class="border border-border p-2 text-left">Required</th>
-                              <th class="border border-border p-2 text-left">Description</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {#each operation.parameters as param}
-                              <tr>
-                                <td class="border border-border p-2">
-                                  <code class="text-sm">{param.name}</code>
-                                </td>
-                                <td class="border border-border p-2">
-                                  <Badge variant="outline">{param.type || 'string'}</Badge>
-                                </td>
-                                <td class="border border-border p-2">
-                                  <Badge variant="secondary">{param.in}</Badge>
-                                </td>
-                                <td class="border border-border p-2">
-                                  {#if param.required}
-                                    <Badge variant="destructive">Required</Badge>
-                                  {:else}
-                                    <Badge variant="outline">Optional</Badge>
-                                  {/if}
-                                </td>
-                                <td class="border border-border p-2 text-sm text-muted-foreground">
-                                  {param.description || ''}
-                                </td>
-                              </tr>
-                            {/each}
-                          </tbody>
-                        </table>
+                <Accordion.Content class="px-4 pb-4">
+                  <div class="space-y-6 pt-2">
+                    {#if operation.summary}
+                      <div>
+                        <h4 class="text-lg font-semibold">{operation.summary}</h4>
                       </div>
-                    </div>
-                  {/if}
+                    {/if}
 
-                  <!-- Request Body -->
-                  {#if operation.requestBody}
-                    <div>
-                      <h4 class="font-semibold mb-3">Request Body</h4>
-                      <div class="space-y-2">
-                        {#if operation.requestBody.description}
-                          <p class="text-sm text-muted-foreground">{operation.requestBody.description}</p>
-                        {/if}
-                        {#if operation.requestBody.content}
-                          {#each Object.entries(operation.requestBody.content) as [contentType, content]}
-                            <div>
-                              <Badge variant="outline" class="mb-2">{contentType}</Badge>
-                              {#if content.schema}
-                                <pre class="bg-muted p-3 rounded text-sm overflow-x-auto"><code
-                                    >{JSON.stringify(content.schema, null, 2)}</code></pre>
+                    {#if operation.description}
+                      <div>
+                        <h4 class="font-semibold mb-2">Description</h4>
+                        <p class="text-muted-foreground">{operation.description}</p>
+                      </div>
+                    {/if}
+
+                    <!-- Parameters -->
+                    {#if operation.parameters && operation.parameters.length > 0}
+                      <div>
+                        <h4 class="font-semibold mb-3">Parameters</h4>
+                        <div class="overflow-x-auto">
+                          <table class="w-full border-collapse border border-border">
+                            <thead>
+                              <tr class="bg-muted">
+                                <th class="border border-border p-2 text-left">Name</th>
+                                <th class="border border-border p-2 text-left">Type</th>
+                                <th class="border border-border p-2 text-left">In</th>
+                                <th class="border border-border p-2 text-left">Required</th>
+                                <th class="border border-border p-2 text-left">Description</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {#each operation.parameters as param}
+                                <tr>
+                                  <td class="border border-border p-2">
+                                    <code class="text-sm">{param.name}</code>
+                                  </td>
+                                  <td class="border border-border p-2">
+                                    <Badge variant="outline">{param.type || 'string'}</Badge>
+                                  </td>
+                                  <td class="border border-border p-2">
+                                    <Badge variant="secondary">{param.in}</Badge>
+                                  </td>
+                                  <td class="border border-border p-2">
+                                    {#if param.required}
+                                      <Badge variant="destructive">Required</Badge>
+                                    {:else}
+                                      <Badge variant="outline">Optional</Badge>
+                                    {/if}
+                                  </td>
+                                  <td class="border border-border p-2 text-sm text-muted-foreground">
+                                    {param.description || ''}
+                                  </td>
+                                </tr>
+                              {/each}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    {/if}
+
+                    <!-- Request Body -->
+                    {#if operation.requestBody}
+                      <div>
+                        <h4 class="font-semibold mb-3">Request Body</h4>
+                        <div class="space-y-2">
+                          {#if operation.requestBody.description}
+                            <p class="text-sm text-muted-foreground">{operation.requestBody.description}</p>
+                          {/if}
+                          {#if operation.requestBody.content}
+                            {#each Object.entries(operation.requestBody.content) as [contentType, content]}
+                              <div>
+                                <Badge variant="outline" class="mb-2">{contentType}</Badge>
+                                {#if content.schema}
+                                  <pre class="bg-muted p-3 rounded text-sm overflow-x-auto"><code
+                                      >{JSON.stringify(content.schema, null, 2)}</code></pre>
+                                {/if}
+                              </div>
+                            {/each}
+                          {/if}
+                        </div>
+                      </div>
+                    {/if}
+
+                    <!-- Responses -->
+                    {#if operation.responses}
+                      <div>
+                        <h4 class="font-semibold mb-3">Responses</h4>
+                        <div class="space-y-4">
+                          {#each Object.entries(operation.responses) as [statusCode, response]}
+                            <div class="border rounded p-3">
+                              <div class="flex items-center gap-2 mb-2">
+                                <Badge
+                                  variant={statusCode.startsWith('2') ? 'default'
+                                  : statusCode.startsWith('4') ? 'destructive'
+                                  : 'secondary'}>
+                                  {statusCode}
+                                </Badge>
+                                {#if response.description}
+                                  <span class="text-sm text-muted-foreground">{response.description}</span>
+                                {/if}
+                              </div>
+
+                              {#if response.schema}
+                                <div class="mt-2">
+                                  <h5 class="text-sm font-medium mb-1">Schema:</h5>
+                                  <pre class="bg-muted p-2 rounded text-xs overflow-x-auto"><code
+                                      >{JSON.stringify(response.schema, null, 2)}</code></pre>
+                                </div>
                               {/if}
                             </div>
                           {/each}
-                        {/if}
+                        </div>
                       </div>
-                    </div>
-                  {/if}
-
-                  <!-- Responses -->
-                  {#if operation.responses}
-                    <div>
-                      <h4 class="font-semibold mb-3">Responses</h4>
-                      <div class="space-y-4">
-                        {#each Object.entries(operation.responses) as [statusCode, response]}
-                          <div class="border rounded p-3">
-                            <div class="flex items-center gap-2 mb-2">
-                              <Badge
-                                variant={statusCode.startsWith('2') ? 'default'
-                                : statusCode.startsWith('4') ? 'destructive'
-                                : 'secondary'}>
-                                {statusCode}
-                              </Badge>
-                              {#if response.description}
-                                <span class="text-sm text-muted-foreground">{response.description}</span>
-                              {/if}
-                            </div>
-
-                            {#if response.schema}
-                              <div class="mt-2">
-                                <h5 class="text-sm font-medium mb-1">Schema:</h5>
-                                <pre class="bg-muted p-2 rounded text-xs overflow-x-auto"><code
-                                    >{JSON.stringify(response.schema, null, 2)}</code></pre>
-                              </div>
-                            {/if}
-                          </div>
-                        {/each}
-                      </div>
-                    </div>
-                  {/if}
-                </CardContent>
-              </Card>
+                    {/if}
+                  </div>
+                </Accordion.Content>
+              </Accordion.Item>
             {/each}
-          </div>
+          </Accordion.Root>
         </section>
       {/each}
     {/if}
@@ -241,17 +250,20 @@
     {#if spec.definitions}
       <section class="space-y-4">
         <h2 class="text-2xl font-semibold border-b pb-2">Data Models</h2>
-        <div class="grid gap-4">
-          {#each Object.entries(spec.definitions) as [modelName, model]}
-            <Card>
-              <CardHeader>
-                <CardTitle class="font-mono">{modelName}</CardTitle>
-                {#if model.description}
-                  <p class="text-sm text-muted-foreground">{model.description}</p>
-                {/if}
-              </CardHeader>
 
-              <CardContent>
+        <Accordion.Root type="multiple" class="space-y-2">
+          {#each Object.entries(spec.definitions) as [modelName, model], index}
+            <Accordion.Item value="model-{index}" class="border rounded-lg">
+              <Accordion.Trigger class="px-4 py-3 hover:no-underline">
+                <div class="flex items-center gap-3 w-full text-left">
+                  <code class="font-mono text-sm">{modelName}</code>
+                  {#if model.description}
+                    <span class="text-sm text-muted-foreground truncate flex-1">{model.description}</span>
+                  {/if}
+                </div>
+              </Accordion.Trigger>
+
+              <Accordion.Content class="px-4 pb-4">
                 {#if model.properties}
                   <div class="overflow-x-auto">
                     <table class="w-full border-collapse border border-border">
@@ -288,10 +300,10 @@
                     </table>
                   </div>
                 {/if}
-              </CardContent>
-            </Card>
+              </Accordion.Content>
+            </Accordion.Item>
           {/each}
-        </div>
+        </Accordion.Root>
       </section>
     {/if}
   </div>
