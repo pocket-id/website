@@ -233,7 +233,7 @@ The following example variables are used, and should be replaced with your actua
 7. Change **Match existing users by**, to what you want it to match an OIDC user with an existing (Audiobookshelf) user by.
 8. Toggle **Auto Register** to true, if you want to create a new user if it does not exist.
 9. Configure the **group claim** if you want.
-    :::danger
+  > [!NOTE]
     If you configure **group claim**, you will not be able to sign in as user. If you're not part of admin, user or guest.
     :::
 10. Configure the **abspermissions** claim if you want.

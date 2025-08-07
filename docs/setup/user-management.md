@@ -1,9 +1,6 @@
 ---
 id: user-management
-sidebar_position: 3
 ---
-
-# User Management
 
 Creating users in Pocket ID can be handled in two ways:
 
@@ -14,8 +11,9 @@ Once users have been created using one of the methods above, follow the steps be
 
 ## Setting Up User Passkeys
 
+> [!TIP]
 > As the admin, you cannot add passkeys for users; end users must configure them on their own.
-
+>
 > Passkeys can be stored in services like Bitwarden, LastPass, iCloud, or even locally on certain devices using platform authenticators.
 
 ### One-Time Link
@@ -40,7 +38,7 @@ Once users have been created using one of the methods above, follow the steps be
 5. Have the user enter their email associated with their Pocket ID account and click **Submit**.
 6. The user will receive an email with a **One-Time Access** link to set up their passkey.
 
-### Signup Tokens 
+### Signup Tokens
 
 Since Pocket ID [v1.5.0+](https://github.com/pocket-id/pocket-id/pull/672), an admin can create a Signup Token Link with a customizable expiry date and use limit. Users can use this link to create their account and initial passkey.
 

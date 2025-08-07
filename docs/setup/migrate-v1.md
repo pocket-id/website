@@ -5,9 +5,8 @@ sidebar_position: 2
 
 # Migrating to v1.0
 
-:::warning
-v1.0 is a major release that includes breaking changes. Please read this migration guide carefully before upgrading.
-:::
+> [!WARNING]
+> v1.0 is a major release that includes breaking changes. Please read this migration guide carefully before upgrading.
 
 We hate breaking changes as much as you do, but we decided to bundle them all into the v1.0 release to make future upgrades easier. This guide will help you understand the changes and how to migrate your existing Pocket ID installation.
 
@@ -63,7 +62,6 @@ Follow the following steps to migrate from previous versions to v1.0.
 ### Docker
 
 1. Adapt your `docker-compose.yml` for the new version:
-
    - **Change the port**: Update the internal port to `1411`
    - **Change the volume path**: Update the target path for the volume to `/app/data`
    - **Update the healthcheck**: Change the port in the healthcheck to `1411`
@@ -73,11 +71,11 @@ Follow the following steps to migrate from previous versions to v1.0.
      pocket-id:
        image: ghcr.io/pocket-id/pocket-id:latest
        ports:
-         - "1411:1411" # Change the port
+         - '1411:1411' # Change the port
        volumes:
          - ./data:/app/data # Update the volume path
        healthcheck:
-         test: "curl -f http://localhost:1411/healthz" # Update the port in the healthcheck
+         test: 'curl -f http://localhost:1411/healthz' # Update the port in the healthcheck
          interval: 1m30s
          timeout: 5s
          retries: 2
@@ -104,7 +102,6 @@ To migrate from previous versions to v1.0 and use the prebuilt binaries, follow 
 3. Download the latest binary from the [releases page](https://github.com/pocket-id/pocket-id/releases/latest).
 
    Make sure to download the correct version for your operating system. The binary names follow this pattern:
-
    - `pocket-id-<operating-system>-<architecture>`
    - Example: `pocket-id-linux-amd64`
 

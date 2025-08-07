@@ -42,9 +42,8 @@ For individual standalone user management (without groups):
 
 ### Group Permissions
 
-:::warning
-This is just an example of how to setup RBAC based on OIDC Groups. You may want to adjust the roles and permissions based on your specific needs.
-:::
+> [!WARNING]
+> This is just an example of how to setup RBAC based on OIDC Groups. You may want to adjust the roles and permissions based on your specific needs.
 
 This part is optional, but if you want to restrict access to specific groups and allow specific roles based on user groups, you can do so by following these steps:
 

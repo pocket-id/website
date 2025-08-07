@@ -2,7 +2,7 @@
 id: rdpgw
 ---
 
-# RDPGW 
+# RDPGW
 
 [RDPGW](https://github.com/bolkedebruin/rdpgw) allows you to connect with the official Microsoft RDP clients to remote desktops over HTTPS.
 The following example assumes you want to deploy rdpgw behind caddy reverse proxy with pocket-id.
@@ -20,36 +20,36 @@ rdpgw.yaml (adjust to your specific requirements):
 
 ```yaml
 Server:
- Authentication:
-  - openid
- Tls: disable
- GatewayAddress: https://rd.example.com
- Port: 80
- # list of acceptable desktop hosts to connect to
- Hosts:
-  - unraid-vm.local:3389
-  - 192.168.100.14:3389
- HostSelection: unsigned 
- SessionKey: 32-characters-long
- SessionEncryptionKey: 32-characters-long
- SessionStore: cookie
+  Authentication:
+    - openid
+  Tls: disable
+  GatewayAddress: https://rd.example.com
+  Port: 80
+  # list of acceptable desktop hosts to connect to
+  Hosts:
+    - unraid-vm.local:3389
+    - 192.168.100.14:3389
+  HostSelection: unsigned
+  SessionKey: 32-characters-long
+  SessionEncryptionKey: 32-characters-long
+  SessionStore: cookie
 # Open ID Connect specific settings
 OpenId:
- ProviderUrl: https://pocketid.example.com
- ClientId: your-client-id-from-pocket-id-for-rdpgw
- ClientSecret: your-client-secret-from-pocket-id-for-rdpgw
+  ProviderUrl: https://pocketid.example.com
+  ClientId: your-client-id-from-pocket-id-for-rdpgw
+  ClientSecret: your-client-secret-from-pocket-id-for-rdpgw
 Caps:
- SmartCardAuth: false
- # required for openid connect
- TokenAuth: true
- IdleTimeout: 0
- EnablePrinter: true
- EnablePort: true
- EnablePnp: true
- EnableDrive: true
- EnableClipboard: true
+  SmartCardAuth: false
+  # required for openid connect
+  TokenAuth: true
+  IdleTimeout: 0
+  EnablePrinter: true
+  EnablePort: true
+  EnablePnp: true
+  EnableDrive: true
+  EnableClipboard: true
 Client:
-  UsernameTemplate: "{{ username }}"
+  UsernameTemplate: '{{ username }}'
   SplitUserDomain: false
 Security:
   PAATokenSigningKey: 32-characters-long
@@ -63,7 +63,8 @@ Security:
 
 You then need to setup your caddy proxy with caddy-security and pocket-id config following the [pocket-id documentation](https://pocket-id.org/docs/guides/proxy-services#caddy).
 
-:::note You should have two different oidc clients, one for caddy-security and one for rdpgw.  For caddy-security the callback looks like `https://example.com/auth/oauth2/generic/authorization-code-callback` and for rdpgw its: `https://rd.example.com/callback` you need both oidc clients.  For the `/auth/oath2/generic/` route this is the route that caddy-security is handling (not rdpgw, rdpgw is handling `rd.example.com/connect?host=` and then `rd.example.com/callback`). :::
+> [!NOTE]
+> You should have two different oidc clients, one for caddy-security and one for rdpgw. For caddy-security the callback looks like `https://example.com/auth/oauth2/generic/authorization-code-callback` and for rdpgw its: `https://rd.example.com/callback` you need both oidc clients. For the `/auth/oath2/generic/` route this is the route that caddy-security is handling (not rdpgw, rdpgw is handling `rd.example.com/connect?host=` and then `rd.example.com/callback`).
 
 ```ini
   oauth identity provider generic {

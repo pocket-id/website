@@ -2,8 +2,6 @@
 id: portainer
 ---
 
-# Portainer
-
 **This requires Portainers Business Edition**
 
 The following example variables are used, and should be replaced with your actual URLS.
@@ -23,6 +21,7 @@ The following example variables are used, and should be replaced with your actua
 - While initially setting up OAuth in Portainer, its recommended to keep the `Hide internal authentication prompt` set to `Off` incase you need a fallback login
 - This guide does **NOT** cover how to setup group claims in Portainer.
 
+> [!TIP]
 > Make sure to enabled the `Automatic user provisioning` option so users are auto-created in Portainer.
 
 1. Open the Portainer web interface and navigate to: `Settings > Authentication`
