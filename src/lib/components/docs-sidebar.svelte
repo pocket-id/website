@@ -3,6 +3,7 @@
   import { page } from '$app/state';
   import type { SidebarNavItem } from '$lib/config/docs.js';
   import type { ComponentProps } from 'svelte';
+  import ExternalLink from '@lucide/svelte/icons/external-link';
 
   let { navItems, ...restProps }: { navItems: SidebarNavItem[] } & ComponentProps<typeof Sidebar.Root> = $props();
 
@@ -29,7 +30,12 @@
                       isActive={subItem.href === pathname}
                       class="data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
                       {#snippet child({ props })}
-                        <a href={subItem.href} {...props}>{subItem.title}</a>
+                        <a href={subItem.href} {...props}>
+                          {subItem.title}
+                          {#if subItem.external}
+                            <ExternalLink class="inline size-3 text-muted-foreground mb-1 align-text-bottom" />
+                          {/if}
+                        </a>
                       {/snippet}
                     </Sidebar.MenuButton>
                   </Sidebar.MenuItem>
