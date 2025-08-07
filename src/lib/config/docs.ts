@@ -19,17 +19,15 @@ export type SidebarNavItem = NavItem & {
 export const SidebarNavItems: SidebarNavItem[] = [
   {
     title: 'Getting Started',
+    items: [{ title: 'Introduction', href: '/docs/introduction', items: [] }],
+  },
+  {
+    title: 'Setup',
     items: [
-      { title: 'Introduction', href: '/docs/introduction', items: [] },
-      {
-        title: 'Setup',
-        items: [
-          { title: 'Installation', href: '/docs/setup/installation', items: [] },
-          { title: 'User Management', href: '/docs/setup/user-management', items: [] },
-          { title: 'Migrate to v1.0', href: '/docs/setup/migrate-v1', items: [] },
-          { title: 'Upgrading', href: '/docs/setup/upgrading', items: [] },
-        ],
-      },
+      { title: 'Installation', href: '/docs/setup/installation', items: [] },
+      { title: 'User Management', href: '/docs/setup/user-management', items: [] },
+      { title: 'Migrate to v1.0', href: '/docs/setup/migrate-v1', items: [] },
+      { title: 'Upgrading', href: '/docs/setup/upgrading', items: [] },
     ],
   },
   {
