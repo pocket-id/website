@@ -59,6 +59,7 @@ export const SidebarNavItems: SidebarNavItem[] = [
     title: 'Helping Out',
     items: [
       { title: 'Contributing', href: '/docs/helping-out/contributing', items: [] },
+      { title: 'Documentation', href: '/docs/helping-out/documentation', items: [] },
       { title: 'Translating', href: '/docs/helping-out/translating', items: [] },
     ],
   },

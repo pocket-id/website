@@ -351,11 +351,11 @@ export const helpingOut: DocMetadata[] = [
     description: 'Help translate Pocket ID into your language',
     path: 'helping-out/translating',
   },
-  // {
-  //   title: 'Documentation',
-  //   description: 'Contribute to improving the documentation',
-  //   path: 'helping-out/documentation',
-  // },
+  {
+    title: 'Documentation',
+    description: 'Contribute to improving the Pocket ID website or documentation',
+    path: 'helping-out/documentation',
+  },
 ];
 
 export const externalLinks: DocMetadata[] = [
