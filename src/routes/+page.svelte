@@ -4,6 +4,7 @@
   import { Badge } from '$lib/components/ui/badge/index.js';
   import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card/index.js';
   import { mainFeatures, additionalFeatures } from '$lib/config/features.js';
+  import ConnectArrow from '$lib/components/connect-arrow.svelte';
 
   import BookOpen from '@lucide/svelte/icons/book-open';
   import TestTube from '@lucide/svelte/icons/test-tube';
@@ -159,8 +160,14 @@
     </div>
   </section>
 
+  <section class="py-8">
+    <div class="container mx-auto text-center">
+      <ConnectArrow class="h-12 rotate-90 mx-auto mb-8 text-gray-400" />
+    </div>
+  </section>
+
   <!-- CTA Section -->
-  <section class="py-20 px-4">
+  <section class="py-10 px-4">
     <div
       class="container mx-auto text-center max-w-3xl"
       style="transform: {isLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {isLoaded ? 1 : (
