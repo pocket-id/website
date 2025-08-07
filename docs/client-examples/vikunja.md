@@ -1,5 +1,6 @@
 ---
-id: vikunja
+title: Vikunja
+description: Configure Vikunja task management with Pocket ID
 ---
 
 1. In Pocket-ID create a new OIDC Client, name it i.e. `Vikunja`

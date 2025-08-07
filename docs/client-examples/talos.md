@@ -1,5 +1,6 @@
 ---
-id: Talos
+title: Talos
+description: Set up Talos Linux with Pocket ID authentication
 ---
 
 Talos is a lightweight API driven full stack Kubernetes system. As with any Kubernetes server, you can set it up to

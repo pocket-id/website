@@ -1,5 +1,6 @@
 ---
-id: pangolin
+title: Pangolin
+description: Configure Pangolin with Pocket ID authentication
 ---
 
 ## Pocket ID Setup

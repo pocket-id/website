@@ -1,5 +1,6 @@
 ---
-id: rdpgw
+title: RDP Gateway
+description: Set up RDP Gateway with Pocket ID authentication
 ---
 
 [RDPGW](https://github.com/bolkedebruin/rdpgw) allows you to connect with the official Microsoft RDP clients to remote desktops over HTTPS.

@@ -1,5 +1,6 @@
 ---
-id: ocis
+title: oCIS
+description: Set up ownCloud Infinite Scale with Pocket ID
 ---
 
 ## What is oCIS

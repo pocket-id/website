@@ -1,4 +1,9 @@
 ---
+title: Grist
+description: Set up Grist spreadsheet tool with Pocket ID
+---
+
+---
 id: grist
 ---
 

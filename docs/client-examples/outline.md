@@ -1,5 +1,6 @@
 ---
-id: outline
+title: Outline
+description: Set up Outline wiki with Pocket ID OIDC
 ---
 
 Setting up [Outline](https://docs.getoutline.com/s/hosting/doc/oidc-8CPBm6uC0I) to authenticate with Pocket ID can be accomplished with the configuration below.

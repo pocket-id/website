@@ -1,5 +1,6 @@
 ---
-id: account-recovery
+title: Account Recovery
+description: Solutions to account recovery issues
 ---
 
 There are two ways to create a one-time access link for a user:

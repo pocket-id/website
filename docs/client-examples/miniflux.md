@@ -1,5 +1,6 @@
 ---
-id: miniflux
+title: Miniflux
+description: Configure Miniflux RSS reader with Pocket ID
 ---
 
 1. Create a new OIDC Client in Pocket ID (e.g., `miniflux`).

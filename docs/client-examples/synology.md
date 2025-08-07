@@ -1,5 +1,6 @@
 ---
-id: synology
+title: Synology
+description: Configure Synology NAS with Pocket ID OIDC
 ---
 
 The following example variables are used, and should be replaced with your actual URLS.

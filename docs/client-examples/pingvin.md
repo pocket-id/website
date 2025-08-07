@@ -1,5 +1,6 @@
 ---
-id: pingvin
+title: Pingvin Share
+description: Set up Pingvin Share with Pocket ID OIDC
 ---
 
 ## Requirements

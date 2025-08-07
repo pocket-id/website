@@ -1,5 +1,6 @@
 ---
-id: forgejo
+title: Forgejo
+description: Configure Forgejo Git service with Pocket ID
 ---
 
 ## Pocket ID Setup

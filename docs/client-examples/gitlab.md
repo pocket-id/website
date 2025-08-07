@@ -1,5 +1,6 @@
 ---
-id: gitlab
+title: GitLab
+description: Integrate GitLab with Pocket ID authentication
 ---
 
 Setting this app up requires access to the GitLab configuration file (most likely `/etc/gitlab/gitlab.rb`) as well shell access for reconfiguring. Below are URLs used as placeholders for the GitLab and Pocket ID instances:

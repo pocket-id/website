@@ -1,5 +1,6 @@
 ---
-id: healthchecks
+title: Healthchecks
+description: Enable OIDC for Healthchecks monitoring
 ---
 
 ## Requirements

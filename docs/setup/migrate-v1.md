@@ -1,5 +1,6 @@
 ---
-id: migrate-to-v1
+title: Migrate to v1.0
+description: Migrate from previous versions to Pocket ID v1.0
 ---
 
 > [!WARNING]

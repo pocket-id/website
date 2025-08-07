@@ -1,5 +1,6 @@
 ---
-id: introduction
+title: Introduction
+description: Welcome to Pocket ID - A simple OIDC provider for passwordless authentication
 ---
 
 Pocket ID is a simple OIDC provider that allows users to authenticate with their passkeys to your services.

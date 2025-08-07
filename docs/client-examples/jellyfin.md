@@ -1,5 +1,6 @@
 ---
-id: jellyfin
+title: Jellyfin
+description: Set up Jellyfin media server with OIDC authentication
 ---
 
 > [!WARNING]

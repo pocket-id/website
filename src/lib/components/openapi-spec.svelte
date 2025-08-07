@@ -2,8 +2,8 @@
   import { onMount } from 'svelte';
   import yaml from 'js-yaml';
   import Badge from '$lib/components/ui/badge/badge.svelte';
-  import { Card, CardContent, CardHeader, CardTitle } from '$lib/components/ui/card/index.js';
   import * as Accordion from '$lib/components/ui/accordion/index.js';
+  import { indexOpenApi, filterIndexed } from '$lib/utils/openapi-util.js';
 
   interface Props {
     src?: string;
@@ -25,12 +25,17 @@
   let spec: OpenAPISpec | null = $state(null);
   let loading = $state(true);
   let error: string | null = $state(null);
+  let index = $state<ReturnType<typeof indexOpenApi> | null>(null);
+  let search = $state('');
+  let selectedTags = $state<Set<string>>(new Set());
+  let filtered = $derived(index ? filterIndexed(index, search, selectedTags) : null);
 
   onMount(async () => {
     try {
       const response = await fetch(src);
       const specText = await response.text();
       spec = yaml.load(specText) as OpenAPISpec;
+      index = indexOpenApi(spec);
       loading = false;
     } catch (err) {
       error = err instanceof Error ? err.message : 'Failed to load OpenAPI spec';
@@ -80,6 +85,17 @@
 
     return endpointsByTag;
   }
+
+  function toggleTag(tag: string) {
+    if (selectedTags.has(tag)) selectedTags.delete(tag);
+    else selectedTags.add(tag);
+    // force reactivity
+    selectedTags = new Set(selectedTags);
+  }
+  function clearFilters() {
+    search = '';
+    selectedTags = new Set();
+  }
 </script>
 
 {#if loading}
@@ -92,159 +108,194 @@
     {error}
   </div>
 {:else if spec}
-  <div class="space-y-8">
-    <!-- Endpoints by Tag -->
-    {#if spec.paths}
-      {@const endpointsByTag = getEndpointsByTag(spec.paths)}
+  <div class="space-y-6">
+    <!-- Filters -->
+    <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+      <div class="flex items-center gap-2 flex-1">
+        <input
+          class="w-full md:w-80 rounded-md border bg-background px-3 py-2 text-sm"
+          placeholder="Search endpoints (path, summary, param)..."
+          bind:value={search} />
+        {#if search || selectedTags.size}
+          <button class="text-xs px-2 py-1 rounded bg-muted hover:bg-muted/70" onclick={clearFilters}>Clear</button>
+        {/if}
+      </div>
+      {#if index}
+        <div class="flex flex-wrap gap-2">
+          {#each index.tagOrder as tagName}
+            <button
+              type="button"
+              class={`text-xs px-2 py-1 rounded border transition ${
+                selectedTags.has(tagName) ?
+                  'bg-primary text-primary-foreground border-primary'
+                : 'bg-muted hover:bg-muted/70'
+              }`}
+              onclick={() => toggleTag(tagName)}
+              title="Toggle tag filter">
+              {tagName === '_Untagged' ? 'Untagged' : tagName}
+            </button>
+          {/each}
+        </div>
+      {/if}
+    </div>
 
-      {#each Object.entries(endpointsByTag) as [tagName, endpoints]}
-        <section class="space-y-4">
-          <h2 class="text-2xl font-semibold border-b pb-2">{tagName}</h2>
+    <!-- Endpoints by Tag (filtered) -->
+    {#if filtered}
+      {#each index!.tagOrder as tagName}
+        {#if filtered[tagName]}
+          <section class="space-y-4">
+            <h2 class="text-2xl font-semibold border-b pb-2">
+              {tagName === '_Untagged' ? 'Untagged' : tagName}
+            </h2>
 
-          {#if spec.tags}
-            {@const tagInfo = spec.tags.find((t) => t.name === tagName)}
-            {#if tagInfo?.description}
-              <p class="text-muted-foreground mb-4">{tagInfo.description}</p>
+            {#if spec.tags}
+              {@const tagInfo = spec.tags.find((t) => t.name === tagName)}
+              {#if tagInfo?.description}
+                <p class="text-muted-foreground mb-4">{tagInfo.description}</p>
+              {/if}
             {/if}
-          {/if}
 
-          <Accordion.Root type="multiple" class="space-y-2">
-            {#each endpoints as { path, method, operation }, index}
-              <Accordion.Item value="endpoint-{tagName}-{index}" class="border rounded-lg">
-                <Accordion.Trigger class="px-4 py-3 hover:no-underline">
-                  <div class="flex items-center gap-3 w-full text-left">
-                    <Badge class={`${getMethodColor(method)} text-white font-mono text-xs px-2 py-1`}>
-                      {method.toUpperCase()}
-                    </Badge>
-                    <code class="text-sm font-mono flex-1">{path}</code>
-                    {#if operation.summary}
-                      <span class="text-sm text-muted-foreground truncate max-w-md">{operation.summary}</span>
-                    {/if}
-                  </div>
-                </Accordion.Trigger>
-
-                <Accordion.Content class="px-4 pb-4">
-                  <div class="space-y-6 pt-2">
-                    {#if operation.summary}
-                      <div>
-                        <h4 class="text-lg font-semibold">{operation.summary}</h4>
-                      </div>
-                    {/if}
-
-                    {#if operation.description}
-                      <div>
-                        <h4 class="font-semibold mb-2">Description</h4>
-                        <p class="text-muted-foreground">{operation.description}</p>
-                      </div>
-                    {/if}
-
-                    <!-- Parameters -->
-                    {#if operation.parameters && operation.parameters.length > 0}
-                      <div>
-                        <h4 class="font-semibold mb-3">Parameters</h4>
-                        <div class="overflow-x-auto">
-                          <table class="w-full border-collapse border border-border">
-                            <thead>
-                              <tr class="bg-muted">
-                                <th class="border border-border p-2 text-left">Name</th>
-                                <th class="border border-border p-2 text-left">Type</th>
-                                <th class="border border-border p-2 text-left">In</th>
-                                <th class="border border-border p-2 text-left">Required</th>
-                                <th class="border border-border p-2 text-left">Description</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {#each operation.parameters as param}
-                                <tr>
-                                  <td class="border border-border p-2">
-                                    <code class="text-sm">{param.name}</code>
-                                  </td>
-                                  <td class="border border-border p-2">
-                                    <Badge variant="outline">{param.type || 'string'}</Badge>
-                                  </td>
-                                  <td class="border border-border p-2">
-                                    <Badge variant="secondary">{param.in}</Badge>
-                                  </td>
-                                  <td class="border border-border p-2">
-                                    {#if param.required}
-                                      <Badge variant="destructive">Required</Badge>
-                                    {:else}
-                                      <Badge variant="outline">Optional</Badge>
-                                    {/if}
-                                  </td>
-                                  <td class="border border-border p-2 text-sm text-muted-foreground">
-                                    {param.description || ''}
-                                  </td>
-                                </tr>
-                              {/each}
-                            </tbody>
-                          </table>
+            <Accordion.Root type="multiple" class="space-y-2">
+              {#each filtered[tagName] as ep, index}
+                <Accordion.Item variant="card" value="endpoint-{tagName}-{index}">
+                  <Accordion.Trigger class="px-4 py-3 hover:no-underline">
+                    <div class="flex items-center gap-3 w-full text-left">
+                      <Badge class={`${getMethodColor(ep.method)} text-white font-mono text-xs px-2 py-1`}>
+                        {ep.method.toUpperCase()}
+                      </Badge>
+                      <code class="text-sm font-mono flex-1">{ep.path}</code>
+                      {#if ep.operation.summary}
+                        <span class="text-sm text-muted-foreground truncate max-w-md">{ep.operation.summary}</span>
+                      {/if}
+                    </div>
+                  </Accordion.Trigger>
+                  <Accordion.Content class="px-4 pb-4">
+                    <div class="space-y-6 pt-2">
+                      {#if ep.operation.summary}
+                        <div>
+                          <h4 class="text-lg font-semibold">{ep.operation.summary}</h4>
                         </div>
-                      </div>
-                    {/if}
+                      {/if}
 
-                    <!-- Request Body -->
-                    {#if operation.requestBody}
-                      <div>
-                        <h4 class="font-semibold mb-3">Request Body</h4>
-                        <div class="space-y-2">
-                          {#if operation.requestBody.description}
-                            <p class="text-sm text-muted-foreground">{operation.requestBody.description}</p>
-                          {/if}
-                          {#if operation.requestBody.content}
-                            {#each Object.entries(operation.requestBody.content) as [contentType, content]}
-                              <div>
-                                <Badge variant="outline" class="mb-2">{contentType}</Badge>
-                                {#if (content as any).schema}
-                                  <pre class="bg-muted p-3 rounded text-sm overflow-x-auto"><code
-                                      >{JSON.stringify((content as any).schema, null, 2)}</code></pre>
+                      {#if ep.operation.description}
+                        <div>
+                          <h4 class="font-semibold mb-2">Description</h4>
+                          <p class="text-muted-foreground">{ep.operation.description}</p>
+                        </div>
+                      {/if}
+
+                      <!-- Parameters -->
+                      {#if ep.operation.parameters && ep.operation.parameters.length > 0}
+                        <div>
+                          <h4 class="font-semibold mb-3">Parameters</h4>
+                          <div class="overflow-x-auto">
+                            <table class="w-full border-collapse border border-border">
+                              <thead>
+                                <tr class="bg-muted">
+                                  <th class="border border-border p-2 text-left">Name</th>
+                                  <th class="border border-border p-2 text-left">Type</th>
+                                  <th class="border border-border p-2 text-left">In</th>
+                                  <th class="border border-border p-2 text-left">Required</th>
+                                  <th class="border border-border p-2 text-left">Description</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {#each ep.operation.parameters as param}
+                                  <tr>
+                                    <td class="border border-border p-2">
+                                      <code class="text-sm">{param.name}</code>
+                                    </td>
+                                    <td class="border border-border p-2">
+                                      <Badge variant="outline">{param.type || 'string'}</Badge>
+                                    </td>
+                                    <td class="border border-border p-2">
+                                      <Badge variant="secondary">{param.in}</Badge>
+                                    </td>
+                                    <td class="border border-border p-2">
+                                      {#if param.required}
+                                        <Badge variant="destructive">Required</Badge>
+                                      {:else}
+                                        <Badge variant="outline">Optional</Badge>
+                                      {/if}
+                                    </td>
+                                    <td class="border border-border p-2 text-sm text-muted-foreground">
+                                      {param.description || ''}
+                                    </td>
+                                  </tr>
+                                {/each}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      {/if}
+
+                      <!-- Request Body -->
+                      {#if ep.operation.requestBody}
+                        <div>
+                          <h4 class="font-semibold mb-3">Request Body</h4>
+                          <div class="space-y-2">
+                            {#if ep.operation.requestBody.description}
+                              <p class="text-sm text-muted-foreground">{ep.operation.requestBody.description}</p>
+                            {/if}
+                            {#if ep.operation.requestBody.content}
+                              {#each Object.entries(ep.operation.requestBody.content) as [contentType, content]}
+                                <div>
+                                  <Badge variant="outline" class="mb-2">{contentType}</Badge>
+                                  {#if (content as any).schema}
+                                    <pre class="bg-muted p-3 rounded text-sm overflow-x-auto"><code
+                                        >{JSON.stringify((content as any).schema, null, 2)}</code></pre>
+                                  {/if}
+                                </div>
+                              {/each}
+                            {/if}
+                          </div>
+                        </div>
+                      {/if}
+
+                      <!-- Responses -->
+                      {#if ep.operation.responses}
+                        <div>
+                          <h4 class="font-semibold mb-3">Responses</h4>
+                          <div class="space-y-4">
+                            {#each Object.entries(ep.operation.responses) as [statusCode, responseObj]}
+                              {@const response = responseObj as any}
+                              <div class="border rounded p-3">
+                                <div class="flex items-center gap-2 mb-2">
+                                  <Badge
+                                    variant={statusCode.startsWith('2') ? 'default'
+                                    : statusCode.startsWith('4') ? 'destructive'
+                                    : 'secondary'}>
+                                    {statusCode}
+                                  </Badge>
+                                  {#if response.description}
+                                    <span class="text-sm text-muted-foreground">{response.description}</span>
+                                  {/if}
+                                </div>
+
+                                {#if response.schema}
+                                  <div class="mt-2">
+                                    <h5 class="text-sm font-medium mb-1">Schema:</h5>
+                                    <pre class="bg-muted p-2 rounded text-xs overflow-x-auto"><code
+                                        >{JSON.stringify(response.schema, null, 2)}</code></pre>
+                                  </div>
                                 {/if}
                               </div>
                             {/each}
-                          {/if}
+                          </div>
                         </div>
-                      </div>
-                    {/if}
-
-                    <!-- Responses -->
-                    {#if operation.responses}
-                      <div>
-                        <h4 class="font-semibold mb-3">Responses</h4>
-                        <div class="space-y-4">
-                          {#each Object.entries(operation.responses) as [statusCode, responseObj]}
-                            {@const response = responseObj as any}
-                            <div class="border rounded p-3">
-                              <div class="flex items-center gap-2 mb-2">
-                                <Badge
-                                  variant={statusCode.startsWith('2') ? 'default'
-                                  : statusCode.startsWith('4') ? 'destructive'
-                                  : 'secondary'}>
-                                  {statusCode}
-                                </Badge>
-                                {#if response.description}
-                                  <span class="text-sm text-muted-foreground">{response.description}</span>
-                                {/if}
-                              </div>
-
-                              {#if response.schema}
-                                <div class="mt-2">
-                                  <h5 class="text-sm font-medium mb-1">Schema:</h5>
-                                  <pre class="bg-muted p-2 rounded text-xs overflow-x-auto"><code
-                                      >{JSON.stringify(response.schema, null, 2)}</code></pre>
-                                </div>
-                              {/if}
-                            </div>
-                          {/each}
-                        </div>
-                      </div>
-                    {/if}
-                  </div>
-                </Accordion.Content>
-              </Accordion.Item>
-            {/each}
-          </Accordion.Root>
-        </section>
+                      {/if}
+                    </div>
+                  </Accordion.Content>
+                </Accordion.Item>
+              {/each}
+            </Accordion.Root>
+          </section>
+        {/if}
       {/each}
+
+      {#if Object.keys(filtered).length === 0}
+        <p class="text-sm text-muted-foreground pt-4">No endpoints match filters.</p>
+      {/if}
     {/if}
 
     <!-- Data Models -->
@@ -254,7 +305,7 @@
 
         <Accordion.Root type="multiple" class="space-y-2">
           {#each Object.entries(spec.definitions) as [modelName, model], index}
-            <Accordion.Item value="model-{index}" class="border rounded-lg">
+            <Accordion.Item variant="card" value="model-{index}">
               <Accordion.Trigger class="px-4 py-3 hover:no-underline">
                 <div class="flex items-center gap-3 w-full text-left">
                   <code class="font-mono text-sm">{modelName}</code>

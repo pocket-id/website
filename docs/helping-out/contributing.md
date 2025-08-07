@@ -1,3 +1,8 @@
+---
+title: Contributing
+description: Learn how to contribute to the Pocket ID project
+---
+
 We are happy that you want to contribute to Pocket ID and help to make it better! All contributions are welcome, including issues, suggestions, pull requests and more.
 
 ## Getting started

@@ -1,5 +1,6 @@
 ---
-id: distroless-container-security-hardening
+title: Container Security Hardening
+description: Secure your Pocket ID deployment with distroless containers and hardening
 ---
 
 By default, the Pocket ID container starts as the root user, which is used to set permissions on the file system before dropping its privileges and starting the main process. This is done for convenience, while still running the Pocket ID binary as non-root. If you prefer, you can run the Pocket ID container as a **non-root** user entirely and even ensure it uses a **read-only root file system**.

@@ -1,5 +1,6 @@
 ---
-id: client-examples
+title: Client Examples
+description: Step-by-step guides for integrating Pocket ID with various applications and services using OIDC authentication
 ---
 
 <script lang="ts">

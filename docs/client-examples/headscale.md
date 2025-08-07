@@ -1,5 +1,6 @@
 ---
-id: headscale
+title: Headscale
+description: Configure Headscale VPN with Pocket ID OIDC
 ---
 
 ## Create OIDC Client in Pocket ID

@@ -1,5 +1,6 @@
 ---
-id: karakeep
+title: KaraKeep
+description: Configure KaraKeep with Pocket ID authentication
 ---
 
 1. In Pocket-ID create a new OIDC Client, name it i.e. `Karakeep`

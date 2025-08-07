@@ -1,5 +1,6 @@
 ---
-id: semaphore-ui
+title: Semaphore UI
+description: Configure Semaphore UI with Pocket ID OIDC
 ---
 
 1. In Pocket-ID create a new OIDC Client, name it i.e. `Semaphore UI`.

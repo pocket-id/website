@@ -1,4 +1,9 @@
 ---
+title: Komodo
+description: Configure Komodo with Pocket ID authentication
+---
+
+---
 id: komodo
 ---
 

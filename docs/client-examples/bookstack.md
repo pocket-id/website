@@ -1,5 +1,6 @@
 ---
-id: bookstack
+title: BookStack
+description: Enable OIDC login for BookStack wiki
 ---
 
 ## Pocket ID Setup

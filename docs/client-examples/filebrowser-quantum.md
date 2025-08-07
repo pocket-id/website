@@ -1,5 +1,6 @@
 ---
-id: filebrowser-quantum
+title: FileBrowser Quantum
+description: Set up OIDC for FileBrowser Quantum
 ---
 
 ## Requirements

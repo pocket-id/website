@@ -1,5 +1,6 @@
 ---
-id: nextcloud
+title: Nextcloud
+description: Set up Pocket ID authentication for Nextcloud
 ---
 
 Nextcloud does not come with OIDC/SSO installed out-of-the-box. Therefore, it's necessary to install a Nextcloud app for this functionality. There are two main options: `nextcloud/user_oidc` and `pulsejet/nextcloud-oidc-login`. This guide will focus on **`nextcloud/user_oidc`**, as it is maintained by Nextcloud and is expected to be supported longer.

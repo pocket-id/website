@@ -1,5 +1,6 @@
 ---
-id: beszel
+title: Beszel
+description: Set up Pocket ID authentication for Beszel
 ---
 
 ## Requirements

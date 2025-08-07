@@ -1,5 +1,6 @@
 ---
-id: rallly
+title: Rallly
+description: Configure Rallly scheduling with Pocket ID
 ---
 
 Below URLs are used as placeholders for the rallly and Pocket ID instances. Replace them with the actual URLs.

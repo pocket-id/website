@@ -1,5 +1,6 @@
 ---
-id: api
+title: API Reference
+description: Complete reference for all Pocket ID API endpoints
 ---
 
 <script lang="ts">

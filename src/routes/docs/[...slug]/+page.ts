@@ -1,23 +1,43 @@
 import { getDoc } from '$lib/docs.js';
-import { allDocs } from '$lib/config/content.js';
+import {
+  introduction,
+  setup,
+  configuration,
+  guides,
+  advanced,
+  troubleshooting,
+  helpingOut,
+  api,
+  clientExamplesOverview,
+  clientExamples,
+} from '$docs/index.js';
 import type { EntryGenerator, PageLoad } from './$types.js';
 
 export const prerender = true;
 
+const ALL_DOCS = [
+  ...introduction,
+  ...setup,
+  ...configuration,
+  ...guides,
+  ...advanced,
+  ...troubleshooting,
+  ...helpingOut,
+  ...api,
+  ...clientExamplesOverview,
+  ...clientExamples,
+];
+
 export const entries: EntryGenerator = () => {
   console.info('Prerendering /docs');
-
-  // Generate entries from the metadata index
-  const entries = allDocs.map((doc) => ({ slug: doc.path }));
-
-  // Add empty slug for /docs root (will map to introduction)
-  entries.push({ slug: 'introduction' });
-
-  return entries;
+  const list = ALL_DOCS.map((doc) => ({ slug: doc.path }));
+  if (!list.find((e) => e.slug === 'introduction')) {
+    list.push({ slug: 'introduction' });
+  }
+  return list;
 };
 
 export const load: PageLoad = async ({ params }) => {
-  // Map empty slug to introduction
   const slug = params.slug === '' ? 'introduction' : params.slug;
   const doc = await getDoc(slug);
   return doc;

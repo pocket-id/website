@@ -1,5 +1,6 @@
 ---
-id: actual
+title: Actual Budget
+description: Integrate Pocket ID with Actual Budget
 ---
 
 ## Requirements

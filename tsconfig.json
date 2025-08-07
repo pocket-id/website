@@ -25,9 +25,7 @@
     "./src/**/*.ts",
     "./src/**/*.svelte",
     // Additions
-    "./mdsx.config.js",
-    "old/version-label.ts",
-    "old/version-label.ts"
+    "./mdsx.config.js"
   ],
   "exclude": ["./node_modules/**"]
 }

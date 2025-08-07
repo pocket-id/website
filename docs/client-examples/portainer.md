@@ -1,5 +1,6 @@
 ---
-id: portainer
+title: Portainer
+description: Set up Portainer container management with OIDC
 ---
 
 **This requires Portainers Business Edition**

@@ -1,5 +1,6 @@
 ---
-id: proxmox-backup
+title: Proxmox Backup Server
+description: Set up Proxmox Backup Server with Pocket ID
 ---
 
 The following example variables are used, and should be replaced with your actual URLs.

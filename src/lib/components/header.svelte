@@ -32,10 +32,8 @@
       }
     });
 
-    // Set initial theme state
     isDark = mode.current === 'dark';
 
-    // Watch for theme changes
     const interval = setInterval(() => {
       isDark = mode.current === 'dark';
     }, 100);
@@ -55,7 +53,7 @@
       <MainNav items={mainNavItems} class="hidden lg:flex" />
       <div class="ml-auto flex items-center gap-2 md:flex-1 md:justify-end">
         {#if version}
-          <Badge variant="default" class="bg-surface text-foreground text-xs">
+          <Badge variant="default" class="bg-surface text-foreground text-xs font-bold border-primary">
             v{version}
           </Badge>
         {/if}

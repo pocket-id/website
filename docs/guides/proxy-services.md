@@ -1,5 +1,6 @@
 ---
-id: proxy-services
+title: Proxy Services
+description: Reverse Proxy Setup Guide for Pocket ID
 ---
 
 The goal of Pocket ID is to function exclusively as an OIDC provider. As such, we don't have a built-in proxy provider. However, most proxies provide some sort of mechanism to support OIDC authentication provider.

@@ -1,5 +1,6 @@
 ---
-id: oidc-client-authentication
+title: OIDC Client Authentication
+description: Learn how to authenticate OIDC clients in Pocket ID using client secrets and federated credentials.
 ---
 
 In the context of OAuth2 / OpenID Connect, "Clients" refers to applications that request access to protected resources. In Pocket ID, they are configured in the _OIDC Clients_ section in the _Settings_ portal.

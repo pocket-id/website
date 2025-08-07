@@ -1,5 +1,6 @@
 ---
-id: cloudflare-zero-trust
+title: Cloudflare Zero Trust
+description: Integrate with Cloudflare Zero Trust Access
 ---
 
 > [!IMPORTANT]

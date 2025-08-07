@@ -4,7 +4,6 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'mdsx';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
-import rehypePrettyCode from 'rehype-pretty-code';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 

@@ -1,5 +1,6 @@
 ---
-id: donetick
+title: Donetick
+description: Configure Donetick with Pocket ID authentication
 ---
 
 ## Pocket ID Setup

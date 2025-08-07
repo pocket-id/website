@@ -1,50 +1,94 @@
-import { allDocs, type DocMetadata } from '$lib/config/content.js';
+import {
+  introduction,
+  setup,
+  configuration,
+  guides,
+  advanced,
+  troubleshooting,
+  helpingOut,
+  api,
+  clientExamples,
+  clientExamplesOverview,
+} from '$docs/index.js';
 import { error } from '@sveltejs/kit';
 import type { Component } from 'svelte';
 
-type DocResolver = () => Promise<{ default: Component; metadata: any }>;
+type CollectionDoc = (typeof introduction)[number];
 
-function transformPath(path: string): string {
-  return path.replace('/docs/', '').replace('.md', '').replace('/index', '').trim();
+const allDocs: CollectionDoc[] = [
+  ...introduction,
+  ...setup,
+  ...configuration,
+  ...guides,
+  ...advanced,
+  ...troubleshooting,
+  ...helpingOut,
+  ...api,
+  ...clientExamplesOverview,
+  ...clientExamples,
+];
+
+interface DocModule {
+  default: Component;
+  metadata?: Record<string, any>;
 }
 
-function getDocMetadata(slug: string): DocMetadata | undefined {
-  return allDocs.find((doc) => doc.path === slug);
+type DocResolver = () => Promise<DocModule>;
+export type DocMetadata = CollectionDoc & Record<string, any>;
+
+function transformPath(path: string): string {
+  return path
+    .replace(/\\/g, '/')
+    .replace(/^.*\/docs\//, '')
+    .replace(/\.md$/, '')
+    .replace(/\/index$/, '')
+    .trim();
+}
+
+function getDocMetadata(slug: string): CollectionDoc | undefined {
+  const clean = slug.replace(/^\/+/, '');
+  return (
+    allDocs.find((d) => d.path === clean) ||
+    allDocs.find((d) => d.slug === clean) ||
+    allDocs.find((d) => d.slug?.replace(/^\/+/, '') === clean)
+  );
+}
+
+const modules = import.meta.glob<DocModule>('/docs/**/*.md');
+
+function resolveModule(slug: string): DocResolver | undefined {
+  const key = Object.keys(modules).find((k) => transformPath(k) === slug);
+  return key ? (modules[key] as DocResolver) : undefined;
 }
 
 export async function getDoc(_slug: string): Promise<{ component: Component; metadata: DocMetadata }> {
-  const modules = import.meta.glob('/docs/**/*.md');
   const slug = _slug === '' ? 'introduction' : _slug;
 
-  let match: { path?: string; resolver?: DocResolver } = {};
+  const veliteMeta = getDocMetadata(slug);
+  const resolver = resolveModule(slug);
 
-  for (const [path, resolver] of Object.entries(modules)) {
-    if (transformPath(path) === slug) {
-      match = { path, resolver: resolver as unknown as DocResolver };
-      break;
-    }
-  }
-
-  const doc = await match?.resolver?.();
-  const fallbackMetadata = getDocMetadata(slug);
-
-  if (!doc || !fallbackMetadata) {
-    console.error(`Could not find doc: ${slug}`);
+  if (!veliteMeta || !resolver) {
     error(404, 'Could not find the documentation page.');
   }
 
-  // Merge frontmatter with fallback metadata
-  const metadata = {
-    title: doc.metadata?.title || fallbackMetadata.title,
-    description: doc.metadata?.description || fallbackMetadata.description,
-    path: fallbackMetadata.path,
-    published: fallbackMetadata.published ?? true,
-    // Keep any additional frontmatter
-    ...doc.metadata,
+  const mod = await resolver();
+  const fm = mod.metadata || {};
+
+  const metadata: DocMetadata = {
+    ...veliteMeta,
+    ...fm,
+    title: fm.title ?? veliteMeta.title,
+    description: fm.description ?? veliteMeta.description,
+    path: veliteMeta.path,
+    slug: veliteMeta.slug ?? slug,
+    section: (veliteMeta as any).section,
+    segments: (veliteMeta as any).segments,
+    published: fm.published ?? (veliteMeta as any).published ?? true,
+    toc: fm.toc ?? (veliteMeta as any).toc,
   };
 
   return {
-    component: doc.default,
+    component: mod.default,
     metadata,
   };
 }

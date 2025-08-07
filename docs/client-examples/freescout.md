@@ -1,5 +1,6 @@
 ---
-id: freescout
+title: FreeScout
+description: Enable OIDC authentication for FreeScout helpdesk
 ---
 
 ## Requirements

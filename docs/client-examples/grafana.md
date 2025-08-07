@@ -1,5 +1,6 @@
 ---
-id: grafana
+title: Grafana
+description: Configure Grafana OIDC with Pocket ID
 ---
 
 Below URLs are used as placeholders for the Grafana and Pocket ID instances. Replace them with the actual URLs.

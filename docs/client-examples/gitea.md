@@ -1,5 +1,6 @@
 ---
-id: gitea
+title: Gitea
+description: Configure Gitea with Pocket ID OIDC
 ---
 
 ## Pocket ID Setup

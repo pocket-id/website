@@ -1,5 +1,6 @@
 ---
-id: installation
+title: Installation
+description: Get Pocket ID running quickly with Docker or standalone installation
 ---
 
 ## Before you start

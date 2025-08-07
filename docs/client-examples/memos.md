@@ -1,5 +1,6 @@
 ---
-id: memos
+title: Memos
+description: Enable OIDC authentication for Memos
 ---
 
 ## Pocket ID Setup

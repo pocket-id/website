@@ -1,5 +1,6 @@
 ---
-id: custom-keys
+title: Custom Keys
+description: Configure custom signing keys for enhanced security
 ---
 
 By default, Pocket ID generates a RSA-2048 private key upon first startup, which is used to sign all tokens. You can optionally use a key with a different RSA key size (e.g. 3072 or 4096), or even a different algorithm (e.g. ECDSA with P-256, or EdDSA with Ed25519).

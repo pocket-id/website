@@ -1,5 +1,6 @@
 ---
-id: wekan
+title: Wekan
+description: Set up Wekan kanban board with Pocket ID OIDC
 ---
 
 ## Requirements

@@ -1,5 +1,6 @@
 ---
-id: immich
+title: Immich
+description: Configure Immich photo management with Pocket ID
 ---
 
 ## Create OIDC Client in Pocket ID

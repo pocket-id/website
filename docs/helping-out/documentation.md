@@ -1,148 +1,139 @@
 ---
-id: documentation-contributing
+title: Documentation
+description: Contribute to improving the Pocket ID website or documentation
 ---
 
-This guide explains how to add or edit documentation for this website (SvelteKit + MDSX).
+This guide explains how to add or edit documentation (SvelteKit + Velite + MDSX).
 
 ## 1. Where docs live
 
-All markdown pages are under the `docs/` directory (nested folders become URL segments):
+All markdown pages are under `docs/`. Velite (see [`velite.config.js`](https://github.com/pocket-id/website/blob/main/velite.config.js)) defines collections:
 
-```
-docs/
-  introduction.md              → /docs/introduction
-  setup/installation.md        → /docs/setup/installation
-  client-examples/grafana.md   → /docs/client-examples/grafana
-  helping-out/documentation.md → /docs/helping-out/documentation
-```
+- `introduction.md`
+- `setup/**/*.md`
+- `configuration/**/*.md`
+- `guides/**/*.md`
+- `advanced/**/*.md`
+- `helping-out/**/*.md`
+- `troubleshooting/**/*.md`
+- `api.md`
+- `client-examples.md` (overview)
+- `client-examples/**/*.md`
 
-- The loader that discovers files: [`getDoc`](https://github.com/pocket-id/website/blob/main/src/lib/docs.ts).
-- Navigation + metadata comes from the array [`allDocs`](https://github.com/pocket-id/website/blob/main/src/lib/config/content.ts).
-- Sidebar Configuration comes from array [`SidebarNavItems`](https://github.com/pocket-id/website/blob/main/src/lib/config/docs.ts).
-- Navbar Configuration comes from array [`mainNavItems`](https://github.com/pocket-id/website/blob/main/src/lib/config/docs.ts).
+Each file is parsed and exported via `$docs/index.js`. The dynamic loader: [`getDoc`](https://github.com/pocket-id/website/blob/main/src/lib/docs.ts).
+
+URL = `/docs/` + file path without `.md` (e.g. `setup/installation.md` → `/docs/setup/installation`).
 
 ## 2. Adding a new page
 
-1. Pick (or create) a folder inside `docs/` matching the section.
-2. Add a markdown file: `docs/<section>/<slug>.md`
-3. (Optional) Add minimal frontmatter:
+1. Pick the correct folder that matches a collection pattern (e.g. `guides/`).
+2. Create `docs/<section>/<slug>.md`.
+3. Add frontmatter:
 
 ```md
 ---
-title: Human Title # optional – fallback comes from allDocs
-description: Short summary # optional – fallback comes from allDocs
+title: My Feature
+description: Short summary
+order: 30 # (optional) sort within its section (lower first)
+published: true # (optional, default true)
 ---
 ```
 
-4. Update the [`allDocs`](https://github.com/pocket-id/website/blob/main/src/lib/config/content.ts) and/or the Sidebar [`SidebarNavItems`](https://github.com/pocket-id/website/blob/main/src/lib/config/docs.ts) or Navbar [`mainNavItems`](https://github.com/pocket-id/website/blob/main/src/lib/config/docs.ts) arrays:
+4. Run `pnpm dev` – Velite auto-detects the file. No manual array updates needed.
 
-```ts
-// ...existing code...
-export const allDocs = [
-  // ...existing entries...
-  {
-    title: 'My Feature', // Shown in heading / nav
-    description: 'Short summary', // Used in lists / meta
-    path: 'my-section/my-feature', // Matches folder + filename (no .md, *no* leading slash)
-  },
-];
-// ...existing code...
-```
+## 3. Frontmatter & generated metadata
 
-Path rules:
+Velite schema (see config):
 
-- No leading slash
-- No `.md`
-- For `docs/my-section/my-feature.md` use `my-section/my-feature`
-- For `docs/introduction.md` use `introduction`
+| Field       | Source      | Notes                       |
+| ----------- | ----------- | --------------------------- |
+| title       | frontmatter | required                    |
+| description | frontmatter | required                    |
+| path        | derived     | relative path without `.md` |
+| slug        | derived     | joins segments (`path`)     |
+| section     | derived     | first segment               |
+| segments    | derived     | path split on `/`           |
+| order       | frontmatter | optional numeric sort hint  |
+| published   | frontmatter | default `true`              |
+| toc         | generated   | auto table of contents      |
 
-5. Start dev server: `pnpm dev` – visit `/docs/<path>`.
+`toc` is injected automatically (used for page outline).
 
-If `title/description` are missing in the file frontmatter, the fallback comes from the metadata object you added to `allDocs`.
+## 4. Navigation
 
-## 3. Frontmatter vs metadata
+Sidebar & neighbor links are generated from the Velite collections (see [`docs.ts`](https://github.com/pocket-id/website/blob/main/src/lib/config/docs.ts)). Ordering inside a section:
 
-| Source                                                                                | Preferred         | Purpose               |
-| ------------------------------------------------------------------------------------- | ----------------- | --------------------- |
-| [`allDocs`](https://github.com/pocket-id/website/blob/main/src/lib/config/content.ts) | Canonical         | Global nav / fallback |
-| File frontmatter                                                                      | Optional override | Per-page tweaks       |
+1. `order` (ascending) if present
+2. `title` alphabetical
 
-Merge logic is in [`getDoc`](https://github.com/pocket-id/website/blob/main/src/lib/docs.ts).
+Client examples are excluded from the sidebar but have their own overview page and grid.
 
-## 4. ABlockquotes (callouts)
+External static links (Demo / Discord) are appended as a Resources group (see same config file).
 
-Use markers at the start of a blockquote:
+## 5. Hiding a page (draft)
+
+Set `published: false`. The file remains buildable but can be filtered from listings (logic may hide unpublished).
+
+## 6. Callouts (Admonitions)
 
 ```
-> [!NOTE] This is a note
-> Body text continues.
+> [!NOTE] One-line note
 
 > [!WARNING]
-> First line after the marker becomes the body.
+> Multi‑line body starts here.
 ```
 
-Supported types: NOTE, TIP, IMPORTANT, WARNING, CAUTION (case‑insensitive). They are rendered by [`blockquote.svelte`](https://github.com/pocket-id/website/blob/main/src/lib/components/mdsx/blockquote.svelte).
+Supported: NOTE, TIP, IMPORTANT, WARNING, CAUTION.
 
-## 5. Code blocks
+## 7. Code blocks
 
-Standard fenced blocks:
+<pre><code>```bash
+docker compose up -d
+```</code></pre>
 
-    ```bash
-    docker compose up -d
-    ```
+## 8. Images
 
-## 6. Images
-
-Place image assets in `static/img/...` and reference with an absolute path:
+Place under `static/img/...`:
 
 ```md
-<img src="/img/example/flow.png" width="600" alt="High level authentication flow" />
+<img src="/img/example/flow.png" alt="High level authentication flow" width="600" />
 ```
 
-Always include `alt`.
+Always provide `alt`.
 
-## 7. Tables
+## 9. Tables
 
-Use GitHub-Flavored Markdown (remark-gfm is enabled). Example:
+GitHub‑Flavored Markdown is enabled; just write pipe tables.
 
-```md
-| Variable | Description                               |
-| -------- | ----------------------------------------- |
-| APP_URL  | Public base URL of the Pocket ID instance |
-```
+## 10. Search / TOC
 
-## 8. Linking
+TOC is auto; search features (where implemented) index headings & content—no manual config.
 
-Internal docs: `/docs/setup/installation`  
-Environment variables or code: `` `VAR_NAME` ``  
-External links will automatically get `rel="noopener noreferrer"` through MDSX sanitization.
+## 11. Common issues
 
-## 10. Ordering
+| Issue               | Fix                                                         |
+| ------------------- | ----------------------------------------------------------- |
+| 404                 | File path mismatch; confirm filename and collection pattern |
+| Missing title       | Add `title` frontmatter                                     |
+| Wrong sidebar order | Add / adjust `order`                                        |
+| TOC empty           | Add at least one level-2 `## Heading`                       |
+| Hidden page         | Remove or set `published: true`                             |
 
-Order = the order in the `allDocs` array for lists / generated navigation. Place new entry where it makes logical sense.
+## 12. Checklist for a new page
 
-## 11. Common mistakes
+- [ ] File created in correct folder
+- [ ] Frontmatter with title & description
+- [ ] Optional `order` set (if ordering matters)
+- [ ] Page builds (`pnpm dev`)
+- [ ] Headings structured (`##`, `###`) for TOC
+- [ ] Images (if any) in `static/img/...` with alt text
 
-| Issue                              | Fix                                                       |
-| ---------------------------------- | --------------------------------------------------------- |
-| 404 page                           | Path mismatch between file and `allDocs.path`             |
-| Missing title                      | Add `title` to `allDocs` or frontmatter                   |
-| Bad URL casing                     | Use lowercase slugs (preferred)                           |
-| Admonition text still shows marker | Ensure `[!TYPE]` is the first text in the blockquote line |
+## 13. Submitting changes
 
-## 12. Regenerating LLM summary file
+1. Branch & make your changes.
+2. Commit using Conventional Commits (`doc: update guides`).
+3. Open PR.
 
-A build plugin generates `static/llms.txt` aggregating docs. Just run `pnpm build` (or `pnpm dev` to refresh during development). Commit changes if content updates.
+The preview workflow will build docs automatically.
 
-## 13. Checklist for a new page
-
-- [ ] Markdown file added under `docs/`
-- [ ] Added entry to [`allDocs`](https://github.com/pocket-id/website/blob/main/src/lib/config/content.ts)
-- [ ] Added entry to Sidebar [`SidebarNavItems`](https://github.com/pocket-id/website/blob/main/src/lib/config/docs.ts) or Navbar [`mainNavItems`](https://github.com/pocket-id/website/blob/main/src/lib/config/docs.ts) if applicable
-- [ ] Images in `static/img/...` with alt text
-- [ ] Admonitions use `[!TYPE]` markers
-- [ ] Build succeeds (`pnpm build`)
-
-## 14. Submit your changes
-
-Create a branch, commit, open a PR. The preview workflows will build and deploy a temporary docs preview.
+Happy documenting!

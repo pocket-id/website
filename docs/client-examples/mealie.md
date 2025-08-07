@@ -1,5 +1,6 @@
 ---
-id: mealie
+title: Mealie
+description: Configure Mealie recipe manager with Pocket ID
 ---
 
 1. In Pocket-ID, create a new OIDC Client, name it i.e. `Mealie`.

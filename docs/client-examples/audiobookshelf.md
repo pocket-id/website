@@ -1,5 +1,6 @@
 ---
-id: audiobookshelf
+title: Audiobookshelf
+description: Configure OIDC authentication for Audiobookshelf
 ---
 
 The following example variables are used, and should be replaced with your actual URLs.

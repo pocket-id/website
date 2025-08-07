@@ -55,14 +55,19 @@ function generateLlmsTxt() {
 }
 
 export default defineConfig({
-  plugins: [
-    tailwindcss(),
-    generateLlmsTxt(), // Our simple generator
-    sveltekit(),
-  ],
+  plugins: [tailwindcss(), generateLlmsTxt(), sveltekit()],
   server: {
     fs: {
       allow: ['..', './docs'],
+    },
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          icons: ['@lucide/svelte'],
+        },
+      },
     },
   },
 });

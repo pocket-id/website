@@ -1,5 +1,6 @@
 ---
-id: sonarqube
+title: SonarQube
+description: Set up SonarQube code analysis with Pocket ID
 ---
 
 ## Requirements

@@ -1,5 +1,6 @@
 ---
-id: kasm
+title: Kasm Workspaces
+description: Integrate Kasm with Pocket ID OIDC
 ---
 
 ## Kasm Setup

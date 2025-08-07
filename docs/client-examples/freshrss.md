@@ -1,5 +1,6 @@
 ---
-id: freshrss
+title: FreshRSS
+description: Set up Pocket ID authentication for FreshRSS
 ---
 
 The following example variables are used, and should be replaced with your actual URLs.

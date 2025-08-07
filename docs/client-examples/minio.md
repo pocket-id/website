@@ -1,5 +1,6 @@
 ---
-id: minio
+title: Minio
+description: Set up OIDC for Minio
 ---
 
 ## Pocket ID Setup

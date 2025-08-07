@@ -1,5 +1,6 @@
 ---
-id: user-management
+title: User Management
+description: Learn how to manage users and set up passkeys in Pocket ID
 ---
 
 Creating users in Pocket ID can be handled in two ways:

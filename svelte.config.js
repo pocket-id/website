@@ -13,6 +13,9 @@ const config = {
       fallback: 'index.html',
       pages: './build',
     }),
+    alias: {
+      '$docs/*': '.velite/*',
+    },
   },
 };
 

@@ -1,5 +1,6 @@
 ---
-id: paperless-ngx
+title: Paperless-ngx
+description: Set up Paperless-ngx with Pocket ID OIDC
 ---
 
 Below URLs are used as placeholders for the paperless-ngx and Pocket ID instances. Replace them with the actual URLs.

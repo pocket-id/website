@@ -1,5 +1,6 @@
 ---
-id: proxmox
+title: Proxmox
+description: Configure Proxmox VE with Pocket ID OIDC
 ---
 
 The following example variables are used, and should be replaced with your actual URLs.

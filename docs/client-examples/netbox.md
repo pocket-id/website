@@ -1,5 +1,6 @@
 ---
-id: netbox
+title: NetBox
+description: Configure NetBox IPAM with Pocket ID OIDC
 ---
 
 **This guide does not currently show how to map groups in netbox from OIDC claims**

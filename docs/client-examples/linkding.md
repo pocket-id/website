@@ -1,5 +1,6 @@
 ---
-id: linkding
+title: Linkding
+description: Set up Linkding bookmark manager with OIDC
 ---
 
 The following example variables are used, and should be replaced with your actual URLS.

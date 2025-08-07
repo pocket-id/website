@@ -1,5 +1,6 @@
 ---
-id: translating
+title: Translating
+description: Help translate Pocket ID into your language
 ---
 
 Help us make Pocket ID accessible in your language by contributing translations.

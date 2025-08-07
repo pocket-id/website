@@ -1,5 +1,6 @@
 ---
-id: planka
+title: Planka
+description: Configure Planka project management with Pocket ID
 ---
 
 ## Requirements
