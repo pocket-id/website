@@ -2,8 +2,6 @@
 id: netbox
 ---
 
-# Netbox
-
 **This guide does not currently show how to map groups in netbox from OIDC claims**
 
 The following example variables are used, and should be replaced with your actual URLS.

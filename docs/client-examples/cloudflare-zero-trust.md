@@ -1,9 +1,9 @@
 ---
 id: cloudflare-zero-trust
 ---
-# Cloudflare Zero Trust
 
-**Note: Cloudflare will need to be able to reach your Pocket ID instance and vice versa for this to work correctly**
+> [!IMPORTANT]
+> Cloudflare will need to be able to reach your Pocket ID instance and vice versa for this to work correctly
 
 ## Pocket ID Setup
 

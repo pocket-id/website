@@ -2,8 +2,6 @@
 id: pangolin
 ---
 
-# Pangolin
-
 ## Pocket ID Setup
 
 1. In Pocket ID create a new OIDC Client, name it, for example, `pangolin`

@@ -6,10 +6,12 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "dev": "vite dev",
-    "docusaurus": "docusaurus",
-    "start": "cross-env API_DOCS_DISABLED=true docusaurus start",
+    "start": "cross-env API_DOCS_DISABLED=true vite dev",
     "build": "vite build",
-    "typecheck": "tsc"
+    "preview": "vite preview",
+    "prepare": "svelte-kit sync || echo ''",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
   },
   "dependencies": {
     "@prettier/sync": "^0.6.1",

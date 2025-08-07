@@ -2,8 +2,6 @@
 id: common-issues
 ---
 
-# Common Issues
-
 ## Unable to Add a Passkey
 
 Ensure that the `APP_URL` is set correctly to the public URL of the Pocket ID instance.

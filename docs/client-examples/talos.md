@@ -2,8 +2,6 @@
 id: Talos
 ---
 
-# Talos
-
 Talos is a lightweight API driven full stack Kubernetes system. As with any Kubernetes server, you can set it up to
 authenticate users using OIDC. This guide details configuring Talos to use Pocket ID as the Authentication and Authorization server
 
@@ -49,7 +47,7 @@ subjects:
     name: oidc:kubernetes
 ```
 
-Apply this 
+Apply this
 
 ```shell
 kubectl apply -f crb.yaml
@@ -81,9 +79,7 @@ You _should_ get a response similar to
   "email": "username@domain.com",
   "email_verified": true,
   "exp": 1749867571,
-  "groups": [
-    "kubernetes"
-  ],
+  "groups": ["kubernetes"],
   "iat": 1749863971,
   "iss": "<Pocket ID url>",
   "nonce": "sLY0SUaiLxe9JDfUpNEsBDbhKceOB-T1zxxRYJPQbvk",
@@ -122,5 +118,5 @@ Then update your current context to use this user
 
 ## Further Reading
 
-* [Kubernetes OIDC](https://kubernetes.io/docs/reference/access-authn-authz/authentication/)
-* [More indepth documentation and possible errors](https://documentation.breadnet.co.uk/kubernetes/oidc/talos-oidc-pocket-id/)
+- [Kubernetes OIDC](https://kubernetes.io/docs/reference/access-authn-authz/authentication/)
+- [More indepth documentation and possible errors](https://documentation.breadnet.co.uk/kubernetes/oidc/talos-oidc-pocket-id/)

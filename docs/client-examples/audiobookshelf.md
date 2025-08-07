@@ -2,8 +2,6 @@
 id: audiobookshelf
 ---
 
-# Audiobookshelf
-
 The following example variables are used, and should be replaced with your actual URLs.
 
 - `audiobookshelf.example.com` (The URL of your Audiobookshelf instance.)

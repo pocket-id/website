@@ -99,6 +99,11 @@ export const troubleshooting: DocMetadata[] = [
     description: 'Solutions to frequently encountered problems',
     path: 'troubleshooting/common-issues',
   },
+  {
+    title: 'Account Recovery',
+    description: 'Solutions to account recovery issues',
+    path: 'troubleshooting/account-recovery',
+  },
 ];
 
 export const clientExamples: DocMetadata[] = [

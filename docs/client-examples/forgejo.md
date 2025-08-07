@@ -2,8 +2,6 @@
 id: forgejo
 ---
 
-# Forgejo
-
 ## Pocket ID Setup
 
 1. In Pocket ID, create a new OIDC client named `Forgejo` (or any name you prefer).

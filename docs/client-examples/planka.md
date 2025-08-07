@@ -1,7 +1,6 @@
 ---
 id: planka
 ---
-# Planka
 
 ## Requirements
 
@@ -13,16 +12,16 @@ id: planka
 1. Create a new OIDC Client in Pocket ID (e.g., `planka`).
 2. Set the **Callback URL** to the value below:
 
-    ```env
-    https://<your-planka-instance>/oidc-callback
-    ```
+   ```env
+   https://<your-planka-instance>/oidc-callback
+   ```
 
-3. *Optional:* Download a PNG or SVG **logo** from the [Planka project](https://github.com/plankanban/planka) and upload.
+3. _Optional:_ Download a PNG or SVG **logo** from the [Planka project](https://github.com/plankanban/planka) and upload.
 4. Copy the **Client ID**, **Client Secret**, and **OIDC Discovery URL** for use in the next section.
 
 5. Set the following environment variables in your Planka instance:
 
-   ```env  
+   ```env
    OIDC_ISSUER=https://<OIDC Discovery URL> # remove "/.well-known/openid-configuration"
    OIDC_CLIENT_ID=<Client ID>
    OIDC_CLIENT_SECRET=<Client Secret>

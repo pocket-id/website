@@ -2,8 +2,6 @@
 id: proxmox
 ---
 
-# Proxmox
-
 The following example variables are used, and should be replaced with your actual URLs.
 
 - `proxmox.example.com` (The URL of your Proxmox instance.)

@@ -2,8 +2,6 @@
 id: synology
 ---
 
-# Synology
-
 The following example variables are used, and should be replaced with your actual URLS.
 
 - synology.example.com (The url of your Synology instance.)

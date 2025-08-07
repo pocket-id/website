@@ -1,9 +1,6 @@
 ---
 id: migrate-to-v1
-sidebar_position: 2
 ---
-
-# Migrating to v1.0
 
 > [!WARNING]
 > v1.0 is a major release that includes breaking changes. Please read this migration guide carefully before upgrading.
@@ -66,28 +63,28 @@ Follow the following steps to migrate from previous versions to v1.0.
    - **Change the volume path**: Update the target path for the volume to `/app/data`
    - **Update the healthcheck**: Change the port in the healthcheck to `1411`
 
-   ```yaml
-   services:
-     pocket-id:
-       image: ghcr.io/pocket-id/pocket-id:latest
-       ports:
-         - '1411:1411' # Change the port
-       volumes:
-         - ./data:/app/data # Update the volume path
-       healthcheck:
-         test: 'curl -f http://localhost:1411/healthz' # Update the port in the healthcheck
-         interval: 1m30s
-         timeout: 5s
-         retries: 2
-         start_period: 10s
-   ```
+```yaml
+services:
+  pocket-id:
+    image: ghcr.io/pocket-id/pocket-id:latest
+    ports:
+      - '1411:1411' # Change the port
+    volumes:
+      - ./data:/app/data # Update the volume path
+    healthcheck:
+      test: 'curl -f http://localhost:1411/healthz' # Update the port in the healthcheck
+      interval: 1m30s
+      timeout: 5s
+      retries: 2
+      start_period: 10s
+```
 
 2. Adapt the environment variables [mentioned above](#environment-variables) in your `.env` file.
 3. Apply the changes by running:
 
-   ```bash
+```bash
    docker compose up -d
-   ```
+```
 
 ### Standalone
 
@@ -96,9 +93,11 @@ To migrate from previous versions to v1.0 and use the prebuilt binaries, follow 
 
 1. Stop Pocket ID if it's currently running.
 2. Create a backup of the folder that contains your Pocket ID installation.
-   ```bash
+
+```bash
    cp -r /path/to/pocket-id /path/to/pocket-id-old
-   ```
+```
+
 3. Download the latest binary from the [releases page](https://github.com/pocket-id/pocket-id/releases/latest).
 
    Make sure to download the correct version for your operating system. The binary names follow this pattern:
@@ -107,24 +106,24 @@ To migrate from previous versions to v1.0 and use the prebuilt binaries, follow 
 
    You can use curl to download the binary directly. For example, for Linux on AMD64 architecture:
 
-   ```bash
+```bash
    curl -L -o pocket-id-linux-amd64 https://github.com/pocket-id/pocket-id/releases/latest/download/pocket-id-linux-amd64
-   ```
+```
 
 4. Rename the binary and make it executable:
 
-   ```bash
+```bash
    mv pocket-id-<operating-system>-<architecture> pocket-id
    chmod +x pocket-id
-   ```
+```
 
 5. If you haven't edited the default paths where data is stored, like `UPLOAD_PATH`, `DB_CONNECTION_STRING`, `GEOLITE_DB_PATH` and `KEYS_PATH` everything is stored in the `data` directory. Because of that you have to move the `data` directory to the same folder as the new binary.
 
    Copy the `data` directory from the old Pocket ID installation to the same folder as the new binary:
 
-   ```bash
+```bash
    cp -r /path/to/pocket-id-old/data /path/to/pocket-id/data
-   ```
+```
 
 6. Create a `.env` file in the same directory as the binary. Previously you had two `.env` files, one in the `frontend` directory and one in the `backend` directory.
 

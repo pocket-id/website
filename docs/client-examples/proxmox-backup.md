@@ -2,8 +2,6 @@
 id: proxmox-backup
 ---
 
-# Proxmox Backup Server
-
 The following example variables are used, and should be replaced with your actual URLs.
 
 - `pbs.example.com` (The URL of your Proxmox instance.)

@@ -2,8 +2,6 @@
 id: miniflux
 ---
 
-# Miniflux
-
 1. Create a new OIDC Client in Pocket ID (e.g., `miniflux`).
 2. In Callback URLs, add `https://<MINIFLUX DOMAIN>/oauth2/oidc/callback`
 3. Save and get the Client ID and Client Secret

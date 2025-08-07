@@ -2,8 +2,6 @@
 id: linkding
 ---
 
-# Linkding
-
 The following example variables are used, and should be replaced with your actual URLS.
 
 - **linkding.example.com:** The URL of your Linkding instance.
@@ -19,13 +17,13 @@ The following example variables are used, and should be replaced with your actua
 
 3. **Configure the Callback URL:**  
    Set the callback URL to:
+
    ```
    https://linkding.example.com/oidc/callback/
    ```
 
 4. **Copy Credentials:**  
    Copy the Client ID and Client Secret provided by Pocket ID for use in Linkding.
-
 
 ## Linkding Setup
 

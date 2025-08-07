@@ -2,8 +2,6 @@
 id: pgadmin
 ---
 
-# pgAdmin
-
 The following example variables are used, and should be replaced with your actual URLS.
 
 - pgadmin.example.com (The url of your pgAdmin instance.)

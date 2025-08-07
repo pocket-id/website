@@ -2,8 +2,6 @@
 id: gitea
 ---
 
-# Gitea
-
 ## Pocket ID Setup
 
 1. In Pocket ID, create a new OIDC client named `Gitea` (or any name you prefer).

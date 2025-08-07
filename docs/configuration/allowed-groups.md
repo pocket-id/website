@@ -1,9 +1,6 @@
 ---
 id: allowed-groups
-sidebar_position: 2
 ---
-
-# OIDC Client Allowed Groups
 
 Pocket ID allows you to restrict access to OIDC Clients to specific user groups. This can be useful when you want to restrict access to certain applications to specific users.
 

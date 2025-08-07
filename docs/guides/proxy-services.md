@@ -1,9 +1,6 @@
 ---
 id: proxy-services
-sidebar_position: 1
 ---
-
-# Proxy Services
 
 The goal of Pocket ID is to function exclusively as an OIDC provider. As such, we don't have a built-in proxy provider. However, most proxies provide some sort of mechanism to support OIDC authentication provider.
 
@@ -125,7 +122,7 @@ oauth2-proxy:
   image: quay.io/oauth2-proxy/oauth2-proxy:v7.6.0
   command: --config /oauth2-proxy.cfg
   volumes:
-    - "./oauth2-proxy.cfg:/oauth2-proxy.cfg"
+    - './oauth2-proxy.cfg:/oauth2-proxy.cfg'
   ports:
     - 4180:4180
 ```

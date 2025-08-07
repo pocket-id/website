@@ -2,8 +2,6 @@
 id: open-webui
 ---
 
-# Open WebUI
-
 1. In Pocket-ID, create a new OIDC Client, name it i.e. `Open WebUI`.
 2. Set the callback URL to: `https://openwebui.domain/oauth/oidc/callback`
 3. Optional but recommended - Create a group for users and a group for admins in Pocket-ID. eg: `users` and `admins`

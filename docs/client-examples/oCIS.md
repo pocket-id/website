@@ -1,4 +1,6 @@
-# oCIS
+---
+id: ocis
+---
 
 ## What is oCIS
 

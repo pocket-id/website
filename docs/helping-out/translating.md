@@ -2,8 +2,6 @@
 id: translating
 ---
 
-# Translating
-
 Help us make Pocket ID accessible in your language by contributing translations.
 
 ## Translation Guidelines

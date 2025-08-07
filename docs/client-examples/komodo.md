@@ -2,8 +2,6 @@
 id: komodo
 ---
 
-# Komodo
-
 The following example variables are used, and should be replaced with your actual URLS.
 
 - komodo.example.com (The url of your Komodo instance.)

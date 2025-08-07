@@ -1,7 +1,6 @@
 ---
 id: wekan
 ---
-# Wekan
 
 ## Requirements
 
@@ -9,14 +8,14 @@ id: wekan
 - HTTPS connection to your Wekan server
 
 ## Create OIDC Client in Pocket ID
+
 1. Create a new OIDC Client in Pocket ID (e.g., `wekan`).
 2. Set the **Callback URL** to the value below:
-    ```
-    https://<wekan-url>/_oauth/oidc
-    ```
-3. *Optional:* Download a PNG or SVG **logo** from the [Wekan project](https://github.com/wekan/wekan) and upload.
+   ```
+   https://<wekan-url>/_oauth/oidc
+   ```
+3. _Optional:_ Download a PNG or SVG **logo** from the [Wekan project](https://github.com/wekan/wekan) and upload.
 4. Copy the **Client ID**, and **Client Secret** for use in the next section.
-
 
 ## Configure Wekan env variables
 
@@ -45,8 +44,6 @@ services:
 ```
 
 After configuration is tested and working, you can adjust a few other OpenID settings in the gui at **Admin Panel > Settings Layout**:
-
-
 
 ## Notes
 

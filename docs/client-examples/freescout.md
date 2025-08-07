@@ -1,7 +1,6 @@
 ---
 id: freescout
 ---
-# FreeScout
 
 ## Requirements
 
@@ -9,15 +8,17 @@ id: freescout
 - HTTPS connection to your FreeScout server
 
 ## Create OIDC Client in Pocket ID
+
 1. Create a new OIDC Client in Pocket ID (e.g., `freescout`).
 2. Set the **Callback URL** to the value below. After creating the OAuth provider (in the next section), update this to the generated **Redirect URI** from FreeScout:
-    ```
-    https://<FREESCOUT-DOMAIN>/oauth-login/callback/*
-    ```
-3. *Optional:* Download a PNG or SVG **logo** from the [FreeScout project](https://github.com/freescout-help-desk/freescout/tree/dist/public/img) and upload.
+   ```
+   https://<FREESCOUT-DOMAIN>/oauth-login/callback/*
+   ```
+3. _Optional:_ Download a PNG or SVG **logo** from the [FreeScout project](https://github.com/freescout-help-desk/freescout/tree/dist/public/img) and upload.
 4. Copy the **Client ID**, **Client Secret**, and **OIDC Discovery URL** for use in the next section.
 
 ## Configure FreeScout
+
 1. Open FreeScout and navigate to:
    **`Manage > Settings > OAuth`**
 2. Enable the **Active** checkmark.
@@ -33,8 +34,8 @@ id: freescout
    - **User Info URL**: Paste the `Userinfo URL` from Pocket ID.
    - **User Info Method**: Choose `POST`.
    - **Proxy URL, Field Mappings, Scopes**: Leave blank (unless otherwise necessary for your environment).
-5. Save the settings.
-6. Test the OAuth login to ensure it works.
+4. Save the settings.
+5. Test the OAuth login to ensure it works.
 
 ### Optional Config
 

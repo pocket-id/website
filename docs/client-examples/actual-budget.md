@@ -1,7 +1,6 @@
 ---
 id: actual
 ---
-# Actual Budget
 
 ## Requirements
 
@@ -11,15 +10,17 @@ id: actual
 **NOTE:** At the time of writing, OpenID support in Actual is considered experimental.
 
 ## Create OIDC Client in Pocket ID
+
 1. Create a new OIDC Client in Pocket ID (e.g., `actual`).
 2. Set the **Callback URL** to the value below:
-    ```
-    https://<actual-domain.tld>/openid/callback
-    ```
-3. *Optional:* Download a PNG or SVG **logo** from the [Actual project](https://github.com/actualbudget/actual) and upload.
+   ```
+   https://<actual-domain.tld>/openid/callback
+   ```
+3. _Optional:_ Download a PNG or SVG **logo** from the [Actual project](https://github.com/actualbudget/actual) and upload.
 4. Copy the **Client ID**, **Client Secret**, and **OIDC Discovery URL** for use in the next section.
 
 ## Configure Actual using the UI
+
 1. Open Actual, open a file, and navigate to:
    **`Settings > Advanced > Experimental > Authentication method`**
 2. Click **Start using OpenID**.
@@ -28,21 +29,22 @@ id: actual
    - **Provider URL**: Paste either your base `Pocket URL` or `OIDC Discovery URL` from Pocket ID.
    - **Client ID**: Paste the `Client ID` from Pocket ID.
    - **Client Secret**: Paste the `Client Secret` from Pocket ID.
-5. Click **OK** and you will be redirected to the login page.
-6. Provide your existing file password, and test OpenID login. The first successful login will become the administrator.
+4. Click **OK** and you will be redirected to the login page.
+5. Provide your existing file password, and test OpenID login. The first successful login will become the administrator.
 
 ## Managing multi-users
 
 After setting up the integration, you can manage users in Actual by following [these instructions](https://actualbudget.org/docs/config/multi-user).
 
 ## Configure Actual with other methods
+
 You can also configure OpenID via the following methods. Check out Actual's documentation for more information.
 
 - [Environment variables](https://actualbudget.org/docs/config/oauth-auth#configuration-using-environment-variables)
 - [Configuration file](https://actualbudget.org/docs/config/oauth-auth#configuration-using-a-configuration-file)
 
-
 **Example with `.env`:**
+
 ```
 ACTUAL_OPENID_DISCOVERY_URL=https://<pocket-id-domain.tld>
 ACTUAL_OPENID_CLIENT_ID=xxxxx-xxxxx-xxxxx
@@ -50,6 +52,7 @@ ACTUAL_OPENID_CLIENT_SECRET=xxxxx-xxxxx-xxxxx
 ```
 
 **Example with `config.json`:**
+
 ```json
 "openId": {
         "discoveryURL": "URL for the OpenID Provider",

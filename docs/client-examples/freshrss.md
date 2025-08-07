@@ -2,8 +2,6 @@
 id: freshrss
 ---
 
-# FreshRSS
-
 The following example variables are used, and should be replaced with your actual URLs.
 
 - `freshrss.example.com` (The URL of your FreshRSS instance.)

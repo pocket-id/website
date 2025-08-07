@@ -1,5 +1,5 @@
 ---
-id: introduction
+id: api
 ---
 
 <script lang="ts">

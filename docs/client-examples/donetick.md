@@ -1,7 +1,6 @@
 ---
 id: donetick
 ---
-# Donetick
 
 ## Pocket ID Setup
 
@@ -13,6 +12,7 @@ id: donetick
 ## Donetick Setup
 
 In the configuration file called `selfhosted.yaml` in the documentation, fill the oauth fields with:
+
 ```yaml
 oauth2:
   client_id: <pocket-client-id>
@@ -23,4 +23,5 @@ oauth2:
   redirect_url: <pocket-callback-url>
   name: PocketID
 ```
-Restart your donetick docker and your good to go! 
+
+Restart your donetick docker and your good to go!
