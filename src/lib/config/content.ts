@@ -54,6 +54,14 @@ export const advanced: DocMetadata[] = [
   },
 ];
 
+export const api: DocMetadata[] = [
+  {
+    title: 'API Reference',
+    description: 'Complete reference for all Pocket ID API endpoints',
+    path: 'api',
+  },
+];
+
 export const configuration: DocMetadata[] = [
   {
     title: 'Environment Variables',
@@ -266,6 +274,7 @@ export const allDocs = [
   ...introduction,
   ...gettingStarted,
   ...advanced,
+  ...api,
   ...configuration,
   ...guides,
   ...troubleshooting,

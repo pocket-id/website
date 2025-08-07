@@ -42,6 +42,10 @@ export const SidebarNavItems: SidebarNavItem[] = [
     items: [{ title: 'Proxy Services', href: '/docs/guides/proxy-services', items: [] }],
   },
   {
+    title: 'API',
+    items: [{ title: 'API Reference', href: '/docs/api', items: [] }],
+  },
+  {
     title: 'Advanced',
     items: [
       { title: 'Custom Keys', href: '/docs/advanced/custom-keys', items: [] },
