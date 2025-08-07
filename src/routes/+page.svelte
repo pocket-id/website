@@ -9,37 +9,34 @@
   import TestTube from '@lucide/svelte/icons/test-tube';
   import Github from '@lucide/svelte/icons/github';
 
-  let instanceCount: number | undefined = undefined;
-  let version: string | undefined = undefined;
+  let instanceCount = $state<number | undefined>(undefined);
   let isLoaded = $state(false);
-  let instanceCountLoaded = false;
+  let instanceCountLoaded = $state(false);
+
+  async function getInstanceCount(): Promise<number> {
+    const response = await fetch('https://analytics.pocket-id.org/stats');
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch instance count');
+    }
+
+    const data = await response.json();
+    return data.total;
+  }
 
   onMount(() => {
-    // Simulate API calls - replace with actual implementations
-    // getInstanceCount().then(c => {
-    //   instanceCount = c;
-    //   setTimeout(() => instanceCountLoaded = true, 100);
-    // });
-
-    // readVersionFile().then(v => version = v);
+    // Fetch instance count
+    getInstanceCount()
+      .then((c) => {
+        instanceCount = c;
+        setTimeout(() => (instanceCountLoaded = true), 100);
+      })
+      .catch((error) => {
+        console.error('Failed to fetch instance count:', error);
+      });
 
     setTimeout(() => (isLoaded = true), 100);
   });
-
-  function fadeInUp(delay = 0) {
-    return {
-      transform: isLoaded ? 'translateY(0)' : 'translateY(30px)',
-      opacity: isLoaded ? 1 : 0,
-      transition: `all 0.6s ease-out ${Math.min(delay, 200)}ms`,
-    };
-  }
-
-  function fadeIn(delay = 0) {
-    return {
-      opacity: isLoaded ? 1 : 0,
-      transition: `opacity 0.6s ease-out ${Math.min(delay, 200)}ms`,
-    };
-  }
 </script>
 
 <svelte:head>
@@ -114,6 +111,7 @@
       <div class="grid gap-12 max-w-6xl mx-auto">
         {#each mainFeatures as feature, index}
           {@const imageFirst = index % 2 === 0}
+          {@const Icon = feature.icon}
           <div
             class="grid md:grid-cols-2 gap-8 items-center"
             style="transform: {isLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {isLoaded ? 1 : (
@@ -121,7 +119,7 @@
             )}; transition: all 0.6s ease-out {100 + index * 20}ms;">
             <div class={imageFirst ? 'md:order-2' : ''}>
               <div class="flex items-center mb-4">
-                <feature.icon class="w-8 h-8 text-foreground mr-3" />
+                <Icon class="size-8 text-foreground mr-3" />
                 <h3 class="text-2xl font-bold mb-0">{feature.title}</h3>
               </div>
               <p class="text-muted-foreground text-lg leading-relaxed">{feature.description}</p>
@@ -140,6 +138,7 @@
     <div class="container mx-auto">
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
         {#each additionalFeatures as feature, index}
+          {@const Icon = feature.icon}
           <Card
             class="bg-card border-border hover:border-muted-foreground/50 transition-all duration-300"
             style="transform: {isLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {isLoaded ? 1 : (
@@ -147,7 +146,7 @@
             )}; transition: all 0.6s ease-out {100 + index * 15}ms;">
             <CardHeader>
               <div class="flex items-center space-x-2">
-                <feature.icon class="w-6 h-6 text-foreground" />
+                <Icon this={feature.icon} class="size-6 text-foreground" />
                 <CardTitle class="text-foreground">{feature.title}</CardTitle>
               </div>
             </CardHeader>

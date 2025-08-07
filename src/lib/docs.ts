@@ -13,7 +13,6 @@ function getDocMetadata(slug: string): DocMetadata | undefined {
 }
 
 export async function getDoc(_slug: string): Promise<{ component: Component; metadata: DocMetadata }> {
-  // Import from the docs folder where your actual markdown files are
   const modules = import.meta.glob('/docs/**/*.md');
   const slug = _slug === '' ? 'introduction' : _slug;
 
@@ -27,16 +26,22 @@ export async function getDoc(_slug: string): Promise<{ component: Component; met
   }
 
   const doc = await match?.resolver?.();
-  const metadata = getDocMetadata(slug);
+  const fallbackMetadata = getDocMetadata(slug);
 
-  if (!doc || !metadata) {
+  if (!doc || !fallbackMetadata) {
     console.error(`Could not find doc: ${slug}`);
-    console.log(
-      'Available paths:',
-      allDocs.map((d) => d.path)
-    );
     error(404, 'Could not find the documentation page.');
   }
+
+  // Merge frontmatter with fallback metadata
+  const metadata = {
+    title: doc.metadata?.title || fallbackMetadata.title,
+    description: doc.metadata?.description || fallbackMetadata.description,
+    path: fallbackMetadata.path,
+    published: fallbackMetadata.published ?? true,
+    // Keep any additional frontmatter
+    ...doc.metadata,
+  };
 
   return {
     component: doc.default,
