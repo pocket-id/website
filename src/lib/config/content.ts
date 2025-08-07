@@ -111,7 +111,7 @@ export const clientExamples: DocMetadata[] = [
   {
     title: 'Actual Budget',
     description: 'Integrate Pocket ID with Actual Budget',
-    path: 'client-examples/actual',
+    path: 'client-examples/actual-budget',
   },
   {
     title: 'Audiobookshelf',
