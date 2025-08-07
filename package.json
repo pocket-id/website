@@ -1,8 +1,11 @@
 {
-  "name": "pocket-id-docs",
-  "version": "0.0.0",
+  "name": "pocket-id-website",
+  "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "dev": "vite dev",
     "docusaurus": "docusaurus",
     "start": "cross-env API_DOCS_DISABLED=true docusaurus start",
     "build": "docusaurus build",
@@ -21,8 +24,10 @@
     "@docusaurus/preset-classic": "3.8.1",
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@mdx-js/react": "^3.1.0",
+    "@prettier/sync": "^0.6.1",
     "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
+    "@sveltejs/adapter-static": "^3.0.8",
     "@tailwindcss/postcss": "^4.1.11",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -30,36 +35,53 @@
     "docusaurus-plugin-openapi-docs": "^4.5.1",
     "docusaurus-theme-openapi-docs": "^4.5.1",
     "lucide-react": "^0.525.0",
+    "mode-watcher": "^1.1.0",
     "prism-react-renderer": "^2.4.1",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "rehype-pretty-code": "^0.14.1",
+    "rehype-slug": "^6.0.0",
+    "remark-code-import": "^1.2.0",
+    "remark-gfm": "^4.0.1",
     "tailwind-merge": "^3.3.1",
-    "tw-animate-css": "^1.3.5"
+    "tw-animate-css": "^1.3.6",
+    "unist-builder": "^4.0.0",
+    "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.8.1",
     "@docusaurus/tsconfig": "3.8.1",
     "@docusaurus/types": "3.8.1",
+    "@internationalized/date": "^3.8.2",
+    "@lucide/svelte": "^0.515.0",
+    "@shikijs/langs": "^3.9.2",
+    "@shikijs/themes": "^3.9.2",
+    "@sveltejs/kit": "^2.27.1",
+    "@sveltejs/vite-plugin-svelte": "^6.1.0",
+    "@tailwindcss/vite": "^4.1.11",
+    "@types/node": "^24.2.0",
     "autoprefixer": "^10.4.21",
+    "bits-ui": "^2.9.2",
+    "clsx": "^2.1.1",
     "cross-env": "^7.0.3",
     "css-loader": "^7.1.2",
+    "isomorphic-dompurify": "^2.26.0",
+    "mdsx": "^0.0.7",
+    "package-manager-detector": "^1.3.0",
     "postcss": "^8.5.6",
+    "prettier": "^3.6.2",
+    "prettier-plugin-svelte": "^3.4.0",
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "runed": "^0.31.1",
+    "shiki": "^3.9.2",
+    "svelte": "^5.38.0",
+    "svelte-check": "^4.3.1",
+    "svelte-toolbelt": "^0.9.3",
+    "tailwind-merge": "^3.3.1",
+    "tailwind-variants": "^1.0.0",
     "tailwindcss": "^4.1.11",
-    "typescript": "~5.8.3"
-  },
-  "browserslist": {
-    "production": [
-      ">0.5%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 3 chrome version",
-      "last 3 firefox version",
-      "last 5 safari version"
-    ]
-  },
-  "engines": {
-    "node": ">=18.0"
+    "tw-animate-css": "^1.3.6",
+    "typescript": "^5.9.2",
+    "vite": "^7.0.6"
   }
 }
