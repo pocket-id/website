@@ -87,14 +87,9 @@ export const configuration: DocMetadata[] = [
 
 export const guides: DocMetadata[] = [
   {
-    title: 'Getting Started',
-    description: 'Step-by-step guide to get started with Pocket ID',
-    path: 'guides/getting-started',
-  },
-  {
-    title: 'Best Practices',
-    description: 'Security and deployment best practices for Pocket ID',
-    path: 'guides/best-practices',
+    title: 'Proxy Services',
+    description: 'Reverse Proxy Setup Guide for Pocket ID',
+    path: 'guides/proxy-services',
   },
 ];
 
@@ -103,11 +98,6 @@ export const troubleshooting: DocMetadata[] = [
     title: 'Common Issues',
     description: 'Solutions to frequently encountered problems',
     path: 'troubleshooting/common-issues',
-  },
-  {
-    title: 'Debugging',
-    description: 'How to debug and diagnose issues with Pocket ID',
-    path: 'troubleshooting/debugging',
   },
 ];
 
@@ -237,6 +227,106 @@ export const clientExamples: DocMetadata[] = [
     description: 'Configure Miniflux RSS reader with Pocket ID',
     path: 'client-examples/miniflux',
   },
+  {
+    title: 'NetBox',
+    description: 'Configure NetBox IPAM with Pocket ID OIDC',
+    path: 'client-examples/netbox',
+  },
+  {
+    title: 'oCIS',
+    description: 'Set up ownCloud Infinite Scale with Pocket ID',
+    path: 'client-examples/oCIS',
+  },
+  {
+    title: 'Open WebUI',
+    description: 'Configure Open WebUI with Pocket ID authentication',
+    path: 'client-examples/open-webui',
+  },
+  {
+    title: 'Outline',
+    description: 'Set up Outline wiki with Pocket ID OIDC',
+    path: 'client-examples/outline',
+  },
+  {
+    title: 'Pangolin',
+    description: 'Configure Pangolin with Pocket ID authentication',
+    path: 'client-examples/pangolin',
+  },
+  {
+    title: 'Paperless-ngx',
+    description: 'Set up Paperless-ngx with Pocket ID OIDC',
+    path: 'client-examples/paperless-ngx',
+  },
+  {
+    title: 'pgAdmin',
+    description: 'Configure pgAdmin with Pocket ID authentication',
+    path: 'client-examples/pgadmin',
+  },
+  {
+    title: 'Pingvin Share',
+    description: 'Set up Pingvin Share with Pocket ID OIDC',
+    path: 'client-examples/pingvin',
+  },
+  {
+    title: 'Planka',
+    description: 'Configure Planka project management with Pocket ID',
+    path: 'client-examples/planka',
+  },
+  {
+    title: 'Portainer',
+    description: 'Set up Portainer container management with OIDC',
+    path: 'client-examples/portainer',
+  },
+  {
+    title: 'Proxmox',
+    description: 'Configure Proxmox VE with Pocket ID OIDC',
+    path: 'client-examples/proxmox',
+  },
+  {
+    title: 'Proxmox Backup Server',
+    description: 'Set up Proxmox Backup Server with Pocket ID',
+    path: 'client-examples/proxmox-backup',
+  },
+  {
+    title: 'Rallly',
+    description: 'Configure Rallly scheduling with Pocket ID',
+    path: 'client-examples/rallly',
+  },
+  {
+    title: 'RDP Gateway',
+    description: 'Set up RDP Gateway with Pocket ID authentication',
+    path: 'client-examples/rdpgw',
+  },
+  {
+    title: 'Semaphore UI',
+    description: 'Configure Semaphore UI with Pocket ID OIDC',
+    path: 'client-examples/semaphore-ui',
+  },
+  {
+    title: 'SonarQube',
+    description: 'Set up SonarQube code analysis with Pocket ID',
+    path: 'client-examples/sonarqube',
+  },
+  {
+    title: 'Synology',
+    description: 'Configure Synology NAS with Pocket ID OIDC',
+    path: 'client-examples/synology',
+  },
+  {
+    title: 'Talos',
+    description: 'Set up Talos Linux with Pocket ID authentication',
+    path: 'client-examples/talos',
+  },
+  {
+    title: 'Vikunja',
+    description: 'Configure Vikunja task management with Pocket ID',
+    path: 'client-examples/vikunja',
+  },
+  {
+    title: 'Wekan',
+    description: 'Set up Wekan kanban board with Pocket ID OIDC',
+    path: 'client-examples/wekan',
+  },
 ];
 
 export const helpingOut: DocMetadata[] = [
@@ -250,11 +340,11 @@ export const helpingOut: DocMetadata[] = [
     description: 'Help translate Pocket ID into your language',
     path: 'helping-out/translating',
   },
-  {
-    title: 'Documentation',
-    description: 'Contribute to improving the documentation',
-    path: 'helping-out/documentation',
-  },
+  // {
+  //   title: 'Documentation',
+  //   description: 'Contribute to improving the documentation',
+  //   path: 'helping-out/documentation',
+  // },
 ];
 
 export const externalLinks: DocMetadata[] = [

@@ -8,7 +8,7 @@
     "dev": "vite dev",
     "docusaurus": "docusaurus",
     "start": "cross-env API_DOCS_DISABLED=true docusaurus start",
-    "build": "docusaurus build",
+    "build": "vite build",
     "swizzle": "docusaurus swizzle",
     "deploy": "GIT_USER=stonith404 docusaurus deploy",
     "clear": "docusaurus clear",

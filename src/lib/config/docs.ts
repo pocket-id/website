@@ -90,17 +90,13 @@ export const SidebarNavItems: SidebarNavItem[] = [
   },
   {
     title: 'Troubleshooting',
-    items: [
-      { title: 'Common Issues', href: '/docs/troubleshooting/common-issues', items: [] },
-      { title: 'Debugging', href: '/docs/troubleshooting/debugging', items: [] },
-    ],
+    items: [{ title: 'Common Issues', href: '/docs/troubleshooting/common-issues', items: [] }],
   },
   {
     title: 'Helping Out',
     items: [
       { title: 'Contributing', href: '/docs/helping-out/contributing', items: [] },
       { title: 'Translating', href: '/docs/helping-out/translating', items: [] },
-      { title: 'Documentation', href: '/docs/helping-out/documentation', items: [] },
     ],
   },
 ];
