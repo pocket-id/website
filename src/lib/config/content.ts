@@ -103,6 +103,12 @@ export const troubleshooting: DocMetadata[] = [
 
 export const clientExamples: DocMetadata[] = [
   {
+    title: 'Client Examples',
+    description:
+      'Step-by-step guides for integrating Pocket ID with various applications and services using OIDC authentication',
+    path: 'client-examples',
+  },
+  {
     title: 'Actual Budget',
     description: 'Integrate Pocket ID with Actual Budget',
     path: 'client-examples/actual',
