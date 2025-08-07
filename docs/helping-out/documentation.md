@@ -16,10 +16,10 @@ docs/
   helping-out/documentation.md → /docs/helping-out/documentation
 ```
 
-- The loader that discovers files: [`getDoc`](src/lib/docs.ts).
-- Navigation + metadata comes from the array [`allDocs`](src/lib/config/content.ts).
-- Sidebar Configuration comes from array [`SidebarNavItems`](src/lib/config/docs.ts).
-- Navbar Configuration comes from array [`mainNavItems`](src/lib/config/docs.ts).
+- The loader that discovers files: [`getDoc`](https://github.com/pocket-id/website/blob/main/src/lib/docs.ts).
+- Navigation + metadata comes from the array [`allDocs`](https://github.com/pocket-id/website/blob/main/src/lib/config/content.ts).
+- Sidebar Configuration comes from array [`SidebarNavItems`](https://github.com/pocket-id/website/blob/main/src/lib/config/docs.ts).
+- Navbar Configuration comes from array [`mainNavItems`](https://github.com/pocket-id/website/blob/main/src/lib/config/docs.ts).
 
 ## 2. Adding a new page
 
@@ -34,7 +34,7 @@ description: Short summary # optional – fallback comes from allDocs
 ---
 ```
 
-4. Update the [`allDocs`](src/lib/config/content.ts) and/or the Sidebar [`SidebarNavItems`](src/lib/config/docs.ts) or Navbar [`mainNavItems`](src/lib/config/docs.ts) arrays:
+4. Update the [`allDocs`](https://github.com/pocket-id/website/blob/main/src/lib/config/content.ts) and/or the Sidebar [`SidebarNavItems`](https://github.com/pocket-id/website/blob/main/src/lib/config/docs.ts) or Navbar [`mainNavItems`](https://github.com/pocket-id/website/blob/main/src/lib/config/docs.ts) arrays:
 
 ```ts
 // ...existing code...
@@ -62,12 +62,12 @@ If `title/description` are missing in the file frontmatter, the fallback comes f
 
 ## 3. Frontmatter vs metadata
 
-| Source                                 | Preferred         | Purpose               |
-| -------------------------------------- | ----------------- | --------------------- |
-| [`allDocs`](src/lib/config/content.ts) | Canonical         | Global nav / fallback |
-| File frontmatter                       | Optional override | Per-page tweaks       |
+| Source                                                                                | Preferred         | Purpose               |
+| ------------------------------------------------------------------------------------- | ----------------- | --------------------- |
+| [`allDocs`](https://github.com/pocket-id/website/blob/main/src/lib/config/content.ts) | Canonical         | Global nav / fallback |
+| File frontmatter                                                                      | Optional override | Per-page tweaks       |
 
-Merge logic is in [`getDoc`](src/lib/docs.ts).
+Merge logic is in [`getDoc`](https://github.com/pocket-id/website/blob/main/src/lib/docs.ts).
 
 ## 4. ABlockquotes (callouts)
 
@@ -81,7 +81,7 @@ Use markers at the start of a blockquote:
 > First line after the marker becomes the body.
 ```
 
-Supported types: NOTE, TIP, IMPORTANT, WARNING, CAUTION (case‑insensitive). They are rendered by [`blockquote.svelte`](src/lib/components/mdsx/blockquote.svelte).
+Supported types: NOTE, TIP, IMPORTANT, WARNING, CAUTION (case‑insensitive). They are rendered by [`blockquote.svelte`](https://github.com/pocket-id/website/blob/main/src/lib/components/mdsx/blockquote.svelte).
 
 ## 5. Code blocks
 
@@ -137,8 +137,8 @@ A build plugin generates `static/llms.txt` aggregating docs. Just run `pnpm buil
 ## 13. Checklist for a new page
 
 - [ ] Markdown file added under `docs/`
-- [ ] Added entry to [`allDocs`](src/lib/config/content.ts)
-- [ ] Added entry to Sidebar [`SidebarNavItems`](src/lib/config/docs.ts) or Navbar [`mainNavItems`](src/lib/config/docs.ts) if applicable
+- [ ] Added entry to [`allDocs`](https://github.com/pocket-id/website/blob/main/src/lib/config/content.ts)
+- [ ] Added entry to Sidebar [`SidebarNavItems`](https://github.com/pocket-id/website/blob/main/src/lib/config/docs.ts) or Navbar [`mainNavItems`](https://github.com/pocket-id/website/blob/main/src/lib/config/docs.ts) if applicable
 - [ ] Images in `static/img/...` with alt text
 - [ ] Admonitions use `[!TYPE]` markers
 - [ ] Build succeeds (`pnpm build`)
