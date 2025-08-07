@@ -15,7 +15,7 @@ export const mdsxConfig = defineConfig({
   blueprints: {
     default: {
       path: resolve(__dirname, './src/lib/components/mdsx/blueprint.svelte'),
-      rehypePlugins: [rehypePrettyCode],
+      rehypePlugins: [],
     },
   },
 });
