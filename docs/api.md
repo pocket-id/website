@@ -15,6 +15,7 @@ import OpenapiSpec from '$lib/components/openapi-spec.svelte';
 5. Enter a `Description` for the new API Key
 6. Click `Generate API Key`
 
+> [!IMPORTANT]
 > Make sure you copy the API Key from the Dialog window it will not be shown again!
 
 ## Custom Dashboards
@@ -23,6 +24,7 @@ If you are wanting to use Pocket ID's API to build custom dashboards, or portals
 
 ## Endpoints
 
+> [!IMPORTANT]
 > All endpoints should have the `X-API-KEY` header with the content being the API Key when sending a request.
 
 <br />
