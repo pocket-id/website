@@ -10,11 +10,10 @@
 </script>
 
 <Sidebar.Root
-  class="sticky top-[calc(var(--header-height)+1px)] z-30 hidden h-[calc(100svh-var(--header-height)-var(--footer-height))] bg-transparent lg:flex"
+  class="sticky top-16 z-30 hidden h-[calc(100vh-4rem)] bg-transparent lg:flex"
   collapsible="none"
   {...restProps}>
   <Sidebar.Content class="no-scrollbar overflow-y-auto pb-12">
-    <!-- <div class="h-(--top-spacing) shrink-0"></div> -->
     {#each navItems as item (item.title)}
       <Sidebar.Group>
         <Sidebar.GroupLabel class="text-muted-foreground font-medium">
