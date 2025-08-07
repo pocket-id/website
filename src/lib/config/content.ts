@@ -66,9 +66,14 @@ export const configuration: DocMetadata[] = [
     path: 'configuration/ldap',
   },
   {
-    title: 'Database Configuration',
-    description: 'Configure database connections and settings',
-    path: 'configuration/database',
+    title: 'Allowed User Groups',
+    description: 'Configure allowed user groups for authentication',
+    path: 'configuration/allowed-groups',
+  },
+  {
+    title: 'Analytics',
+    description: 'Analytics notice for Pocket ID',
+    path: 'configuration/analytics',
   },
 ];
 

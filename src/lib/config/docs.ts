@@ -33,7 +33,6 @@ export const SidebarNavItems: SidebarNavItem[] = [
     items: [
       { title: 'Environment Variables', href: '/docs/configuration/environment-variables', items: [] },
       { title: 'LDAP Integration', href: '/docs/configuration/ldap', items: [] },
-      { title: 'Database Configuration', href: '/docs/configuration/database', items: [] },
       { title: 'Allowed Groups', href: '/docs/configuration/allowed-groups', items: [] },
       { title: 'Analytics', href: '/docs/configuration/analytics', items: [] },
     ],
