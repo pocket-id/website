@@ -1,10 +1,7 @@
 ---
-id: nginx-reverse-proxy
-sidebar_label: Use Nginx as Reverse Proxy
-sidebar_position: 2
+title: Nginx Reverse Proxy
+description: Set up Nginx as a reverse proxy for Pocket ID
 ---
-
-# Use Nginx as Reverse Proxy
 
 To use Nginx as a reverse proxy for Pocket ID, update the configuration to increase the header buffer size. This adjustment is necessary because SvelteKit generates larger headers, which may exceed the default buffer limits.
 

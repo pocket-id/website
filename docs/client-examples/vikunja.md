@@ -1,8 +1,7 @@
 ---
-id: vikunja
+title: Vikunja
+description: Configure Vikunja task management with Pocket ID
 ---
-
-# Vikunja
 
 1. In Pocket-ID create a new OIDC Client, name it i.e. `Vikunja`
 2. Set the callback url to: `https://<your-vikunja-subdomain>.<your-domain>/auth/openid/pocketid`

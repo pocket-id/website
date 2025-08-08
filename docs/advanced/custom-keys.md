@@ -1,14 +1,12 @@
 ---
-id: custom-keys
-sidebar_label: Custom Private Keys
-sidebar_position: 3
+title: Custom Keys
+description: Configure custom signing keys for enhanced security
 ---
-
-# Use custom private keys
 
 By default, Pocket ID generates a RSA-2048 private key upon first startup, which is used to sign all tokens. You can optionally use a key with a different RSA key size (e.g. 3072 or 4096), or even a different algorithm (e.g. ECDSA with P-256, or EdDSA with Ed25519).
 
-> **Important:** rotating/re-generating the private key will invalidate all tokens signed by Pocket ID.
+> [!IMPORTANT]
+> Rotating/re-generating the private key will invalidate all tokens signed by Pocket ID.
 >
 > You will need to restart Pocket ID for the new key to be picked up. Additionally, you may need to restart all applications that consume tokens issued by Pocket ID.
 
@@ -44,4 +42,5 @@ pocket-id key-rotate --alg ES256
 pocket-id key-rotate --alg EdDSA --crv Ed25519
 ```
 
+> [!NOTE]
 > Note that the private key is used for all OAuth2 clients. If choosing an algorithm different than RS256 (RSA), make sure that your clients support that.

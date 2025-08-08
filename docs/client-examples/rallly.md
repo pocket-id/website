@@ -1,8 +1,7 @@
 ---
-id: rallly
+title: Rallly
+description: Configure Rallly scheduling with Pocket ID
 ---
-
-# rallly
 
 Below URLs are used as placeholders for the rallly and Pocket ID instances. Replace them with the actual URLs.
 
@@ -21,6 +20,7 @@ Below URLs are used as placeholders for the rallly and Pocket ID instances. Repl
 If you follow the [rallly docker setup](https://support.rallly.co/self-hosting/installation/docker#setup-instructions), you are encouraged to create a `config.env` file in the root of your rallly project directory. This file will be used to set environment variables for the rallly web server container.
 
 `config.env` file should look like this:
+
 ```env
 other environment variables...
 

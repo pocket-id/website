@@ -1,8 +1,7 @@
 ---
-id: common-issues
+title: Common Issues
+description: Solutions to frequently encountered problems
 ---
-
-# Common Issues
 
 ## Unable to Add a Passkey
 

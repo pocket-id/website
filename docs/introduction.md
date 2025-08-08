@@ -1,20 +1,19 @@
 ---
-id: introduction
+title: Introduction
+description: Welcome to Pocket ID - A simple OIDC provider for passwordless authentication
 ---
-
-# Introduction
 
 Pocket ID is a simple OIDC provider that allows users to authenticate with their passkeys to your services.
 
 The goal of Pocket ID is to be a simple and easy-to-use. There are other self-hosted OIDC providers like [Keycloak](https://www.keycloak.org/) or [ORY Hydra](https://www.ory.sh/hydra/) but they are often too complex for simple use cases.
 
-Additionally, what makes Pocket ID special is that it only supports [passkey](https://www.passkeys.io/) authentication, which means you don’t need a password. Some people might not like this idea at first, but I believe passkeys are the future, and once you try them, you’ll love them. For example, you can now use a physical Yubikey to sign in to all your self-hosted services easily and securely.
+Additionally, what makes Pocket ID special is that it only supports [passkey](https://www.passkeys.io/) authentication, which means you don't need a password. Some people might not like this idea at first, but I believe passkeys are the future, and once you try them, you'll love them. For example, you can now use a physical Yubikey to sign in to all your self-hosted services easily and securely.
 
 ## Get to know Pocket ID
 
 → [Try the Demo of Pocket ID](https://demo.pocket-id.org)
 
-<img src="/img/landing/authorize_screenshot.png" width="700"/>
+<img src="/img/landing/authorize_screenshot.png" width="700" alt="Pocket ID authorization screen showing passkey authentication interface"/>
 
 ## Creator Reviews
 

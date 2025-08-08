@@ -1,8 +1,7 @@
 ---
-id: pgadmin
+title: pgAdmin
+description: Configure pgAdmin with Pocket ID authentication
 ---
-
-# pgAdmin
 
 The following example variables are used, and should be replaced with your actual URLS.
 

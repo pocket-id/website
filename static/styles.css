@@ -1,6 +1,6 @@
 @layer theme, base, components, utilities;
-@import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/utilities.css" layer(utilities);
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
 
 @custom-variant dark (&:is([data-theme="dark"] *));
 
@@ -44,7 +44,7 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 
-  --font-playfair: "Playfair Display", serif;
+  --font-playfair: 'Playfair Display', serif;
 }
 
 @layer base {
@@ -83,7 +83,7 @@
     --sidebar-ring: oklch(0.708 0 0);
   }
 
-  html[data-theme="dark"] {
+  html[data-theme='dark'] {
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.205 0 0);
@@ -118,14 +118,13 @@
   }
 
   html {
-    font: var(--ifm-font-size-base) / var(--ifm-line-height-base)
-      var(--ifm-font-family-base);
+    font: var(--ifm-font-size-base) / var(--ifm-line-height-base) var(--ifm-font-family-base);
   }
 
   @font-face {
-    font-family: "Playfair Display";
+    font-family: 'Playfair Display';
     font-weight: 700;
-    src: url("/fonts/PlayfairDisplay-Bold.woff") format("woff");
+    src: url('/fonts/PlayfairDisplay-Bold.woff') format('woff');
   }
 }
 
@@ -138,12 +137,10 @@
   --ifm-color-primary: #044cc1;
   --ifm-h1-font-size: 2.5rem;
   --docusaurus-highlighted-code-line-bg: #0000001a;
-  --ifm-global-shadow-tl: 2px 3px 5px 0 rgba(0, 0, 0, 0.2),
-    0 2px 4px 0 rgba(0, 0, 0, 0.1);
-  --ifm-font-family-base: Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans,
-    system-ui, -apple-system, sans-serif, BlinkMacSystemFont, "Segoe UI",
-    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol";
+  --ifm-global-shadow-tl: 2px 3px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  --ifm-font-family-base:
+    Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, system-ui, -apple-system, sans-serif, BlinkMacSystemFont,
+    'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   --menu-link-active: rgba(0, 0, 0, 0.1);
   --ifm-menu-link-padding-vertical: 0.5rem;
   --docs-fg-base: #030712;
@@ -151,12 +148,11 @@
 
   /* Docsearch color */
   --docsearch-key-gradient: linear-gradient(-225deg, #d5dbe4, #f8f8f8);
-  --docsearch-key-shadow: inset 0 -2px 0 0 #cdcde6, inset 0 0 1px 1px #fff,
-    0 1px 2px 1px #1e235a66;
+  --docsearch-key-shadow: inset 0 -2px 0 0 #cdcde6, inset 0 0 1px 1px #fff, 0 1px 2px 1px #1e235a66;
   --docsearch-muted-color: #969faf;
 }
 
-html[data-theme="dark"] {
+html[data-theme='dark'] {
   /* Docusaurus color */
   --prism-background-color: #1d2144;
   --ifm-background-color: #0a0a0a;
@@ -172,8 +168,7 @@ html[data-theme="dark"] {
   --docusaurus-highlighted-code-line-bg: #0000004d;
   --docsearch-muted-color: #7f8497;
   --docsearch-key-gradient: linear-gradient(-26.5deg, #565872, #31355b);
-  --docsearch-key-shadow: inset 0 -2px 0 0 #282d55, inset 0 0 1px 1px #51577d,
-    0 2px 2px 0 #0304094d;
+  --docsearch-key-shadow: inset 0 -2px 0 0 #282d55, inset 0 0 1px 1px #51577d, 0 2px 2px 0 #0304094d;
 }
 
 /* API docs */
@@ -201,42 +196,42 @@ html[data-theme="dark"] {
 }
 
 .get > .menu__link::before {
-  content: "get";
+  content: 'get';
   background-color: var(--ifm-color-primary);
 }
 
 .post > .menu__link::before {
-  content: "post";
+  content: 'post';
   background-color: var(--openapi-code-green);
 }
 
 .delete > .menu__link::before {
-  content: "del";
+  content: 'del';
   background-color: var(--openapi-code-red);
 }
 
 .put > .menu__link::before {
-  content: "put";
+  content: 'put';
   background-color: var(--openapi-code-blue);
 }
 
 .patch > .menu__link::before {
-  content: "patch";
+  content: 'patch';
   background-color: var(--openapi-code-orange);
 }
 
 .head > .menu__link::before {
-  content: "head";
+  content: 'head';
   background-color: var(--ifm-color-secondary-darkest);
 }
 
 .event > .menu__link::before {
-  content: "event";
+  content: 'event';
   background-color: var(--ifm-color-secondary-darkest);
 }
 
 .schema > .menu__link::before {
-  content: "schema";
+  content: 'schema';
   background-color: var(--ifm-color-secondary-darkest);
 }
 

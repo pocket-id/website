@@ -1,11 +1,9 @@
 ---
-id: oidc-client-authentication
-sidebar_position: 2
+title: OIDC Client Authentication
+description: Learn how to authenticate OIDC clients in Pocket ID using client secrets and federated credentials.
 ---
 
-# OIDC Client authentication
-
-In the context of OAuth2 / OpenID Connect, "Clients" refers to applications that request access to protected resources. In Pocket ID, they are configured in the *OIDC Clients* section in the *Settings* portal.
+In the context of OAuth2 / OpenID Connect, "Clients" refers to applications that request access to protected resources. In Pocket ID, they are configured in the _OIDC Clients_ section in the _Settings_ portal.
 
 Typically OIDC Clients have a set of credentials that include:
 
@@ -26,6 +24,7 @@ Thankfully, OAuth2 includes alternatives to shared secrets for authenticating cl
 
 With Federated Client Credentials, OIDC clients can authenticate themselves (e.g. during the exchange of the authorization code for an access token when invoking the `/token` endpoint) using JWT tokens signed by third-party Identity Providers (IdP).
 
+> [!NOTE]
 > Support for Federated Client Credentials in Pocket ID is based on [RFC 7523](https://datatracker.ietf.org/doc/html/rfc7523)
 
 To use Federated Client Credentials:
@@ -33,10 +32,11 @@ To use Federated Client Credentials:
 - You will need an external IdP that can authenticate your application by issuing JWT tokens, for example:
   - On apps running on Kubernetes, you can use service account tokens that are issued by the Kubernetes API server
   - On cloud providers like AWS, Microsoft Azure, GCP, etc, you can use tokens issued by the cloud platform itself (e.g. AWS IAM Roles, Microsoft Entra Workload ID / Managed Identity, etc)
-  - [SPIFFE/SPIRE](https://spiffe.io/) 
+  - [SPIFFE/SPIRE](https://spiffe.io/)
   - Any other OIDC-compliant IdP
 - Your application must support using JWTs for client authentication, as per [RFC 7523 section 2.2](https://datatracker.ietf.org/doc/html/rfc7523#section-2.2). You will need to ensure that your application can obtain a JWT from the external IdP in an appropriate way (see below for some examples), and that you use that token as client assertion during the OAuth2 token exchange.
 
+> [!TIP]
 > To use Federated Client Credentials during the OAuth2 token exchange, your application will need to invoke the `/token` endpoint as per usual (including `grant_type=authorization_code` and the other parameters). However, instead of including a `client_secret`, you need to pass these two options:
 >
 > - `client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer` (this is a constant value)
@@ -44,20 +44,23 @@ To use Federated Client Credentials:
 
 ## Configuring a client for Federated Client Credentials in Pocket ID
 
-When editing a client in Pocket ID (in the *OIDC Clients* section in the *Settings* page), you can configure Federated Client Credentials for the client.
+When editing a client in Pocket ID (in the _OIDC Clients_ section in the _Settings_ page), you can configure Federated Client Credentials for the client.
 
-> Federated Client Credentials may be hidden under *Advanced Options* by default.
+> [!TIP]
+> Federated Client Credentials may be hidden under _Advanced Options_ by default.
 
 Each identity allows specifying:
 
 - **Issuer** (required): Must map to the value of the `iss` claim in the JWT tokens issued by the external IdP.
-- **Audience**  (optional): Must map to the value of the `aud` claim in the JWT tokens.  
+- **Audience** (optional): Must map to the value of the `aud` claim in the JWT tokens.  
   If empty, this defaults to the public URL of Pocket ID.
-- **Subject**  (optional): Must map to the value of the `sub` claim in the JWT tokens.  
+- **Subject** (optional): Must map to the value of the `sub` claim in the JWT tokens.  
   If empty, this defaults to the ID of the OIDC client in Pocket ID (the UUID).
-- **JWKS URL**  (optional): URL where the JWKS (JSON Web Key Set) document can be retrieved.  
-  If empty, this defaults to `<issuer>/.well-known/jwks.json`.  
-  > Note: while HTTP URLs are accepted, using HTTPS is strongly recommended for security.
+- **JWKS URL** (optional): URL where the JWKS (JSON Web Key Set) document can be retrieved.  
+  If empty, this defaults to `<issuer>/.well-known/jwks.json`.
+
+  > [!NOTE]
+  > While HTTP URLs are accepted, using HTTPS is strongly recommended for security.
 
 ### Kubernetes Service Account Tokens
 
@@ -67,7 +70,7 @@ Configuration values for using Kubernetes are:
 
 - **Issuer**: Value of the Kubernetes' API server's issuer (this is generally passed as the value of the `--service-account-issuer` flag for `kube-apiserver`).
 - **Audience**: Value of the `audience` option specified when creating the Service Account for the Pod. While you can set this to any value, a good option is to use the public URL of Pocket ID.
-- **Subject**: The value is in the format `system:serviceaccount:<namespace>:<service-account-name>`. E.g. for a *ServiceAccount* resource named `my-sa` in the namespace `myappns`, the value is `system:serviceaccount:myappns:my-sa`.
+- **Subject**: The value is in the format `system:serviceaccount:<namespace>:<service-account-name>`. E.g. for a _ServiceAccount_ resource named `my-sa` in the namespace `myappns`, the value is `system:serviceaccount:myappns:my-sa`.
 - **JWKS URL** (optional): The URL where the JWKS of the Kubernetes API server can be retrieved from. The default value is `<issuer>/.well-known/jwks.json`.
 
 Inside your application, you can obtain a JWT token to use as client assertion by reading the file where the projected token volume is mounted.
@@ -98,5 +101,5 @@ Configuration values for Federated Client Credentials in Pocket ID:
 
 Inside your application, you can [obtain a token](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/how-to-use-vm-token) from the Managed Identity by:
 
-- Recommended: using one of the Azure SDKs to get a token from Managed Identity, with the requested *resource* as the client ID of the Entra ID application. SDKs work on all Azure services automatically.
+- Recommended: using one of the Azure SDKs to get a token from Managed Identity, with the requested _resource_ as the client ID of the Entra ID application. SDKs work on all Azure services automatically.
 - Manually invoking the endpoint metadata service. The endpoint can be different depending on the Azure service; in the case of an Azure Virtual Machine, the URL is `http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=<client-id>` (where `<client-id>` is the client ID of the Entra ID application); make sure to also set the HTTP header `Metadata:true` in the request.

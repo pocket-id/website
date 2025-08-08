@@ -1,9 +1,7 @@
 ---
-id: ldap
-sidebar_position: 3
+title: LDAP Integration
+description: Connect Pocket ID to your LDAP server for user synchronization
 ---
-
-# LDAP Synchronization
 
 Pocket ID can sync users and groups from an LDAP Source (lldap, OpenLDAP, Active Directory, etc.).
 
