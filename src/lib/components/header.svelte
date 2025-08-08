@@ -11,6 +11,7 @@
   import { mode } from 'mode-watcher';
 
   import { mainNavItems } from '$lib/config/docs.js';
+  import DocsSearch from './docs-search/docs-search.svelte';
 
   let version: string | undefined = $state('');
   let isDark = $state(false);
@@ -52,12 +53,16 @@
       </Button>
       <MainNav items={mainNavItems} class="hidden lg:flex" />
       <div class="ml-auto flex items-center gap-2 md:flex-1 md:justify-end">
+        <div class="hidden w-full flex-1 md:flex md:w-auto md:flex-none">
+          <DocsSearch />
+        </div>
+        <Separator orientation="vertical" />
         {#if version}
           <Badge variant="default" class="bg-surface text-foreground text-xs font-bold border-primary">
             v{version}
           </Badge>
         {/if}
-        <Separator orientation="vertical" class="ml-2 hidden lg:block" />
+        <Separator orientation="vertical" />
         <GithubLink />
         <Separator orientation="vertical" />
         <ModeSwitcher />
