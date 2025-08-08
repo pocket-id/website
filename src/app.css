@@ -230,6 +230,12 @@
   width: 250px;
 }
 
+.custom-terminal-style {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  contain: paint;
+}
+
 @layer components {
   .steps {
     &:first-child {
