@@ -15,7 +15,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       deployments: write
