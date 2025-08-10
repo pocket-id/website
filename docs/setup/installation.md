@@ -1,9 +1,7 @@
 ---
-id: installation
-sidebar_position: 1
+title: Installation
+description: Get Pocket ID running quickly with Docker or standalone installation
 ---
-
-# Installation
 
 ## Before you start
 
@@ -33,7 +31,6 @@ You can now sign in with the admin account on `https://<your-app-url>/setup`.
 1. Download the latest binary from the [releases page](https://github.com/pocket-id/pocket-id/releases/latest).
 
    Make sure to download the correct version for your operating system. The binary names follow this pattern:
-
    - `pocket-id-<operating-system>-<architecture>`
    - Example: `pocket-id-linux-amd64`
 
@@ -67,9 +64,8 @@ You can now sign in with the admin account on `https://<your-app-url>/setup`.
 
 ## Community Installation Methods
 
-:::important
-These installation methods are not officially supported, and services may not work as expected.
-:::
+> [!IMPORTANT]
+> These installation methods are not officially supported, and services may not work as expected.
 
 ### Proxmox
 
@@ -127,9 +123,8 @@ Required tools:
    git fetch --tags && git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
 
    # Build the frontend
-   cd frontend
-   npm ci
-   npm run build
+   pnpm --filter pocket-id-frontend install
+   pnpm --filter pocket-id-frontend build
 
    # Build the backend
    cd ../backend/cmd

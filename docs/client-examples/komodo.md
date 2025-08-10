@@ -1,8 +1,11 @@
 ---
-id: komodo
+title: Komodo
+description: Configure Komodo with Pocket ID authentication
 ---
 
-# Komodo
+---
+id: komodo
+---
 
 The following example variables are used, and should be replaced with your actual URLS.
 
