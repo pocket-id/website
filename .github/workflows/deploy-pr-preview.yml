@@ -36,5 +36,5 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           projectName: pocket-id-website
-          deploymentName: Preview
+          deploymentName: pr-preview
           directory: ${{ steps.preview-build-artifact.outputs.download-path }}
