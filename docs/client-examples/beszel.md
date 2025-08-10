@@ -1,7 +1,7 @@
 ---
-id: beszel
+title: Beszel
+description: Set up Pocket ID authentication for Beszel
 ---
-# Beszel
 
 ## Requirements
 
@@ -9,19 +9,21 @@ id: beszel
 - HTTPS connection to your Beszel server
 
 ## Create OIDC Client in Pocket ID
+
 1. Create a new OIDC Client in Pocket ID (e.g., `beszel`).
 2. Set the **Callback URL** to the value below.
-    ```
-    https://<your-beszel-url>/api/oauth2-redirect
-    ```
-3. *Optional:* Download a PNG or SVG **logo** from the [Beszel project](https://github.com/henrygd/beszel) and upload.
+   ```
+   https://<your-beszel-url>/api/oauth2-redirect
+   ```
+3. _Optional:_ Download a PNG or SVG **logo** from the [Beszel project](https://github.com/henrygd/beszel) and upload.
 4. Copy the **Client ID**, **Client Secret**, and **Authorization URL**, **Token URL**, and **Userinfo URL** for use in the next section.
 
 ## Configure Pocket ID
+
 1. Open the Pocket ID settings page and navigate to **`Application Configuration`**.
 2. Enable **Emails Verified**.
 
-> **ℹ️ Note:**  
+> [!NOTE]
 > Beszel requires the OAuth provider to return a valid, verified email address to create new users.  
 > If you see an error like:  
 > `Failed to create record. { "email": "cannot be blank" }`  
@@ -30,7 +32,7 @@ id: beszel
 
 ## Configure Beszel
 
-1. Open the Beszel superuser interface (`/_/#settings`) and navigate to: **`Settings > Application`** 
+1. Open the Beszel superuser interface (`/_/#settings`) and navigate to: **`Settings > Application`**
 2. Disable the **`Hide collection create and edit controls`** setting.
 3. Navigate to **`Collections > Users`**.
 4. Modify the `users` collection using the gear icon near the title.
@@ -48,11 +50,11 @@ id: beszel
 9. Re-enable **`Hide collection create and edit controls`** from step 2.
 10. Test the OAuth login to ensure it works.
 
-### Disable password login 
+### Disable password login
 
 To disable password login, set `DISABLE_PASSWORD_AUTH=true` in the hub environment variables. Changing in the UI alone will see the value overwritten on next restart.
 
-### Automatic user creation 
+### Automatic user creation
 
 Beszel does not allow automatic user creation by default. To enable it, set `USER_CREATION=true` in the hub environment variables.
 

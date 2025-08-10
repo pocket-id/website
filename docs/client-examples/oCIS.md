@@ -1,4 +1,7 @@
-# oCIS
+---
+title: oCIS
+description: Set up ownCloud Infinite Scale with Pocket ID
+---
 
 ## What is oCIS
 
@@ -11,12 +14,12 @@ ownCloud Infinite Scale (oCIS) is the new file sync & share platform that will b
 - `ocis.company.com` is the FQDN of the ocis server.
 - `pocket-id.company.com` is the FQDN of the pocket-id server.
 
-:::note
-This documentation lists only the settings that you need to change from their default values. Be aware that any changes other than those explicitly mentioned in this guide could cause issues accessing your application.
-:::
-:::info
-Pocket ID sends the Access-Control-Allow-Origin "pocket-id.company.com" for pocket-id.company.com/.well-known/openid-configuration . See https://github.com/pocket-id/pocket-id/issues/329
-If you use nginx instead of caddy (CADDY_DISABLED=true) add to the location part of your nginx configuration for Pocket ID
+  > [!NOTE]
+  > This documentation lists only the settings that you need to change from their default values. Be aware that any changes other than those explicitly mentioned in this guide could cause issues accessing your application.
+
+  > [!NOTE]
+  > Pocket ID sends the Access-Control-Allow-Origin "pocket-id.company.com" for pocket-id.company.com/.well-known/openid-configuration . See https://github.com/pocket-id/pocket-id/issues/329
+  > If you use nginx instead of caddy (CADDY_DISABLED=true) add to the location part of your nginx configuration for Pocket ID
 
 ```
 location /.well-known/ {
@@ -30,8 +33,6 @@ location /.well-known/ {
 }
 ```
 
-:::
-
 ## Pocket ID configuration
 
 To support the integration of oCIS with Pocket ID, you need to create a OIDC Client in Pocket ID.
@@ -40,7 +41,6 @@ To support the integration of oCIS with Pocket ID, you need to create a OIDC Cli
 
 1. Log in to Pocket ID as an admin
 2. Navigate to **User Groups** and click **Add Group** (repeat for each group - 4 times)
-
    1. **Friendly Name:** `ocis admin users group` **Name:** `ocisAdmin`
    2. **Friendly Name:** `ocis space admin user group` **Name:** `ocisSpaceAdmin`
    3. **Friendly Name:** `ocis user group` **Name:** `ocisUser`
@@ -51,7 +51,6 @@ To support the integration of oCIS with Pocket ID, you need to create a OIDC Cli
 1. Log in to Pocket ID as an admin
 2. Navigate to **User Groups**
 3. click the 3 dots `...` on the side of ocisAdmin, ocisSpaceAdmin, ocisUser and ocisGuest and press edit (do per group)
-
    1. Add `roles` and `ocisAdmin` to **Custom Claims** and click `Save` in ocisAdmin group. Add admin users to this group under Users.
    2. Add `roles` and `ocisSpaceAdmin` to **Custom Claims** and click `Save` in ocisSpaceAdmin group. Add the space admin users to this group under Users.
    3. Add `roles` and `ocisUser` to **Custom Claims** and click `Save` in ocisUser group. Add standard users to this group under Users.
@@ -72,7 +71,6 @@ Click `Save`
 
 1. Log in to Pocket ID as an admin
 2. Navigate to **OIDC Clients** and click edit **ocis**
-
    - [x] **ocisAdmin**
    - [x] **ocisSpaceAdmin**
    - [x] **ocisUser**
@@ -152,44 +150,47 @@ As a workaround, you need to create OIDC Client entries for each, and then manua
 
 1. Install sqlite into the `pocket-id` container so you can modify the database entries:
 
-    ```bash
-    cd path-to-pocket-id-compose-file
+   ```bash
+   cd path-to-pocket-id-compose-file
 
-    docker compose exec pocket-id apk add sqlite
-    docker compose exec pocket-id sqlite3
+   docker compose exec pocket-id apk add sqlite
+   docker compose exec pocket-id sqlite3
 
-    # EXAMPLE (see below for more details):
-    # docker compose exec pocket-id sqlite3 /app/data/pocket-id.db "UPDATE oidc_clients SET id='owncloud-client-id', secret='owncloud-client-secret-bcrypt-hashed' WHERE id='current-client-id';"
-    ```
+   # EXAMPLE (see below for more details):
+   # docker compose exec pocket-id sqlite3 /app/data/pocket-id.db "UPDATE oidc_clients SET id='owncloud-client-id', secret='owncloud-client-secret-bcrypt-hashed' WHERE id='current-client-id';"
+   ```
 
-    * Replace `owncloud-client-id` with the desired client ID.
-    * Replace `owncloud-client-secret-bcrypt-hashed` with the bcrypt-hashed version of the client secret you want to use. To generate this hash, visit https://bcrypt-generator.com/, input your client secret, and use the resulting hash (replace the `$`'s with backslashes).
-    * Replace `current-client-id` with the client ID of the existing client you want to update.
+   - Replace `owncloud-client-id` with the desired client ID.
+   - Replace `owncloud-client-secret-bcrypt-hashed` with the bcrypt-hashed version of the client secret you want to use. To generate this hash, visit https://bcrypt-generator.com/, input your client secret, and use the resulting hash (replace the `$`'s with backslashes).
+   - Replace `current-client-id` with the client ID of the existing client you want to update.
 
 2. Obtain the client ID for each entry and run the following command to enable the client to authenticate. Replace `current-client-id` with the client ID of the existing client you want to update.
+   - Desktop Client
 
-    - Desktop Client
-        ```bash
-        docker compose exec pocket-id sqlite3 /app/data/pocket-id.db "UPDATE oidc_clients SET id='xdXOt13JKxym1B1QcEncf2XDkLAexMBFwiT9j6EfhhHFJhs2KM9jbjTmf8JBXE69', secret='\$2a\$12\$HbbJMheIYyo8yfEuvm8Boe0baMZTIDXzchpVdLsfPqc3Eb.oULn5W' WHERE id='current-client-id';"
-        ```
-        > Callback URL: `http://127.0.0.1` and `http://localhost`
+     ```bash
+     docker compose exec pocket-id sqlite3 /app/data/pocket-id.db "UPDATE oidc_clients SET id='xdXOt13JKxym1B1QcEncf2XDkLAexMBFwiT9j6EfhhHFJhs2KM9jbjTmf8JBXE69', secret='\$2a\$12\$HbbJMheIYyo8yfEuvm8Boe0baMZTIDXzchpVdLsfPqc3Eb.oULn5W' WHERE id='current-client-id';"
+     ```
 
-    - Android
+     > Callback URL: `http://127.0.0.1` and `http://localhost`
 
-        ```bash
-        docker compose exec pocket-id sqlite3 /app/data/pocket-id.db "UPDATE oidc_clients SET id='e4rAsNUSIUs0lF4nbv9FmCeUkTlV9GdgTLDH1b5uie7syb90SzEVrbN7HIpmWJeD', secret='\$2a\$12\$sdQWjAxlQzRojU3bhvxp/e/5aY/tzskKqD76AQpiBJpj7USgWhZUO' WHERE id='current-client-id';"
-        ```
-        > Callback URL: `oc://android.owncloud.com`
+   - Android
 
-    - iOS:
+     ```bash
+     docker compose exec pocket-id sqlite3 /app/data/pocket-id.db "UPDATE oidc_clients SET id='e4rAsNUSIUs0lF4nbv9FmCeUkTlV9GdgTLDH1b5uie7syb90SzEVrbN7HIpmWJeD', secret='\$2a\$12\$sdQWjAxlQzRojU3bhvxp/e/5aY/tzskKqD76AQpiBJpj7USgWhZUO' WHERE id='current-client-id';"
+     ```
 
-        ```bash
-        docker compose exec pocket-id sqlite3 /app/data/pocket-id.db "UPDATE oidc_clients SET id='mxd5OQDk6es5LzOzRvidJNfXLUZS2oN3oUFeXPP8LpPrhx3UroJFduGEYIBOxkY1', secret='\$2a\$12\$3qHWSJRKBVoHVrn7kp4NFuEN4r.wmh9zB8oRjtYwHBUzwM818Hhje' WHERE id='current-client-id';"
-        ```
-        > Callback URL: `oc://ios.owncloud.com`
+     > Callback URL: `oc://android.owncloud.com`
+
+   - iOS:
+
+     ```bash
+     docker compose exec pocket-id sqlite3 /app/data/pocket-id.db "UPDATE oidc_clients SET id='mxd5OQDk6es5LzOzRvidJNfXLUZS2oN3oUFeXPP8LpPrhx3UroJFduGEYIBOxkY1', secret='\$2a\$12\$3qHWSJRKBVoHVrn7kp4NFuEN4r.wmh9zB8oRjtYwHBUzwM818Hhje' WHERE id='current-client-id';"
+     ```
+
+     > Callback URL: `oc://ios.owncloud.com`
 
 3. You can verify the changes with:
 
-    ```bash
-    docker compose exec pocket-id sqlite3 /app/data/pocket-id.db "SELECT * FROM oidc_clients;"
-    ```
+   ```bash
+   docker compose exec pocket-id sqlite3 /app/data/pocket-id.db "SELECT * FROM oidc_clients;"
+   ```

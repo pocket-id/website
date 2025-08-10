@@ -1,8 +1,7 @@
 ---
-id: open-webui
+title: Open WebUI
+description: Configure Open WebUI with Pocket ID authentication
 ---
-
-# Open WebUI
 
 1. In Pocket-ID, create a new OIDC Client, name it i.e. `Open WebUI`.
 2. Set the callback URL to: `https://openwebui.domain/oauth/oidc/callback`

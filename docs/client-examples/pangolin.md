@@ -1,18 +1,17 @@
 ---
-id: pangolin
+title: Pangolin
+description: Configure Pangolin with Pocket ID authentication
 ---
 
-# Pangolin
-
-## Pocket ID Setup 
+## Pocket ID Setup
 
 1. In Pocket ID create a new OIDC Client, name it, for example, `pangolin`
 2. In the "callback URL" field, enter any URL - this will be overwritten in a future step.
-	- NOTE: You cannot proceed with generating the Client ID, Secret, Auth/Token URL's unless or until this field is filled out. This has been raised under a [Feature Request](https://github.com/pocket-id/pocket-id/issues/538)
-	- Additional guidance can be found in the [Pangolin docs](https://docs.fossorial.io/Pangolin/Identity%20Providers/Providers/pocket-id) for PocketID setup
+   - NOTE: You cannot proceed with generating the Client ID, Secret, Auth/Token URL's unless or until this field is filled out. This has been raised under a [Feature Request](https://github.com/pocket-id/pocket-id/issues/538)
+   - Additional guidance can be found in the [Pangolin docs](https://docs.fossorial.io/Pangolin/Identity%20Providers/Providers/pocket-id) for PocketID setup
 
 3. Copy the `Client ID`, `Client Secret`, `Authorization URL` and `Token URL` for the following steps
-    
+
 We'll be coming back to set the Callback URL once we've setup Pangolin.
 
 ## Pangolin Setup
@@ -20,16 +19,16 @@ We'll be coming back to set the Callback URL once we've setup Pangolin.
 1. Log into Pangolin using your super user account
 2. Under Server Admin, select Identity Providers, then "+ Add Identity Provider"
 3. Enter the following:
-    - Name: PocketID (or anything you want)
-    - Select Provider Type: OAuth2/OIDC
-	- Client ID: Your **Client ID** from Pocket ID
-    - Client Secret: Your **Client Secret** from Pocket ID.
-	- Authorization URL: Your **Authorization URL** from Pocket ID.
-	- Token URL: Your **Token URL** from Pocket ID.
-    - Identifier Path: One of `email`, `preferred_username` or `sub` (Advanced)
-    - Email Path: `email`
-    - Name Path: `name`
-	- Scopes: `openid profile email`
+   - Name: PocketID (or anything you want)
+   - Select Provider Type: OAuth2/OIDC
+   - Client ID: Your **Client ID** from Pocket ID
+   - Client Secret: Your **Client Secret** from Pocket ID.
+   - Authorization URL: Your **Authorization URL** from Pocket ID.
+   - Token URL: Your **Token URL** from Pocket ID.
+   - Identifier Path: One of `email`, `preferred_username` or `sub` (Advanced)
+   - Email Path: `email`
+   - Name Path: `name`
+   - Scopes: `openid profile email`
 4. Save your new Identity Provider
 5. Under the general tab you can find the `Redirect URL`, copy this for the next step
 
@@ -38,9 +37,9 @@ We'll be coming back to set the Callback URL once we've setup Pangolin.
 1. Go back to your Pocket ID instance and edit your OIDC Client.
 2. Add the `Redirect URL` from Pangolin as a Callback URL in the OIDC Client and save.
 
-
 ## Pangolin (cont)
 
+> [!IMPORTANT]
 > **Automatic user provisioning is only supported on a Pangolin Professional license.**
 
 If you're on a non-Professional License, you'll need to manually create new users in Pangolin.
