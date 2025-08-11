@@ -37,6 +37,6 @@
       loading="lazy"
       onerror={handleImageError} />
   {/if}
-  <p class="font-bold text-white text-center">{name}</p>
+  <p class="font-bold text-foreground text-center">{name}</p>
   <p class="mt-1 text-xs text-muted-foreground text-center">{description}</p>
 </a>
