@@ -68,7 +68,7 @@ This `docker-compose.yml` includes a full example of using Pocket ID's distroles
 ```yaml
 services:
   pocket-id:
-    image: ghcr.io/pocket-id/pocket-id:v1
+    image: ghcr.io/pocket-id/pocket-id:v1-distroless
     restart: unless-stopped
     env_file: .env
     ports:
