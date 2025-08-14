@@ -121,7 +121,7 @@
         {...props}
         variant="secondary"
         class={cn(
-          'bg-background dark:bg-surface text-muted-foreground dark:text-surface-foreground/60 shadow-sm dark:shadow-none border border-border/50 dark:border-transparent dark:bg-card relative h-8 w-full justify-start pl-2.5 font-normal sm:pr-12 md:w-40 lg:w-56 xl:w-64'
+          'bg-background dark:bg-surface text-muted-foreground dark:text-surface-foreground/60 shadow-sm dark:shadow-none border border-border/50 dark:border-transparent relative h-8 w-full justify-start pl-2.5 font-normal sm:pr-12 md:w-40 lg:w-56 xl:w-64'
         )}
         onclick={() => (open = true)}>
         <span class="hidden lg:inline-flex">Search documentation...</span>
