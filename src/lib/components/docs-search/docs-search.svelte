@@ -102,7 +102,7 @@
   {@const Content = content}
   <kbd
     class={cn(
-      "bg-background text-muted-foreground pointer-events-none flex h-5 select-none items-center justify-center gap-1 rounded border px-1 font-sans text-[0.7rem] font-medium [&_svg:not([class*='size-'])]:size-3",
+      "bg-background dark:bg-background text-muted-foreground pointer-events-none flex h-5 select-none items-center justify-center gap-1 rounded border border-border/50 dark:border px-1 font-sans text-[0.7rem] font-medium shadow-sm dark:shadow-none [&_svg:not([class*='size-'])]:size-3",
       className
     )}
     {...restProps}>
@@ -121,7 +121,7 @@
         {...props}
         variant="secondary"
         class={cn(
-          'bg-surface text-surface-foreground/60 dark:bg-card relative h-8 w-full justify-start pl-2.5 font-normal shadow-none sm:pr-12 md:w-40 lg:w-56 xl:w-64'
+          'bg-background dark:bg-surface text-muted-foreground dark:text-surface-foreground/60 shadow-sm dark:shadow-none border border-border/50 dark:border-transparent dark:bg-card relative h-8 w-full justify-start pl-2.5 font-normal sm:pr-12 md:w-40 lg:w-56 xl:w-64'
         )}
         onclick={() => (open = true)}>
         <span class="hidden lg:inline-flex">Search documentation...</span>
@@ -135,7 +135,7 @@
   </Dialog.Trigger>
   <Dialog.Content
     showCloseButton={false}
-    class="rounded-xl border-none bg-clip-padding p-2 pb-2 shadow-2xl ring-4 ring-neutral-200/80 dark:bg-neutral-900 dark:ring-neutral-800">
+    class="rounded-xl border-none bg-background dark:bg-neutral-900 bg-clip-padding p-2 pb-2 shadow-2xl dark:shadow-2xl ring-4 ring-neutral-200/80 dark:ring-neutral-800">
     <Dialog.Header class="sr-only">
       <Dialog.Title>Search documentation...</Dialog.Title>
       <Dialog.Description>Search docs</Dialog.Description>
