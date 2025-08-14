@@ -27,7 +27,7 @@
 
 <a
   {href}
-  class="bg-surface text-surface-foreground hover:bg-surface/80 flex w-full flex-col items-center rounded-xl p-6 transition-colors sm:p-10 {className}"
+  class="bg-background dark:bg-surface shadow-sm hover:shadow-md dark:shadow-none dark:hover:shadow-none border border-border/50 dark:border-transparent hover:bg-muted/50 dark:hover:bg-surface/80 flex w-full flex-col items-center rounded-xl p-6 transition-all duration-200 sm:p-10 {className}"
   {...restProps}>
   {#if iconUrl}
     <img
