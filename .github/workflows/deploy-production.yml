@@ -1,5 +1,9 @@
 name: Deploy Production Website
 
+concurrency:
+  group: deploy-prod-website
+  cancel-in-progress: true
+
 on:
   push:
     branches: [main]
