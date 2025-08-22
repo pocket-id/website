@@ -31,7 +31,7 @@
   }
 </script>
 
-<ModeWatcher />
+<ModeWatcher disableTransitions={false} />
 
 <svelte:head>
   <title>Pocket ID</title>
