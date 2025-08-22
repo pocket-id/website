@@ -1,43 +1,23 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import Button from '$lib/components/ui/button/button.svelte';
-  import { Badge } from '$lib/components/ui/badge/index.js';
-  import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card/index.js';
-  import { mainFeatures, additionalFeatures } from '$lib/config/features.js';
   import ConnectArrow from '$lib/components/connect-arrow.svelte';
+  import { Badge } from '$lib/components/ui/badge/index.js';
+  import Button from '$lib/components/ui/button/button.svelte';
+  import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card/index.js';
+  import { additionalFeatures, mainFeatures } from '$lib/config/features.js';
 
   import BookOpen from '@lucide/svelte/icons/book-open';
-  import TestTube from '@lucide/svelte/icons/test-tube';
   import Github from '@lucide/svelte/icons/github';
+  import TestTube from '@lucide/svelte/icons/test-tube';
+  import { onMount } from 'svelte';
+  import type { PageProps } from './$types.js';
 
-  let instanceCount = $state<number | undefined>(undefined);
+  let {data} : PageProps = $props();
+
   let isLoaded = $state(false);
-  let instanceCountLoaded = $state(false);
 
-  async function getInstanceCount(): Promise<number> {
-    const response = await fetch('https://analytics.pocket-id.org/stats');
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch instance count');
-    }
-
-    const data = await response.json();
-    return data.total;
-  }
-
-  onMount(() => {
-    // Fetch instance count
-    getInstanceCount()
-      .then((c) => {
-        instanceCount = c;
-        setTimeout(() => (instanceCountLoaded = true), 100);
-      })
-      .catch((error) => {
-        console.error('Failed to fetch instance count:', error);
-      });
-
-    setTimeout(() => (isLoaded = true), 100);
-  });
+    onMount(() => {
+      isLoaded = true
+    });
 </script>
 
 <svelte:head>
@@ -79,19 +59,19 @@
           Demo
         </Button>
       </div>
-      {#if instanceCount}
+      <div style="transform: {isLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {isLoaded ? 1 : (
+          0
+        )}; transition: all 0.6s ease-out 150ms;">
+      {#if data.instanceCount}
         <Badge
           variant="outline"
           class="mt-6"
-          style="transform: {instanceCountLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {(
-            instanceCountLoaded
-          ) ?
-            1
-          : 0}; transition: all 0.6s ease-out 200ms;">
+       >      
           <div class="bg-green-400 rounded-full w-2 h-2 animate-pulse inline-block mr-1"></div>
-          {instanceCount} Active Instances
+          {data.instanceCount} Active Instances
         </Badge>
       {/if}
+            </div>
     </div>
   </section>
 
