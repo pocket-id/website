@@ -16,7 +16,7 @@
   let isLoaded = $state(false);
 
     onMount(() => {
-      isLoaded = true
+    requestAnimationFrame(() => isLoaded = true);
     });
 </script>
 
