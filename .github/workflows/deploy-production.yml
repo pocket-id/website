@@ -1,39 +1,41 @@
+name: Deploy Production Website
+
+concurrency:
+  group: deploy-prod-website
+  cancel-in-progress: true
+
 on:
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
       - 'src/**'
       - 'docs/**'
       - 'static/**'
       - 'package.json'
-      - 'sidebars.ts'
-      - 'tsconfig.json'
-      - 'docusaurus.config.ts'
+      - 'pnpm-lock.yaml'
+      - 'svelte.config.js'
+      - '.github/workflows/deploy-production.yml'
+      - 'scripts/**'
 
 jobs:
-  publish:
+  deploy:
     runs-on: ubuntu-latest
     permissions:
-      actions: read
-      deployments: write
       contents: read
-    name: Publish Production Website to Cloudflare Pages
+      deployments: write
+      actions: write
+      pull-requests: write
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Checkout pocket-id/pocket-id repo
+      - name: Checkout pocket-id repo (for swagger generation)
         uses: actions/checkout@v4
         with:
           repository: pocket-id/pocket-id
           path: pocket-id
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-          cache: 'npm'
-          cache-dependency-path: package-lock.json
+          ref: main
 
       - name: Setup Go
         uses: actions/setup-go@v5
@@ -41,7 +43,7 @@ jobs:
       - name: Install swag
         run: go install github.com/swaggo/swag/cmd/swag@latest
 
-      - name: Generate Swagger docs
+      - name: Generate swagger.yaml
         run: |
           cd pocket-id/backend
           swag init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml -o ../../static -md ../../static
@@ -51,30 +53,35 @@ jobs:
           chmod +x ./scripts/add-api-doc-tags.sh
           ./scripts/add-api-doc-tags.sh
 
-      - name: Remove Pocket ID repo
+      - name: Remove pocket-id repo
         run: rm -rf pocket-id
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
+
       - name: Install dependencies
-        run: npm install
+        run: pnpm install --frozen-lockfile
 
-      - name: Generate API docs with Docusaurus
-        run: |
-          npx docusaurus gen-api-docs all
+      - name: Build
+        run: pnpm build
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build site
-        run: npm run build
-
-      - name: Publish to Cloudflare Pages
+      - name: Deploy to Cloudflare Pages
         uses: AdrianGonz97/refined-cf-pages-action@v1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           projectName: pocket-id-website
-          directory: build
           deploymentName: Production
           branch: main
+          directory: build
           wranglerVersion: '3'

@@ -1,8 +1,7 @@
 ---
-id: freshrss
+title: FreshRSS
+description: Set up Pocket ID authentication for FreshRSS
 ---
-
-# FreshRSS
 
 The following example variables are used, and should be replaced with your actual URLs.
 
@@ -50,9 +49,8 @@ networks:
     name: freshrss
 ```
 
-:::important
-The Username used in Pocket ID must match the Username used in FreshRSS **exactly**. This also applies to case sensitivity. As of version `0.24` of Pocket ID all Usernames are required to be entirely lowercase. FreshRSS allows for uppercase. If a Pocket ID Username is `amanda` and your FreshRSS Username is `Amanda`, you will get a 403 error in FreshRSS and be unable to login. As of version `1.25` of FreshRSS, you are unable to change your username in the GUI. To change your FreshRSS username to lowercase or to match your Pocket ID username, you must navigate to your FreshRSS volume location. Go to `data/users/` and change the folder for your user to the matching username in Pocket ID, then restart the FreshRSS container to apply the changes.
-:::
+> [!IMPORTANT]
+> The Username used in Pocket ID must match the Username used in FreshRSS **exactly**. This also applies to case sensitivity. As of version `0.24` of Pocket ID all Usernames are required to be entirely lowercase. FreshRSS allows for uppercase. If a Pocket ID Username is `amanda` and your FreshRSS Username is `Amanda`, you will get a 403 error in FreshRSS and be unable to login. As of version `1.25` of FreshRSS, you are unable to change your username in the GUI. To change your FreshRSS username to lowercase or to match your Pocket ID username, you must navigate to your FreshRSS volume location. Go to `data/users/` and change the folder for your user to the matching username in Pocket ID, then restart the FreshRSS container to apply the changes.
 
 ## Complete OIDC Setup
 

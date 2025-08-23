@@ -2,7 +2,7 @@
 
 Pocket ID is a simple OIDC provider that allows users to authenticate with their passkeys to your services.
 
-This website is built using [Docusaurus](https://docusaurus.io/).
+This website is built with [SvelteKit](https://svelte.dev/docs/kit/introduction) and [MDSX](https://mdsx.dev/docs).
 
 ## Contributing
 
@@ -10,15 +10,15 @@ This website is built using [Docusaurus](https://docusaurus.io/).
 
 1. Install the dependencies:
    ```bash
-   npm install
+   pnpm install
    ```
 2. Start the development server:
    ```bash
-   npm start
+   pnpm dev
    ```
 
 This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
 
 ### Structure
-The markdown files are located in the `docs` folder. The sidebar is defined in `sidebars.ts`.
 
+The markdown files are located in the `docs` folder. The Sidebar is configured via `src/lib/config/docs.ts`, and the Markdown Metadata Content is configured via `src/lib/config/content.ts`.

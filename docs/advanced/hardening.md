@@ -1,10 +1,7 @@
 ---
-id: distroless-container-security-hardening
-sidebar_label: Distroless & Container Security Hardening
-sidebar_position: 2
+title: Container Security Hardening
+description: Secure your Pocket ID deployment with distroless containers and hardening
 ---
-
-# Container security hardening
 
 By default, the Pocket ID container starts as the root user, which is used to set permissions on the file system before dropping its privileges and starting the main process. This is done for convenience, while still running the Pocket ID binary as non-root. If you prefer, you can run the Pocket ID container as a **non-root** user entirely and even ensure it uses a **read-only root file system**.
 
@@ -25,6 +22,7 @@ find ./data -type d -exec chmod 0700 {} \;
 find ./data -type f -exec chmod 0600 {} \;
 ```
 
+> [!NOTE]
 > Alternatively, you can start up the regular (non-distroless) Pocket ID container with the default configuration once (where it starts as root before dropping privileges), and it will create the directories and set permissions automatically.
 
 ## Container configuration
@@ -33,19 +31,18 @@ To run the container as non-root and with a read-only root file system, use one 
 
 - **Docker CLI**: Add the `--user 1000:1000 --read-only` flags to the `docker run` command.
 - **Docker Compose**: Set these options in the `pocket-id` service:
+  - `read_only: true`
+  - `user: "1000:1000"`
 
-   - `read_only: true`
-   - `user: "1000:1000"`
+  Example:
 
-   Example:
-
-   ```yaml
-   services:
-     pocket-id:
-       # ...
-       read_only: true
-       user: "1000:1000"
-   ```
+  ```yaml
+  services:
+    pocket-id:
+      # ...
+      read_only: true
+      user: '1000:1000'
+  ```
 
 ## Distroless container
 
@@ -61,6 +58,7 @@ You can also use a specific version (such as `v1.x.x-distroless`) or branch (`v1
 
 Note that distroless containers are non-root by default. You will need to **set permissions on the mountpoints** as described in the [System requirements](#system-requirements) section.
 
+> [!NOTE]
 > Distroless containers do not include a shell, so you will not be able to enter into the container (e.g. with `docker exec`) for debugging purposes.
 
 ## Docker Compose
@@ -70,18 +68,18 @@ This `docker-compose.yml` includes a full example of using Pocket ID's distroles
 ```yaml
 services:
   pocket-id:
-    image: ghcr.io/pocket-id/pocket-id:v1
+    image: ghcr.io/pocket-id/pocket-id:v1-distroless
     restart: unless-stopped
     env_file: .env
     ports:
       - 1411:1411
     volumes:
-      - "./data:/app/data"
+      - './data:/app/data'
     read_only: true
-    user: "1000:1000"
+    user: '1000:1000'
     # Optional healthcheck
     healthcheck:
-      test: [ "CMD", "/app/pocket-id", "healthcheck" ]
+      test: ['CMD', '/app/pocket-id', 'healthcheck']
       interval: 1m30s
       timeout: 5s
       retries: 2
