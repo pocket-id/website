@@ -73,6 +73,8 @@ jobs:
 
       - name: Build
         run: pnpm build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_SPONSORS_TOKEN }}
 
       - name: Deploy to Cloudflare Pages
         uses: AdrianGonz97/refined-cf-pages-action@v1
