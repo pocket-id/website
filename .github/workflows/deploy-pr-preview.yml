@@ -32,8 +32,8 @@ jobs:
       - name: Deploy to Cloudflare Pages
         uses: AdrianGonz97/refined-cf-pages-action@v1
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CF_API_TOKEN_NEW }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID_NEW }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           projectName: pocket-id-website
           deploymentName: pr-preview
