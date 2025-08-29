@@ -6,3 +6,6 @@ onlyBuiltDependencies:
   - core-js-pure
   - esbuild
   - postman-code-generators
+
+overrides:
+  'devalue': '^5.3.2'
