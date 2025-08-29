@@ -27,4 +27,4 @@ You truly do not know how much that means to us and how much it helps support th
   {/each}
 </div>
 
-<SponsorsGrid users={users} />
+<SponsorsGrid />
