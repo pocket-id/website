@@ -64,8 +64,6 @@ jobs:
 
       - name: Build (SvelteKit)
         run: pnpm build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_SPONSORS_TOKEN }}
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
