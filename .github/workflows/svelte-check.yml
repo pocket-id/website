@@ -3,25 +3,8 @@ name: Svelte Check
 on:
   push:
     branches: [main]
-    paths:
-      - 'src/**'
-      - 'static/**'
-      - '.github/svelte-check-matcher.json'
-      - 'package.json'
-      - 'pnpm-lock.yaml'
-      - 'tsconfig.json'
-      - 'svelte.config.js'
   pull_request:
     branches: [main, preview]
-    paths:
-      - 'src/**'
-      - 'static/**'
-      - '.github/svelte-check-matcher.json'
-      - 'package.json'
-      - 'pnpm-lock.yaml'
-      - 'tsconfig.json'
-      - 'svelte.config.js'
-  workflow_dispatch:
 
 jobs:
   type-check:
@@ -35,7 +18,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -52,7 +35,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build (optional)
+      - name: Build
         run: pnpm build
 
       - name: Add svelte-check problem matcher

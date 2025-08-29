@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Run typos check
         uses: crate-ci/typos@v1.33.1
         with:
           config: ./.github/workflows/typos-config.toml
-          write_changes: false 
+          write_changes: false
