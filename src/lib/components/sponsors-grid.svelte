@@ -32,16 +32,20 @@
   <div class="text-muted-foreground">Loading sponsors…</div>
 {:then sponsors}
   {#if sponsors.length}
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 m-5">
+    <div class="grid gap-4 m-5 grid-cols-[repeat(auto-fit,minmax(170px,1fr))]">
       {#each sponsors as s (s.login)}
         <a
           href={s.url}
           target="_blank"
           rel="noreferrer"
-          class="group flex flex-col items-center gap-2 rounded-md border p-3 hover:bg-accent">
+          class="group flex flex-col items-center gap-2 rounded-md border p-3 hover:bg-accent w-full">
           <img src={s.avatarUrl} alt={s.name ?? s.login} class="size-16 rounded-full border-ghost" loading="lazy" />
-          <div class="text-sm font-medium text-center">{s.name ?? s.login}</div>
-          <div class="text-xs text-muted-foreground">@{s.login}</div>
+          <div class="text-sm font-medium text-center truncate w-full max-w-full" title={s.name ?? s.login}>
+            {s.name ?? s.login}
+          </div>
+          <div class="text-xs text-muted-foreground text-center truncate w-full max-w-full" title={`@${s.login}`}>
+            @{s.login}
+          </div>
         </a>
       {/each}
     </div>
