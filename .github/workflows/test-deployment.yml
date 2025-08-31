@@ -15,7 +15,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Checkout pocket-id repo (for swagger generation)
+      - name: Checkout pocket-id repo
         uses: actions/checkout@v5
         with:
           repository: pocket-id/pocket-id
@@ -44,8 +44,6 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -57,5 +55,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build (SvelteKit)
+      - name: Build website
         run: pnpm build
