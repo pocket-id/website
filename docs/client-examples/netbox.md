@@ -42,4 +42,4 @@ SOCIAL_AUTH_OIDC_SECRET = '<client id from the first part of this guide>'
 LOGOUT_REDIRECT_URL = 'https://netbox.example.com'
 ```
 
-3. Save the file and restart netbox: `sudo systemctl start netbox netbox-rq`
+3. Save the file and restart netbox: `sudo systemctl restart netbox netbox-rq`
