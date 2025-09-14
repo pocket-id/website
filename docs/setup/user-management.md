@@ -17,12 +17,12 @@ Once users have been created using one of the methods above, follow the steps be
 >
 > Passkeys can be stored in services like Bitwarden, LastPass, iCloud, or even locally on certain devices using platform authenticators.
 
-### One-Time Link
+### Login Code
 
 1. Navigate to the **Users** page in the Pocket ID admin dashboard.
 2. Locate the user you want to set up a passkey for.
 3. Click the **three dots** on the right side of the user row.
-4. Click **One-Time Link**.
+4. Click **Login Code**.
 5. Select an **Expiration Time** for the link.
 6. Click **Generate Link** and send it to the user to allow them to set up their new passkey.
 
