@@ -15,8 +15,8 @@ description: Set up Pocket ID authentication for Beszel
    ```
    https://<your-beszel-url>/api/oauth2-redirect
    ```
-3. _Optional:_ Download a PNG or SVG **logo** from the [Beszel project](https://github.com/henrygd/beszel) and upload.
-4. Copy the **Client ID**, **Client Secret**, and **Authorization URL**, **Token URL**, and **Userinfo URL** for use in the next section.
+3. _Optional:_ Download a PNG or SVG **logo** from the [Beszel project](https://github.com/henrygd/beszel) and upload it now.
+4. Copy the **Client ID**, **Client Secret**, **Authorization URL**, **Token URL**, and **Userinfo URL** for use in the next section.
 
 ## Configure Pocket ID
 
@@ -32,23 +32,24 @@ description: Set up Pocket ID authentication for Beszel
 
 ## Configure Beszel
 
-1. Open the Beszel superuser interface (`/_/#settings`) and navigate to: **`Settings > Application`**
+1. Open the Beszel superuser interface (`/_/#/settings`) then navigate to: **`Settings > Application`**.
 2. Disable the **`Hide collection create and edit controls`** setting.
 3. Navigate to **`Collections > Users`**.
 4. Modify the `users` collection using the gear icon near the title.
 5. Navigate to **`Options > OAuth2`**.
-6. Enable the **Active** checkmark, and click **`Add provider`**
-7. Fill in the required fields with values from Pocket ID:
+6. Enable the **Active** checkmark then click **`Add provider`**.
+7. Select the `oidc` provider.
+8. Fill in the required fields with values from Pocket ID:
    - **Client ID**
    - **Client Secret**
    - **Display Name** of your choice (i.e.: `Pocket`)
    - **Auth URL**
    - **Token URL**
-   - Set **Fetch user info from** to **`User info URL`**.
-   - Leave **`Support PKCE`** enabled.
-8. Save the settings.
-9. Re-enable **`Hide collection create and edit controls`** from step 2.
-10. Test the OAuth login to ensure it works.
+   - Set **Fetch user info from** to **`User info URL`**
+   - Leave **`Support PKCE`** enabled
+9. Save the settings.
+10. Re-enable **`Hide collection create and edit controls`** from step 2.
+11. Test the OAuth login to ensure it works.
 
 ### Disable password login
 
