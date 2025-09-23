@@ -21,4 +21,4 @@ Analytics can be disabled at any time by setting the environment variable `ANALY
 
 ## Public Statistics
 
-Aggregated instance counts are displayed on our homepage. The API is publicly accessible, the docs can be found in the[ analytics server repository](https://github.com/pocket-id/analytics).
+Aggregated instance counts are displayed on our homepage. The API is publicly accessible, the docs can be found in the [analytics server repository](https://github.com/pocket-id/analytics).
