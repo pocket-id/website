@@ -12,6 +12,12 @@ description: Set up Node-RED with Pocket ID authentication
 
 ## Node-RED Setup
 
+Make sure the following "Passport strategy" package is installed:
+
+```sh
+npm install passport-openidconnect
+```
+
 Replace the adminAuth section in settings.js (adjust to your specific requirements):
 
 ```yaml
