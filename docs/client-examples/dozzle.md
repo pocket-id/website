@@ -83,6 +83,7 @@ Below is an example using oauth2-proxy.
 
    Fill in the variables per the comments.
    
+   
 5. Finally - restart your Docker compose stack. 
    
    Your reverse proxy should now authenticate you to Dozzle via oauth2-proxy.
