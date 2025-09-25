@@ -75,7 +75,7 @@
   }
 
   function handleKeydown(e: KeyboardEvent) {
-    if ((e.key === 'l' && (e.metaKey || e.ctrlKey)) || e.key === '/') {
+    if ((e.key === 'k' && (e.metaKey || e.ctrlKey)) || e.key === '/') {
       if (
         (e.target instanceof HTMLElement && e.target.isContentEditable) ||
         e.target instanceof HTMLInputElement ||
@@ -128,7 +128,7 @@
         <span class="inline-flex lg:hidden">Search...</span>
         <div class="absolute right-1.5 top-1.5 hidden gap-1 sm:flex">
           {@render CommandMenuKbd({ content: isMac.current ? '⌘' : 'Ctrl' })}
-          {@render CommandMenuKbd({ content: 'L', class: 'aspect-square' })}
+          {@render CommandMenuKbd({ content: 'K', class: 'aspect-square' })}
         </div>
       </Button>
     {/snippet}
