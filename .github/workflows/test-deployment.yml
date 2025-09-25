@@ -4,15 +4,6 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - 'src/**'
-      - 'docs/**'
-      - 'static/**'
-      - 'scripts/**'
-      - 'package.json'
-      - 'pnpm-lock.yaml'
-      - 'svelte.config.js'
-      - '.github/workflows/test-deployment.yml'
 
 jobs:
   test-deploy:
@@ -20,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
-      - name: Checkout pocket-id repo (for swagger generation)
-        uses: actions/checkout@v4
+      - name: Checkout pocket-id repo
+        uses: actions/checkout@v5
         with:
           repository: pocket-id/pocket-id
           path: pocket-id
@@ -53,8 +44,6 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -66,5 +55,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build (SvelteKit)
+      - name: Build website
         run: pnpm build

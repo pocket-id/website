@@ -58,7 +58,9 @@
         </div>
         <Separator orientation="vertical" />
         {#if version}
-          <Badge variant="default" class="bg-surface text-foreground text-xs font-bold border-primary">
+          <Badge
+            variant="default"
+            class="bg-background dark:bg-surface shadow-sm dark:shadow-none border border-border/50 dark:border-primary text-foreground text-xs font-bold">
             v{version}
           </Badge>
         {/if}
