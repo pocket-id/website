@@ -6,8 +6,19 @@ description: GitHub Sponsors supporting the project maintainers
 <script>
   import SponsorsGrid from '$lib/components/sponsors-grid.svelte';
   import { Button } from '$lib/components/ui/button/index.js';
+  import JetbrainsLogo from '$lib/components/jetbrains-logo.svelte';
   const users = ['stonith404', 'kmendell'];
 </script>
+
+## Tools
+
+<div class="mt-8 mb-6 flex justify-center">
+  <div class="max-w-3xl w-full flex justify-center">
+    <JetbrainsLogo alt="JetBrains" className="h-24 w-auto rounded-md bg-background p-2 border border-border shadow" />
+  </div>
+</div>
+
+## GitHub Sponsors
 
 #### Thanks to everyone who supports Pocket ID by becoming a sponsor!
 
@@ -20,7 +31,7 @@ You truly do not know how much that means to us and how much it helps support th
       target="_blank"
       rel="noreferrer"
       variant="outline"
-      class="inline-flex items-center gap-2 rounded-md border px-3 py-1.5">
+      class="flex items-center gap-2 rounded-md border px-3 py-1.5 w-auto">
       <img class="size-5 rounded-full" src={`https://github.com/${u}.png`} alt={u} />
       <span>Sponsor @{u}</span>
     </Button>
