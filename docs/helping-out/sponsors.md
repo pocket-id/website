@@ -10,14 +10,6 @@ description: GitHub Sponsors supporting the project maintainers
   const users = ['stonith404', 'kmendell'];
 </script>
 
-## Tools
-
-<div class="mt-8 mb-6 flex justify-center">
-  <div class="max-w-3xl w-full flex justify-center">
-    <JetbrainsLogo alt="JetBrains" className="h-24 w-auto rounded-md bg-background p-2 border border-border shadow" />
-  </div>
-</div>
-
 ## GitHub Sponsors
 
 #### Thanks to everyone who supports Pocket ID by becoming a sponsor!
@@ -39,3 +31,13 @@ You truly do not know how much that means to us and how much it helps support th
 </div>
 
 <SponsorsGrid />
+
+## Tools
+
+Thanks to JetBrains for giving free All Products Pack subscriptions to open source maintainers.
+
+<div class="mt-8 mb-6 flex justify-center">
+  <div class="max-w-3xl w-full flex justify-center">
+    <JetbrainsLogo alt="JetBrains" className="h-20 w-auto rounded-md bg-background p-2 border border-border shadow" />
+  </div>
+</div>
