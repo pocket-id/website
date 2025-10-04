@@ -1,10 +1,10 @@
 ---
 title: Wallos
-description: Set up Pocket ID authentication for wallos
+description: Set up Pocket ID authentication for Wallos
 ---
 
-Below URLs are used as placeholders for the paperless-ngx and Pocket ID instances. Replace them with the actual URLs.
-- wallos.example.com (The url of your wallos instance.)
+Below URLs are used as placeholders for the [Wallos] and Pocket ID instances. Replace them with the actual URLs.
+- wallos.example.com (The url of your Wallos instance.)
 - pocketid.example.com (The url of your Pocket ID instance.)
 
 ## Create OIDC Client in Pocket ID
@@ -13,7 +13,7 @@ Below URLs are used as placeholders for the paperless-ngx and Pocket ID instance
    ```
    https://wallos.example.com
    ```
-3. _Optional:_ Download a PNG or SVG **logo** from the [Wallos](https://github.com/ellite/Wallos) github or somewhere else and upload it to pocket id.
+3. _Optional:_ Download a PNG or SVG **logo** from the [Wallos] GitHub or somewhere else and upload it to Pocket ID.
 4. Ensure that PKCE is not on.
 5. Click save.
 6. Copy the **Client ID**, **Client Secret**, and **Authorization URL**, **Token URL**, and **Userinfo URL** for use in the next section.
@@ -31,3 +31,5 @@ Below URLs are used as placeholders for the paperless-ngx and Pocket ID instance
 4. Turn the OIDC toggle on
 5. Save the settings.
 6. Test the OAuth login to ensure it works.
+
+[Wallos]: https://github.com/ellite/Wallos#readme
