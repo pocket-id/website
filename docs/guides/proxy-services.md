@@ -53,8 +53,8 @@ caddy add-package github.com/greenpau/caddy-security
 			client_id client-id-from-pocket-id # Replace with your own client ID
 			client_secret client-secret-from-pocket-id # Replace with your own client secret
 			scopes openid email profile
-			base_auth_url http://localhost
-			metadata_url http://localhost/.well-known/openid-configuration
+			base_auth_url http://<domain-where-pocket-id-runs> #Replace
+			metadata_url http://<domain-where-pocket-id-runs>/.well-known/openid-configuration #Replace
 		}
 
 		authentication portal myportal {
