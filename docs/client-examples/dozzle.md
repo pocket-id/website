@@ -21,6 +21,8 @@ Below is an example using oauth2-proxy.
     - **PKCE:** `Enabled`
 
     Copy the **Client ID** and **Client Secret** values for use later.
+    
+    You can leave the **Callback URL** blank to autofill on first login.
 
 
 2. Add the following to your existing Dozzle compose:

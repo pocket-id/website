@@ -12,7 +12,7 @@ Your Outline and Pocket ID server URLs must both use HTTPS.
 1. Login to your **Pocket ID** server as an admin
 1. Go to **OIDC Clients** and click **Add OIDC Client**
 1. Set an app **Name** like `Outline`
-1. Set the **Callback URL** to:
+1. Set the **Callback URL** to the following, or leave blank to autofill on first login:
    `https://outline.yourdomain.com/*`
 1. Upload a **Logo** if desired
 1. Click **Save**. Then copy these values for later:

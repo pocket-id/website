@@ -11,7 +11,7 @@ description: Set up Pingvin Share with Pocket ID OIDC
 ## Create OIDC Client in Pocket ID
 
 1. Create a new OIDC Client in Pocket ID (e.g., `pingvin`).
-2. Set the **Callback URL** to the value below:
+2. Set the **Callback URL** to the value below or leave blank to autofill on first login.
    ```
    https://<your-domain>/api/oauth/callback/oidc
    ```
