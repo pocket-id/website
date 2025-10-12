@@ -13,7 +13,7 @@ description: Integrate Kasm with Pocket ID OIDC
 ## Pocket ID Setup
 
 1. In Pocket ID, create a new OIDC client (example: `kasm`).
-2. Set the Callback URL to the value of the 'redirect URL' copied from Kasm (example: `https://kasm.domain.com/api/oidc_callback`)
+2. Set the Callback URL to the value of the 'redirect URL' copied from Kasm (example: `https://kasm.domain.com/api/oidc_callback`), or leave blank to autofill on first login.
 3. Do _not_ enable PKCE, as it is not supported by Kasm
 4. Copy the generated **Client ID** and **Client Secret** values for next steps.
 

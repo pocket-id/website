@@ -7,7 +7,7 @@ description: Configure Donetick with Pocket ID authentication
 
 1. In Pocket-ID create a new OIDC Client, name it. e.g. `donetick`.
 2. Set a logo for this OIDC Client if you would like too. The official logo is located [here](https://github.com/donetick/donetick/blob/main/assets/icon.png).
-3. Set the callback URL to: `https://<your-app-and-domain-name>/auth/oauth2` e.g. `https://donetick.example.com/auth/oauth2`.
+3. Set the callback URL to: `https://<your-app-and-domain-name>/auth/oauth2` e.g. `https://donetick.example.com/auth/oauth2`, or leave blank to autofill on first login.
 4. Copy the Client ID, Client Secret, Authorization URL, Token URL, etc... for the next steps.
 
 ## Donetick Setup

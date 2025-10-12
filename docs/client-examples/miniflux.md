@@ -4,7 +4,7 @@ description: Configure Miniflux RSS reader with Pocket ID
 ---
 
 1. Create a new OIDC Client in Pocket ID (e.g., `miniflux`).
-2. In Callback URLs, add `https://<MINIFLUX DOMAIN>/oauth2/oidc/callback`
+2. In Callback URLs, add `https://<MINIFLUX DOMAIN>/oauth2/oidc/callback`, or leave blank to autofill on first login.
 3. Save and get the Client ID and Client Secret
 4. Set the following environment variables in your Miniflux instance:
    ```env

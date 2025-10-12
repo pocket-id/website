@@ -12,7 +12,7 @@ Below URLs are used as placeholders for the Grafana and Pocket ID instances. Rep
 
 1. In Pocket ID, create a new OIDC client named `grafana` (or any name you prefer).
 2. (Optional) Set a logo for the OIDC client.
-3. Set the callback URL to: `https://grafana.example.com/login/generic_oauth`
+3. Set the callback URL to: `https://grafana.example.com/login/generic_oauth`, or leave blank to autofill on first login.
 4. Copy the `Client ID`, `Client Secret`, `Authorization URL` and `Token URL` for the next steps.
 
 ## Grafana App Setup

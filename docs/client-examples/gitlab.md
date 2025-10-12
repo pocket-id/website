@@ -14,7 +14,7 @@ Setting this app up requires access to the GitLab configuration file (most likel
 
 1. In Pocket ID, create a new OIDC client, named whatever you want.
 1. (Optional) Set a logo for the OIDC client
-1. Set the callback URL to `https://gitlab.example.com/users/auth/openid_connect/callback`
+1. Set the callback URL to `https://gitlab.example.com/users/auth/openid_connect/callback`, or leave blank to autofill on first login.
 1. Copy the `Client ID` and `Client Secret` for the GitLab Setup
 
 ## GitLab Setup

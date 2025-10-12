@@ -11,7 +11,7 @@ Below URLs are used as placeholders for the [Harbor](https://goharbor.io/) and P
 ## Pocket ID Setup
 
 1. In Pocket ID, create a new OIDC client named `Harbor` (or any name you prefer).
-2. Set the callback URL to: `https://harbor.example.com/c/oidc/callback`
+2. Set the callback URL to: `https://harbor.example.com/c/oidc/callback`, or leave blank to autofill on first login.
 3. Set the launch URL to: `https://harbor.example.com`
 4. Check `PKCE`
 5. (Optional) Set a logo for the OIDC client.

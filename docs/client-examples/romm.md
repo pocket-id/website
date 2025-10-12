@@ -4,7 +4,7 @@ description: Configure RomM with Pocket ID authentication
 ---
 
 1. Create a new OIDC Client in Pocket ID (e.g., `RomM`).
-2. Set the Callback URL to `https://{romm_host}/api/oauth/openid`
+2. Set the Callback URL to `https://{romm_host}/api/oauth/openid`, or leave blank to autofill on first login.
 3. _(Optional)_ Find and upload a logo from [Self-Hosted Dashboard Icons](https://selfh.st/icons)
 4. Configure RomM environment variables
 

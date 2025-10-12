@@ -11,7 +11,7 @@ description: Enable OIDC authentication for FreeScout helpdesk
 ## Create OIDC Client in Pocket ID
 
 1. Create a new OIDC Client in Pocket ID (e.g., `freescout`).
-2. Set the **Callback URL** to the value below. After creating the OAuth provider (in the next section), update this to the generated **Redirect URI** from FreeScout:
+2. Set the **Callback URL** to the value below. After creating the OAuth provider (in the next section), update this to the generated **Redirect URI** from FreeScout, -OR- leave blank to autofill on first login.
    ```
    https://<FREESCOUT-DOMAIN>/oauth-login/callback/*
    ```

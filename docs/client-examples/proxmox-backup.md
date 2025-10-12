@@ -12,7 +12,7 @@ The following example variables are used, and should be replaced with your actua
 
 1. In Pocket ID create a new OIDC Client, name it, for example, `Proxmox Backup Server`.
 2. Set a logo for this OIDC Client if you would like to.
-3. Set the callback URL to: `https://pbs.example.com`.
+3. Set the callback URL to: `https://pbs.example.com`, or leave blank to autofill on first login.
 4. Copy the `Client ID`, and the `Client Secret` for use in the next steps.
 
 ## Proxmox Backup Server Setup

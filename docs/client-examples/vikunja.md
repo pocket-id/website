@@ -4,7 +4,7 @@ description: Configure Vikunja task management with Pocket ID
 ---
 
 1. In Pocket-ID create a new OIDC Client, name it i.e. `Vikunja`
-2. Set the callback url to: `https://<your-vikunja-subdomain>.<your-domain>/auth/openid/pocketid`
+2. Set the callback url to: `https://<your-vikunja-subdomain>.<your-domain>/auth/openid/pocketid`, or leave blank to autofill on first login.
 3. In `Vikunja` ensure to map a config file to your container, see [here](https://vikunja.io/docs/config-options/#using-a-config-file-with-docker-compose)
 4. Add or set the following content to the `config.yml` file:
 

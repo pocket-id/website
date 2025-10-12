@@ -6,7 +6,7 @@ description: Configure Pinepods with Pocket ID authentication
 ## Create OIDC Client in Pocket ID
 
 1. Create a new OIDC Client in Pocket ID (e.g., `Pinepods`).
-2. Set the Callback URL to `https://<pinepods-url>/api/auth/callback`
+2. Set the Callback URL to `https://<pinepods-url>/api/auth/callback`, or leave blank to autofill on first login.
 3. Copy the **Client ID**, **Client Secret**, **Authorization URL**, **Token URL**, and **Userinfo URL**.
 4. _(Optional)_ Find and upload a logo from [Self-Hosted Dashboard Icons](https://selfh.st/icons)
 

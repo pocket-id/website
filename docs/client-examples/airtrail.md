@@ -6,7 +6,7 @@ description: Configure AirTrail with Pocket ID authentication
 ## Create OIDC Client in Pocket ID
 
 1. Create a new OIDC Client in Pocket ID (e.g., `AirTrail`).
-2. Set the Callback URL to `https://<airtrail-url>/login`
+2. Set the Callback URL to `https://<airtrail-url>/login`, or leave blank to autofill on first login.
 3. Copy the **Client ID**, **Client Secret**, and **OIDC Discovery URL**.
 4. _(Optional)_ Find and upload a logo from [Self-Hosted Dashboard Icons](https://selfh.st/icons)
 

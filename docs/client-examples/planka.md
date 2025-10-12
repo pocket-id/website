@@ -11,7 +11,7 @@ description: Configure Planka project management with Pocket ID
 ## Create OIDC Client in Pocket ID
 
 1. Create a new OIDC Client in Pocket ID (e.g., `planka`).
-2. Set the **Callback URL** to the value below:
+2. Set the **Callback URL** to the value below, or leave blank to autofill on first login.
 
    ```env
    https://<your-planka-instance>/oidc-callback

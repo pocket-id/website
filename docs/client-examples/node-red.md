@@ -7,7 +7,7 @@ description: Set up Node-RED with Pocket ID authentication
 
 1. In Pocket-ID create a new OIDC Client, name it i.e. `node-red`.
 2. Set a logo for this OIDC Client if you would like too.
-3. Set the callback URL to: `https://yoururl.com/auth/strategy/callback/`.
+3. Set the callback URL to: `https://yoururl.com/auth/strategy/callback/`, or leave blank to autofill on first login.
 4. Copy the `Client ID`, and `Client Secret` for use in the next steps.
 
 ## Node-RED Setup

@@ -16,7 +16,7 @@ The following example variables are used, and should be replaced with your actua
 
 1. In Pocket-ID create a new OIDC Client, name it i.e. `Komodo`.
 2. Set a logo for this OIDC Client if you would like too.
-3. Set the callback URL to: `https://komodo.example.com/auth/oidc/callback`.
+3. Set the callback URL to: `https://komodo.example.com/auth/oidc/callback`, or leave blank to autofill on first login.
 4. Copy the `Client ID`, and `Client Secret` for use in the next steps.
 
 ## Komodo Setup
