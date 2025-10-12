@@ -34,20 +34,6 @@
       <div class="w-full flex-1">
         <Markdown />
       </div>
-
-      <div class="mt-8 border-t pt-6">
-        <div class="flex items-center justify-between">
-          <div class="text-muted-foreground text-sm">Help improve this page</div>
-          <a
-            href={githubEditUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm transition-colors">
-            Edit this page on GitHub
-            <ExternalLink class="text-muted-foreground mb-1 size-4 align-text-bottom" />
-          </a>
-        </div>
-      </div>
     </div>
 
     <ChangelogToc {toc} />
