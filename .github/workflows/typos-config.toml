@@ -10,7 +10,17 @@ extend-ignore-re = [
   "SET id='[A-Za-z0-9]+',\\s*secret='\\$2[ayb]\\$[0-9]{2}\\$[A-Za-z0-9./]+'",  # Full SQL SET statements
   "Client ID:\\s*`[A-Za-z0-9]{50,}`",
   "`[A-Za-z0-9]{50,}`",
+  # Git commit hashes in changelog (7-40 hex chars)
+  "\\b[a-f0-9]{7,40}\\b",
+  # GitHub commit URLs with hashes
+  "github\\.com/[^/]+/[^/]+/commit/[a-f0-9]{7,40}",
+  # GitHub usernames (after @ sign)
+  "@[A-Za-z0-9_-]+",
 ]
+
+[default.extend-words]
+# Technical terms that are correct
+signins = "signins"
 
 [files]
 extend-exclude = [

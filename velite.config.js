@@ -81,6 +81,12 @@ const troubleshooting = defineCollection({
   schema: docSchema,
 });
 
+const changelog = defineCollection({
+  name: 'changelog',
+  pattern: './changelog.md',
+  schema: docSchema,
+});
+
 export default defineConfig({
   root: './docs',
   collections: {
@@ -94,6 +100,7 @@ export default defineConfig({
     guides,
     helpingOut,
     troubleshooting,
+    changelog,
   },
   output: {
     assets: 'static',

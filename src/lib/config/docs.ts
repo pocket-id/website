@@ -96,4 +96,5 @@ export const mainNavItems: MainNavItem[] = [
   { href: '/docs', label: 'Docs', title: 'Docs' },
   { href: '/docs/client-examples', label: 'Client Examples', title: 'Client Examples' },
   { href: '/docs/api', label: 'API Reference', title: 'API Reference' },
+  { href: '/changelog', label: 'Changelog', title: 'Changelog' },
 ];
