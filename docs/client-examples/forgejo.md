@@ -7,7 +7,7 @@ description: Configure Forgejo Git service with Pocket ID
 
 1. In Pocket ID, create a new OIDC client named `Forgejo` (or any name you prefer).
 2. (Optional) Set a logo for the OIDC client.
-3. Set the callback URL to: `https://<Forgejo Host>/user/oauth2/PocketID/callback` or leave blank to autofill on first login.
+3. Set the callback URL to: `https://<Forgejo Host>/user/oauth2/PocketID/callback`, or leave blank to autofill on first login.
 4. Copy the `Client ID`, `Client Secret`, and `OIDC Discovery URL` for the next steps.
 
 ## Forgejo Setup
