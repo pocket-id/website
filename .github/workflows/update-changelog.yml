@@ -28,7 +28,7 @@ jobs:
 
       - name: Prepare current changelog
         run: |
-          mkdir -p content
+          mkdir -p docs
           [[ -f docs/changelog.md ]] && cp docs/changelog.md docs/changelog.current.md || true
 
       - name: Build updated changelog
