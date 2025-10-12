@@ -101,7 +101,7 @@ jobs:
           author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
           signoff: true
           title: "docs(changelog): add ${{ steps.build.outputs.version }} release notes"
-          body: "Automated changelog update for ${{ steps.build.outputs.version }} from ofkm/pocket-id latest release."
+          body: "Automated changelog update for ${{ steps.build.outputs.version }} from pocket-id/pocket-id latest release."
           branch: "${{ steps.build.outputs.branch }}"
           base: main
           labels: "docs(changelog)"
