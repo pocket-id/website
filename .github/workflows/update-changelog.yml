@@ -1,0 +1,111 @@
+name: Update pocket-id Changelog
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Get latest release
+        id: latest
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: "https://api.github.com/repos/pocket-id/pocket-id/releases/latest"
+          method: "GET"
+          bearerToken: ${{ secrets.GITHUB_TOKEN }}
+          customHeaders: '{"Accept":"application/vnd.github+json"}'
+          responseFile: "release.json"
+
+      - name: Prepare current changelog
+        run: |
+          mkdir -p content
+          [[ -f docs/changelog.md ]] && cp docs/changelog.md docs/changelog.current.md || true
+
+      - name: Build updated changelog
+        id: build
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          TAG=$(jq -r .tag_name release.json)
+          DATE=$(jq -r .published_at release.json | cut -dT -f1)
+          URL=$(jq -r .html_url release.json)
+          BODY=$(jq -r '.body // ""' release.json)
+
+          echo "version=$TAG" >> "$GITHUB_OUTPUT"
+          echo "branch=chore/changelog-$TAG" >> "$GITHUB_OUTPUT"
+
+          # If changelog exists and already has this tag, skip
+          if [[ -f docs/changelog.current.md ]] && grep -qE "^##[[:space:]]+$TAG\b" docs/changelog.current.md; then
+            echo "updated=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          SECTION_FILE=/tmp/section.md
+          {
+            echo "## $TAG${DATE:+ - $DATE}"
+            echo
+            echo "[Release]($URL)"
+            echo
+            printf "%s\n" "$BODY"
+          } > "$SECTION_FILE"
+
+          DEFAULT_FM="---"$'\n'"title: 'Changelog'"$'\n'"description: 'Release notes for pocket-id'"$'\n'"---"
+
+          if [[ -f docs/changelog.current.md ]]; then
+            if head -n1 docs/changelog.current.md | grep -q '^---$'; then
+              END_LINE=$(awk '/^---$/{i++} i==2{print NR; exit}' docs/changelog.current.md || true)
+              if [[ -n "${END_LINE:-}" ]]; then
+                head -n "$END_LINE" docs/changelog.current.md > docs/changelog.md
+                echo >> docs/changelog.md
+                cat "$SECTION_FILE" >> docs/changelog.md
+                echo >> docs/changelog.md
+                tail -n +"$((END_LINE+1))" docs/changelog.current.md >> docs/changelog.md
+              else
+                printf "%s\n\n" "$DEFAULT_FM" > docs/changelog.md
+                cat "$SECTION_FILE" >> docs/changelog.md
+                echo >> docs/changelog.md
+                cat docs/changelog.current.md >> docs/changelog.md
+              fi
+            else
+              printf "%s\n\n" "$DEFAULT_FM" > docs/changelog.md
+              cat "$SECTION_FILE" >> docs/changelog.md
+              echo >> docs/changelog.md
+              cat docs/changelog.current.md >> docs/changelog.md
+            fi
+          else
+            printf "%s\n\n" "$DEFAULT_FM" > docs/changelog.md
+            cat "$SECTION_FILE" >> docs/changelog.md
+            echo >> docs/changelog.md
+          fi
+
+          echo "updated=true" >> "$GITHUB_OUTPUT"
+
+      - name: Create pull request
+        if: steps.build.outputs.updated == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "docs(changelog): add ${{ steps.build.outputs.version }} release notes"
+          committer: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+          author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+          signoff: true
+          title: "docs(changelog): add ${{ steps.build.outputs.version }} release notes"
+          body: "Automated changelog update for ${{ steps.build.outputs.version }} from ofkm/pocket-id latest release."
+          branch: "${{ steps.build.outputs.branch }}"
+          base: main
+          labels: "docs(changelog)"
+          draft: always-true
+          add-paths: |
+            docs/changelog.md
+          delete-branch: true

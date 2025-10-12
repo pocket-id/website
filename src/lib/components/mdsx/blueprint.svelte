@@ -29,5 +29,5 @@
 </script>
 
 <div class="mdsx">
-  {@render children()}
+  {@render children?.()}
 </div>
