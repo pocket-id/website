@@ -9,7 +9,7 @@ Below URLs are used as placeholders for the [Wallos] and Pocket ID instances. Re
 
 ## Create OIDC Client in Pocket ID
 1. Create a new OIDC Client in Pocket ID (e.g., `Wallos`).
-2. Set the **Callback URL** to the value below.
+2. Set the **Callback URL** to the value below, or leave blank to autofill on first login.
    ```
    https://wallos.example.com
    ```

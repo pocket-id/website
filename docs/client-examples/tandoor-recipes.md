@@ -4,7 +4,7 @@ description: Configure Tandoor Recipes with Pocket ID
 ---
 
 1. In Pocket-ID, create a new OIDC Client, name it e.g. `Tandoor`
-2. Set the callback URL to: `https://<your-tandoor-domain>/accounts/oidc/pocket-id/login/callback/`
+2. Set the callback URL to: `https://<your-tandoor-domain>/accounts/oidc/pocket-id/login/callback/`, or leave blank to autofill on first login.
 3. Add the following environment variables to your Tandoor setup, e.g. via the `.env` file. Make sure to replace the 3 placeholders in `SOCIALACCOUNT_PROVIDERS`:
 
 ```ini

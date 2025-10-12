@@ -10,7 +10,7 @@ The following example assumes you want to deploy rdpgw behind caddy reverse prox
 
 1. In Pocket-ID create a new OIDC Client, name it i.e. `rdpgw`.
 2. Set a logo for this OIDC Client if you would like too.
-3. Set the callback URL to: `https://rd.example.com/callback`.
+3. Set the callback URL to: `https://rd.example.com/callback`, or leave blank to autofill on first login.
 4. Copy the `Client ID`, and `Client Secret` for use in the next steps.
 
 ## RDPGW Setup

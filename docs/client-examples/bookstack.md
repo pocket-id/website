@@ -6,7 +6,7 @@ description: Enable OIDC login for BookStack wiki
 ## Pocket ID Setup
 
 1. In Pocket ID, create a new OIDC client (example: `bookstack`).
-2. Set the Callback URL to `https://<bookstack-url>/oidc/callback`
+2. Set the Callback URL to `https://<bookstack-url>/oidc/callback`, or leave blank to autofill on first login.
 3. Enable **PKCE** for improved security.
 4. Copy the generated **Client ID** and **Client Secret** values for next steps.
 

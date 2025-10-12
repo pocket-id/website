@@ -24,7 +24,7 @@ To start, we need to create a new SSO resource in our Jellyfin application.
 
 1. Log into the admin panel, and go to OIDC Clients -> Add OIDC Client.
 2. **Name**: Jellyfin (or any name you prefer)
-3. **Callback URL**: `https://JELLYFINDOMAIN.com/sso/OID/redirect/PROVIDER`
+3. **Callback URL**: `https://JELLYFINDOMAIN.com/sso/OID/redirect/PROVIDER`, or leave blank to autofill on first login.
 4. For this example, we’ll be using the provider named "test_resource."
 5. Click **Save**. Keep the page open, as we will need the OID client ID and OID secret.
 

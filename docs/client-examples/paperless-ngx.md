@@ -12,7 +12,7 @@ Below URLs are used as placeholders for the paperless-ngx and Pocket ID instance
 
 1. In Pocket ID, create a new OIDC client named `paperless-ngx` (or any name you prefer).
 2. (Optional) Set a logo for the OIDC client.
-3. Set the callback URL to: `https://paperless-ngx.example.com/accounts/oidc/pocket-id/login/callback/`
+3. Set the callback URL to: `https://paperless-ngx.example.com/accounts/oidc/pocket-id/login/callback/`, or leave blank to autofill on first login.
 4. Copy the `Client ID` and `Client Secret` for the next steps.
 
 ## paperless-ngx Docker Setup

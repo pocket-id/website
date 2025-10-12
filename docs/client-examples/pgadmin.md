@@ -12,7 +12,7 @@ The following example variables are used, and should be replaced with your actua
 
 1. In Pocket-ID create a new OIDC Client, name it i.e. `pgAdmin`.
 2. Set a logo for this OIDC Client if you would like too.
-3. Set the callback URL to: `https://pgadmin.example.com/oauth2/authorize`.
+3. Set the callback URL to: `https://pgadmin.example.com/oauth2/authorize`, or leave blank to autofill on first login.
 4. Copy the `Client ID`, `Client Secret`, `Authorization URL`, `Userinfo URL`, `Token URL`, and `OIDC Discovery URL` for use in the next steps.
 
 # pgAdmin Setup

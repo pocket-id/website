@@ -17,7 +17,7 @@ Below is an example using oauth2-proxy.
 1. Create a new OIDC client in Pocket ID for Dozzle: 
     
     - **Name:** `Dozzle`
-    - **Callback URLs:** `https://dozzle.example.com/oauth2/callback`
+    - **Callback URLs:** `https://dozzle.example.com/oauth2/callback`  (or leave blank to autofill on first login)
     - **PKCE:** `Enabled`
 
     Copy the **Client ID** and **Client Secret** values for use later.

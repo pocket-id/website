@@ -12,7 +12,7 @@ The following example variables are used, and should be replaced with your actua
 
 1. In Pocket-ID create a new OIDC Client, name it i.e. `Synology`.
 2. Set a logo for this OIDC Client if you would like too.
-3. Set the callback URL to: `https://synology.example.com/` or leave blank to autofill on first login.
+3. Set the callback URL to: `https://synology.example.com/`, or leave blank to autofill on first login.
 4. Copy the `Client ID`, `Client Secret`, `OIDC Discovery URL` for use in the next steps.
 
 # Synology Setup

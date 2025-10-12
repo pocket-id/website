@@ -14,7 +14,7 @@ The following example variables are used and should be replaced with your actual
 
 1. In Pocket ID create a new OIDC Client, name it, for example, `Nextcloud`.
 2. Set a logo for this OIDC Client if you would like to.
-3. Set the callback URL to: `https://nextcloud.example.com/apps/user_oidc/code`.
+3. Set the callback URL to: `https://nextcloud.example.com/apps/user_oidc/code`, or leave blank to autofill on first login.
 4. Set the Logout Callback URLs to the address the nextcloud/user_oidc plugin will give you. For most of the time it will be the address below with the portion `PocketID` being the name you gave to it on Nextcloud. e.g:`https://nextcloud.example.com/apps/user_oidc/backchannel-logout/PocketID`.
 5. Leave `Public Client` and `PKCE` unchecked.
 6. Copy the `Client ID`, `Client Secret`, `OIDC Discovery URL` and `Logout URL` for use in the next steps.

@@ -6,7 +6,7 @@ description: Configure Headscale VPN with Pocket ID OIDC
 ## Create OIDC Client in Pocket ID
 
 1. Create a new OIDC Client in Pocket ID (e.g., `Headscale`).
-2. Set the callback URL: `https://<HEADSCALE-DOMAIN>/oidc/callback`
+2. Set the callback URL: `https://<HEADSCALE-DOMAIN>/oidc/callback`, or leave blank to autofill on first login.
 3. Enable `PKCE`.
 4. Copy the **Client ID** and **Client Secret**.
 

@@ -7,7 +7,7 @@ description: Configure Gameyfin with Pocket ID authentication
 
 1. Create a new OIDC Client in Pocket ID (e.g., `Gameyfin`).
 2. Set the Client Launch URL to `https://<your-gameyfin-domain>/login`.
-3. Set the Callback URL to `https://<your-gameyfin-domain>/login/oauth2/code/oidc`.
+3. Set the Callback URL to `https://<your-gameyfin-domain>/login/oauth2/code/oidc`, or leave blank to autofill on first login.
 4. _(Optional)_ Find and upload a logo from [Self-Hosted Dashboard Icons](https://selfh.st/icons).
 
 ## Create User Groups in Pocket ID

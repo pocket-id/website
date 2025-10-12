@@ -4,7 +4,7 @@ description: Configure KaraKeep with Pocket ID authentication
 ---
 
 1. In Pocket-ID create a new OIDC Client, name it i.e. `Karakeep`
-2. Set the callback url to: `https://<your-karakeep-subdomain>.<your-domain>/api/auth/callback/custom`
+2. Set the callback url to: `https://<your-karakeep-subdomain>.<your-domain>/api/auth/callback/custom`, or leave blank to autofill on first login.
 3. Open your `.env` file from your Karakeep compose and add these lines:
 
 ```ini

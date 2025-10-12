@@ -7,7 +7,7 @@ description: Enable OIDC authentication for Memos
 
 1. In Pocket ID, create a new OIDC client named `Memos` (or any name you prefer).
 2. (Optional) Set a logo for the OIDC client.
-3. Set the callback URL to: `https://< Memos Host >/auth/callback`
+3. Set the callback URL to: `https://< Memos Host >/auth/callback`, or leave blank to autofill on first login.
 4. Copy the `Client ID`, `Client Secret`, `Authorization endpoint`, `Token endpoint`, and `User endpoint` for the next steps.
 
 ## Memos Setup

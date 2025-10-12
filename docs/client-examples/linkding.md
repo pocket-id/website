@@ -23,6 +23,8 @@ The following example variables are used, and should be replaced with your actua
    https://linkding.example.com/oidc/callback/
    ```
 
+   Or leave blank to autofill on first login.
+
 4. **Copy Credentials:**  
    Copy the Client ID and Client Secret provided by Pocket ID for use in Linkding.
 

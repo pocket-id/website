@@ -12,7 +12,7 @@ Below URLs are used as placeholders for the rallly and Pocket ID instances. Repl
 
 1. In Pocket ID, create a new OIDC client named `rallly` (or any name you prefer).
 2. (Optional) Set a logo for the OIDC client.
-3. Set the callback URL to: `https://rallly.example.com/api/auth/callback/oidc`
+3. Set the callback URL to: `https://rallly.example.com/api/auth/callback/oidc`, or leave blank to autofill on first login.
 4. Copy the `Client ID` and `Client Secret` for the next steps.
 
 ## rallly Docker Setup

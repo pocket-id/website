@@ -11,7 +11,7 @@ description: Set up Wekan kanban board with Pocket ID OIDC
 ## Create OIDC Client in Pocket ID
 
 1. Create a new OIDC Client in Pocket ID (e.g., `wekan`).
-2. Set the **Callback URL** to the value below or leave blank to autofill on first login.
+2. Set the **Callback URL** to the value below, or leave blank to autofill on first login.
    ```
    https://<wekan-url>/_oauth/oidc
    ```

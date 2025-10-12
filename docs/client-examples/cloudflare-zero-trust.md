@@ -10,7 +10,7 @@ description: Integrate with Cloudflare Zero Trust Access
 
 1. In Pocket-ID create a new OIDC Client, name it i.e. `Cloudflare Zero Trust`.
 2. Set a logo for this OIDC Client if you would like too.
-3. Set the callback URL to: `https://<your-team-name>.cloudflareaccess.com/cdn-cgi/access/callback`. Or leave blank to autofill on first login.
+3. Set the callback URL to: `https://<your-team-name>.cloudflareaccess.com/cdn-cgi/access/callback`, or leave blank to autofill on first login.
 4. Copy the Client ID, Client Secret, Authorization URL, Token URL, and Certificate URL for the next steps.
 
 ## Cloudflare Zero Trust Setup

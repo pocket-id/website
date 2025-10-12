@@ -12,7 +12,7 @@ description: Set up SonarQube code analysis with Pocket ID
 ## Create OIDC Client in Pocket ID
 
 1. Create a new OIDC Client in Pocket ID (e.g., `sonarqube`).
-2. Set the **Callback URL** to the value below:
+2. Set the **Callback URL** to the value below, or leave blank to autofill on first login.
 
    ```env
    https://<your-sonarqube-instance>/oauth2/callback/oidc

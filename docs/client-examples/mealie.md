@@ -4,7 +4,7 @@ description: Configure Mealie recipe manager with Pocket ID
 ---
 
 1. In Pocket-ID, create a new OIDC Client, name it i.e. `Mealie`.
-2. Set the callback URL to: `https://<your-mealie-domain>/login`
+2. Set the callback URL to: `https://<your-mealie-domain>/login`, or leave blank to autofill on first login.
 3. Add the following to your docker `.env` file for Mealie:
 
 ```yaml

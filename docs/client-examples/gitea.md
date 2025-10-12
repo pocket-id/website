@@ -7,7 +7,7 @@ description: Configure Gitea with Pocket ID OIDC
 
 1. In Pocket ID, create a new OIDC client named `Gitea` (or any name you prefer).
 2. (Optional) Set a logo for the OIDC client.
-3. Set the callback URL to: `https://<Gitea Host>/user/oauth2/PocketID/callback`
+3. Set the callback URL to: `https://<Gitea Host>/user/oauth2/PocketID/callback`, or leave blank to autofill on first login.
 4. Copy the `Client ID`, `Client Secret`, and `OIDC Discovery URL` for the next steps.
 
 ## Gitea Setup
