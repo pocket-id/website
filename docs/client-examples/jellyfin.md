@@ -66,3 +66,9 @@ Done! You have successfully set up SSO for your Jellyfin instance using Pocket I
 If your users already have accounts, as long as their Pocket ID username matches their Jellyfin ID, they will be logged in automatically. Otherwise, a new user will be created with access to all of your folders. Of course, you can modify this in your configuration as desired.
 
 This setup will only work if sign-in is performed using the `https://jellyfin.example.com/sso/OID/start/PROVIDER` URL. This URL initiates the SSO plugin and applies all the configurations we completed above.
+
+## Optional Step - Pull in user profile pictures
+
+Pockeet ID passes through the `picture` claim when authenticating which is a direct URL to the users profile picture. You can add the photo to Jellyfin by setting `Set avatar url format` to `@{picture}`.
+
+![img4.png](/img/jellyfin/jellyfin_img4.png)
