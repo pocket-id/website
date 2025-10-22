@@ -56,6 +56,12 @@ To start, we need to create a new SSO resource in our Jellyfin application.
 
 Follow the [guide to create a login button on the login page](https://github.com/9p4/jellyfin-plugin-sso?tab=readme-ov-file#creating-a-login-button-on-the-main-page) to add a custom button on your sign-in page. This step is optional, as you could also provide the sign-in URL via a bookmark or other means.
 
+## Optional Step - Pull in user profile pictures
+
+Pockeet ID passes through the `picture` claim when authenticating which is a direct URL to the users profile picture. You can add the photo to Jellyfin by setting `Set avatar url format` to `@{picture}`.
+
+![img4.png](/img/jellyfin/jellyfin_img4.png)
+
 ## Signing into Your Jellyfin Instance
 
 Done! You have successfully set up SSO for your Jellyfin instance using Pocket ID.
