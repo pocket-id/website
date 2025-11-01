@@ -3,10 +3,6 @@ title: Komodo
 description: Configure Komodo with Pocket ID authentication
 ---
 
----
-id: komodo
----
-
 The following example variables are used, and should be replaced with your actual URLS.
 
 - komodo.example.com (The url of your Komodo instance.)
