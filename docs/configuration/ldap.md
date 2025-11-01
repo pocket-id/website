@@ -10,11 +10,11 @@ Pocket ID can sync users and groups from an LDAP Source (lldap, OpenLDAP, Active
 - The LDAP Service will sync on Pocket ID startup and every hour once enabled from the Web UI.
 - Users or groups synced from LDAP can **NOT** be edited from the Pocket ID Web UI.
 
-### Generic LDAP Setup
+### Set up LDAP after Initial Setup
 
 1. Follow the installation guide [here](/docs/setup/installation).
-2. Once you have signed in with the initial admin account, navigate to the Application Configuration section at `https://pocket.id/settings/admin/application-configuration`.
-3. Client Configuration Setup
+3. Once you have signed in with the initial admin account, navigate to the Application Configuration section at `https://pocket.id/settings/admin/application-configuration`.
+5. Client Configuration Setup
 
 | LDAP Variable            | Example Value                      | Description                                                   |
 | ------------------------ | ---------------------------------- | ------------------------------------------------------------- |
@@ -40,3 +40,12 @@ Pocket ID can sync users and groups from an LDAP Source (lldap, OpenLDAP, Active
 | Group Unique Identifier Attribute | uuid               | The LDAP attribute to uniquely identify the groups, **this should never change** |
 | Group Name Attribute              | uid                | The LDAP attribute to use as the name of synced groups                           |
 | Admin Group Name                  | \_pocket_id_admins | The group name to use for admin permissions for LDAP users                       |
+
+### Set up LDAP during Initial Setup
+
+1. Follow the installation guide [here](/docs/setup/installation).
+2. Set up your .env file with the required LDAP configuration. **It is very important that you have at least one user in the Admin Group!**
+3. In your .env file, set `LDAP_ENABLED=true` and `UI_CONFIG_DISABLED=true` so that Pocket ID uses the environment variables for all configuration.
+4. Wait for the server to start up and for the LDAP sync job to finish successfully (look in the logs for a line with the strings `Job run successfully` +  `name=SyncLdap`)
+5. Generate a one-time token for an admin user with `docker compose exec pocket-id /app/pocket-id one-time-access-token <user name or email>`.
+6. Use this link to log in and set up a passkey for your admin user. 
