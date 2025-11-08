@@ -18,7 +18,7 @@ We would really appreciate your contributions to this documentation, whether by 
 
 [Tinyauth](https://tinyauth.app/) is a lightweight authentication middleware designed specifically for homelabs. Currently it integrates with Traefik, Caddy and Nginx Proxy Manager.
 
-Refer to the official [Tinyauth Pocket ID documentation](https://tinyauth.app/docs/guides/pocket-id.html) for detailed instructions on how to set up Tinyauth with Pocket ID.
+Refer to the official [Tinyauth Pocket ID documentation](https://tinyauth.app/docs/guides/pocket-id) for detailed instructions on how to set up Tinyauth with Pocket ID.
 
 ## Caddy
 
