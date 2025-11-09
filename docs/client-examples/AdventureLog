@@ -32,8 +32,8 @@ description: Integrate Pocket ID with AdventureLog
    - **Secret Key**: Paste the `Client Secret` from Pocket ID.
    - **Settings**: Enter `{"server_url": "https://<pocket-id_url>/"`.
 4. Click the green plus button under "Sites:" and add the following:
-   - **Domain Name:**: 'exammple.com' (yes, 'example.com' not your domain)
-   - **Display Name:**: 'exammple.com' (yes, 'example.com' not your domain)
+   - **Domain Name:**: 'example.com' (yes, 'example.com' not your domain)
+   - **Display Name:**: 'example.com' (yes, 'example.com' not your domain)
 5. Click on the 'example.com' in the 'Available Sites' column and move it over to 'Chosen sites'.
 4. Click **Save**.
 5. Navigate to your AdventureLog URL and test OpenID login.
