@@ -91,7 +91,7 @@ jellyfin_admins
 
 ## Optional Step - Custom Login Button on Main Page
 
-In the Jellyfin administration UI, under **Branding**, add the following code in the **Login disclaimer** block (replacing JELLYFIN_URL and the PROVIDER, e.g. `Pocket ID`):
+In the Jellyfin administration UI, under **Branding**, add the following code in the **Login disclaimer** block (replacing JELLYFIN_URL and the PROVIDER, e.g. `PocketID`):
 ```
 <form action="https://<JELLYFIN_URL>/sso/OID/start/<PROVIDER>">
   <button class="raised block emby-button button-submit">
