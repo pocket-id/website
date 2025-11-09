@@ -5,6 +5,14 @@ description: Set up Jellyfin media server with OIDC authentication
 
 > [!WARNING]
 > Due to the current limitations of the Jellyfin SSO plugin, this integration will only work in a browser. When tested, the Jellyfin app did not work and displayed an error, even when custom menu buttons were created.
+> Current work-flow:
+> - Web browser: Login using SSO
+> - App (Android-App, iOS-App, Smart-TV-App, Windows-App): Login via QuickConnect only
+>
+> To login to any app, you have to click on "QuickConnect", then:
+> 1. Open the web browser on your phone or PC and navigate to your Jellyfin
+> 2. Login using Pocket ID
+> 3. Accept the QuickConnect-ID from the app
 
 > [!NOTE]
 > To view the original references and a full list of capabilities, please visit the [Jellyfin SSO OpenID Section](https://github.com/9p4/jellyfin-plugin-sso?tab=readme-ov-file#openid).
@@ -20,47 +28,88 @@ description: Set up Jellyfin media server with OIDC authentication
 To start, we need to create a new SSO resource in our Jellyfin application.
 
 > [!TIP]
-> Replace the `JELLYFINDOMAIN` and `PROVIDER` elements in the URL.
+> This guide divides between two setups. See the following emojis for the guide which suits you:
+> 😊 = Setup for normal users only (no derivation between users, no admins)
+> ⚡ = Setup for normal users and admins
 
-1. Log into the admin panel, and go to OIDC Clients -> Add OIDC Client.
-2. **Name**: Jellyfin (or any name you prefer)
-3. **Callback URL**: `https://JELLYFINDOMAIN.com/sso/OID/redirect/PROVIDER`, or leave blank to autofill on first login.
-4. For this example, we’ll be using the provider named "test_resource."
-5. Click **Save**. Keep the page open, as we will need the OID client ID and OID secret.
+1. Log into the admin panel
+- 😊 -> Skip this step
+- ⚡ -> go to User-Groups and add the two groups: `jellyfin_admins`, `jellyfin_users`
+2. Go to OIDC Clients -> Add OIDC Client:
+- **Name**: Jellyfin (or any name you prefer)
+- **Callback URL**: `https://<JELLYFIN_URL>.com/sso/OID/redirect/<PROVIDER>`, or leave blank to autofill on first login.
+- For this example, we’ll be using the provider named <i>"PocketID"</i>
+3. Click **Save**. Keep the page open, as we will need the OID client ID and OID secret.
+- ⚡ -> Add your groups `jellyfin_admins`, `jellyfin_users` to the client, then click **Save**
 
 ## OIDC Client - Jellyfin SSO Resource
 
-1. Visit the plugin page (<i>Administration Dashboard -> My Plugins -> SSO-Auth</i>).
-2. Enter the <i>OID Provider Name (we used "test_resource" as our name in the callback URL), Open ID, OID Secret, and mark it as enabled.</i>
-3. The following steps are optional based on your needs. In this guide, we’ll be managing only regular users, not admins.
+1. Visit the plugin page (**Administration Dashboard -> My Plugins -> SSO-Auth**).
+2. Use the following values for the fields:
+- **Name of OID Provider**: `<PROVIDER>` (e.g. `Pocket ID`)
+- **OID Endpoint**: `https://<PocketID_URL>` (e.g. `https://auth.yourdomain.tld`)
+- **OpenID Client ID**: `<ID from PocketID-Client>`
+- **OID Secret**: `<Secret from PocketID-Client>`
+- **Enabled**: [X]
+- **Enable Authorization by Plugin**:
+-- 😊 -> [ ]
+-- ⚡ -> [X]
+- **Enable All Folders**: [ ] (Enable to publish all and new folders to every user)
+- **Enabled Folders**: Choose the folders/libraries which users will use
+- **Roles**:
+-- 😊 -> [ ] (if you have a group for jellyfin-users, use that group, e.g. `jellyfin_users`)
+-- ⚡ -> add both groups, each per line:
+```
+jellyfin_users
+jellyfin_admins
+```
+- **Admin Roles**:
+-- 😊 -> [ ]
+-- ⚡ -> `jellyfin_admins`
+- **Enable Role-Based Folder Access**: [ ]
+- **Enable Live TV RBAC**: [ ]
+- **Live TV Roles**: [ ]
+- **Live TV Management Roles**: [ ]
+- **Enable Live TV Access By Default**: [ ]
+- **Enable Live TV Management By Default**: [ ]
+- **Role Claim**: `groups`
+- **Request Additional Scopes**: `groups`
+- **Set default Provider**: [ ]
+- **Set default username claim**: `preferred_username`
+- **Set avatar url format**: `@{picture}` (Leave blank if you don't want Avatar-Sync)
+- **Disable OpenID HTTPS Discovery (Insecure)**: [ ]
+- **Disable Pushed Authorization (Insecure)**: [ ]
+- **Do Not Validate OpenID Endpoints (Insecure)**: [ ]
+- **Do Not Validate OpenID Issuer Name (Insecure)**: [ ]
+- **Scheme Override**: `https`
+- **Port Override**: [ ]
+3. Click **Save**
+4. Now **Restart** Jellyfin (Go to **General -> Restart**)
 
-![img.png](/img/jellyfin/jellyfin_img.png)
+## Optional Step - Custom Login Button on Main Page
 
-> [!NOTE]
-> To manage user access through groups, follow steps **4, 5, and 6**. Otherwise, leave it blank and skip to step 7.
+In the Jellyfin administration UI, under **Branding**, add the following code in the **Login disclaimer** block (replacing JELLYFIN_URL and the PROVIDER, e.g. `Pocket ID`):
+```
+<form action="https://<JELLYFIN_URL>/sso/OID/start/<PROVIDER>">
+  <button class="raised block emby-button button-submit">
+    Sign in with PocketID
+  </button>
+</form>
+```
 
-![img2.png](/img/jellyfin/jellyfin_img2.png)
+Then, add the following code in the **Custom CSS code** section:
+```
+a.raised.emby-button {
+  padding: 0.9em 1em;
+  color: inherit !important;
+}
 
-4. Under <i>Roles</i>, type the name of the group you want to use. **Note:** This must be the group name, not the label. Double-check in Pocket ID, as an incorrect name will lock users out.
-5. Skip every field until you reach the **Role Claim** field, and type `groups`.
-   > [!NOTE]
-   > This step is crucial if you want to manage users through groups.
-6. Repeat the above step under **Request Additional Scopes**. This will pull the group scope during the sign-in process; otherwise, the previous steps won’t work.
+.disclaimerContainer {
+  display: block;
+}
+```
 
-![img3.png](/img/jellyfin/jellyfin_img3.png)
-
-7. Skip the remaining fields until you reach **Scheme Override**. Enter `https` here. If omitted, it will attempt to use HTTP first, which will break as WebAuthn requires an HTTPS connection.
-8. Click **Save** and restart Jellyfin.
-
-## Optional Step - Custom Home Button
-
-Follow the [guide to create a login button on the login page](https://github.com/9p4/jellyfin-plugin-sso?tab=readme-ov-file#creating-a-login-button-on-the-main-page) to add a custom button on your sign-in page. This step is optional, as you could also provide the sign-in URL via a bookmark or other means.
-
-## Optional Step - Pull in user profile pictures
-
-Pockeet ID passes through the `picture` claim when authenticating which is a direct URL to the users profile picture. You can add the photo to Jellyfin by setting `Set avatar url format` to `@{picture}`.
-
-![img4.png](/img/jellyfin/jellyfin_img4.png)
+**Source**: [guide to create a login button on the login page](https://github.com/9p4/jellyfin-plugin-sso?tab=readme-ov-file#creating-a-login-button-on-the-main-page)
 
 ## Signing into Your Jellyfin Instance
 
@@ -71,4 +120,8 @@ Done! You have successfully set up SSO for your Jellyfin instance using Pocket I
 
 If your users already have accounts, as long as their Pocket ID username matches their Jellyfin ID, they will be logged in automatically. Otherwise, a new user will be created with access to all of your folders. Of course, you can modify this in your configuration as desired.
 
-This setup will only work if sign-in is performed using the `https://jellyfin.example.com/sso/OID/start/PROVIDER` URL. This URL initiates the SSO plugin and applies all the configurations we completed above.
+This setup will only work if sign-in is performed using the `https://<JELLYFIN_URL>/sso/OID/start/<PROVIDER>` URL. This URL initiates the SSO plugin and applies all the configurations we completed above.
+
+---
+
+<sub>Written for Jellyfin v10.11.2 and SSO-Auth-Plugin v4.0.0.2</sub>
