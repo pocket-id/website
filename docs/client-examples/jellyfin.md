@@ -46,6 +46,7 @@ To start, we need to create a new SSO resource in our Jellyfin application.
 
 1. Visit the plugin page (**Administration Dashboard -> My Plugins -> SSO-Auth**).
 2. Use the following values for the fields:
+
 - **Name of OID Provider**: `<PROVIDER>` (e.g. `PocketID`)
 - **OID Endpoint**: `https://<PocketID_URL>` (e.g. `https://auth.yourdomain.tld`)
 - **OpenID Client ID**: `<ID from PocketID-Client>`
@@ -69,6 +70,7 @@ jellyfin_admins
 
   - 😊 -> [ ]
   - ⚡ -> `jellyfin_admins`
+
 - **Enable Role-Based Folder Access**: [ ]
 - **Enable Live TV RBAC**: [ ]
 - **Live TV Roles**: [ ]
@@ -92,6 +94,7 @@ jellyfin_admins
 ## Optional Step - Custom Login Button on Main Page
 
 In the Jellyfin administration UI, under **Branding**, add the following code in the **Login disclaimer** block (replacing JELLYFIN_URL and the PROVIDER, e.g. `PocketID`):
+
 ```
 <form action="https://<JELLYFIN_URL>/sso/OID/start/<PROVIDER>">
   <button class="raised block emby-button button-submit">
