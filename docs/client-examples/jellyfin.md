@@ -29,15 +29,15 @@ To start, we need to create a new SSO resource in our Jellyfin application.
 
 > [!TIP]
 > This guide divides between two setups. See the following emojis for the guide which suits you:
-> 😊 = Setup for normal users only (no derivation between users, no admins)
-> ⚡ = Setup for normal users and admins
+
+> - 😊 = Setup for normal users only (no derivation between users, no admins)
+> - ⚡ = Setup for normal users and admins
 
 1. Log into the admin panel
-- 😊 -> Skip this step
 - ⚡ -> go to User-Groups and add the two groups: `jellyfin_admins`, `jellyfin_users`
 2. Go to OIDC Clients -> Add OIDC Client:
 - **Name**: Jellyfin (or any name you prefer)
-- **Callback URL**: `https://<JELLYFIN_URL>.com/sso/OID/redirect/<PROVIDER>`, or leave blank to autofill on first login.
+- **Callback URL**: `https://<JELLYFIN_URL>/sso/OID/redirect/<PROVIDER>`, or leave blank to autofill on first login.
 - For this example, we’ll be using the provider named <i>"PocketID"</i>
 3. Click **Save**. Keep the page open, as we will need the OID client ID and OID secret.
 - ⚡ -> Add your groups `jellyfin_admins`, `jellyfin_users` to the client, then click **Save**
@@ -46,26 +46,31 @@ To start, we need to create a new SSO resource in our Jellyfin application.
 
 1. Visit the plugin page (**Administration Dashboard -> My Plugins -> SSO-Auth**).
 2. Use the following values for the fields:
-- **Name of OID Provider**: `<PROVIDER>` (e.g. `Pocket ID`)
+
+- **Name of OID Provider**: `<PROVIDER>` (e.g. `PocketID`)
 - **OID Endpoint**: `https://<PocketID_URL>` (e.g. `https://auth.yourdomain.tld`)
 - **OpenID Client ID**: `<ID from PocketID-Client>`
 - **OID Secret**: `<Secret from PocketID-Client>`
 - **Enabled**: [X]
 - **Enable Authorization by Plugin**:
--- 😊 -> [ ]
--- ⚡ -> [X]
+
+  - 😊 -> [ ]
+  - ⚡ -> [X]
 - **Enable All Folders**: [ ] (Enable to publish all and new folders to every user)
 - **Enabled Folders**: Choose the folders/libraries which users will use
 - **Roles**:
--- 😊 -> [ ] (if you have a group for jellyfin-users, use that group, e.g. `jellyfin_users`)
--- ⚡ -> add both groups, each per line:
+
+  - 😊 -> [ ] (if you have a group for jellyfin-users, use that group, e.g. `jellyfin_users`)
+  - ⚡ -> add both groups, each per line:
 ```
 jellyfin_users
 jellyfin_admins
 ```
 - **Admin Roles**:
--- 😊 -> [ ]
--- ⚡ -> `jellyfin_admins`
+
+  - 😊 -> [ ]
+  - ⚡ -> `jellyfin_admins`
+
 - **Enable Role-Based Folder Access**: [ ]
 - **Enable Live TV RBAC**: [ ]
 - **Live TV Roles**: [ ]
@@ -88,7 +93,8 @@ jellyfin_admins
 
 ## Optional Step - Custom Login Button on Main Page
 
-In the Jellyfin administration UI, under **Branding**, add the following code in the **Login disclaimer** block (replacing JELLYFIN_URL and the PROVIDER, e.g. `Pocket ID`):
+In the Jellyfin administration UI, under **Branding**, add the following code in the **Login disclaimer** block (replacing JELLYFIN_URL and the PROVIDER, e.g. `PocketID`):
+
 ```
 <form action="https://<JELLYFIN_URL>/sso/OID/start/<PROVIDER>">
   <button class="raised block emby-button button-submit">
