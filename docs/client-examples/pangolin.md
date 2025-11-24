@@ -1,4 +1,3 @@
-
 ---
 title: Pangolin
 description: Configure Pangolin with Pocket ID authentication
