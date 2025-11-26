@@ -192,8 +192,18 @@ You can visit the official [OAuth2 Proxy documentation](https://oauth2-proxy.git
 
 ## Traefik
 
-[Traefik](https://traefik.io/traefik/) does not have built-in support for OIDC, but there are many [plugins](https://plugins.traefik.io/plugins) available that add support.
+[Traefik](https://traefik.io/traefik/) does not have built-in support for OpenID Connect, but can be integrated in two ways.
+
+Note: Traefik Enterprise has an [OIDC middleware](https://doc.traefik.io/traefik-enterprise/middlewares/oidc/) out of the box if you happen to be using that.
+
+### Using forward auth
+
+Using forward auth, for example with [traefik-forward-auth v4](https://github.com/ItalyPaleAle/traefik-forward-auth), involves running a separate service alongside Traefik (as a "sidecar" configured in the Docker Compose file or Pod spec). Traefik invokes the forward auth service behind the scenes to authorize requests, redirecting the user to it if it needs to authenticate. traefik-forward-auth v4 includes support for Pocket ID and other authentication providers.
+
+See the documentation for [configuring traefik-forward-auth](https://github.com/ItalyPaleAle/traefik-forward-auth/blob/main/docs/01-quickstart.md) and [integrating it](https://github.com/ItalyPaleAle/traefik-forward-auth/blob/main/docs/05-supported-providers.md#pocket-id) with Pocket ID.
+
+### Using a Traefik plugin
+
+Traefik includes experimental support for plugins that run in-process.
 
 [Traefik OpenID Connect Middleware](https://plugins.traefik.io/plugins/66b63d12d29fd1c421b503f5/oidc-authentication) works with Pocket ID. See the [Pocket ID configuration docs](https://traefik-oidc-auth.sevensolutions.cc/docs/identity-providers/pocket-id) for Pocket ID specific instructions, and [Getting Started](https://traefik-oidc-auth.sevensolutions.cc/docs/getting-started) for more details on how to apply the configuration to a specific endpoint.
-
-Traefik Enterprise has an [OIDC middleware](https://doc.traefik.io/traefik-enterprise/middlewares/oidc/) out of the box if you happen to be using that. It is similar to configure.
