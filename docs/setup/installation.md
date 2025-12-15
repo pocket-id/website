@@ -85,10 +85,8 @@ Pocket ID is available as a template on the Community Apps store.
 
 ### Kubernetes Helm Chart
 
-- A Helm chart maintained by @hobit44 is available [here](https://github.com/hobbit44/pocket-id-helm).
-- A Helm chart maintained by anza-labs:
-
-<div class="artifacthub-widget" data-url="https://artifacthub.io/packages/helm/anza-labs/pocket-id" data-theme="light" data-header="true" data-stars="true" data-responsive="false"><blockquote><p lang="en" dir="ltr"><b>pocket-id</b>: _pocket-id_ is a simple and easy-to-use OIDC provider that allows users to authenticate with their passkeys to your services. </p>&mdash; Open in <a href="https://artifacthub.io/packages/helm/anza-labs/pocket-id">Artifact Hub</a></blockquote></div><script async src="https://artifacthub.io/artifacthub-widget.js"></script>
+- A Helm chart maintained by @matslarson is available [here](https://matslarson/pocket-id-helm/pocket-id).
+- A Helm chart maintained by anza-labs [here](https://artifacthub.io/packages/helm/anza-labs/pocket-id).
 
 ### NixOS
 
