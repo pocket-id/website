@@ -17,9 +17,12 @@ description: Configure Pocket ID with Dawarich
    https://<dawarich-domain.tld>/users/auth/openid_connect/callback
    ```
 3. _Optional:_ Download a PNG or SVG **logo** from the [Dawarich](https://github.com/Freika/dawarich/blob/master/app/assets/images/favicon.jpeg?raw=true) and upload.
-4. Client Launch URL: `https://<dawarich-domain.tld>`.
-5. Enable PKCE.
-6. Copy the **Client ID**, **Client Secret** for configuring with Dawarich environment variables.
+4. Client Launch URL: 
+   ```bash
+   https://<dawarich-domain.tld>
+   ```
+6. Enable PKCE.
+7. Copy the **Client ID**, **Client Secret** for configuring with Dawarich environment variables.
 
 ## Configure Dawarich
 
