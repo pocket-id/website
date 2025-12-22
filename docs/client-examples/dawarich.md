@@ -21,7 +21,7 @@ description: Configure Pocket ID with Dawarich
    ```bash
    https://<dawarich-domain.tld>
    ```
-6. Enable PKCE.
+6. PKCE: Keep it disabled, if you are getting any errors.
 7. Copy the **Client ID**, **Client Secret** for configuring with Dawarich environment variables.
 
 ## Configure Dawarich
