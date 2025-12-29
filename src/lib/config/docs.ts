@@ -1,4 +1,13 @@
-import { introduction, setup, configuration, guides, advanced, troubleshooting, helpingOut, api } from '$docs/index.js';
+import {
+  advanced,
+  api,
+  configuration,
+  guides,
+  helpingOut,
+  introduction,
+  setup,
+  troubleshooting,
+} from "$docs/index.js";
 
 export type NavItem = {
   title: string;
@@ -12,7 +21,7 @@ export type SidebarNavItem = NavItem & {
   items: SidebarNavItem[];
 };
 
-export interface MainNavItem extends Omit<NavItem, 'href' | 'label'> {
+export interface MainNavItem extends Omit<NavItem, "href" | "label"> {
   href: string;
   label: string;
 }
@@ -30,8 +39,16 @@ function sortDocs<T extends { title: string; order?: number }>(arr: T[]) {
   });
 }
 
-function mapLeafDocs(docs: Array<{ title: string; path: string; order?: number }>): SidebarNavItem[] {
-  return sortDocs(docs).map((d) => ({
+function mapLeafDocs(
+  docs: Array<{
+    title: string;
+    path: string;
+    order?: number;
+    hideFromSidebar?: boolean;
+  }>
+): SidebarNavItem[] {
+  const filtered = docs.filter((d) => !d.hideFromSidebar);
+  return sortDocs(filtered).map((d) => ({
     title: d.title,
     href: toHref(d.path),
     items: [],
@@ -43,32 +60,34 @@ const SECTION_BUILDERS: Array<{
   title: string;
   source: any[];
 }> = [
-  { key: 'introduction', title: 'Getting Started', source: introduction },
-  { key: 'setup', title: 'Setup', source: setup },
-  { key: 'configuration', title: 'Configuration', source: configuration },
-  { key: 'guides', title: 'Guides', source: guides },
-  { key: 'advanced', title: 'Advanced', source: advanced },
-  { key: 'troubleshooting', title: 'Troubleshooting', source: troubleshooting },
-  { key: 'helpingOut', title: 'Helping Out', source: helpingOut },
+  { key: "introduction", title: "Getting Started", source: introduction },
+  { key: "setup", title: "Setup", source: setup },
+  { key: "configuration", title: "Configuration", source: configuration },
+  { key: "guides", title: "Guides", source: guides },
+  { key: "advanced", title: "Advanced", source: advanced },
+  { key: "troubleshooting", title: "Troubleshooting", source: troubleshooting },
+  { key: "helpingOut", title: "Helping Out", source: helpingOut },
 ];
 
-export const SidebarNavItems: SidebarNavItem[] = SECTION_BUILDERS.map(({ title, source }) => ({
-  title,
-  items: mapLeafDocs(source),
-}));
+export const SidebarNavItems: SidebarNavItem[] = SECTION_BUILDERS.map(
+  ({ title, source }) => ({
+    title,
+    items: mapLeafDocs(source),
+  })
+);
 
 const COMMUNITY_GROUP: SidebarNavItem = {
-  title: 'Community',
+  title: "Community",
   items: [
     {
-      title: 'Demo',
-      href: 'https://demo.pocket-id.org',
+      title: "Demo",
+      href: "https://demo.pocket-id.org",
       external: true,
       items: [],
     },
     {
-      title: 'Discord',
-      href: 'https://discord.gg/8wudU9KaxM',
+      title: "Discord",
+      href: "https://discord.gg/8wudU9KaxM",
       external: true,
       items: [],
     },
@@ -77,13 +96,16 @@ const COMMUNITY_GROUP: SidebarNavItem = {
 
 SidebarNavItems.push(COMMUNITY_GROUP);
 
-const flat: SidebarNavItem[] = [...SECTION_BUILDERS.flatMap((s) => mapLeafDocs(s.source)), ...mapLeafDocs(api)];
+const flat: SidebarNavItem[] = [
+  ...SECTION_BUILDERS.flatMap((s) => mapLeafDocs(s.source)),
+  ...mapLeafDocs(api),
+];
 
 export function findNeighbors(pathName: string): {
   previous: SidebarNavItem | null;
   next: SidebarNavItem | null;
 } {
-  const clean = pathName.split('?')[0].split('#')[0];
+  const clean = pathName.split("?")[0].split("#")[0];
   const idx = flat.findIndex((i) => i.href === clean);
   if (idx === -1) return { previous: null, next: null };
   return {
@@ -93,8 +115,12 @@ export function findNeighbors(pathName: string): {
 }
 
 export const mainNavItems: MainNavItem[] = [
-  { href: '/docs', label: 'Docs', title: 'Docs' },
-  { href: '/docs/client-examples', label: 'Client Examples', title: 'Client Examples' },
-  { href: '/docs/api', label: 'API Reference', title: 'API Reference' },
-  { href: '/changelog', label: 'Changelog', title: 'Changelog' },
+  { href: "/docs", label: "Docs", title: "Docs" },
+  {
+    href: "/docs/client-examples",
+    label: "Client Examples",
+    title: "Client Examples",
+  },
+  { href: "/docs/api", label: "API Reference", title: "API Reference" },
+  { href: "/changelog", label: "Changelog", title: "Changelog" },
 ];
