@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.15.0",
+  "packageManager": "pnpm@10.26.2",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "velite": "velite",
