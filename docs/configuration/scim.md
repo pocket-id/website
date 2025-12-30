@@ -45,13 +45,13 @@ Start by checking whether the client application actually received the synced da
 
 ```bash
 # List Users
-curl -H "Authorization: Bearer <SCIM Token>" "<SCIM Endpoint URL>/Users"
+curl -H "Authorization: Bearer <SCIM Token>" "<SCIM Endpoint>/Users"
 
 # List Groups
-curl -H "Authorization: Bearer <SCIM Token>" "<SCIM Endpoint URL>/Groups"
+curl -H "Authorization: Bearer <SCIM Token>" "<SCIM Endpoint>/Groups"
 ```
 
-Replace <SCIM Token> and <SCIM Endpoint URL> with the values configured in Pocket ID.
+Replace `<SCIM Token>` and `<SCIM Endpoint>` with the values configured in Pocket ID.
 
 - If users and groups appear in the results, sync worked and the issue is likely elsewhere.
 - If they are missing, review the Pocket ID logs for SCIM-related errors.
