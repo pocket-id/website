@@ -36,3 +36,24 @@ When you make changes to users or groups, a sync is scheduled to run **five minu
 - A sync runs automatically once per hour if no changes occur.
 
 You can also trigger a manual synchronization at any time by clicking **Sync** in the SCIM Provisioning section.
+
+## Sync Troubleshooting
+
+When SCIM sync fails, first determine whether the problem is with Pocket ID or the client application.
+
+Start by checking whether the client application actually received the synced data. Use the client’s SCIM API to list users and groups:
+
+```bash
+# List Users
+curl -H "Authorization: Bearer <SCIM Token>" "<SCIM Endpoint URL>/Users"
+
+# List Groups
+curl -H "Authorization: Bearer <SCIM Token>" "<SCIM Endpoint URL>/Groups"
+```
+
+Replace <SCIM Token> and <SCIM Endpoint URL> with the values configured in Pocket ID.
+
+- If users and groups appear in the results, sync worked and the issue is likely elsewhere.
+- If they are missing, review the Pocket ID logs for SCIM-related errors.
+
+If you believe the problem is a bug in Pocket ID, please [open an issue](ttps://github.com/pocket-id/pocket-id/issues/new/choose).
