@@ -4,7 +4,7 @@ description: Learn how to export and import your Pocket ID data for backup or mi
 order: 4
 ---
 
-The Pocket ID CLI lets you export and import your Pocket ID, including the database and the uploaded images. This is useful when creating backups, moving an installation to another instance or switch datbase providers.
+The Pocket ID CLI lets you export and import your Pocket ID, including the database and the uploaded images. This is useful when creating backups, moving an installation to another instance or switch database providers.
 
 > [!WARNING]
 > This feature is experimental and may not work correctly. Please create a backup before importing data and report any issues you encounter.
