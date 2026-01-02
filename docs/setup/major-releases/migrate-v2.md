@@ -6,6 +6,15 @@ order: 3
 
 If you are upgrading from a version prior to v1.0, please first follow the [migration guide to v1.0](/docs/setup/major-releases/migrate-v1) before proceeding with this guide.
 
+If you are using Docker, you have to change the image tag in your `docker-compose.yml` from `v1` to `v2`:
+
+```yaml
+services:
+  pocket-id:
+    image: ghcr.io/pocket-id/pocket-id:v2
+    # ...
+```
+
 ## Breaking Changes
 
 > [!WARNING]
