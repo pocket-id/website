@@ -75,6 +75,7 @@ Below is an example using oauth2-proxy.
     cookie_name = "__Host-oauth2-proxy"          # or __Secure-oauth2-proxy (less secure)
     cookie_secure = true                         # uses the secure HTTPS cookie
     email_domains = ["*"]                        # allows any email domain to authenticate
+    insecure_oidc_allow_unverified_email = true  # trust unverfied email
     http_address = "0.0.0.0:4180"                # port oauth2-proxy listens on
     oidc_issuer_url = "https://id.example.com"   # your Pocket base URL
     provider_display_name = "Pocket ID"          # display name for OIDC login
