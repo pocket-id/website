@@ -24,7 +24,7 @@ To enable SCIM provisioning:
 2. Scroll to the **SCIM Provisioning** section.
 3. Enter the **SCIM Endpoint URL** and **SCIM Token** provided by your client application.
 4. Click **Enable**.
-5. (Optional) Click **Sync** to run an immediate synchronization and verify the setup.
+5. (Optional) Click **Sync now** to run an immediate synchronization and verify the setup.
 
 ## Sync Interval
 
@@ -35,7 +35,7 @@ When you make changes to users or groups, a sync is scheduled to run **five minu
 - A sync runs five minutes after the last change, or
 - A sync runs automatically once per hour if no changes occur.
 
-You can also trigger a manual synchronization at any time by clicking **Sync** in the SCIM Provisioning section.
+You can also trigger a manual synchronization at any time by clicking **Sync now** in the SCIM Provisioning section.
 
 ## Sync Troubleshooting
 

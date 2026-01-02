@@ -1,6 +1,7 @@
 ---
 title: Upgrading
 description: Keep your Pocket ID installation up to date
+order: 2
 ---
 
 ## Docker

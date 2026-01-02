@@ -1,7 +1,10 @@
 ---
 title: Migrate to v2.0
 description: Migrate from previous versions to Pocket ID v2.0
+order: 3
 ---
+
+If you are upgrading from a version prior to v1.0, please first follow the [migration guide to v1.0](/docs/setup/major-releases/migrate-v1) before proceeding with this guide.
 
 ## Breaking Changes
 
