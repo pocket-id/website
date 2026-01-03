@@ -15,7 +15,7 @@ Set the following variables in your vaultwarden environment file, replace `<clie
 
 ```bash
 SSO_ENABLED=true
-SSO_SIGNUPS_MATCH_EMAIL=true
+SSO_SIGNUPS_MATCH_EMAIL=true #Only keep this on true if you are willing to accept the risks: https://github.com/dani-garcia/vaultwarden/wiki/Enabling-SSO-support-using-OpenId-Connect#on-sso_allow_unknown_email_verification
 SSO_ALLOW_UNKNOWN_EMAIL_VERIFICATION=true
 SSO_PKCE=true #Only set this to true if you enabled PKCE (recommended) in Pocket ID otherwise set it to false
 SSO_SCOPES=email profile groups offline_access
