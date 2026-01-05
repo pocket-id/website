@@ -130,7 +130,7 @@ To enable environment variable overrides, set `UI_CONFIG_DISABLED` to `true`. Wh
 | `LDAP_ATTRIBUTE_GROUP_MEMBER`                      | `member`                     | LDAP attribute to use for querying members of a group.                                                                                                                            |
 | `LDAP_ATTRIBUTE_GROUP_UNIQUE_IDENTIFIER`           | `-`                          | LDAP attribute for group unique identifier. The value of this attribute should never change.                                                                                      |
 | `LDAP_ATTRIBUTE_GROUP_NAME`                        | `-`                          | LDAP attribute for group name.                                                                                                                                                    |
-| `LDAP_ATTRIBUTE_ADMIN_GROUP`                       | `-`                          | Name of the admin group. Members of this group will have Admin Privileges in Pocket ID.                                                                                           |
+| `LDAP_ADMIN_GROUP_NAME`                            | `-`                          | Name of the admin group. Members of this group will have Admin Privileges in Pocket ID.                                                                                           |
 
 ## Observability
 
