@@ -35,7 +35,8 @@ docker compose exec pocket-id ./pocket-id export --path - > ./path/to/export.zip
 
 ## Importing Data
 
-Use the import command to restore a previously exported archive:
+1. Shut down your Pocket ID instance.
+2. Use the import command to restore a previously exported archive:
 
 ```bash
 pocket-id import --path ./path/to/export.zip
