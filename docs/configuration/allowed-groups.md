@@ -5,10 +5,15 @@ description: Configure allowed user groups for authentication
 
 Pocket ID allows you to restrict access to OIDC Clients to specific user groups. This can be useful when you want to restrict access to certain applications to specific users.
 
-By default, all users are allowed to access all OIDC Clients. To restrict access to specific user groups, follow the steps below:
+If you create a new OIDC Client, no user groups and therefore no users are allowed to access the client.
+
+To change the restrictions, follow these steps:
 
 1. Navigate to the `OIDC Clients` section in the Pocket ID admin dashboard.
-2. Click the edit (pencil) icon on the OIDC client you wish to restrict.
+2. Click on the OIDC Client you want to configure.
 3. Expand the `Allowed User Groups` section.
-4. Select the Group(s) you want to allow access to this OIDC Client and save your changes.
-5. Now only users in the selected group(s) will be allowed to access that specific client.
+
+Now you have two options:
+
+- **Unrestricted Access:** Click the `Unrestrict` button to allow all users to access the client.
+- **Restricted Access:** Select one or more user groups to restrict access to only users in those groups.
