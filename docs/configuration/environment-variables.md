@@ -18,9 +18,7 @@ Be cautious when modifying environment variables that are not recommended to cha
 | `MAXMIND_LICENSE_KEY`                 | `-`                                                                                                     | yes                   | License Key for the GeoLite2 Database. The license key is required to retrieve the geographical location of IP addresses in the audit log. If the key is not provided, IP locations will be marked as "unknown." You can obtain a license key for free [here](https://www.maxmind.com/en/geolite2/signup).                                                                |
 | `MAXMIND_LICENSE_KEY_FILE`            | `-`                                                                                                     | yes                   | Alternative to passing the License Key for GeoLite2 Database with the `MAXMIND_LICENSE_KEY` variable, set to the path of a file containing the key. _This can be used with Docker secrets too._                                                                                                                                                                           |
 | `PUID` and `PGID`                     | `1000`                                                                                                  | yes                   | The user and group ID of the user who should run Pocket ID inside the Docker container and owns the files that are mounted with the volume. You can get the `PUID` and `GUID` of your user on your host machine by using the command `id`. For more information see [this article](https://docs.linuxserver.io/general/understanding-puid-and-pgid/#using-the-variables). |
-| `DB_PROVIDER`                         | `sqlite`                                                                                                | no                    | The database provider you want to use. Currently `sqlite` and `postgres` are supported.                                                                                                                                                                                                                                                                                   |
 | `DB_CONNECTION_STRING`                | `data/pocket-id.db`                                                                                     | no                    | Specifies the connection string used to connect to the database.<br/>See the [Database connection string](#database-connection-string) section below for more details.                                                                                                                                                                                                    |
-| `DB_CONNECTION_STRING_FILE`           | `-`                                                                                                     | no                    | Alternative to passing the database connection string with the `DB_CONNECTION_STRING` variable, set to the path of a file containing the value. _This can be used with Docker secrets too._                                                                                                                                                                               |
 | `FILE_BACKEND`                        | `filesystem`                                                                                            | no                    | The backend used for file storage. Valid values: `filesystem`, `s3`, `database`.                                                                                                                                                                                                                                                                                          |
 | `UPLOAD_PATH`                         | `data/uploads`                                                                                          | no                    | The path where the uploaded files are stored. Only has an effect if `FILE_BACKEND` is `filesystem` or `s3`.                                                                                                                                                                                                                                                               |
 | `S3_BUCKET`                           | `-`                                                                                                     | yes                   | The S3 bucket name. Required if `FILE_BACKEND` is `s3`.                                                                                                                                                                                                                                                                                                                   |
@@ -31,8 +29,6 @@ Be cautious when modifying environment variables that are not recommended to cha
 | `S3_FORCE_PATH_STYLE`                 | `false`                                                                                                 | no                    | Force path style for S3.                                                                                                                                                                                                                                                                                                                                                  |
 | `S3_DISABLE_DEFAULT_INTEGRITY_CHECKS` | `false`                                                                                                 | no                    | Disable default integrity checks for S3.                                                                                                                                                                                                                                                                                                                                  |
 | `LOG_LEVEL`                           | `info`                                                                                                  | no                    | How verbose the logs should be. Valid values: `debug`, `info`, `warn`, `error`                                                                                                                                                                                                                                                                                            |
-| `KEYS_STORAGE`                        | `file`                                                                                                  | no                    | Location where to store the private keys: `file` (default) or `database` (requires an encryption key).                                                                                                                                                                                                                                                                    |
-| `KEYS_PATH`                           | `data/keys`                                                                                             | no                    | When `KEYS_STORAGE` is `file`, this is the path where the private keys are stored.                                                                                                                                                                                                                                                                                        |
 | `GEOLITE_DB_PATH`                     | `data/GeoLite2-City.mmdb`                                                                               | no                    | The path where the GeoLite2 database should be stored.                                                                                                                                                                                                                                                                                                                    |
 | `GEOLITE_DB_URL`                      | `https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=%s&suffix=tar.gz` | no                    | The custom download URL for the Geolite DB (default value should be fine for most users.)                                                                                                                                                                                                                                                                                 |
 | `PORT`                                | `1411`                                                                                                  | no                    | The port on which Pocket ID should listen.                                                                                                                                                                                                                                                                                                                                |
@@ -45,6 +41,7 @@ Be cautious when modifying environment variables that are not recommended to cha
 | `ANALYTICS_DISABLED`                  | `false`                                                                                                 | no                    | Disable heartbeat that gets sent every 24 hours to count how many Pocket ID instances are running. Read more [about analytics](/docs/configuration/analytics).                                                                                                                                                                                                            |
 | `INTERNAL_APP_URL`                    | `-`                                                                                                     | no                    | Sets the base URL of all URLs that need to be accessible from other clients in `/well-known/ openid-configuration`. This can be useful if `APP_URL` isn't accessible by your OIDC clients.                                                                                                                                                                                |
 | `AUDIT_LOG_RETENTION_DAYS`            | `90`                                                                                                    | no                    | Defines how many days it will take before the audit logs are deleted.                                                                                                                                                                                                                                                                                                     |
+| `STATIC_API_KEY`                      | `-`                                                                                                     | no                    | A static API key that grants admin access to the Pocket ID instance. This will create an admin account called "Static API User" under the hood. This API key can be useful for declarative installations. If possible prefer [regular API Keys](http://localhost:5173/docs/api)                                                                                           |
 
 </div>
 
@@ -52,24 +49,32 @@ Be cautious when modifying environment variables that are not recommended to cha
 
 The `DB_CONNECTION_STRING` environmental variable configures how Pocket ID connects to the database.
 
-When using **SQLite** (`DB_PROVIDER=sqlite`, the default), this contains the path to the database, which by default is `data/pocket-id.db`. Pocket ID automatically adds some parameters to the database path, turning it into a connection string like `file:data/pocket-id.db?_pragma=journal_mode(WAL)&_pragma=busy_timeout(2500)&_txlock=immediate&_pragma=foreign_keys(1)` - you can pass a full connection string if you need to customize the parameters.
+Pocket ID supports two database providers: **SQLite** and **PostgreSQL**. The database provider is automatically inferred from the connection string. By default, Pocket ID uses **SQLite** with a database file located at `data/pocket-id.db`.
+
+#### SQLite
+
+When using **SQLite**, the connection string is the path to the SQLite database file. Pocket ID automatically adds some parameters to the database path, turning it into a connection string like `file:data/pocket-id.db?_pragma=journal_mode(WAL)&_pragma=busy_timeout(2500)&_txlock=immediate&_pragma=foreign_keys(1)` - you can pass a full connection string if you need to customize the parameters.
 
 > [!CAUTION]
 > We **do NOT recommend** storing the SQLite database inside a networked filesystem, such as a NFS or SMB share. However, if you absolutely must, and are [aware of the risks](https://www.sqlite.org/useovernet.html), you need to modify `DB_CONNECTION_STRING` and disable journaling, by setting `_journal_mode=DELETE`. Note that this is not a recommended or supported scenario by the SQLite developers, and you should ensure to have proper backups for your database.
 
-When using **PostgreSQL** (`DB_PROVIDER=postgres`), the connection string is a DSN as supported by libpq:
+#### PostgreSQL
+
+When using **PostgreSQL**, the connection string is a DSN as supported by libpq:
 
 ```
+
 Format:
 postgresql://[user[:password]@][netloc][:port][/dbname][?param1=value1&...]
 
 Example:
 postgres://pocketid:123456@localhost:5432/pocketid
+
 ```
 
 ### Encryption keys
 
-We recommend setting an encryption key so Pocket ID can encrypt sensitive data, such as the token signing keys. Additionally, providing an encryption key is required when you want to store the token signing keys in the database (`KEYS_STORAGE=database`).
+An encryption key of at least 16 bytes is needed to encrypt sensitive data, such as the token signing keys.
 
 A good encryption key is a 32-characters-long random string. You can generate one using tools like OpenSSL:
 
@@ -82,6 +87,20 @@ You can pass the encryption key to Pocket ID in two ways:
 1. Set its value in the `ENCRYPTION_KEY` variable directly
 2. Save it to a file mounted inside the container and set `ENCRYPTION_KEY_FILE` to its path (the file is treated as binary). This also works with Docker Secrets.
 
+#### Updating the encryption key
+
+To update the encryption key you can use the CLI command `encryption-key-rotate`:
+
+```sh
+# Using the binary directly:
+pocket-id encryption-key-rotate --new-key <new-encryption-key>
+
+# In Docker:
+docker compose exec -it pocket-id ./pocket-id encryption-key-rotate --new-key <new-encryption-key>
+```
+
+After running the command, all existing encrypted data will be re-encrypted with the new key. You need to update your environment variable with the new key and restart Pocket ID.
+
 ## Overriding the UI configuration
 
 You can change additional settings directly in the Pocket ID UI. However, if you prefer to configure them via environment variables, you can do so by setting the following variables.
@@ -92,6 +111,7 @@ To enable environment variable overrides, set `UI_CONFIG_DISABLED` to `true`. Wh
 | -------------------------------------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `APP_NAME`                                         | `Pocket ID`                  | The name of the app.                                                                                                                                                              |
 | `SESSION_DURATION`                                 | `60`                         | The duration of a session in minutes before the user has to sign in again.                                                                                                        |
+| `HOME_PAGE_URL`                                    | `/settings/account`          | The page users are redirected to after signing in.                                                                                                                                |
 | `EMAILS_VERIFIED`                                  | `false`                      | Whether the user's email should be marked as verified for the OIDC clients.                                                                                                       |
 | `ALLOW_OWN_ACCOUNT_EDIT`                           | `true`                       | Whether the users should be able to edit their own account details.                                                                                                               |
 | `ALLOW_USER_SIGNUPS`                               | `disabled`                   | Whether the user signup functionality is enabled. Valid Values: `disabled`, `withToken`, `open`                                                                                   |
