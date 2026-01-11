@@ -5,7 +5,7 @@ description: Setup OIDC Auth with Kavita
 
 The following example variables are used, and should be replaced with your actual URLS.
 
-- kavita.example.com (The url of your Arcane instance.)
+- kavita.example.com (The url of your Kavita instance.)
 - id.example.com (The url of your Pocket ID instance.)
 
 ## Pocket ID Setup
