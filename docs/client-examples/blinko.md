@@ -5,28 +5,35 @@ description: Configure OAuth2 SSO for Blinko with Pocket ID
 
 ## Requirements
 
-A self-hosted [Blinko](https://github.com/blinkospace/blinko) app.
+*   A self-hosted [Blinko](https://github.com/blinkospace/blinko) instance.
+*   Administrator access to both Blinko and Pocket ID.
 
 ## Pocket ID Setup
 
-1. In Pocket ID, create a new OIDC client named `Blinko` (or any name you prefer).
-2. (Optional) Upload [a logo of Blinko](https://github.com/blinkospace/blinko/tree/main/app/public/icons) for the OIDC client.
-3. Set the callback URL to: `https://< Blinko >/api/auth/callback/pocket-id`.
-4. Copy the  `OIDC Discovery URL`, `Authorization URL`, `Token URL`, `Userinfo URL`, `Client ID` and `Client secret` for the next steps.
+1.  Log in to Pocket ID.
+2.  Create a new OIDC client named `Blinko` (or a name of your choice).
+3.  (Optional) Upload a [Blinko logo](https://github.com/blinkospace/blinko/tree/main/app/public/icons) for the client icon.
+4.  Set the **Callback URL** (Redirect URI) to:
+    `https://<YOUR_BLINKO_DOMAIN>/api/auth/callback/pocket-id`
+5.  You will need the following values:
+    *   **Client ID**
+    *   **Client Secret**
+    *   **OIDC Discovery URL** (usually ends in `/.well-known/openid-configuration`)
 
 ## Blinko Setup
 
-1. Log in to Blinko as an admin.
-2. Go to **Settings → SSO Settings → Add Provider**.
-3. Set **Provider** to `Custom Provider`.
-4. Enter the `pocket-id` into the **Provider ID** field.
-5. Enter the `Pocket ID` into the **Provider Name** field(or any name you prefer).
-6. (Optional) Set a logo for your **Provider Icon**.
-7. Enter the `OIDC Discovery URL` into the **WellKnown URL** field.
-8. Enter the `Authorization URL` into the **Authorization URL** field.
-9. Enter the `Token URL` into the **Token URL** field.
-10. Enter the `Userinfo URL` into the **User Info URL** field.
-11. Set **Scopes** to `email profile groups`.
-12. Enter the `Client ID` into the **Client ID** field.
-13. Enter the `Client secret` into the **Client Secret** field.
-14. Save the settings and test the OAuth login.
+1.  Log in to Blinko as an admin.
+2.  Navigate to **Settings** → **SSO Settings** → **Add Provider**.
+3.  Set **Provider** to `Custom Provider`.
+4.  Configure the provider details:
+    *   **Provider ID**: Enter `pocket-id`.
+        *   *Note: This must match the suffix of the Callback URL you set in Pocket ID.*
+    *   **Provider Name**: Enter `Pocket ID` (or your preferred display name).
+    *   **Provider Icon**: (Optional) Set an icon string, such as `streamline-ultimate:touch-id-bold`.
+5.  Paste the **OIDC Discovery URL** into the **WellKnown URL** field.
+    *   Example: `https://<YOUR_POCKET_ID_DOMAIN>/.well-known/openid-configuration`
+    *   *The Authorization, Token, and Userinfo URLs will be automatically fetched. If not, fill them from the Pocket ID Blinko OIDC client page. The scopes are: 'openid email profile groups'*
+6.  Enter the **Client ID** and **Client Secret** obtained from Pocket ID.
+7.  Save the settings and test the OAuth login.
+
+> **Note:** To link an existing Blinko account to your SSO account, follow the [official instructions](https://docs.blinko.space/en/settings/link-account).
