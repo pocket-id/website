@@ -22,11 +22,11 @@ Add the following configuration to your OpenGist `config.yml` file:
 ```yaml
 oauth:
   oidc:
-    enabled: true
-    client-id: "your-client-id"
-    client-secret: "your-client-secret"
-    discovery-url: "https://your-pocket-id-domain.com/.well-known/openid_configuration"
-    scopes: "openid profile email"
+    provider-name: "PocketID"
+    client-key: "your-client-id"
+    secret: "your-client-secret"
+    discovery-url: "https://your-pocket-id-domain.com/.well-known/openid-configuration"
+    group-claim-name: "opengist"
     admin-group: "opengist-admins"
 ```
 
@@ -35,12 +35,12 @@ oauth:
 You can also configure OpenGist using environment variables:
 
 ```bash
-OG_OAUTH_OIDC_ENABLED=1
-OG_OAUTH_OIDC_CLIENT_ID=your-client-id
-OG_OAUTH_OIDC_CLIENT_SECRET=your-client-secret
-OG_OAUTH_OIDC_DISCOVERY_URL=https://your-pocket-id-domain.com/.well-known/openid_configuration
-OG_OAUTH_OIDC_SCOPES="openid profile email"
-OG_OAUTH_OIDC_ADMIN_GROUP=opengist-admins
+OG_OIDC_PROVIDER_NAME=PocketID
+OG_OIDC_CLIENT_KEY=your-client-id
+OG_OIDC_SECRET=your-client-secret
+OG_OIDC_DISCOVERY_URL=https://your-pocket-id-domain.com/.well-known/openid-configuration
+OG_OIDC_GROUP_CLAIM_NAME=opengist
+OG_OIDC_ADMIN_GROUP=opengist-admins
 ```
 
 ## Testing
@@ -61,6 +61,6 @@ To grant admin privileges to specific users, configure the `admin-group` paramet
 ## Important Notes
 
 - Ensure the callback URL in Pocket ID matches exactly what's configured
-- The discovery URL must point to the `.well-known/openid_configuration` endpoint of your Pocket ID instance
+- The discovery URL must point to the `.well-known/openid-configuration` endpoint of your Pocket ID instance
 - Users will be automatically created in OpenGist on first authentication
 - Admin group membership is checked on each login, so changes in Pocket ID take effect immediately
