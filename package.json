@@ -20,7 +20,7 @@
   "dependencies": {
     "@prettier/sync": "^0.6.1",
     "@sveltejs/adapter-static": "^3.0.9",
-    "js-yaml": "^4.1.0",
+    "js-yaml": "^4.1.1",
     "mode-watcher": "^1.1.0",
     "rehype-pretty-code": "^0.14.1",
     "rehype-slug": "^6.0.0",
