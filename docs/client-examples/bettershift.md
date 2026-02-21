@@ -25,6 +25,7 @@ CUSTOM_OIDC_NAME=Login with PocketID # BUTTON_TEXT
 CUSTOM_OIDC_CLIENT_ID=<your OIDC-Discovery-URL from above>
 CUSTOM_OIDC_CLIENT_SECRET=<your client secret from above>
 CUSTOM_OIDC_ISSUER=<your OIDC-Discovery-URL from above>
+CUSTOM_OIDC_SCOPES=openid profile email  # Space-separated list
 ```
 
 Save and redeploy bettershift and you should be able to login using OIDC with Pocket ID.
