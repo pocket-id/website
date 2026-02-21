@@ -86,7 +86,7 @@ openssl rand -base64 32
 You can pass the encryption key to Pocket ID in two ways:
 
 1. Set its value in the `ENCRYPTION_KEY` variable directly
-2. Save it to a file mounted inside the container and set `ENCRYPTION_KEY_FILE` to its path (the file is treated as binary). This also works with Docker Secrets.
+2. Save it to a file mounted inside the container and set `ENCRYPTION_KEY_FILE` to its path (the file is treated as binary, so **any CR/LF line terminator will be treated as part of the key**). This also works with Docker Secrets.
 
 #### Updating the encryption key
 
@@ -100,7 +100,10 @@ pocket-id encryption-key-rotate --new-key <new-encryption-key>
 docker compose exec -it pocket-id ./pocket-id encryption-key-rotate --new-key <new-encryption-key>
 ```
 
-After running the command, all existing encrypted data will be re-encrypted with the new key. You need to update your environment variable with the new key and restart Pocket ID.
+After running the command, all existing encrypted data will be re-encrypted with the new key. You need to update your environment variable with the new key and restart Pocket ID. 
+
+> [!CAUTION]
+> If you are using a file mounted inside the container pointed to by the `ENCRYPTION_KEY_FILE` environment variable, ensure no CR/LF line terminator is appended to the key in the file, as otherwise the key will not match the one passed to `./pocket-id encryption-key-rotate` and decryption will fail.
 
 ## Overriding the UI configuration
 
