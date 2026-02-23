@@ -62,6 +62,13 @@ You can now sign in with the admin account on `https://<your-app-url>/setup`.
 
 You can now sign in with the admin account on `https://<your-app-url>/setup`.
 
+## Offline usage
+
+If you are running Pocket ID in an air-gapped environment or without reliable internet access, you can disable external requests by setting the following environment variables:
+
+- `VERSION_CHECK_DISABLED=true`: Disables the automatic version check against GitHub.
+- `ANALYTICS_DISABLED=true`: Disables the daily heartbeat request to the analytics server.
+
 ## Community Installation Methods
 
 > [!IMPORTANT]
