@@ -47,8 +47,8 @@ To support the integration of oCIS with Pocket ID, you need to create a OIDC Cli
 
 - **Name:** ocis
 - **Callback URLs:**
-  > https://ocis.company.com/ 
-  > https://ocis.company.com/oidc-callback.html  
+  > https://ocis.company.com/ <br/>
+  > https://ocis.company.com/oidc-callback.html <br/>
   > https://ocis.company.com/oidc-silent-redirect.html
 - **Public Client:** [x]
 
