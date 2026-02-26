@@ -17,22 +17,6 @@ ownCloud Infinite Scale (oCIS) is the new file sync & share platform that will b
   > [!NOTE]
   > This documentation lists only the settings that you need to change from their default values. Be aware that any changes other than those explicitly mentioned in this guide could cause issues accessing your application.
 
-  > [!NOTE]
-  > Pocket ID sends the Access-Control-Allow-Origin "pocket-id.company.com" for pocket-id.company.com/.well-known/openid-configuration . See https://github.com/pocket-id/pocket-id/issues/329
-  > If you use nginx instead of caddy (CADDY_DISABLED=true) add to the location part of your nginx configuration for Pocket ID
-
-```
-location /.well-known/ {
-.
-.
-.
-
-    proxy_hide_header Access-Control-Allow-headers;
-    proxy_hide_header Access-Control-Allow-Origin;
-    add_header Access-Control-Allow-Origin "$http_origin";
-}
-```
-
 ## Pocket ID configuration
 
 To support the integration of oCIS with Pocket ID, you need to create a OIDC Client in Pocket ID.
