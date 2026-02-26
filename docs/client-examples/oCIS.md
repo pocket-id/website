@@ -142,17 +142,17 @@ Hardcoded Client secrets are not supported in Pocket ID. Given ownCloud have imp
     > Name: `ownCloud Desktop Client`  
     > Client ID: `xdXOt13JKxym1B1QcEncf2XDkLAexMBFwiT9j6EfhhHFJhs2KM9jbjTmf8JBXE69`  
     > Callback URLs: `http://127.0.0.1:*`  
-    > Public Client: 🟢
+    > Public Client: [x]
 
   - ocis ios Client
     > Name: `ownCloud ios Client`  
     > Client ID: `mxd5OQDk6es5LzOzRvidJNfXLUZS2oN3oUFeXPP8LpPrhx3UroJFduGEYIBOxkY1`  
     > Callback URLs: `oc://ios.owncloud.com`  
-    > Public Client: 🟢
+    > Public Client: [x]
 
   - ocis Android Client
     > Name: `ownCloud Android Client`  
     > Client ID: `e4rAsNUSIUs0lF4nbv9FmCeUkTlV9GdgTLDH1b5uie7syb90SzEVrbN7HIpmWJeD`  
     > Callback URLs: `oc://android.owncloud.com`  
-    > Public Client: 🟢
+    > Public Client: [x]
 
