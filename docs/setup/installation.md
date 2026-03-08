@@ -114,7 +114,7 @@ It's not recommended to install Pocket ID from source unless you know what you'r
 Required tools:
 
 - [Node.js](https://nodejs.org/en/download/) >= 22
-- [Go](https://golang.org/doc/install) >= 1.24
+- [Go](https://golang.org/doc/install) >= 1.26
 - [Git](https://git-scm.com/downloads)
 
 1. Run the following commands:
