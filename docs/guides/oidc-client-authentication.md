@@ -24,17 +24,15 @@ Thankfully, OAuth2 includes alternatives to shared secrets for authenticating cl
 
 With Federated Client Credentials, OIDC clients can authenticate themselves (e.g. during the exchange of the authorization code for an access token when invoking the `/token` endpoint) using JWT tokens signed by third-party Identity Providers (IdP).
 
-> [!NOTE]
-> Support for Federated Client Credentials in Pocket ID is based on [RFC 7523](https://datatracker.ietf.org/doc/html/rfc7523)
-
 To use Federated Client Credentials:
 
 - You will need an external IdP that can authenticate your application by issuing JWT tokens, for example:
   - On apps running on Kubernetes, you can use service account tokens that are issued by the Kubernetes API server
   - On cloud providers like AWS, Microsoft Azure, GCP, etc, you can use tokens issued by the cloud platform itself (e.g. AWS IAM Roles, Microsoft Entra Workload ID / Managed Identity, etc)
   - [SPIFFE/SPIRE](https://spiffe.io/)
+  - On apps running on hosts that have joined a Tailscale network, you can use [tsiam](https://github.com/ItalyPaleAle/tsiam).
   - Any other OIDC-compliant IdP
-- Your application must support using JWTs for client authentication, as per [RFC 7523 section 2.2](https://datatracker.ietf.org/doc/html/rfc7523#section-2.2). You will need to ensure that your application can obtain a JWT from the external IdP in an appropriate way (see below for some examples), and that you use that token as client assertion during the OAuth2 token exchange.
+- Your application must support using JWTs for client authentication. You will need to ensure that your application can obtain a JWT from the external IdP in an appropriate way (see below for some examples), and that you use that token as client assertion during the OAuth2 token exchange.
 
 > [!TIP]
 > To use Federated Client Credentials during the OAuth2 token exchange, your application will need to invoke the `/token` endpoint as per usual (including `grant_type=authorization_code` and the other parameters). However, instead of including a `client_secret`, you need to pass these two options:
@@ -103,3 +101,16 @@ Inside your application, you can [obtain a token](https://learn.microsoft.com/en
 
 - Recommended: using one of the Azure SDKs to get a token from Managed Identity, with the requested _resource_ as the client ID of the Entra ID application. SDKs work on all Azure services automatically.
 - Manually invoking the endpoint metadata service. The endpoint can be different depending on the Azure service; in the case of an Azure Virtual Machine, the URL is `http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=<client-id>` (where `<client-id>` is the client ID of the Entra ID application); make sure to also set the HTTP header `Metadata:true` in the request.
+
+### Tailscale with tsiam
+
+If your application is running on a node that is joined to a Tailscale network ("tailnet"), you can use the third-party [tsiam](https://github.com/ItalyPaleAle/tsiam) application to provide workload identity.
+
+When requesting a workload identity token from tsiam, it's recommended to set as resource the endpoint of Pocket ID, for example `https://pocketid.example.com`
+
+Configuration values for Federated Client Credentials in Pocket ID:
+
+- **Issuer**: The URL of your tsiam instance inside the tailnet, for example `https://tsiam.tail<tailnet-id>.ts.net`
+- **Audience**: The value of the resource used when requesting a token from tsiam; recommended to use the endpoint of Pocket ID (e.g. `https://pocketid.example.com`)
+- **Subject**: The full name of the node in the tailnet, e.g. `<node-name>.tail<tailnet-id>.ts.net`
+- **JWKS URL**: Leave empty to use the default value
