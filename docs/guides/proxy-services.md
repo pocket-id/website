@@ -62,6 +62,7 @@ caddy add-package github.com/greenpau/caddy-security
 			enable identity provider generic
 			cookie insecure off # Set to "on" if you're not using HTTPS
 			# cookie domain service.example.com - If using multiple clients/portals you have to set the cookie domain for each one so they do not conflict when trying to refresh the session.
+			trust login redirect uri domain exact service.example.com path prefix /
 
 			transform user {
 				match realm generic
