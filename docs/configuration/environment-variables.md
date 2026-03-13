@@ -14,7 +14,8 @@ Be cautious when modifying environment variables that are not recommended to cha
 | `APP_URL`                             | `http://localhost:1411`                                                                                 | yes                   | The URL where you will access the app.                                                                                                                                                                                                                                                                                                                                    |
 | `ENCRYPTION_KEY`                      | `-`                                                                                                     | yes                   | Key used to encrypt data, including the private keys. It's recommended to use a random sequence of characters, for example generated with `openssl rand -base64 32`<br/>See the [Encryption keys](#encryption-keys) section below for more details.                                                                                                                       |
 | `ENCRYPTION_KEY_FILE`                 | `-`                                                                                                     | yes                   | Alternative to passing the encryption key with the `ENCRYPTION_KEY` variable, set to the path of a file containing a random encryption key. _This can be used with Docker secrets too._                                                                                                                                                                                   |
-| `TRUST_PROXY`                         | `false`                                                                                                 | yes                   | Whether the app is behind a reverse proxy.                                                                                                                                                                                                                                                                                                                                |
+| `TRUST_PROXY`                         | `false`                                                                                                 | yes                   | Whether the app is behind a reverse proxy.<br/>See the [Reverse proxy settings](#reverse-proxy-settings) section below for more details.                                                                                                                                                                                                                                      |
+| `TRUSTED_PLATFORM`                    | `-`                                                                                                     | yes                   | The trusted platform header for obtaining the client's real IP.<br/>See the [Reverse proxy settings](#reverse-proxy-settings) section below for more details.                                                                                                                                                                                                                 |
 | `MAXMIND_LICENSE_KEY`                 | `-`                                                                                                     | yes                   | License Key for the GeoLite2 Database. The license key is required to retrieve the geographical location of IP addresses in the audit log. If the key is not provided, IP locations will be marked as "unknown." You can obtain a license key for free [here](https://www.maxmind.com/en/geolite2/signup).                                                                |
 | `MAXMIND_LICENSE_KEY_FILE`            | `-`                                                                                                     | yes                   | Alternative to passing the License Key for GeoLite2 Database with the `MAXMIND_LICENSE_KEY` variable, set to the path of a file containing the key. _This can be used with Docker secrets too._                                                                                                                                                                           |
 | `PUID` and `PGID`                     | `1000`                                                                                                  | yes                   | The user and group ID of the user who should run Pocket ID inside the Docker container and owns the files that are mounted with the volume. You can get the `PUID` and `GUID` of your user on your host machine by using the command `id`. For more information see [this article](https://docs.linuxserver.io/general/understanding-puid-and-pgid/#using-the-variables). |
@@ -105,6 +106,33 @@ After running the command, all existing encrypted data will be re-encrypted with
 
 > [!CAUTION]
 > If you are using a file mounted inside the container pointed to by the `ENCRYPTION_KEY_FILE` environment variable, ensure no CR/LF line terminator is appended to the key in the file, as otherwise the key will not match the one passed to `./pocket-id encryption-key-rotate` and decryption will fail.
+
+### Reverse proxy settings
+
+When running Pocket ID behind a reverse proxy (such as Nginx, Caddy, Traefik, or a cloud load balancer), you need to configure how the application determines the client's real IP address. This is important for security features like rate limiting and audit logging.
+
+Pocket ID uses the [Gin](https://github.com/gin-gonic/gin) web framework, which provides two mechanisms for obtaining the client's real IP:
+
+#### `TRUST_PROXY`
+
+When `TRUST_PROXY` is set to `true`, it calls `gin.Engine.SetTrustedProxies(nil)` to clear the list of trusted proxy CIDRs. This effectively tells Gin to trust all proxies and extract the client IP from headers like `X-Forwarded-For` or `X-Real-IP`.
+
+- **Default**: `false`
+- **When to use**: Set to `true` when Pocket ID is running behind a reverse proxy that sets standard forwarding headers.
+
+#### `TRUSTED_PLATFORM`
+
+When `TRUSTED_PLATFORM` is set to a non-empty value, it configures [`gin.Engine.TrustedPlatform`](https://github.com/gin-gonic/website/blob/f76445735c884a57bd84e39f1aa000675529c678/src/content/docs/en/docs/deployment/index.md#dont-trust-all-proxies). This tells Gin to directly read the client's real IP from a specific HTTP request header set by a trusted platform or CDN, bypassing the `X-Forwarded-For` parsing logic.
+
+- **Default**: Not set
+- **Supported values**:
+  - `X-Appengine-Remote-Addr` - For Google App Engine
+  - `CF-Connecting-IP` - For Cloudflare
+  - `Fly-Client-IP` - For Fly.io
+  - Any custom header name that your reverse proxy uses to pass the client's real IP
+
+> [!TIP]
+> If you're using a CDN or platform that sets a specific header for the client IP, prefer using `TRUSTED_PLATFORM` over `TRUST_PROXY` as it provides a more direct and reliable way to obtain the client's real IP address.
 
 ## Overriding the UI configuration
 
