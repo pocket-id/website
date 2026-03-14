@@ -134,13 +134,13 @@ example-job:
   image: alpine:3.23.3
   id_tokens:
     GL_PIPELINE_TOKEN:
-      aud: "https://pocketid.example.com"  # must match the `Audience` configured in Pocket ID.
+      aud: "$POCKET_ID_URL"  # must match the `Audience` configured in Pocket ID.
   script:
     - apk update
     - apk add --no-cache curl jq
     - responsefile=$(mktemp)
     - |
-      curl -SsfX POST --url "https://pocketid.example.com/api/oidc/token" \
+      curl -SsfX POST --url "$POCKET_ID_URL/api/oidc/token" \
         -F "grant_type=client_credentials" \
         -F "client_id=$POCKET_ID_CLIENT_ID" \
         -F "client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer" \
@@ -150,6 +150,8 @@ example-job:
     - echo "Successfully obtained token with subject: client-$POCKET_ID_CLIENT_ID"
 ```
 
-The only variable you need to define is `POCKET_ID_CLIENT_ID`, which is the client ID of the OIDC Client configured in Pocket ID.
+The only variables you need to define are:
+- `POCKET_ID_URL`: The base URL of your pocket ID instance, such as `https://pocketid.example.com`. In the job above this URL is also used as the Audience of the Federated Client Credential.
+- `POCKET_ID_CLIENT_ID`: the client ID of the OIDC Client configured in Pocket ID.
 
 In the job above the `client_credentials` grant type is used, which means that the final token will have a subject of the form `client-[client_id]` (as opposed to a uuid identifying a user).
