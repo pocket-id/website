@@ -114,3 +114,42 @@ Configuration values for Federated Client Credentials in Pocket ID:
 - **Audience**: The value of the resource used when requesting a token from tsiam; recommended to use the endpoint of Pocket ID (e.g. `https://pocketid.example.com`)
 - **Subject**: The full name of the node in the tailnet, e.g. `<node-name>.tail<tailnet-id>.ts.net`
 - **JWKS URL**: Leave empty to use the default value
+
+### Gitlab Pipelines
+
+When running jobs in Gitlab Pipelines, your job can authenticate as an OIDC client with Pocket ID using [Gitlab ID tokens](https://docs.gitlab.com/ci/secrets/id_token_authentication/).
+
+Configuration values for Federated Client Credentials in Pocket ID:
+
+- **Issuer**: `https://gitlab.com` (or your self-hosted gitlab domain)
+- **Audience**: `https://pocketid.example.com` - not enforced, but good practice to use the Pocket ID url as the audience.
+- **Subject**: `project_path:my-group/my-project:ref_type:branch:ref:main` - replace `my-group/my-project` with the project you will be running the pipeline on. If working on a branch, change `main` to your branch name. Currently, wildcards are not supported, so if you need to authenticate from pipelines running on different branches, you will need to create a Federated Client Credential for each branch.
+- **JWKS URL**: Constant value `https://gitlab.com/oauth/discovery/keys` - if self-hosting, replace `gitlab.com`.
+
+Here's an example Gitlab job that authenticates as an OIDC client:
+
+```yaml
+# .gitlab-ci.yml
+example-job:
+  image: alpine:3.23.3
+  id_tokens:
+    GL_PIPELINE_TOKEN:
+      aud: "https://pocketid.example.com"  # must match the `Audience` configured in Pocket ID.
+  script:
+    - apk update
+    - apk add --no-cache curl jq
+    - responsefile=$(mktemp)
+    - |
+      curl -SsfX POST --url "https://pocketid.example.com/api/oidc/token" \
+        -F "grant_type=client_credentials" \
+        -F "client_id=$POCKET_ID_CLIENT_ID" \
+        -F "client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer" \
+        -F "client_assertion=$GL_PIPELINE_TOKEN" \
+        -o "$responsefile"
+    - access_token=$(jq '.access_token' -r < "$responsefile")
+    - echo "Successfully obtained token with subject: client-$POCKET_ID_CLIENT_ID"
+```
+
+The only variable you need to define is `POCKET_ID_CLIENT_ID`, which is the client ID of the OIDC Client configured in Pocket ID.
+
+In the job above the `client_credentials` grant type is used, which means that the final token will have a subject of the form `client-[client_id]` (as opposed to a uuid identifying a user).
