@@ -121,8 +121,8 @@ When running jobs in Gitlab Pipelines, your job can authenticate as an OIDC clie
 
 Configuration values for Federated Client Credentials in Pocket ID:
 
-- **Issuer**: `https://gitlab.com` (or your self-hosted gitlab domain)
-- **Audience**: `https://pocketid.example.com` - not enforced, but good practice to use the Pocket ID url as the audience.
+- **Issuer**: `https://gitlab.com` (or your self-hosted Gitlab domain)
+- **Audience**: `https://pocketid.example.com` - recommended to use the Pocket ID endpoint as the audience.
 - **Subject**: `project_path:my-group/my-project:ref_type:branch:ref:main` - replace `my-group/my-project` with the project you will be running the pipeline on. If working on a branch, change `main` to your branch name. Currently, wildcards are not supported, so if you need to authenticate from pipelines running on different branches, you will need to create a Federated Client Credential for each branch.
 - **JWKS URL**: `https://gitlab.com/oauth/discovery/keys` - if self-hosting, replace `gitlab.com`.
 
