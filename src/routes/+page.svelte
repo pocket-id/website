@@ -1,10 +1,15 @@
 <script lang="ts">
   import ConnectArrow from '$lib/components/connect-arrow.svelte';
+  import SeoHead from '$lib/components/seo-head.svelte';
   import { Badge } from '$lib/components/ui/badge/index.js';
   import Button from '$lib/components/ui/button/button.svelte';
   import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card/index.js';
   import { additionalFeatures, mainFeatures } from '$lib/config/features.js';
 
+  import {
+    buildSeo,
+    buildWebSiteJsonLd,
+  } from '$lib/seo.js';
   import BookOpen from '@lucide/svelte/icons/book-open';
   import Github from '@lucide/svelte/icons/github';
   import TestTube from '@lucide/svelte/icons/test-tube';
@@ -12,6 +17,12 @@
   import type { PageProps } from './$types.js';
 
   let {data} : PageProps = $props();
+  const seo = buildSeo({
+    title: 'Pocket ID | Simple OIDC Provider',
+    description:
+      'A simple and easy-to-use OIDC provider that allows users to authenticate with their passkeys to your services.',
+    type: 'website',
+  });
 
   let isLoaded = $state(false);
 
@@ -20,12 +31,7 @@
     });
 </script>
 
-<svelte:head>
-  <title>Pocket ID - Simple OIDC Provider</title>
-  <meta
-    name="description"
-    content="A simple and easy-to-use OIDC provider that allows users to authenticate with their passkeys to your services." />
-</svelte:head>
+<SeoHead {seo} jsonLd={[buildWebSiteJsonLd()]} />
 
 <div class="min-h-screen bg-background text-foreground">
   <!-- Hero Section -->
@@ -50,7 +56,7 @@
         style="transform: {isLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {isLoaded ? 1 : (
           0
         )}; transition: all 0.6s ease-out 150ms;">
-        <Button size="lg" href="/docs">
+        <Button size="lg" href="/docs/introduction">
           <BookOpen class="w-5 h-5 mr-2" />
           Documentation
         </Button>
@@ -68,7 +74,7 @@
           class="mt-6"
        >      
           <div class="bg-green-400 rounded-full w-2 h-2 animate-pulse inline-block mr-1"></div>
-          {data.instanceCount} Active Instances
+          {data.instanceCount}+ Active Instances
         </Badge>
       {/if}
             </div>
@@ -158,7 +164,7 @@
         Deploy Pocket ID today and start providing secure, passwordless authentication to your users.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <Button size="lg" href="/docs">
+        <Button size="lg" href="/docs/introduction">
           <BookOpen class="w-5 h-5 mr-1" />
           Read Documentation
         </Button>

@@ -115,7 +115,7 @@ export function findNeighbors(pathName: string): {
 }
 
 export const mainNavItems: MainNavItem[] = [
-  { href: "/docs", label: "Docs", title: "Docs" },
+  { href: "/docs/introduction", label: "Docs", title: "Docs" },
   {
     href: "/docs/client-examples",
     label: "Client Examples",
