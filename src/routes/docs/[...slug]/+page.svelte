@@ -1,24 +1,31 @@
 <script lang="ts">
   import SeoHead from '$lib/components/seo-head.svelte';
   import { buildBreadcrumbJsonLd, buildSeo } from '$lib/seo.js';
-  let { data } = $props();
-  const Markdown = data.component;
-  const doc = data.metadata;
-  
-  const seo = buildSeo({
+  import type { PageData } from './$types.js';
+
+  let { data }: { data: PageData } = $props();
+
+  const Markdown = $derived(data.component);
+  const doc = $derived(data.metadata);
+
+  const seo = $derived(
+    buildSeo({
       title: doc.path === 'introduction' ? 'Pocket ID Docs' : `${doc.title} | Pocket ID Docs`,
       description: doc.description,
       type: 'article',
     })
-  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+  );
+  const breadcrumbJsonLd = $derived(
+    buildBreadcrumbJsonLd([
       { name: 'Home', path: '/' },
       { name: 'Docs', path: '/docs' },
-     { name: doc.title, path: data.path },
+      { name: doc.title, path: data.path },
     ])
-  
+  );
+
   import ExternalLink from '@lucide/svelte/icons/external-link';
 
-  const githubEditUrl = `https://github.com/pocket-id/website/edit/main/docs/${doc.path}.md`;
+  const githubEditUrl = $derived(`https://github.com/pocket-id/website/edit/main/docs/${doc.path}.md`);
 </script>
 
 <SeoHead seo={seo} jsonLd={[breadcrumbJsonLd]} />
