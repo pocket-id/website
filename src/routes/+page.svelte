@@ -1,34 +1,31 @@
 <script lang="ts">
-  import ConnectArrow from '$lib/components/connect-arrow.svelte';
-  import SeoHead from '$lib/components/seo-head.svelte';
-  import { Badge } from '$lib/components/ui/badge/index.js';
-  import Button from '$lib/components/ui/button/button.svelte';
-  import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card/index.js';
-  import { additionalFeatures, mainFeatures } from '$lib/config/features.js';
+  import ConnectArrow from "$lib/components/connect-arrow.svelte";
+  import SeoHead from "$lib/components/seo-head.svelte";
+  import { Badge } from "$lib/components/ui/badge/index.js";
+  import Button from "$lib/components/ui/button/button.svelte";
+  import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "$lib/components/ui/card/index.js";
+  import { additionalFeatures, mainFeatures } from "$lib/config/features.js";
 
-  import {
-    buildSeo,
-    buildWebSiteJsonLd,
-  } from '$lib/seo.js';
-  import BookOpen from '@lucide/svelte/icons/book-open';
-  import Github from '@lucide/svelte/icons/github';
-  import TestTube from '@lucide/svelte/icons/test-tube';
-  import { onMount } from 'svelte';
-  import type { PageProps } from './$types.js';
+  import { buildSeo, buildWebSiteJsonLd } from "$lib/seo.js";
+  import BookOpen from "@lucide/svelte/icons/book-open";
+  import Github from "@lucide/svelte/icons/github";
+  import PlayIcon from "@lucide/svelte/icons/play";
 
-  let {data} : PageProps = $props();
+  import { onMount } from "svelte";
+  import type { PageProps } from "./$types.js";
+
+  let { data }: PageProps = $props();
   const seo = buildSeo({
-    title: 'Pocket ID | Simple OIDC Provider',
-    description:
-      'A simple and easy-to-use OIDC provider that allows users to authenticate with their passkeys to your services.',
-    type: 'website',
+    title: "Pocket ID | Simple OIDC Provider",
+    description: "A simple and easy-to-use OIDC provider that allows users to authenticate with their passkeys to your services.",
+    type: "website",
   });
 
   let isLoaded = $state(false);
 
-    onMount(() => {
-    requestAnimationFrame(() => isLoaded = true);
-    });
+  onMount(() => {
+    requestAnimationFrame(() => (isLoaded = true));
+  });
 </script>
 
 <SeoHead {seo} jsonLd={[buildWebSiteJsonLd()]} />
@@ -39,45 +36,43 @@
     <div class="container mx-auto text-center max-w-4xl">
       <h1
         class="text-5xl md:text-7xl font-bold mb-6 text-foreground"
-        style="transform: {isLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {isLoaded ? 1 : (
-          0
-        )}; transition: all 0.6s ease-out 50ms;">
+        style="transform: {isLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {isLoaded
+          ? 1
+          : 0}; transition: all 0.6s ease-out 50ms;">
         Pocket ID
       </h1>
       <p
         class="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed"
-        style="transform: {isLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {isLoaded ? 1 : (
-          0
-        )}; transition: all 0.6s ease-out 100ms;">
+        style="transform: {isLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {isLoaded
+          ? 1
+          : 0}; transition: all 0.6s ease-out 100ms;">
         A simple and easy-to-use OIDC provider that allows users to authenticate with their passkeys to your services.
       </p>
       <div
         class="flex flex-col sm:flex-row gap-4 justify-center"
-        style="transform: {isLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {isLoaded ? 1 : (
-          0
-        )}; transition: all 0.6s ease-out 150ms;">
+        style="transform: {isLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {isLoaded
+          ? 1
+          : 0}; transition: all 0.6s ease-out 150ms;">
         <Button size="lg" href="/docs/introduction">
           <BookOpen class="w-5 h-5 mr-2" />
           Documentation
         </Button>
         <Button size="lg" variant="outline" href="https://demo.pocket-id.org" target="_blank">
-          <TestTube class="w-5 h-5 mr-1" />
+          <PlayIcon class="w-5 h-5 mr-1" />
           Demo
         </Button>
       </div>
-      <div style="transform: {isLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {isLoaded ? 1 : (
-          0
-        )}; transition: all 0.6s ease-out 150ms;">
-      {#if data.instanceCount}
-        <Badge
-          variant="outline"
-          class="mt-6"
-       >      
-          <div class="bg-green-400 rounded-full w-2 h-2 animate-pulse inline-block mr-1"></div>
-          {data.instanceCount}+ Active Instances
-        </Badge>
-      {/if}
-            </div>
+      <div
+        style="transform: {isLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {isLoaded
+          ? 1
+          : 0}; transition: all 0.6s ease-out 150ms;">
+        {#if data.instanceCount}
+          <Badge variant="outline" class="mt-6">
+            <div class="bg-green-400 rounded-full w-2 h-2 animate-pulse inline-block mr-1"></div>
+            {data.instanceCount}+ Active Instances
+          </Badge>
+        {/if}
+      </div>
     </div>
   </section>
 
@@ -86,9 +81,9 @@
     <div class="container mx-auto">
       <div
         class="text-center mb-16"
-        style="transform: {isLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {isLoaded ? 1 : (
-          0
-        )}; transition: all 0.6s ease-out 50ms;">
+        style="transform: {isLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {isLoaded
+          ? 1
+          : 0}; transition: all 0.6s ease-out 50ms;">
         <h2 class="text-4xl font-bold mb-4">Key Features</h2>
         <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
           Everything you need for modern authentication in one simple package
@@ -101,10 +96,10 @@
           {@const Icon = feature.icon}
           <div
             class="grid md:grid-cols-2 gap-8 items-center"
-            style="transform: {isLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {isLoaded ? 1 : (
-              0
-            )}; transition: all 0.6s ease-out {100 + index * 20}ms;">
-            <div class={imageFirst ? 'md:order-2' : ''}>
+            style="transform: {isLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {isLoaded
+              ? 1
+              : 0}; transition: all 0.6s ease-out {100 + index * 20}ms;">
+            <div class={imageFirst ? "md:order-2" : ""}>
               <div class="flex items-center mb-4">
                 <Icon class="size-8 text-foreground mr-3" />
                 <h3 class="text-2xl font-bold mb-0">{feature.title}</h3>
@@ -128,9 +123,9 @@
           {@const Icon = feature.icon}
           <Card
             class="bg-card border-border hover:border-muted-foreground/50 transition-all duration-300"
-            style="transform: {isLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {isLoaded ? 1 : (
-              0
-            )}; transition: all 0.6s ease-out {100 + index * 15}ms;">
+            style="transform: {isLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {isLoaded
+              ? 1
+              : 0}; transition: all 0.6s ease-out {100 + index * 15}ms;">
             <CardHeader>
               <div class="flex items-center space-x-2">
                 <Icon this={feature.icon} class="size-6 text-foreground" />
@@ -156,9 +151,9 @@
   <section class="py-10 px-4">
     <div
       class="container mx-auto text-center max-w-3xl"
-      style="transform: {isLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {isLoaded ? 1 : (
-        0
-      )}; transition: all 0.6s ease-out 150ms;">
+      style="transform: {isLoaded ? 'translateY(0)' : 'translateY(30px)'}; opacity: {isLoaded
+        ? 1
+        : 0}; transition: all 0.6s ease-out 150ms;">
       <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to get started?</h2>
       <p class="text-xl text-muted-foreground mb-8">
         Deploy Pocket ID today and start providing secure, passwordless authentication to your users.
