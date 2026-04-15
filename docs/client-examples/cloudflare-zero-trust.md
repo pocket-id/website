@@ -13,16 +13,16 @@ description: Integrate with Cloudflare Zero Trust Access
 3. Set the callback URL to: `https://<your-team-name>.cloudflareaccess.com/cdn-cgi/access/callback`, or leave blank to autofill on first login.
 4. Copy the Client ID, Client Secret, Authorization URL, Token URL, and Certificate URL for the next steps.
 
-## Cloudflare Zero Trust Setup
+## Cloudflare One (Zero Trust) Setup
 
 1. Login to Cloudflare Zero Trust [Dashboard](https://one.dash.cloudflare.com/).
-2. Navigate to Settings > Authentication > Login Methods.
-3. Click `Add New` under login methods.
-4. Choose `Open ID Connect` as the login method.
+2. On the left navigation page, go to Integrations > Identity providers
+3. Click `Add an identity provider` under Identity provider integrations
+4. Choose `Open ID Connect` as the identity provider
 5. Create a name for the new login method.
 6. Paste in the `Client ID` from Pocket ID into the `App ID` field.
 7. Paste the `Client Secret` from Pocket ID into the `Client Secret` field.
 8. Paste the `Authorization URL` from Pocket ID into the `Auth URL` field.
 9. Paste the `Token URL` from Pocket ID into the `Token URL` field.
 10. Paste the `Certificate URL` from Pocket ID into the `Certificate URL` field.
-11. Save the new login method and test to make sure it works with cloudflare.
+11. Save the new login method and test to make sure it works with Cloudflare.
