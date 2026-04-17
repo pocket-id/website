@@ -7,7 +7,7 @@ description: Set up Node-RED with Pocket ID authentication
 
 1. In Pocket-ID create a new OIDC Client, name it i.e. `node-red`.
 2. Set a logo for this OIDC Client if you would like too.
-3. Set the callback URL to: `https://yoururl.com/auth/strategy/callback/`, or leave blank to autofill on first login.
+3. Set the callback URL to: `https://nodered.yoururl.com/auth/strategy/callback`, or leave blank to autofill on first login.
 4. Copy the `Client ID`, and `Client Secret` for use in the next steps.
 
 ## Node-RED Setup
@@ -29,13 +29,13 @@ adminAuth: {
         icon: 'fa-openid',
         strategy: require('passport-openidconnect').Strategy,
         options: {
-            issuer: 'https://pocketid.yoururl.com/',
+            issuer: 'https://pocketid.yoururl.com',
             authorizationURL: 'https://pocketid.yoururl.com/authorize',
             tokenURL: 'https://pocketid.yoururl.com/api/oidc/token',
             userInfoURL: 'https://pocketid.yoururl.com/api/oidc/userinfo',
             clientID: 'yourclientid',
             clientSecret: 'yourclientsecret',
-            callbackURL: 'https://pocketid.yoururl.com/auth/strategy/callback/',
+            callbackURL: 'https://node-red.yoururl.com/auth/strategy/callback',
             scope: ['openid', 'email', 'profile', 'groups'],
             proxy: true,
             verify: function(issuer, profile, done) {

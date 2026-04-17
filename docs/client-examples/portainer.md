@@ -3,8 +3,6 @@ title: Portainer
 description: Set up Portainer container management with OIDC
 ---
 
-**This requires Portainers Business Edition**
-
 The following example variables are used, and should be replaced with your actual URLS.
 
 - portainer.example.com (The url of your Portainer instance.)

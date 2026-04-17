@@ -21,6 +21,8 @@ yarn-error.log*
 
 /docs/api/endpoints
 /static/swagger.yaml
+/static/llms.txt
+/static/sitemap.xml
 
 node_modules
 
@@ -45,5 +47,4 @@ Thumbs.db
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
-static/llms.txt
 .velite

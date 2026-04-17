@@ -33,14 +33,6 @@
 
 <ModeWatcher disableTransitions={false} />
 
-<svelte:head>
-  <title>Pocket ID</title>
-  <meta
-    name="description"
-    content="Pocket ID - A simple OIDC provider that allows users to authenticate with their passkeys to your services." />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-</svelte:head>
-
 {#if showBanner}
   <div
     class="sticky top-0 z-[60] border-b border-blue-500 text-blue-500 bg-blue-500/10 dark:bg-blue-500/15 backdrop-blur-sm">

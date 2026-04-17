@@ -61,9 +61,7 @@ function resolveModule(slug: string): DocResolver | undefined {
   return key ? (modules[key] as DocResolver) : undefined;
 }
 
-export async function getDoc(_slug: string): Promise<{ component: Component; metadata: DocMetadata }> {
-  const slug = _slug === '' ? 'introduction' : _slug;
-
+export async function getDoc(slug: string): Promise<{ component: Component; metadata: DocMetadata }> {
   const veliteMeta = getDocMetadata(slug);
   const resolver = resolveModule(slug);
 

@@ -1,4 +1,3 @@
-
 ---
 title: AdventureLog
 description: Integrate Pocket ID with AdventureLog
@@ -35,8 +34,8 @@ description: Integrate Pocket ID with AdventureLog
    - **Domain Name:**: 'example.com' (yes, 'example.com' not your domain)
    - **Display Name:**: 'example.com' (yes, 'example.com' not your domain)
 5. Click on the 'example.com' in the 'Available Sites' column and move it over to 'Chosen sites'.
-4. Click **Save**.
-5. Navigate to your AdventureLog URL and test OpenID login.
+6. Click **Save**.
+7. Navigate to your AdventureLog URL and test OpenID login.
 
 ## Linking Existing Accounts
 

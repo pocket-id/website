@@ -22,6 +22,7 @@ description: Set up Pocket ID authentication for Beszel
 
 1. Open the Pocket ID settings page and navigate to **`Application Configuration`**.
 2. Enable **Emails Verified**.
+3. Navigate to **Users** and select the user account. Ensure the email address is marked as Verified. If the icon next to the email is not green, click it to manually toggle the status to verified.
 
 > [!NOTE]
 > Beszel requires the OAuth provider to return a valid, verified email address to create new users.  

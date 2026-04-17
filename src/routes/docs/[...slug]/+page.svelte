@@ -1,33 +1,75 @@
 <script lang="ts">
-  let { data } = $props();
+  import SeoHead from '$lib/components/seo-head.svelte';
+  import { buildBreadcrumbJsonLd, buildSeo } from '$lib/seo.js';
+  import type { PageData } from './$types.js';
+
+  let { data }: { data: PageData } = $props();
+
   const Markdown = $derived(data.component);
   const doc = $derived(data.metadata);
+
+  const seo = $derived(
+    buildSeo({
+      title: doc.path === 'introduction' ? 'Pocket ID Docs' : `${doc.title} | Pocket ID Docs`,
+      description: doc.description,
+      type: 'article',
+    })
+  );
+  const breadcrumbJsonLd = $derived(
+    buildBreadcrumbJsonLd([
+      { name: 'Home', path: '/' },
+      { name: 'Docs', path: '/docs' },
+      { name: doc.title, path: data.path },
+    ])
+  );
+
   import ExternalLink from '@lucide/svelte/icons/external-link';
 
   const githubEditUrl = $derived(`https://github.com/pocket-id/website/edit/main/docs/${doc.path}.md`);
 </script>
 
-<svelte:head>
-  <title>{doc.title}</title>
-  <meta name="description" content={doc.description} />
-</svelte:head>
+<SeoHead seo={seo} jsonLd={[breadcrumbJsonLd]} />
 
 <div class="flex min-w-0 flex-1 flex-col">
   <div class="mx-auto flex w-full max-w-4xl min-w-0 flex-1 flex-col gap-8 px-4 py-6 md:px-0 lg:py-8">
-    <div class="flex flex-col gap-2">
-      <h1 class="scroll-m-20 text-4xl font-semibold tracking-tight">
-        {doc.title}
-      </h1>
-      {#if doc.description}
-        <p class="text-muted-foreground text-lg text-balance">
-          {doc.description}
-        </p>
-      {/if}
-    </div>
+    <article data-pagefind-body data-pagefind-weight={doc.section === 'client-examples' ? '0.3' : '2.0'} class="contents">
+      <div class="flex flex-col gap-2">
+        <h1 class="scroll-m-20 text-4xl font-semibold tracking-tight" data-pagefind-meta="title">
+          {doc.title}
+        </h1>
+        {#if doc.description}
+          <p class="text-muted-foreground text-lg text-balance">
+            {doc.description}
+          </p>
+        {/if}
+      </div>
 
-    <div class="w-full flex-1">
-      <Markdown />
-    </div>
+      <div class="w-full flex-1">
+        <Markdown />
+      </div>
+    </article>
+
+    {#if data.neighbors.previous || data.neighbors.next}
+      <nav class="grid gap-4 border-t pt-6 sm:grid-cols-2" aria-label="Documentation pagination">
+        {#if data.neighbors.previous}
+          <a href={data.neighbors.previous.href} class="rounded-lg border p-4 transition-colors hover:bg-accent/40">
+            <div class="text-xs uppercase tracking-wide text-muted-foreground">Previous</div>
+            <div class="mt-1 font-medium">{data.neighbors.previous.title}</div>
+          </a>
+        {:else}
+          <div></div>
+        {/if}
+
+        {#if data.neighbors.next}
+          <a
+            href={data.neighbors.next.href}
+            class="rounded-lg border p-4 text-left transition-colors hover:bg-accent/40 sm:text-right">
+            <div class="text-xs uppercase tracking-wide text-muted-foreground">Next</div>
+            <div class="mt-1 font-medium">{data.neighbors.next.title}</div>
+          </a>
+        {/if}
+      </nav>
+    {/if}
 
     <div class="border-t pt-6 mt-8">
       <div class="flex items-center justify-between">

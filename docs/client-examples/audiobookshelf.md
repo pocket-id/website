@@ -37,7 +37,7 @@ The following example variables are used, and should be replaced with your actua
 
 If you want to automatically assign permissions based on group membership.
 
-#### Audiobooshelf
+#### Audiobookshelf
 
 Set the **Group Claim** under **Settings → Authentication → OpenID Connect Authentication → Group Claim** to `groups`.
 

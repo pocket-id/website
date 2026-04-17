@@ -51,10 +51,10 @@ Distroless containers are based on a minimal image, which includes "just enough"
 To use distroless container, append `-distroless` to the container image, for example:
 
 ```
-ghcr.io/pocket-id/pocket-id:v1-distroless
+ghcr.io/pocket-id/pocket-id:v2-distroless
 ```
 
-You can also use a specific version (such as `v1.x.x-distroless`) or branch (`v1.x-distroless`).
+You can also use a specific version (such as `v2.x.x-distroless`) or branch (`v2.x-distroless`).
 
 Note that distroless containers are non-root by default. You will need to **set permissions on the mountpoints** as described in the [System requirements](#system-requirements) section.
 
@@ -68,7 +68,7 @@ This `docker-compose.yml` includes a full example of using Pocket ID's distroles
 ```yaml
 services:
   pocket-id:
-    image: ghcr.io/pocket-id/pocket-id:v1-distroless
+    image: ghcr.io/pocket-id/pocket-id:v2-distroless
     restart: unless-stopped
     env_file: .env
     ports:

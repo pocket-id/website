@@ -53,8 +53,8 @@ caddy add-package github.com/greenpau/caddy-security
 			client_id client-id-from-pocket-id # Replace with your own client ID
 			client_secret client-secret-from-pocket-id # Replace with your own client secret
 			scopes openid email profile
-			base_auth_url http://<domain-where-pocket-id-runs> #Replace
-			metadata_url http://<domain-where-pocket-id-runs>/.well-known/openid-configuration #Replace
+			base_auth_url https://<domain-where-pocket-id-runs> #Replace
+			metadata_url https://<domain-where-pocket-id-runs>/.well-known/openid-configuration #Replace
 		}
 
 		authentication portal myportal {
@@ -62,6 +62,7 @@ caddy add-package github.com/greenpau/caddy-security
 			enable identity provider generic
 			cookie insecure off # Set to "on" if you're not using HTTPS
 			# cookie domain service.example.com - If using multiple clients/portals you have to set the cookie domain for each one so they do not conflict when trying to refresh the session.
+			trust login redirect uri domain exact service.example.com path prefix /
 
 			transform user {
 				match realm generic

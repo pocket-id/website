@@ -17,22 +17,6 @@ ownCloud Infinite Scale (oCIS) is the new file sync & share platform that will b
   > [!NOTE]
   > This documentation lists only the settings that you need to change from their default values. Be aware that any changes other than those explicitly mentioned in this guide could cause issues accessing your application.
 
-  > [!NOTE]
-  > Pocket ID sends the Access-Control-Allow-Origin "pocket-id.company.com" for pocket-id.company.com/.well-known/openid-configuration . See https://github.com/pocket-id/pocket-id/issues/329
-  > If you use nginx instead of caddy (CADDY_DISABLED=true) add to the location part of your nginx configuration for Pocket ID
-
-```
-location /.well-known/ {
-.
-.
-.
-
-    proxy_hide_header Access-Control-Allow-headers;
-    proxy_hide_header Access-Control-Allow-Origin;
-    add_header Access-Control-Allow-Origin "$http_origin";
-}
-```
-
 ## Pocket ID configuration
 
 To support the integration of oCIS with Pocket ID, you need to create a OIDC Client in Pocket ID.
@@ -63,8 +47,8 @@ To support the integration of oCIS with Pocket ID, you need to create a OIDC Cli
 
 - **Name:** ocis
 - **Callback URLs:**
-  > https://ocis.company.com/ 
-  > https://ocis.company.com/oidc-callback.html  
+  > https://ocis.company.com/ <br/>
+  > https://ocis.company.com/oidc-callback.html <br/>
   > https://ocis.company.com/oidc-silent-redirect.html
 - **Public Client:** [x]
 
@@ -158,17 +142,17 @@ Hardcoded Client secrets are not supported in Pocket ID. Given ownCloud have imp
     > Name: `ownCloud Desktop Client`  
     > Client ID: `xdXOt13JKxym1B1QcEncf2XDkLAexMBFwiT9j6EfhhHFJhs2KM9jbjTmf8JBXE69`  
     > Callback URLs: `http://127.0.0.1:*`  
-    > Public Client: 🟢
+    > Public Client: [x]
 
-  - ocis ios Client
-    > Name: `ownCloud ios Client`  
+  - ocis iOS Client
+    > Name: `ownCloud iOS Client`  
     > Client ID: `mxd5OQDk6es5LzOzRvidJNfXLUZS2oN3oUFeXPP8LpPrhx3UroJFduGEYIBOxkY1`  
     > Callback URLs: `oc://ios.owncloud.com`  
-    > Public Client: 🟢
+    > Public Client: [x]
 
   - ocis Android Client
     > Name: `ownCloud Android Client`  
     > Client ID: `e4rAsNUSIUs0lF4nbv9FmCeUkTlV9GdgTLDH1b5uie7syb90SzEVrbN7HIpmWJeD`  
     > Callback URLs: `oc://android.owncloud.com`  
-    > Public Client: 🟢
+    > Public Client: [x]
 
