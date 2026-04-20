@@ -26,12 +26,6 @@ You can use a reverse proxy like [Caddy](https://caddyserver.com/) or [NGINX](ht
 
 Create an admin account on `https://<your-app-url>/setup`.
 
-### Installation with Homebrew
-
-   ```bash
-   brew install pocket-id
-   ```
-
 ### Stand-alone Installation
 
 1. Download the latest binary from the [releases page](https://github.com/pocket-id/pocket-id/releases/latest).
@@ -112,6 +106,12 @@ It can be enabled by adding the following to your `configuration.nix`:
 ```
 
 For further configuration of the module, see the available [settings](https://search.nixos.org/options?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=pocket-id).
+
+### Homebrew
+
+   ```bash
+   brew install pocket-id
+   ```
 
 ## Installation from Source
 
