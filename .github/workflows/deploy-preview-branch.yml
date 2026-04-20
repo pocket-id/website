@@ -6,14 +6,14 @@ on:
     branches:
       - preview
     paths:
-      - 'src/**'
-      - 'docs/**'
-      - 'static/**'
-      - 'scripts/**'
-      - 'package.json'
-      - 'pnpm-lock.yaml'
-      - 'svelte.config.js'
-      - '.github/workflows/deploy-preview-branch.yml'
+      - "src/**"
+      - "docs/**"
+      - "static/**"
+      - "scripts/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "svelte.config.js"
+      - ".github/workflows/deploy-preview-branch.yml"
 
 permissions:
   actions: read
@@ -26,17 +26,19 @@ jobs:
     name: Deploy Preview Branch to Cloudflare Pages
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Checkout pocket-id repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: pocket-id/pocket-id
           path: pocket-id
           ref: main
 
       - name: Setup Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: pocket-id/backend/go.mod
 
       - name: Install swag
         run: go install github.com/swaggo/swag/cmd/swag@latest
@@ -55,13 +57,13 @@ jobs:
         run: rm -rf pocket-id
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 22
-          cache: 'pnpm'
+          node-version: 24
+          cache: "pnpm"
           cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies
@@ -80,4 +82,4 @@ jobs:
           deploymentName: Preview
           branch: preview
           directory: build
-          wranglerVersion: '3'
+          wranglerVersion: "3"

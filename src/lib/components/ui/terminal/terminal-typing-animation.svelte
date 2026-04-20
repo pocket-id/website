@@ -3,11 +3,11 @@
 -->
 
 <script lang="ts">
-  import { cn } from '$lib/utils/utils.js';
-  import { onDestroy } from 'svelte';
-  import { useAnimation } from './terminal.svelte.js';
-  import type { TerminalAnimationProps } from './types.js';
-  import { typewriter } from '$lib/actions/typewriter.svelte';
+  import { cn } from "$lib/utils/utils.js";
+  import { onDestroy } from "svelte";
+  import { useAnimation } from "./terminal.svelte.js";
+  import type { TerminalAnimationProps } from "./types.js";
+  import { typewriter } from "$lib/actions/typewriter.svelte";
 
   let { children, delay = 0, class: className }: TerminalAnimationProps = $props();
 
@@ -19,14 +19,14 @@
     animationSpeed = speed;
   };
 
-  const animation = useAnimation({ delay, play });
+  const animation = useAnimation({ delay: () => delay, play });
 
   onDestroy(() => animation.dispose());
 </script>
 
 {#if playAnimation}
   <span
-    class={cn('block', className)}
+    class={cn("block", className)}
     transition:typewriter={{
       speed: animationSpeed * 2,
       onComplete: () => animation.onComplete?.(),
