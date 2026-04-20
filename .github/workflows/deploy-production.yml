@@ -40,7 +40,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v6
         with:
-          go-version: pocket-id/backend/go.mod
+          go-version-file: pocket-id/backend/go.mod
 
       - name: Install swag
         run: go install github.com/swaggo/swag/cmd/swag@latest
