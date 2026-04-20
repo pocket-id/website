@@ -107,6 +107,12 @@ It can be enabled by adding the following to your `configuration.nix`:
 
 For further configuration of the module, see the available [settings](https://search.nixos.org/options?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=pocket-id).
 
+### Homebrew
+
+   ```bash
+   brew install pocket-id
+   ```
+
 ## Installation from Source
 
 It's not recommended to install Pocket ID from source unless you know what you're doing. The following instructions are provided for advanced users who want to customize or contribute to the project.
