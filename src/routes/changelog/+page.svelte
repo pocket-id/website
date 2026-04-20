@@ -1,31 +1,35 @@
 <script lang="ts">
-  import ChangelogToc from '$lib/components/changelog-toc.svelte';
-  import SeoHead from '$lib/components/seo-head.svelte';
-  import { buildBreadcrumbJsonLd, buildSeo } from '$lib/seo.js';
-  import ExternalLink from '@lucide/svelte/icons/external-link';
-  import type { PageData } from './$types.js';
+  import ChangelogToc from "$lib/components/changelog-toc.svelte";
+  import SeoHead from "$lib/components/seo-head.svelte";
+  import { buildBreadcrumbJsonLd, buildSeo } from "$lib/seo.js";
+  import ExternalLink from "@lucide/svelte/icons/external-link";
+  import type { PageData } from "./$types.js";
 
   let { data }: { data: PageData } = $props();
 
-  const Markdown = data.component;
-  const doc = data.metadata
-  const toc = doc.toc ?? [];
+  const Markdown = $derived(data.component);
+  const doc = $derived(data.metadata);
+  const toc = $derived(doc.toc ?? []);
 
-  const seo = buildSeo({
-      title: 'Changelog | Pocket ID',
+  const seo = $derived(
+    buildSeo({
+      title: "Changelog | Pocket ID",
       description: doc.description,
-      type: 'article',
-    });
-  
-  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
-      { name: 'Home', path: '/' },
-      { name: 'Changelog', path: '/changelog' },
-  ]);
+      type: "article",
+    }),
+  );
 
-  const githubEditUrl = `https://github.com/pocket-id/website/edit/main/docs/${doc.path}.md`;
+  const breadcrumbJsonLd = $derived(
+    buildBreadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Changelog", path: "/changelog" },
+    ]),
+  );
+
+  const githubEditUrl = $derived(`https://github.com/pocket-id/website/edit/main/docs/${doc.path}.md`);
 </script>
 
-<SeoHead seo={seo} jsonLd={[breadcrumbJsonLd]} />
+<SeoHead {seo} jsonLd={[breadcrumbJsonLd]} />
 
 <div class="container mx-auto flex min-w-0 flex-1 px-4 py-6 lg:py-8">
   <div class="mx-auto flex w-full max-w-6xl gap-8">

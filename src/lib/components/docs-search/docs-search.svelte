@@ -1,16 +1,16 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
-  import CommandMenuItem from '$lib/components/docs-search/docs-search-item.svelte';
-  import { Button } from '$lib/components/ui/button/index.js';
-  import * as Command from '$lib/components/ui/command/index.js';
-  import * as Dialog from '$lib/components/ui/dialog/index.js';
-  import { SidebarNavItems } from '$lib/config/docs.js';
-  import { useIsMac } from '$lib/hooks/is-mac.svelte.js';
-  import { cn } from '$lib/utils.js';
-  import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
-  import type { Component } from 'svelte';
-  import { tick } from 'svelte';
-  import type { HTMLAttributes } from 'svelte/elements';
+  import { goto } from "$app/navigation";
+  import CommandMenuItem from "$lib/components/docs-search/docs-search-item.svelte";
+  import { Button } from "$lib/components/ui/button/index.js";
+  import * as Command from "$lib/components/ui/command/index.js";
+  import * as Dialog from "$lib/components/ui/dialog/index.js";
+  import { SidebarNavItems } from "$lib/config/docs.js";
+  import { useIsMac } from "$lib/hooks/is-mac.svelte.js";
+  import { cn } from "$lib/utils.js";
+  import ArrowRightIcon from "@lucide/svelte/icons/arrow-right";
+  import type { Component } from "svelte";
+  import { tick } from "svelte";
+  import type { HTMLAttributes } from "svelte/elements";
 
   const isMac = useIsMac();
 
@@ -38,33 +38,33 @@
   };
 
   let open = $state(false);
-  let query = $state('');
+  let query = $state("");
   let results = $state<PagefindResultData[]>([]);
   let initializing = $state(false);
   let searching = $state(false);
-  let error = $state('');
+  let error = $state("");
 
   let pagefind = $state<PagefindSearchModule | null>(null);
 
   const MAX_PAGE_RESULTS = 10;
-  const pagefindModulePath = '/pagefind/pagefind.js';
+  const pagefindModulePath = "/pagefind/pagefind.js";
 
   async function ensurePagefind() {
-    if (pagefind || typeof window === 'undefined') return pagefind;
+    if (pagefind || typeof window === "undefined") return pagefind;
 
     initializing = true;
-    error = '';
+    error = "";
 
     try {
-      const mod = (await import(pagefindModulePath)) as PagefindSearchModule;
+      const mod = (await import(/* @vite-ignore */ pagefindModulePath)) as PagefindSearchModule;
       await mod.options({ excerptLength: 30 });
       await mod.init();
       pagefind = mod;
     } catch {
       error =
-        window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-          ? 'Search index unavailable in dev mode until a production build has generated Pagefind assets.'
-          : 'Search is temporarily unavailable.';
+        window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+          ? "Search index unavailable in dev mode until a production build has generated Pagefind assets."
+          : "Search is temporarily unavailable.";
     } finally {
       initializing = false;
     }
@@ -78,7 +78,7 @@
     if (!q) {
       results = [];
       searching = false;
-      error = '';
+      error = "";
       return;
     }
 
@@ -92,22 +92,22 @@
 
     try {
       const search = await pf.debouncedSearch(q, undefined, 150);
-      results = await Promise.all((search?.results ?? []).slice(0, MAX_PAGE_RESULTS).map(async (result) => {
-        const data = await result.data();
-        data.url = data.url.replace(/\.html$/, '');
-        data.excerpt = data.excerpt?.trim() || '';
-  
-          return data
-      }));
+      results = await Promise.all(
+        (search?.results ?? []).slice(0, MAX_PAGE_RESULTS).map(async (result) => {
+          const data = await result.data();
+          data.url = data.url.replace(/\.html$/, "");
+          data.excerpt = data.excerpt?.trim() || "";
 
-      error = '';
+          return data;
+        }),
+      );
+
+      error = "";
     } catch {
-
       results = [];
-      error = 'Search failed. Please try again.';
+      error = "Search failed. Please try again.";
     } finally {
-        searching = false;
-      
+      searching = false;
     }
   }
 
@@ -118,7 +118,7 @@
   }
 
   function handleKeydown(e: KeyboardEvent) {
-    if ((e.key === 'k' && (e.metaKey || e.ctrlKey)) || e.key === '/') {
+    if ((e.key === "k" && (e.metaKey || e.ctrlKey)) || e.key === "/") {
       if (
         (e.target instanceof HTMLElement && e.target.isContentEditable) ||
         e.target instanceof HTMLInputElement ||
@@ -139,28 +139,24 @@
       return;
     }
 
-    query = '';
+    query = "";
     results = [];
-    error = '';
+    error = "";
     searching = false;
   });
 </script>
 
 <svelte:document onkeydown={handleKeydown} />
 
-{#snippet CommandMenuKbd({
-  class: className,
-  content,
-  ...restProps
-}: HTMLAttributes<HTMLElement> & { content: string | Component })}
+{#snippet CommandMenuKbd({ class: className, content, ...restProps }: HTMLAttributes & { content: string | Component })}
   {@const Content = content}
   <kbd
     class={cn(
       "bg-background dark:bg-background text-muted-foreground pointer-events-none flex h-5 select-none items-center justify-center gap-1 rounded border border-border/50 dark:border px-1 font-sans text-[0.7rem] font-medium shadow-sm dark:shadow-none [&_svg:not([class*='size-'])]:size-3",
-      className
+      className,
     )}
     {...restProps}>
-    {#if typeof Content === 'string'}
+    {#if typeof Content === "string"}
       {Content}
     {:else}
       <Content />
@@ -175,14 +171,14 @@
         {...props}
         variant="secondary"
         class={cn(
-          'bg-background dark:bg-surface text-muted-foreground dark:text-surface-foreground/60 shadow-sm dark:shadow-none border border-border/50 dark:border-transparent relative h-8 w-full justify-start pl-2.5 font-normal sm:pr-12 md:w-40 lg:w-56 xl:w-64'
+          "bg-background dark:bg-surface text-muted-foreground dark:text-surface-foreground/60 shadow-sm dark:shadow-none border border-border/50 dark:border-transparent relative h-8 w-full justify-start pl-2.5 font-normal sm:pr-12 md:w-40 lg:w-56 xl:w-64",
         )}
         onclick={() => (open = true)}>
         <span class="hidden lg:inline-flex">Search documentation...</span>
         <span class="inline-flex lg:hidden">Search...</span>
         <div class="absolute right-1.5 top-1.5 hidden gap-1 sm:flex">
-          {@render CommandMenuKbd({ content: isMac.current ? '⌘' : 'Ctrl' })}
-          {@render CommandMenuKbd({ content: 'K', class: 'aspect-square' })}
+          {@render CommandMenuKbd({ content: isMac.current ? "⌘" : "Ctrl" })}
+          {@render CommandMenuKbd({ content: "K", class: "aspect-square" })}
         </div>
       </Button>
     {/snippet}
@@ -219,10 +215,11 @@
                       <span class="truncate font-medium">{result.meta?.title}</span>
                     </div>
                     {#if result.excerpt}
-                      <p class="text-muted-foreground line-clamp-2 text-xs font-normal [&_mark]:bg-primary/15 [&_mark]:text-foreground">
+                      <p
+                        class="text-muted-foreground line-clamp-2 text-xs font-normal [&_mark]:bg-primary/15 [&_mark]:text-foreground">
                         {@html result.excerpt}
                       </p>
-                    {/if}                   
+                    {/if}
                   </div>
                   <ArrowRightIcon class="mt-0.5 shrink-0" />
                 </CommandMenuItem>
@@ -238,7 +235,7 @@
               class="!p-0 [&_[data-command-group-heading]]:scroll-mt-16 [&_[data-command-group-heading]]:!p-3 [&_[data-command-group-heading]]:!pb-1">
               {#each group.items as item, i (i)}
                 <CommandMenuItem
-                  value={item.title?.toString() ? `${group.title} ${item.title}` : ''}
+                  value={item.title?.toString() ? `${group.title} ${item.title}` : ""}
                   onSelect={() => runCommand(() => item.href && goto(item.href))}>
                   <ArrowRightIcon />
                   {item.title}
