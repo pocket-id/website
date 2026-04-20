@@ -21,8 +21,8 @@ export class TerminalLoop {
 }
 
 export type TerminalRootProps = {
-  delay: number;
-  speed: number;
+  delay: () => number;
+  speed: () => number;
   onComplete: () => void;
 };
 
@@ -43,7 +43,7 @@ export class TerminalSession {
 
       for (let i = 0; i < this.#animations.length; i++) {
         this.#animations[i].timeout = setTimeout(() => {
-          this.#animations[i].play(this.opts.speed);
+          this.#animations[i].play(this.opts.speed());
 
           // when the most delayed animation is complete call onComplete
           if (i === this.#animations.length - 1) {
@@ -51,7 +51,7 @@ export class TerminalSession {
           }
         }, this.#animations[i].delay);
       }
-    }, this.opts.delay);
+    }, this.opts.delay());
   }
 
   onComplete() {
@@ -70,7 +70,7 @@ export class TerminalSession {
 }
 
 export type AnimationStateProps = {
-  delay: number;
+  delay: () => number;
   play: (speed: number) => void;
 };
 
@@ -83,7 +83,7 @@ export class AnimationState {
     readonly rootState: TerminalSession,
     readonly opts: AnimationStateProps,
   ) {
-    this.delay = opts.delay;
+    this.delay = opts.delay();
 
     rootState.registerAnimation(this);
   }

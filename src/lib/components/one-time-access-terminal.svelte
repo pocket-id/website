@@ -1,5 +1,5 @@
 <script lang="ts">
-  import * as Terminal from '$lib/components/ui/terminal/index.js';
+  import * as Terminal from "$lib/components/ui/terminal/index.js";
 
   interface Props {
     user?: string;
@@ -7,9 +7,9 @@
     speed?: number;
   }
 
-  let { user = 'test', url = 'http://localhost:3000/lc/YCvmQgrJbX0zEZbh', speed = 1 }: Props = $props();
+  let { user = "test", url = "http://localhost:3000/lc/YCvmQgrJbX0zEZbh", speed = 1 }: Props = $props();
 
-  let cmd = $state(`❯ pocket-id one-time-access-token ${user}`);
+  const cmd = $derived(`❯ pocket-id one-time-access-token ${user}`);
 
   const charMs = 35;
   let typingDuration = $derived(Math.ceil((cmd.length * charMs) / speed));
