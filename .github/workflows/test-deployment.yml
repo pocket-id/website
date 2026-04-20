@@ -23,7 +23,9 @@ jobs:
           ref: main
 
       - name: Setup Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
+        with:
+          go-version: pocket-id/backend/go.mod
 
       - name: Install swag
         run: go install github.com/swaggo/swag/cmd/swag@latest
@@ -43,12 +45,12 @@ jobs:
         run: rm -rf pocket-id
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: 22
+          node-version: 24
           cache: "pnpm"
           cache-dependency-path: pnpm-lock.yaml
 
