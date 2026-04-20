@@ -76,8 +76,8 @@ If you are running Pocket ID in an air-gapped environment or without reliable in
 
 ### Podman + Quadlet
 
-Add the following Quadlet file at `~/.config/containers/systemd/pocket-id.container`.
-It's a combination of the Docker Compose file and the `.env` file.
+For _rootless_ Podman, add the following Quadlet file at `~/.config/containers/systemd/pocket-id.container`.
+For _rootful_ Podman, move it into `/etc/containers/systemd/` instead.
 Go through the environment variables and adjust the values as needed.
 
 ```systemd
@@ -102,11 +102,7 @@ HealthStartPeriod=10s
 
 # These variables must be configured for your deployment:
 Environment=APP_URL=https://your-pocket-id-domain.com
-# Encryption key (choose one method):
-# Method 1: Direct key (simple but less secure)
-# Generate with: openssl rand -base64 32
-Environment=ENCRYPTION_KEY=
-# Method 2: File-based key (recommended)
+# Encryption key. Generate with: openssl rand -base64 32
 # Put the base64 key in a file and point to it here.
 Environment=ENCRYPTION_KEY_FILE=/path/to/encryption_key
 
