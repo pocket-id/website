@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Get latest release
         id: latest
@@ -23,7 +23,7 @@ jobs:
           url: "https://api.github.com/repos/pocket-id/pocket-id/releases/latest"
           method: "GET"
           bearerToken: ${{ secrets.GITHUB_TOKEN }}
-          customHeaders: '{"Accept":"application/vnd.github+json"}'
+          customHeaders: "{\"Accept\":\"application/vnd.github+json\"}"
           responseFile: "release.json"
 
       - name: Prepare current changelog
@@ -96,12 +96,16 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "docs(changelog): add ${{ steps.build.outputs.version }} release notes"
-          committer: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
-          author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+          commit-message: "docs(changelog): add ${{ steps.build.outputs.version }} release
+            notes"
+          committer: "github-actions[bot]
+            <41898282+github-actions[bot]@users.noreply.github.com>"
+          author: "github-actions[bot]
+            <41898282+github-actions[bot]@users.noreply.github.com>"
           signoff: true
           title: "docs(changelog): add ${{ steps.build.outputs.version }} release notes"
-          body: "Automated changelog update for ${{ steps.build.outputs.version }} from pocket-id/pocket-id latest release."
+          body: "Automated changelog update for ${{ steps.build.outputs.version }} from
+            pocket-id/pocket-id latest release."
           branch: "${{ steps.build.outputs.branch }}"
           base: main
           labels: "docs(changelog)"

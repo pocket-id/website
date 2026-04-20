@@ -3,11 +3,11 @@
 -->
 
 <script lang="ts">
-  import { cn } from '$lib/utils/utils.js';
-  import { onDestroy } from 'svelte';
-  import { useAnimation } from './terminal.svelte.js';
-  import type { TerminalAnimationProps } from './types.js';
-  import { fly } from 'svelte/transition';
+  import { cn } from "$lib/utils/utils.js";
+  import { onDestroy } from "svelte";
+  import { useAnimation } from "./terminal.svelte.js";
+  import type { TerminalAnimationProps } from "./types.js";
+  import { fly } from "svelte/transition";
 
   let { children, delay = 0, class: className }: TerminalAnimationProps = $props();
 
@@ -24,7 +24,7 @@
 
   const duration = $derived(300 / animationSpeed);
 
-  const animation = useAnimation({ delay, play });
+  const animation = useAnimation({ delay: () => delay, play });
 
   onDestroy(() => {
     animation.dispose();
@@ -33,7 +33,7 @@
 </script>
 
 {#if playAnimation}
-  <span class={cn('block', className)} in:fly={{ y: -5, duration }}>
+  <span class={cn("block", className)} in:fly={{ y: -5, duration }}>
     {@render children?.()}
   </span>
 {/if}

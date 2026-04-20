@@ -3,21 +3,15 @@
 -->
 
 <script lang="ts">
-  import { cn } from '$lib/utils/utils.js';
-  import { onDestroy } from 'svelte';
-  import { useAnimation } from './terminal.svelte.js';
-  import { fly } from 'svelte/transition';
-  import type { TerminalLoadingProps } from './types.js';
+  import { cn } from "$lib/utils/utils.js";
+  import { onDestroy } from "svelte";
+  import { useAnimation } from "./terminal.svelte.js";
+  import { fly } from "svelte/transition";
+  import type { TerminalLoadingProps } from "./types.js";
 
-  const frames = ['◒', '◐', '◓', '◑'];
+  const frames = ["◒", "◐", "◓", "◑"];
 
-  let {
-    delay = 0,
-    loadingMessage,
-    completeMessage,
-    duration = 1000,
-    class: className,
-  }: TerminalLoadingProps = $props();
+  let { delay = 0, loadingMessage, completeMessage, duration = 1000, class: className }: TerminalLoadingProps = $props();
 
   let playAnimation = $state(false);
   let animationSpeed = $state(1);
@@ -48,7 +42,7 @@
 
   const flyDuration = $derived(300 / animationSpeed);
 
-  const animation = useAnimation({ delay, play });
+  const animation = useAnimation({ delay: () => delay, play });
 
   onDestroy(() => {
     animation.dispose();
@@ -58,12 +52,12 @@
 </script>
 
 {#if playAnimation && !complete}
-  <span class={cn('block', className)} in:fly={{ y: -5, duration: flyDuration }}>
+  <span class={cn("block", className)} in:fly={{ y: -5, duration: flyDuration }}>
     <span class="text-cyan-400">{frames[frameIndex]}</span>
     {@render loadingMessage()}
   </span>
 {:else if playAnimation}
-  <span class={cn('block', className)} data-completed in:fly={{ y: -5, duration: flyDuration }}>
+  <span class={cn("block", className)} data-completed in:fly={{ y: -5, duration: flyDuration }}>
     {@render completeMessage()}
   </span>
 {/if}

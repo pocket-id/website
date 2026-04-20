@@ -8,7 +8,7 @@
 
   import { buildSeo, buildWebSiteJsonLd } from "$lib/seo.js";
   import BookOpen from "@lucide/svelte/icons/book-open";
-  import Github from "@lucide/svelte/icons/github";
+  import Github from "$lib/icons/github.svelte";
   import PlayIcon from "@lucide/svelte/icons/play";
 
   import { onMount } from "svelte";
@@ -128,7 +128,7 @@
               : 0}; transition: all 0.6s ease-out {100 + index * 15}ms;">
             <CardHeader>
               <div class="flex items-center space-x-2">
-                <Icon this={feature.icon} class="size-6 text-foreground" />
+                <Icon class="size-6 text-foreground" />
                 <CardTitle class="text-foreground">{feature.title}</CardTitle>
               </div>
             </CardHeader>

@@ -80,12 +80,7 @@ function generateSitemap(siteUrl: string) {
   if (fs.existsSync(docsDir)) {
     const routes = ["/", "/changelog", ...listDocRoutes(docsDir)];
     const uniqueRoutes = [...new Set(routes)];
-    const routeTags = uniqueRoutes
-      .map(
-        (route) =>
-          `  <url><loc>${new URL(route, siteUrl).toString()}</loc></url>`,
-      )
-      .join("\n");
+    const routeTags = uniqueRoutes.map((route) => `  <url><loc>${new URL(route, siteUrl).toString()}</loc></url>`).join("\n");
 
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${routeTags}\n</urlset>\n`;
 
@@ -120,10 +115,15 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      rollupOptions: {
+      rolldownOptions: {
         output: {
-          manualChunks: {
-            icons: ["@lucide/svelte"],
+          codeSplitting: {
+            groups: [
+              {
+                name: "icons",
+                test: /@lucide\/svelte/,
+              },
+            ],
           },
         },
       },
