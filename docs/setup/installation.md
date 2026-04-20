@@ -74,6 +74,49 @@ If you are running Pocket ID in an air-gapped environment or without reliable in
 > [!IMPORTANT]
 > These installation methods are not officially supported, and services may not work as expected.
 
+### Podman + Quadlet
+
+For _rootless_ Podman, add the following Quadlet file at `~/.config/containers/systemd/pocket-id.container`.
+For _rootful_ Podman, move it into `/etc/containers/systemd/` instead.
+Go through the environment variables and adjust the values as needed.
+
+```systemd
+[Container]
+Image=ghcr.io/pocket-id/pocket-id:v2
+PublishPort=1411:1411
+Volume=pocket-id:/app/data:Z
+
+# optional auto-update, requires podman-auto-update.timer
+AutoUpdate=registry
+
+# optional healthcheck
+HealthCmd=/app/pocket-id healthcheck
+HealthInterval=1m30s
+HealthTimeout=5s
+HealthRetries=2
+HealthStartPeriod=10s
+
+# Environment variables
+# See the documentation for more information:
+# https://pocket-id.org/docs/configuration/environment-variables
+
+# These variables must be configured for your deployment:
+Environment=APP_URL=https://your-pocket-id-domain.com
+# Encryption key. Generate with: openssl rand -base64 32
+# Put the base64 key in a file and point to it here.
+Environment=ENCRYPTION_KEY_FILE=/path/to/encryption_key
+
+# These variables are optional but recommended to review:
+Environment=TRUST_PROXY=false
+Environment=MAXMIND_LICENSE_KEY=
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
+```
+
 ### Proxmox
 
 Run the [helper script](https://community-scripts.github.io/ProxmoxVE/scripts?id=pocketid) as root in your Proxmox shell.
