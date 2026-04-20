@@ -12,6 +12,8 @@
   import { tick } from "svelte";
   import type { HTMLAttributes } from "svelte/elements";
 
+  type KbdProps = HTMLAttributes<HTMLElement> & { content: string | Component };
+
   const isMac = useIsMac();
 
   type PagefindSearchModule = {
@@ -148,7 +150,7 @@
 
 <svelte:document onkeydown={handleKeydown} />
 
-{#snippet CommandMenuKbd({ class: className, content, ...restProps }: HTMLAttributes & { content: string | Component })}
+{#snippet CommandMenuKbd({ class: className, content, ...restProps }: KbdProps)}
   {@const Content = content}
   <kbd
     class={cn(
