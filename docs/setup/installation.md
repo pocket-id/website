@@ -78,6 +78,7 @@ If you are running Pocket ID in an air-gapped environment or without reliable in
 
 For _rootless_ Podman, add the following Quadlet file at `~/.config/containers/systemd/pocket-id.container`.
 For _rootful_ Podman, move it into `/etc/containers/systemd/` instead.
+Also change the `WantedBy` value `default.target` to `multi-user.target`.
 Go through the environment variables and adjust the values as needed.
 
 ```systemd
