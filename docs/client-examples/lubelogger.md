@@ -25,7 +25,7 @@ description: Integrate Pocket ID with LubeLogger
 ## Configure LugeLogger using the UI
 
 1. Open LubeLogger and navigate to:
-   **`User Icon > Configure > Acknowledge and Continue > Next > Next > Next > Single Sing On`**
+   **`User Icon > Configure > Acknowledge and Continue > Next > Next > Next > Single Sign On`**
 2. Copy/Enter the following values from Pocket-ID. Leave all others empty/default
    
    |LubeLogger|Pocket-ID Value|
