@@ -38,4 +38,4 @@ description: Configure Open WebUI with Pocket ID authentication
 ```
 
 Its recommended you have a separate admin account without oauth in Open WebUI so you don't get locked out when testing the integration.
-[Read more](https://docs.openwebui.com/getting-started/env-configuration#oauth)
+[Read more](https://docs.openwebui.com/reference/env-configuration#oauth)
