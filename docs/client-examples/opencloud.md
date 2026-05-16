@@ -15,7 +15,7 @@ The following example variables are used and should be replaced with your actual
 OpenCloud enforces a few constraints on external OIDC providers:
 
 - All clients **must** be **public clients** using **PKCE** (Authorization Code + PKCE flow). There are no confidential clients.
-- Desktop and mobile clients use **predefined, hardcoded `client_id` values** (`OpenCloudDesktop`, `OpenCloudAndroid`, `OpenCloudIOS`). These must be registered in Pocket ID with those exact IDs — see [Desktop and Mobile Clients](#desktop-and-mobile-clients).
+- Desktop and mobile clients use **predefined, hardcoded `client_id` values** (`OpenCloudDesktop`, `OpenCloudAndroid`, `OpenCloudIOS`). These must be registered in Pocket ID with those exact IDs — see [Desktop and Mobile Clients](#step-3--desktop-and-mobile-clients).
 - The provider must include a **role claim** in the access token. OpenCloud maps claim values to its internal roles (`opencloudAdmin`, `opencloudSpaceAdmin`, `opencloudUser`, `opencloudGuest`).
 
 ---
