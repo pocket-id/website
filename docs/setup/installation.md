@@ -139,6 +139,7 @@ Pocket ID is available as a template on the Community Apps store.
 
 - A Helm chart maintained by @matslarson is available [here](https://github.com/matslarson/pocket-id-helm).
 - A Helm chart maintained by anza-labs [here](https://artifacthub.io/packages/helm/anza-labs/pocket-id).
+- A Kubernetes Operator maintained by @aclerici38 [here](https://github.com/aclerici38/pocket-id-operator).
 
 ### NixOS
 
