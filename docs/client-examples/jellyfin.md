@@ -20,7 +20,7 @@ description: Set up Jellyfin media server with OIDC authentication
 ## Requirements
 
 - [Jellyfin Server](https://jellyfin.org/downloads/server)
-- [Jellyfin SSO Plugin](https://github.com/9p4/jellyfin-plugin-sso)
+- [Jellyfin SSO Plugin](https://github.com/9p4/jellyfin-plugin-sso) This repository was archived by the owner on May 12, 2026. 
 - HTTPS connection to your Jellyfin server
 
 ## OIDC - Pocket ID Setup
