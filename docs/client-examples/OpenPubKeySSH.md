@@ -1,9 +1,9 @@
 ---
-title: OpenPubKey
+title: OpenPubKey SSH
 description: Configure OpenPubKey SSH authentication with Pocket ID
 ---
 
-> The following example uses `id.example.com`, make sure to update this to your Pocket-ID server name. It also assumes OpenPubKey is installed on both the server and the client. For instructions on installation for different operating systems see: https://github.com/openpubkey/opkssh
+> The following example uses `id.example.com`, make sure to update this to your Pocket-ID server name. It also assumes OpenPubKey SSH (OPKSSH) is installed on both the server and the client. For instructions on installation for different operating systems see: https://github.com/openpubkey/opkssh
 
 ## Create Pocket-ID OIDC Client
 1. In Pocket-ID create a new OIDC Client, name it i.e. `Opkssh`.
@@ -85,4 +85,4 @@ okpssh login pocket-id
 5. You will be automatically signed in to the server.
 NOTE: You can also just run `okpssh login`, which will open a web page in the browser with a list of configured providers. You would then need to click on Pocket-ID to continue.
 
-You can configure multiple servers to use the same Pocket-ID OIDC client for OpenPubKey. If you want to limit different Pocket-ID SSH users to different servers, multiple OpenPubKey OIDC clients would be required.
+You can configure multiple servers to use the same Pocket-ID OIDC client for OPKSSH. If you want to limit different Pocket-ID SSH users to different servers, multiple OPKSSH OIDC clients would be required.
