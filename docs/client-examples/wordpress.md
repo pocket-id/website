@@ -8,6 +8,8 @@ The following example variables are used, and should be replaced with your actua
 - my-website.com (The url of your WordPress instance.)
 - id.example.com (The url of your Pocket ID instance.)
 
+We will be using the [OpenID Connect Generic Client WordPress Plugin](https://github.com/oidc-wp/openid-connect-generic). Other plugins should work about the same.
+
 ## Pocket ID Setup
 
 1. In Pocket-ID create a new OIDC Client, name it i.e. `WordPress`.
