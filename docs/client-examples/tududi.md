@@ -16,7 +16,7 @@ description: Configure Pocket ID with tududi
     ```
     https://<tududi-domain.tld>/api/oidc/callback/pocketid
     ```
-3. _Optional:_ Download or link a PNG or SVG **logo** from the [tududi favicons](https://github.com/chrisvel/tududi/blob/main/public/favicon-48.png) and upload.
+3. _Optional:_ Download or link a PNG or SVG **logo** from [selfh.st/icons/](https://selfh.st/icons/) to match the style of your setup.
 4. Client Launch URL:
     ```bash
     https://<tududi-domain.tld>
