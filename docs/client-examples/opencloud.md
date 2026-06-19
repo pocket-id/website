@@ -69,80 +69,56 @@ Every user must belong to at least one of these groups. Users without a group wi
 
 ## Step 3 — Desktop and Mobile Clients
 
-OpenCloud's desktop and mobile clients send hardcoded `client_id` values that cannot be changed in the application. You must register clients in Pocket ID with those exact IDs.
+OpenCloud's desktop and mobile clients send hardcoded `client_id` values that cannot be changed in the application. You must register clients in Pocket ID with those exact IDs, rather than the auto-generated UUID.
 
-Pocket ID's standard **Create client** form auto-generates a UUID as the client ID. To register clients with custom IDs, insert them directly into the Pocket ID PostgreSQL database. Once created, they appear normally in the Pocket ID web UI and can be managed from there like any other client.
+### Desktop
 
-**Get the admin user UUID first:**
+1. In Pocket ID go to **OIDC Clients → Create client**. Name it, for example, `OpenCloud Desktop`.
+2. Set a logo if you like.
+3. Add the following **Callback URLs**:
+   ```
+   http://127.0.0.1
+   http://localhost
+   ```
+4. Enable **Public Client**.
+5. Enable **PKCE**.
+6. Save and copy the **Client ID** (a UUID) — you will need it in Step 4.
+7. Click **Show Advanced Options**
+8. Set the **Client ID** to `OpenCloudDesktop`
+9. Optionally restrict access under **Allowed Groups** to the four opencloud groups created in Step 1.
+10. Save
 
-```sql
-SELECT id FROM users WHERE username = 'admin';
-```
+### Android
 
-**Insert the three clients:**
+1. In Pocket ID go to **OIDC Clients → Create client**. Name it, for example, `OpenCloud Android`.
+2. Set a logo if you like.
+3. Add the following **Callback URL**:
+   ```
+   oc://android.opencloud.eu
+   ```
+4. Enable **Public Client**.
+5. Enable **PKCE**.
+6. Save and copy the **Client ID** (a UUID) — you will need it in Step 4.
+7. Click **Show Advanced Options**
+8. Set the **Client ID** to `OpenCloudAndroid`
+9. Optionally restrict access under **Allowed Groups** to the four opencloud groups created in Step 1.
+10. Save
 
-```sql
--- Desktop (http://127.0.0.1 matches any port — no wildcard needed)
-INSERT INTO oidc_clients (
-  id, created_at, name, secret, callback_urls,
-  created_by_id, is_public, pkce_enabled,
-  logout_callback_urls, credentials, launch_url,
-  requires_reauthentication, is_group_restricted
-) VALUES (
-  'OpenCloudDesktop', NOW(), 'OpenCloud Desktop', NULL,
-  '["http://127.0.0.1", "http://localhost"]',
-  '<ADMIN_USER_UUID>',
-  true, true, '[]', '{}', NULL, false, false
-);
+### iOS
 
--- Android
-INSERT INTO oidc_clients (
-  id, created_at, name, secret, callback_urls,
-  created_by_id, is_public, pkce_enabled,
-  logout_callback_urls, credentials, launch_url,
-  requires_reauthentication, is_group_restricted
-) VALUES (
-  'OpenCloudAndroid', NOW(), 'OpenCloud Android', NULL,
-  '["oc://android.opencloud.eu"]',
-  '<ADMIN_USER_UUID>',
-  true, true, '[]', '{}', NULL, false, false
-);
-
--- iOS
-INSERT INTO oidc_clients (
-  id, created_at, name, secret, callback_urls,
-  created_by_id, is_public, pkce_enabled,
-  logout_callback_urls, credentials, launch_url,
-  requires_reauthentication, is_group_restricted
-) VALUES (
-  'OpenCloudIOS', NOW(), 'OpenCloud iOS', NULL,
-  '["oc://ios.opencloud.eu"]',
-  '<ADMIN_USER_UUID>',
-  true, true, '[]', '{}', NULL, false, false
-);
-```
-
-After inserting, the three clients appear in **Pocket ID → OIDC Clients**. From the web UI you can now:
-
-- Update callback URLs
-- Add a logo
-- Set **Allowed Groups** to restrict access to the four opencloud groups
-
-To restrict access via SQL instead:
-
-```sql
-INSERT INTO oidc_clients_allowed_user_groups (oidc_client_id, user_group_id)
-SELECT client_id, id FROM
-  (VALUES ('OpenCloudDesktop'), ('OpenCloudAndroid'), ('OpenCloudIOS')) AS c(client_id),
-  user_groups
-WHERE user_groups.name IN (
-  'opencloud_admins', 'opencloud_spaceadmins',
-  'opencloud_users', 'opencloud_guests'
-);
-
-UPDATE oidc_clients SET is_group_restricted = true
-WHERE id IN ('OpenCloudDesktop', 'OpenCloudAndroid', 'OpenCloudIOS');
-```
+1. In Pocket ID go to **OIDC Clients → Create client**. Name it, for example, `OpenCloud iOS`.
+2. Set a logo if you like.
+3. Add the following **Callback URL**:
+   ```
+   oc://ios.opencloud.eu
+   ```
+4. Enable **Public Client**.
+5. Enable **PKCE**.
+6. Save and copy the **Client ID** (a UUID) — you will need it in Step 4.
+7. Click **Show Advanced Options**
+8. Set the **Client ID** to `OpenCloudIOS`
+9. Optionally restrict access under **Allowed Groups** to the four opencloud groups created in Step 1.
+10. Save
 
 ---
 
