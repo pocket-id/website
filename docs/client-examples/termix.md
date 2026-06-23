@@ -62,4 +62,4 @@ OIDC_ADMIN_GROUP=termix-admin
 ```
 
 ## Known issues
-_**NOTE**  be carefull with the option `General - Silent OIDC Login by Default` because it could sent your application in a infinite loop_
+_**NOTE**  be careful with the option `General - Silent OIDC Login by Default` because it could sent your application in a infinite loop_
