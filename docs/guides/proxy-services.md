@@ -201,7 +201,7 @@ Note: Traefik Enterprise has an [OIDC middleware](https://doc.traefik.io/traefik
 
 Using forward auth, for example with [traefik-forward-auth v4](https://github.com/ItalyPaleAle/traefik-forward-auth), involves running a separate service alongside Traefik (as a "sidecar" configured in the Docker Compose file or Pod spec). Traefik invokes the forward auth service behind the scenes to authorize requests, redirecting the user to it if it needs to authenticate. traefik-forward-auth v4 includes support for Pocket ID and other authentication providers.
 
-See the documentation for [configuring traefik-forward-auth](https://github.com/ItalyPaleAle/traefik-forward-auth/blob/main/docs/01-quickstart.md) and [integrating it](https://github.com/ItalyPaleAle/traefik-forward-auth/blob/main/docs/05-supported-providers.md#pocket-id) with Pocket ID.
+See the documentation for [configuring traefik-forward-auth](https://traefik-forward-auth.italypaleale.me/docs/quickstart/) and [integrating it](https://traefik-forward-auth.italypaleale.me/providers/pocket-id/) with Pocket ID.
 
 ### Using a Traefik plugin
 
