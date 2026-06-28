@@ -1,3 +1,8 @@
+---
+title: DBackup
+description: Configure DBackup with Pocket ID authentication
+---
+
 ## Create the DBackup OIDC Client in PocketID
 
 ### Required Settings
@@ -23,10 +28,10 @@ The SSO settings in DBackup are in the menu of Users & Groups and then SSO / OID
 
 ### Configuration
 
-| Field | Description | Example |
-|---|---|---|
-| Name | Display name | `"PocketID"` |
-| Provider ID | The ID to be used in the client configuration in PocketID | `pocket-id-1234` |
-| Provider | PocketID URL | `https://pocketid.example.com` |
-| Client ID | From PocketID | `client-id` |
-| Client Secret | From PocketID | `secret` |
+| Field         | Description                                               | Example                        |
+| ------------- | --------------------------------------------------------- | ------------------------------ |
+| Name          | Display name                                              | `"PocketID"`                   |
+| Provider ID   | The ID to be used in the client configuration in PocketID | `pocket-id-1234`               |
+| Provider      | PocketID URL                                              | `https://pocketid.example.com` |
+| Client ID     | From PocketID                                             | `client-id`                    |
+| Client Secret | From PocketID                                             | `secret`                       |

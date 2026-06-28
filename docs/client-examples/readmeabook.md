@@ -1,3 +1,8 @@
+---
+title: ReadMeABook
+description: Configure ReadMeABook with Pocket ID authentication
+---
+
 ## Create in PocketID an OIDC Client for ReadMeABook
 
 ### Required Settings in PocketID to create the OIDC Client
