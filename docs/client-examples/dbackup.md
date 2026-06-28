@@ -7,13 +7,13 @@ description: Configure DBackup with Pocket ID authentication
 
 ### Required Settings
 
-- **Callback-URL:** `https://your-dbackup-url/api/auth/sso/callback/{provider-id}`
+- **Callback-URL:** `https://your-dbackup-url/api/auth/sso/callback/<provider-id>`
 - **Grant Type:** `Authorization Code`
 - **Scopes:** `openid`, `profile`, `email`
 
-Attention: The {provider-id} must be the Provider ID you get when creating the SSO/OIDC settings in DBackup. DBackup will propose an ID, e.g. pocket-id-1234
+Attention: The `<provider-id>` must be the Provider ID you get when creating the SSO/OIDC settings in DBackup. DBackup will propose an ID, e.g. pocket-id-1234
 
-The Callback-URL in a local docker installation of DBackup can also be the local IP address and the port of DBackup, for example 'https://192.168.x.xxx:3000/api/auth/sso/callback/pocket-id-123'
+The Callback-URL in a local docker installation of DBackup can also be the local IP address and the port of DBackup, for example `https://192.168.x.xxx:3000/api/auth/sso/callback/pocket-id-123`
 
 ### Copy the ID and Client Secret from PocketID
 
