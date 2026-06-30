@@ -15,6 +15,11 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Gloock';
+  src: url('/fonts/Gloock-Regular.woff') format('woff');
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @custom-variant fixed (&:is(.layout-fixed *));
@@ -24,6 +29,7 @@
   --breakpoint-4xl: 2000px;
   --font-sans: 'Geist', sans-serif;
   --font-mono: 'Geist Mono', monospace;
+  --font-gloock: 'Gloock', serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -246,15 +252,15 @@
       @apply !mt-0;
     }
 
-    &:first-child > *[aria-level='3']:first-child {
+    &:first-child>*[aria-level='3']:first-child {
       @apply !mt-0;
     }
 
-    > *[aria-level='3'] {
+    >*[aria-level='3'] {
       @apply !mt-16;
     }
 
-    > *[aria-level='3'] + p {
+    >*[aria-level='3']+p {
       @apply !mt-2;
     }
   }

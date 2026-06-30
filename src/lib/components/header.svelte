@@ -1,28 +1,30 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import MainNav from './main-nav.svelte';
-  import MobileNav from './mobile-nav.svelte';
-  import Logo from './logo.svelte';
-  import { Separator } from '$lib/components/ui/separator/index.js';
-  import { Badge } from '$lib/components/ui/badge/index.js';
-  import { Button } from '$lib/components/ui/button/index.js';
-  import GithubLink from './github-link.svelte';
-  import ModeSwitcher from './modeswitcher.svelte';
-  import { mode } from 'mode-watcher';
+  import { Badge } from "$lib/components/ui/badge/index.js";
+  import { Button } from "$lib/components/ui/button/index.js";
+  import { Separator } from "$lib/components/ui/separator/index.js";
+  import { mode } from "mode-watcher";
+  import { onMount } from "svelte";
+  import GithubIcon from "./icons/github.svelte";
+  import Logo from "./logo.svelte";
+  import MainNav from "./main-nav.svelte";
+  import MobileNav from "./mobile-nav.svelte";
+  import ModeSwitcher from "./modeswitcher.svelte";
 
-  import { mainNavItems } from '$lib/config/docs.js';
-  import DocsSearch from './docs-search/docs-search.svelte';
+  import { mainNavItems } from "$lib/config/docs.js";
+  import DocsSearch from "./docs-search/docs-search.svelte";
 
-  let version: string | undefined = $state('');
+  let version: string | undefined = $state("");
   let isDark = $state(false);
 
   async function readVersionFile(): Promise<string> {
     try {
-      const response = await fetch('https://raw.githubusercontent.com/pocket-id/pocket-id/refs/heads/main/.version');
+      const response = await fetch(
+        "https://raw.githubusercontent.com/pocket-id/pocket-id/refs/heads/main/.version",
+      );
       return await response.text();
     } catch (error) {
-      console.error('Error reading version file:', error);
-      return '';
+      console.error("Error reading version file:", error);
+      return "";
     }
   }
 
@@ -33,10 +35,10 @@
       }
     });
 
-    isDark = mode.current === 'dark';
+    isDark = mode.current === "dark";
 
     const interval = setInterval(() => {
-      isDark = mode.current === 'dark';
+      isDark = mode.current === "dark";
     }, 100);
 
     return () => clearInterval(interval);
@@ -47,7 +49,12 @@
   <div class="container-wrapper px-6">
     <div class="h-16 **:data-[slot=separator]:!h-4 flex items-center gap-2">
       <MobileNav class="flex lg:hidden" />
-      <Button href="/" variant="ghost" size="icon" class="hidden size-8 lg:flex">
+      <Button
+        href="/"
+        variant="ghost"
+        size="icon"
+        class="hidden size-8 lg:flex"
+      >
         <Logo {isDark} class="size-5" />
         <span class="sr-only">Pocket ID</span>
       </Button>
@@ -60,12 +67,22 @@
         {#if version}
           <Badge
             variant="default"
-            class="bg-background dark:bg-surface shadow-sm dark:shadow-none border border-border/50 dark:border-primary text-foreground text-xs font-bold">
+            class="bg-background dark:bg-surface shadow-sm dark:shadow-none border border-border/50 dark:border-primary text-foreground text-xs font-bold"
+          >
             v{version}
           </Badge>
         {/if}
         <Separator orientation="vertical" />
-        <GithubLink />
+        <Button
+          href="https://github.com/pocket-id/pocket-id"
+          target="_blank"
+          rel="noreferrer"
+          size="sm"
+          variant="ghost"
+          class="h-8 shadow-none"
+        >
+          <GithubIcon />
+        </Button>
         <Separator orientation="vertical" />
         <ModeSwitcher />
       </div>

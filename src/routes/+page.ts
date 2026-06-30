@@ -1,18 +1,24 @@
 export const prerender = true;
 
 export async function load() {
-  let instanceCount = null;
+  let instances = null;
+  let stars = null;
+  let contributors = null;
+  let dockerPulls = null;
   try {
     const response = await fetch("https://analytics.pocket-id.org/stats");
     if (!response.ok) {
-      throw new Error("Failed to fetch instance count");
+      throw new Error("Failed to fetch stats");
     }
 
     const data = await response.json();
-    instanceCount = data.total;
+    instances = data.instances;
+    stars = data.stars;
+    contributors = data.contributors;
+    dockerPulls = data.docker_pulls;
   } catch (error) {
-    console.error("Error fetching instance count:", error);
+    console.error("Error fetching stats:", error);
   }
 
-  return { instanceCount };
+  return { instances, stars, contributors, dockerPulls };
 }
