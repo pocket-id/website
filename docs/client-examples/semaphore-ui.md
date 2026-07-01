@@ -25,3 +25,28 @@ description: Configure Semaphore UI with Pocket ID OIDC
     }
 }
 ```
+
+Semaphore UI versions after 2.14 support a docker env var for this.  
+A single environment variable, SEMAPHORE_OIDC_PROVIDERS, lets you configure providers using a JSON string matching the oidc_providers structure.  
+
+```
+      SEMAPHORE_OIDC_PROVIDERS: >-
+        {
+          "pocketid": {
+            "display_name":"Sign in with PocketID",
+            "provider_url":"https://<your-pocket-id-url>",
+            "client_id":"<client-id-from-pocket-id>",
+            "client_secret":"<client-secret-from-pocket-id>",
+            "redirect_url":"https://<your-semaphore-ui-url>/api/auth/oidc/pocketid/redirect/",
+            "scopes": [
+              "openid",
+              "profile",
+              "email"
+            ],
+            "username_claim":"email",
+            "name_claim":"given_name"
+          }
+        }
+
+
+```
