@@ -34,7 +34,7 @@
   const seo = buildSeo({
     title: "Pocket ID | Easy-to-use OIDC Provider",
     description:
-      "An easy-to-use OAuth 2.0 and OpenID Connect provider that lets users sign in to your services with their passkeys.",
+      "An easy-to-use OpenID Connect Certified™ and OAuth 2.0 provider that lets users sign in to your applications with passkeys.",
     type: "website",
   });
 
@@ -69,8 +69,8 @@
           ? 1
           : 0}; transition: all 0.6s ease-out 100ms;"
       >
-        An easy-to-use OAuth 2.0 and OpenID Connect provider that lets users
-        sign in to your services with their passkeys.
+        An easy-to-use OpenID Connect Certified™ and OAuth 2.0 provider that
+        lets users sign in to your applications with passkeys.
       </p>
       <div
         class="flex flex-col sm:flex-row gap-4 justify-center"
