@@ -198,18 +198,25 @@ You can configure Pocket ID to emit metrics and traces.
 - Both can be sent to an OpenTelemetry collector.
 - For metrics, you can also configure Pocket ID to expose them on a Prometheus-compatible endpoint.
 
-| Variable          | Default Value | Description             |
-| ----------------- | ------------- | ----------------------- |
-| `TRACING_ENABLED` | `false`       | Enables tracing support |
-| `METRICS_ENABLED` | `false`       | Enables metrics support |
 
 ### Using OpenTelemetry for logs, metrics, and traces
 
 The behavior of the log, trace, and metric exporters can be controlled using the `OTEL_*` environment variables. These are documented in the [OpenTelemetry SDK environment variables documentation](https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/).
 
+By default, log, trace, and metric export are all disabled. To send data to an OpenTelemetry collector, set the corresponding exporter to `otlp`, for example:
+
+```
+OTEL_TRACES_EXPORTER=otlp
+OTEL_METRICS_EXPORTER=otlp
+OTEL_LOGS_EXPORTER=otlp
+OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
+```
+
+When tracing is enabled, Pocket ID also traces database queries executed via Gorm.
+
 ### Using Prometheus for metrics
 
-If you want to enable the `/metrics` endpoint for Prometheus metrics scraping instead of using OTLP metrics pushing, you'll need to also set:
+If you want to enable the `/metrics` endpoint for Prometheus metrics scraping instead of using OTLP metrics pushing, set:
 
 ```
 OTEL_METRICS_EXPORTER=prometheus
@@ -219,3 +226,14 @@ This will start a **second** HTTP server with just the metrics endpoint. It is b
 
 - `OTEL_EXPORTER_PROMETHEUS_HOST`: `localhost`
 - `OTEL_EXPORTER_PROMETHEUS_PORT`: `9464`
+
+### Tracing from the browser frontend
+
+When trace export is enabled and configured with an OTLP/HTTP collector endpoint, Pocket ID automatically also captures traces from the browser-based frontend, such as page views and the API calls they trigger. These are correlated with the corresponding backend (and database) spans, so a page view shows up as a single trace end-to-end.
+
+This is enabled automatically, with no additional environment variable, whenever both of these are true:
+
+- `OTEL_TRACES_EXPORTER` is set to `otlp`
+- An OTLP/HTTP collector endpoint can be resolved, either from `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT` or from `OTEL_EXPORTER_OTLP_ENDPOINT`
+
+When enabled, the frontend sends its trace data to the backend at `/internal/telemetry/traces`, which forwards it to your collector. This keeps everything same-origin, so there's no need to expose the collector to the browser or configure CORS. If either condition above isn't met, browser tracing stays disabled and this endpoint isn't registered.
