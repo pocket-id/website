@@ -4,10 +4,113 @@ import {
   type OpenApiHttpMethod,
   type OpenApiIndex,
   type OpenApiOperation,
+  type OpenApiSchema,
   type OpenApiSpec,
 } from "$lib/types/openapi.js";
 
 const httpMethods = new Set<string>(OPENAPI_HTTP_METHODS);
+const schemaReferencePrefix = "#/components/schemas/";
+
+export function createOpenApiExample(
+  spec: OpenApiSpec,
+  schema: OpenApiSchema,
+): unknown {
+  return createOpenApiExampleValue(spec, schema, new Set());
+}
+
+function createOpenApiExampleValue(
+  spec: OpenApiSpec,
+  schema: OpenApiSchema,
+  resolvedReferences: Set<string>,
+): unknown {
+  if (schema.example !== undefined) return schema.example;
+  if (schema.default !== undefined) return schema.default;
+  if (schema.const !== undefined) return schema.const;
+  if (schema.enum?.length) return schema.enum[0];
+
+  if (schema.$ref) {
+    const schemaName = getSchemaNameFromReference(schema.$ref);
+    if (!schemaName) return schema.$ref;
+    if (resolvedReferences.has(schemaName)) return `<recursive ${schemaName}>`;
+
+    const referencedSchema = spec.components?.schemas?.[schemaName];
+    if (!referencedSchema) return `<unresolved ${schemaName}>`;
+
+    const nextResolvedReferences = new Set(resolvedReferences);
+    nextResolvedReferences.add(schemaName);
+    return createOpenApiExampleValue(
+      spec,
+      referencedSchema,
+      nextResolvedReferences,
+    );
+  }
+
+  if (schema.oneOf?.length) {
+    const exampleSchema =
+      schema.oneOf.find((candidate) => {
+        const candidateTypes = Array.isArray(candidate.type)
+          ? candidate.type
+          : candidate.type
+            ? [candidate.type]
+            : [];
+        return !candidateTypes.includes("null");
+      }) ?? schema.oneOf[0];
+    return createOpenApiExampleValue(spec, exampleSchema, resolvedReferences);
+  }
+
+  const schemaTypes = Array.isArray(schema.type)
+    ? schema.type
+    : schema.type
+      ? [schema.type]
+      : [];
+  const schemaType =
+    schemaTypes.find((candidate) => candidate !== "null") ?? schemaTypes[0];
+
+  if (schemaType === "object" || schema.properties) {
+    return Object.fromEntries(
+      Object.entries(schema.properties ?? {}).map(([name, propertySchema]) => [
+        name,
+        createOpenApiExampleValue(spec, propertySchema, resolvedReferences),
+      ]),
+    );
+  }
+  if (schemaType === "array") {
+    return [
+      schema.items
+        ? createOpenApiExampleValue(spec, schema.items, resolvedReferences)
+        : null,
+    ];
+  }
+  if (schemaType === "boolean") return false;
+  if (schemaType === "integer" || schemaType === "number") return 0;
+  if (schemaType === "null") return null;
+  if (schemaType === "string") return createStringExample(schema.format);
+
+  return null;
+}
+
+function getSchemaNameFromReference(reference: string): string | null {
+  if (!reference.startsWith(schemaReferencePrefix)) return null;
+  return reference
+    .slice(schemaReferencePrefix.length)
+    .replaceAll("~1", "/")
+    .replaceAll("~0", "~");
+}
+
+function createStringExample(format?: string): string {
+  switch (format) {
+    case "binary":
+      return "<binary>";
+    case "date-time":
+      return "2026-01-01T00:00:00Z";
+    case "email":
+      return "user@example.com";
+    case "uri":
+      return "https://example.com";
+    default:
+      return "string";
+  }
+}
 
 export function indexOpenApi(spec: OpenApiSpec): OpenApiIndex {
   const tags: { name: string; description?: string }[] = spec.tags ?? [];

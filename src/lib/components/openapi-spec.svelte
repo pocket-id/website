@@ -4,7 +4,11 @@
   import Badge from "$lib/components/ui/badge/badge.svelte";
   import * as Accordion from "$lib/components/ui/accordion/index.js";
   import type { OpenApiSchema, OpenApiSpec } from "$lib/types/openapi.js";
-  import { indexOpenApi, filterIndexed } from "$lib/utils/openapi-util.js";
+  import {
+    createOpenApiExample,
+    indexOpenApi,
+    filterIndexed,
+  } from "$lib/utils/openapi-util.js";
 
   interface Props {
     src?: string;
@@ -277,7 +281,10 @@
                                     <pre
                                       class="bg-muted p-3 rounded text-sm overflow-x-auto"><code
                                         >{JSON.stringify(
-                                          mediaType.schema,
+                                          createOpenApiExample(
+                                            spec,
+                                            mediaType.schema,
+                                          ),
                                           null,
                                           2,
                                         )}</code
@@ -325,7 +332,10 @@
                                           <pre
                                             class="bg-muted p-2 rounded text-xs overflow-x-auto"><code
                                               >{JSON.stringify(
-                                                mediaType.schema,
+                                                createOpenApiExample(
+                                                  spec,
+                                                  mediaType.schema,
+                                                ),
                                                 null,
                                                 2,
                                               )}</code

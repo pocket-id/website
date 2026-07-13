@@ -16,6 +16,10 @@ export interface OpenApiSchema {
   type?: string | string[];
   format?: string;
   description?: string;
+  const?: unknown;
+  default?: unknown;
+  example?: unknown;
+  enum?: unknown[];
   items?: OpenApiSchema;
   properties?: Record<string, OpenApiSchema>;
   required?: string[];
