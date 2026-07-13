@@ -30,4 +30,4 @@ If you are wanting to use Pocket ID's API to build custom dashboards, or portals
 
 <br />
 
-<OpenapiSpec src="/swagger.yaml" />
+<OpenapiSpec src="/openapi.json" />

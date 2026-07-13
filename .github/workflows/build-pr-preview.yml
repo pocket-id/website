@@ -2,7 +2,7 @@ name: Build Pull Request Preview
 
 on:
   pull_request:
-    types: [ opened, synchronize, reopened ]
+    types: [opened, synchronize, reopened]
     paths:
       - "src/**"
       - "docs/**"
@@ -25,25 +25,15 @@ jobs:
         with:
           repository: pocket-id/pocket-id
           path: pocket-id
-          ref: main
+          ref: feat/huma-api-docs
 
       - name: Setup Go
         uses: actions/setup-go@v6
         with:
           go-version-file: pocket-id/backend/go.mod
 
-      - name: Install swag
-        run: go install github.com/swaggo/swag/cmd/swag@latest
-
-      - name: Generate swagger.yaml
-        run: |
-          cd pocket-id/backend
-          swag init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml -o ../../static -md ../../static
-
-      - name: Add API doc tags
-        run: |
-          chmod +x ./scripts/add-api-doc-tags.sh
-          ./scripts/add-api-doc-tags.sh
+      - name: Generate OpenAPI specification
+        run: ./scripts/generate-openapi.sh pocket-id
 
       - name: Remove pocket-id repo
         run: rm -rf pocket-id
