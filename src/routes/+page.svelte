@@ -1,5 +1,6 @@
 <script lang="ts">
   import ConnectArrow from "$lib/components/connect-arrow.svelte";
+  import RedditCommentsCarousel from "$lib/components/reddit-comments-carousel.svelte";
   import SeoHead from "$lib/components/seo-head.svelte";
   import Button from "$lib/components/ui/button/button.svelte";
   import {
@@ -114,10 +115,18 @@
               <div class="mt-1 text-sm text-muted-foreground">{stat.label}</div>
             </div>
           {/each}
+          <div class="hidden h-10 w-px bg-border sm:block"></div>
+          <img
+            src="/img/landing/oidc-certified.jpg"
+            alt="OIDC Certified Badge"
+            class="h-10 mx-auto sm:mx-0"
+          />
         </div>
       {/if}
     </div>
   </section>
+
+  <RedditCommentsCarousel />
 
   <!-- Main Features Section -->
   <section id="features" class="pt-15 pb-10 px-4">
