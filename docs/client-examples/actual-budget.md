@@ -11,7 +11,7 @@ description: Integrate Pocket ID with Actual Budget
 ## Create OIDC Client in Pocket ID
 
 1. Create a new OIDC Client in Pocket ID (e.g., `actual`).
-2. Set the **Callback URL** to the value below, or leave blank to autofill on first login.
+2. Set the **Callback URL** to the value below.
    ```
    https://<actual-domain.tld>/openid/callback
    ```

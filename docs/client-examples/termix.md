@@ -11,7 +11,7 @@ The following example variables are used, and should be replaced with your actua
 ## Pocket ID Setup
 
 1. In Pocket-ID create a new OIDC Client, name it i.e. `Termix`.
-2. Set the callback URL to: `https://termix.example.com/users/oidc/callback` as recommended by Termix' documentation, or leave blank (also works)
+2. Set the callback URL to: `https://termix.example.com/users/oidc/callback` as recommended by Termix' documentation.
 3. _(Optional)_ Upload a logo for your website or download the termix logo from [Self-Hosted Dashboard Icons](https://selfh.st/icons)
 4. Copy the `Client ID`, `Client Secret`, `Issuer URL`, `Authorization URL`, `Token URL` and `Userinfo URL` for use in the next steps.
 5. _(Optional)_ Create a user group `termix-admin` and add the users that should become admins in Termix

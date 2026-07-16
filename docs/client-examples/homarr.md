@@ -6,7 +6,7 @@ description: Enable OIDC login for Homarr dashboard
 ## Pocket ID Setup
 
 1. In Pocket ID, create a new OIDC client (example: `homarr`).
-2. Set the Callback URL to `https://<homarr-url>/api/auth/callback/oidc`, or leave blank to autofill on first login.
+2. Set the Callback URL to `https://<homarr-url>/api/auth/callback/oidc`.
 3. Enable **PKCE** for improved security.
 4. Copy the generated **Client ID** and **Client Secret** values for next steps.
 5. Create a group in Pocket ID called `homarr_admin` (or your preferred admin group name).

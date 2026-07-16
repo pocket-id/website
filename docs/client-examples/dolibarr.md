@@ -6,7 +6,7 @@ description: Configure Dolibarr authentication with Pocket ID
 > The following example uses `dolibarr.example.com` and `id.example.com`, make sure to update these to your server names.
 
 1. In Pocket-ID create a new OIDC Client, name it i.e. `Dolibarr`
-2. Set the callback url to: `https://dolibarr.example.com/core/modules/openid_connect/callback.php`, or leave blank to autofill on first login.
+2. Set the callback url to: `https://dolibarr.example.com/core/modules/openid_connect/callback.php`.
 3. Copy the `Client ID`, `Client Secret`, `Authorization URL`, `Token URL`, `Userinfo URL` and `Logout URL` for the next steps.
 
 ## Dolibarr Setup

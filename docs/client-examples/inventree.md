@@ -12,7 +12,7 @@ description: Configure Pocket ID with InvenTree
 ## Create OIDC Client in Pocket ID
 
 1. Create a new OIDC Client in Pocket ID (e.g., `inventree`).
-2. Set the **Callback URL** to the value below, or leave blank to autofill on first login.
+2. Set the **Callback URL** to the value below.
    ```
    https://<inventree-domain.tld>/accounts/<provider-id>/login/callback/
    ```

@@ -6,7 +6,7 @@ description: Configure Vaultwarden authentication with Pocket ID
 > The following example uses `vaultwarden.example.com` and `id.example.com`, make sure to update these to your server names.
 
 1. In Pocket-ID create a new OIDC Client, name it i.e. `Vaultwarden`
-2. Set the callback url to: `https://vaultwarden.example.com/identity/connect/oidc-signin`, or leave blank to autofill on first login.
+2. Set the callback url to: `https://vaultwarden.example.com/identity/connect/oidc-signin`.
 3. Copy the `Client ID` and `Client Secret` for use in the following steps.
 
 ### Vaultwarden Docker Environment Variables

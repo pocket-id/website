@@ -14,7 +14,7 @@ See the [HomeBox OIDC documentation](https://homebox.software/en/configure/oidc)
 
 1. In Pocket ID, create a new OIDC client named `HomeBox` (or any name you prefer).
 2. (Optional) Set a logo for the OIDC client.
-3. Set the callback URL to: `https://homebox.example.com/api/v1/users/login/oidc/callback/`, or leave blank to autofill on first login.
+3. Set the callback URL to: `https://homebox.example.com/api/v1/users/login/oidc/callback/`.
 4. Copy the `Client ID` and `Client Secret` for the next steps.
 
 ## HomeBox Setup

@@ -12,7 +12,7 @@ The following example variables are used, and should be replaced with your actua
 
 1. In Pocket-ID create a new OIDC Client, name it i.e. `Kavita`.
 2. Set a logo for this OIDC Client if you would like too.
-3. Set the callback URL to: `https://kavita.example.com/signin-oidc`, or leave blank to autofill on first login.
+3. Set the callback URL to: `https://kavita.example.com/signin-oidc`.
 4. Set the Logout Callback URL to: `https://kavita.example.com/signout-callback-oidc`
 
 ## Kavita Setup

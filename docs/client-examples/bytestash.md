@@ -4,7 +4,7 @@ description: Configure ByteStash with Pocket ID authentication
 ---
 
 1. Create a new OIDC Client in Pocket ID (e.g., `ByteStash`).
-2. Set the Callback URL to `https://{bytestash_host}/api/oauth/openid`, or leave blank to autofill on first login.
+2. Set the Callback URL to `https://{bytestash_host}/api/oauth/openid`.
 3. _(Optional)_ Find and upload a logo from [Self-Hosted Dashboard Icons](https://selfh.st/icons)
 4. Configure ByteStash environment variables
 

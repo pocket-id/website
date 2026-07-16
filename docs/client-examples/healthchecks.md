@@ -14,7 +14,7 @@ description: Enable OIDC for Healthchecks monitoring
 1. Create a new OIDC client (example: `healthchecks`)
 2. Enable the **PKCE** checkmark for maximum security
 3. Copy the **Client ID** and **Client Secret** for use below
-4. The **Callback URL** will be automatically populated at first login (Pocket v.1.2.0+)
+4. Set the **Callback URL** to `https://hc.example.com/oauth2/callback`.
 
 ## Configure oauth2-proxy
 
@@ -54,6 +54,7 @@ In the same `docker-compose.yml` you use for Healthchecks:
    code_challenge_method="S256" # PKCE challenges plain or S256
    skip_auth_routes = [".*/ping", ".*/api", ".*/badge"]
    reverse_proxy = true
+   redirect_url="https://hc.example.com/oauth2/callback"
    scope = "openid email profile groups"
 
    cookie_expire="0" # seconds, 0 for session

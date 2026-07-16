@@ -11,7 +11,7 @@ The following example variables are used, and should be replaced with your actua
 ## Pocket ID Setup
 
 1. In Pocket ID create a new OIDC Client, name it i.e. `Vikunja`
-2. Set the callback url to: `https://vikunja.example.com/auth/openid/pocketid`, or leave blank to autofill on first login.
+2. Set the callback url to: `https://vikunja.example.com/auth/openid/pocketid`.
 3. Copy the Client ID and Client Secret for use in the next steps.
 
 ## Vikunja Setup

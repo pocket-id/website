@@ -13,7 +13,7 @@ We will be using the [OpenID Connect Generic Client WordPress Plugin](https://gi
 ## Pocket ID Setup
 
 1. In Pocket-ID create a new OIDC Client, name it i.e. `WordPress`.
-2. Set the callback URL to: `https://my-website.com/wp-admin`, or leave blank to autofill on first login.
+2. Set the callback URL to: `https://my-website.com/wp-admin`.
 3. _(Optional)_ Upload a logo for your website or download the wordpress logo from [Self-Hosted Dashboard Icons](https://selfh.st/icons)
 4. Copy the `Client ID`, `Client Secret`, `OIDC Discovery URL` for use in the next steps.
 

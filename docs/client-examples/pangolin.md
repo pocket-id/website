@@ -7,7 +7,7 @@ description: Configure Pangolin with Pocket ID authentication
 
 1. In Pocket ID create a new OIDC Client, name it, for example, `Pangolin`
 2. Note the `Client ID`, `Client Secret`, `Authorization URL` and `Token URL` for the following steps
-3. Leave the `Callback URL` blank to auto-fill
+3. Set the `Callback URL` to `https://pangolin.example.com/auth/idp/<identity-provider-id>/oidc/callback`. Replace `<identity-provider-id>` with the ID from the redirect URL shown by Pangolin after creating the identity provider.
 
 
 ## Pangolin Setup
@@ -34,7 +34,8 @@ description: Configure Pangolin with Pocket ID authentication
 		4. Scopes: `openid profile email` (include `groups` for auto provisioning)
 
 5. Save your new Identity Provider
-6. Create User
+6. Copy the **Redirect URL** shown by Pangolin and update the **Callback URL** in Pocket ID so that the two values match exactly.
+7. Create User
 
 	 - ### Auto Provision
 		View [Pangolin's docs on Auto Provisioning](https://docs.pangolin.net/manage/identity-providers/auto-provisioning) for more advanced setups
@@ -60,7 +61,7 @@ description: Configure Pangolin with Pocket ID authentication
 			- `email` will be your Pocket ID email.
 			- `preferred_username` will be your Pocket ID username.
 
-7. Once you have your user created, you can save, log out from Pangolin, and test your new OIDC connection.
+8. Once you have your user created, you can save, log out from Pangolin, and test your new OIDC connection.
 
 ## Errors
 
@@ -75,7 +76,5 @@ Make sure in your Pangolin instance under Server Admin, Identity Providers, edit
 ### Invalid callback URL, it might be necessary for an admin to fix this
 
 Your Callback URL is not correctly defined in Pocket ID. Make sure this matches the `Redirect URL` in your Pangolin OIDC config.
-
-This should be automatically setup in [recent versions](https://github.com/pocket-id/pocket-id/pull/583).
 
 Example: `https://pangolin.example.com/auth/idp/1/oidc/callback`

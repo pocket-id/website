@@ -23,7 +23,7 @@ Create a regular application in Pocket ID.
 - Navigate to **Administration** > **OIDC Clients**
 - Click **Add OIDC Client** 
 - Set the **Name** to `NetBird` or other
-- Leave **Callback URL** blank to autofill
+- Set the **Callback URL** to `https://netbird.example.com/ui/login/login/externalidp/callback` for ZITADEL Login V1, or `https://netbird.example.com/idps/callback` for ZITADEL Login V2
 - Set a **Logo** if desired 
 - Click **Save**
 - Save the **Client ID**, **Client Secret** for the following steps
@@ -38,6 +38,7 @@ Next we will connect ZITADEL IdP to Pocket ID for pass through:
 - Navigate to **Organization** > **Login and Access** > **Modify**
 - Navigate to **Login and Access** > **Identity Providers**
 - Under the **Add Provider** section, click **Generic OIDC**
+- Confirm that the **ZITADEL Callback URL** shown by the provider matches the callback URL configured in Pocket ID
 - Set the **Name** to `PocketID` or other
 - Set the **Issuer** to your main Pocket ID URL (i.e.: `https://id.example.com`)
 - Set the **Client ID** to the value you saved earlier

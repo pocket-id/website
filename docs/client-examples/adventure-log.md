@@ -11,7 +11,7 @@ description: Integrate Pocket ID with AdventureLog
 ## Create OIDC Client in Pocket ID
 
 1. Create a new OIDC Client in Pocket ID (e.g., `AdventureLog`).
-2. Set the **Callback URL** to the value below, or leave blank to autofill on first login (recommended).
+2. Set the **Callback URL** to the value below.
    ```
    https://<adventurelogbackend.example.com>/accounts/oidc/<client id>/login/callback/
    ```

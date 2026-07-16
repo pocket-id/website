@@ -12,7 +12,7 @@ description: Configure Pocket ID with Dawarich
 ## Create OIDC Client in Pocket ID
 
 1. Create a new OIDC Client in Pocket ID (e.g., `dawarich`).
-2. Set the **Callback URL** to the value below, or leave blank to autofill on first login.
+2. Set the **Callback URL** to the value below.
    ```
    https://<dawarich-domain.tld>/users/auth/openid_connect/callback
    ```

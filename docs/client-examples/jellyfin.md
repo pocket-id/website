@@ -37,7 +37,7 @@ To start, we need to create a new SSO resource in our Jellyfin application.
 - ⚡ -> go to User-Groups and add the two groups: `jellyfin_admins`, `jellyfin_users`
 2. Go to OIDC Clients -> Add OIDC Client:
 - **Name**: Jellyfin (or any name you prefer)
-- **Callback URL**: `https://<JELLYFIN_URL>/sso/OID/redirect/<PROVIDER>`, or leave blank to autofill on first login.
+- **Callback URL**: `https://<JELLYFIN_URL>/sso/OID/redirect/<PROVIDER>`.
 - For this example, we’ll be using the provider named <i>"PocketID"</i>
 3. Click **Save**. Keep the page open, as we will need the OID client ID and OID secret.
 - ⚡ -> Add your groups `jellyfin_admins`, `jellyfin_users` to the client, then click **Save**

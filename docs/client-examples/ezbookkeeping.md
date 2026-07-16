@@ -11,7 +11,7 @@ description: Configure ezBookkeeping with Pocket ID
 
 1. In Pocket ID, create a new OIDC client named `ezBookkeeping` (or any name you prefer).
 2. (Optional) Set a logo for the OIDC client.
-3. Set the callback URL to: `https://<your-ezbookkeeping-host>/oauth2/callback`, or leave blank to autofill on first login.
+3. Set the callback URL to: `https://<your-ezbookkeeping-host>/oauth2/callback`.
 4. Copy the `Client ID`, `Client secret` and `Issuer URL` for the next steps.
 
 ## ezBookkeeping Setup

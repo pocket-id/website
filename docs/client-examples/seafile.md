@@ -9,7 +9,7 @@ description: Configure Seafile Community Edition authentication with Pocket ID
 ### Create Pocket-ID OIDC Client
 1. In Pocket-ID create a new OIDC Client, name it i.e. `Seafile`.
 2. Set the client launch URL to: `https://seafile.example.com`.
-2. Set the callback url to: `https://seafile.example.com/oauth/callback`, or leave blank to autofill on first login.
+2. Set the callback url to: `https://seafile.example.com/oauth/callback`.
 3. Save the configuration and copy the following information for use in the following steps:<br>
   a) `Client ID`<br>
   b) `Client Secret`<br>

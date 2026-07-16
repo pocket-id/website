@@ -12,7 +12,7 @@ description: Configure Pocket ID with tududi
 ## Create OIDC Client in Pocket ID
 
 1. Create a new OIDC Client in Pocket ID (e.g., `Tududi`).
-2. Set the **Callback URL** to the value below, or leave blank to autofill on first login.
+2. Set the **Callback URL** to the value below.
     ```
     https://<tududi-domain.tld>/api/oidc/callback/pocketid
     ```
