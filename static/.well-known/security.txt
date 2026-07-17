@@ -1,0 +1,5 @@
+Contact: https://github.com/pocket-id/pocket-id/security/advisories/new
+Expires: 2028-12-31T23:59:59Z
+Preferred-Languages: en
+Canonical: https://pocket-id.org/.well-known/security.txt
+Policy: https://github.com/pocket-id/pocket-id/security/policy
