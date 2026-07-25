@@ -51,7 +51,7 @@ Where:
 - **`GOTIFY_OIDC_CLIENTID`:** Is the Client ID you saved in the first step.
 - **`GOTIFY_OIDC_CLIENTSECRET`:** Is the Client Secret you saved in the first step.
 - **`GOTIFY_OIDC_AUTOREGISTER`:** Can be set to `false` to disable auto-provisioning.
-- **`GOTIFY_OIDC_LINK_BY_USERNAME`:** Can be set to `true` if you want your Pocket ID to be mapped with an already existing internal Gotify user (asuming they have the same username).
+- **`GOTIFY_OIDC_LINK_BY_USERNAME`:** Can be set to `true` if you want your Pocket ID to be mapped with an already existing internal Gotify user (assuming they have the same username).
 
 ### Docker Compose example
 
