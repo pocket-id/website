@@ -31,7 +31,7 @@ docker compose up -d
    You can use curl to download the binary directly. For example, for Linux on AMD64 architecture:
 
 ```bash
-   curl -L -o pocket-id-linux-amd64 https://github.com/pocket-id/pocket-id/releases/latest/download/pocket-id_linux_amd64
+   curl -L -o pocket-id_linux_amd64 https://github.com/pocket-id/pocket-id/releases/latest/download/pocket-id_linux_amd64
 ```
 
 4. Rename the binary and make it executable:
