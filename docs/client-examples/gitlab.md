@@ -32,7 +32,7 @@ gitlab_rails['omniauth_providers'] = [
   {
     name: "openid_connect",
     label: "Pocket ID",
-    icon: "https://oidc.example.com/api/application-configuration/logo",
+    icon: "https://oidc.example.com/api/application-images/logo",
     args: {
       name: "openid_connect",
       scope: ["openid","profile","email"],
