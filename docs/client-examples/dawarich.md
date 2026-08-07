@@ -31,7 +31,7 @@ This is the minimal configuration needed to setup Pocket ID OIDC with Dawarich
   ```bash
   OIDC_CLIENT_ID=<your_client_id_from_above>
   OIDC_CLIENT_SECRET=<your_client_secret_from_above>
-  OIDC_ISSUER=https://<pocketid-domain.tld>.well-known/openid-configuration
+  OIDC_ISSUER=https://<pocketid-domain.tld>/.well-known/openid-configuration
   OIDC_REDIRECT_URI=https://<dawarich-domain.tld>/users/auth/openid_connect/callback  
   ```
 2. Save and restart the dawarich docker-compose stack.
