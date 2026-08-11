@@ -1,3 +1,46 @@
+const refKey = (ref: string) => ref.split('/').pop() ?? ref;
+
+/** Shortens the generics swag emits: `..._dto.Paginated-dto_UserDto` -> `Paginated[UserDto]`. */
+export function definitionLabel(key: string): string {
+  const generic = key.match(/\.(\w+)-\w+_(\w+)$/);
+  return generic ? `${generic[1]}[${generic[2]}]` : key;
+}
+
+/** Human readable type, e.g. `array<dto.UserDto>`, `map<string, string>` or `approve | deny`. */
+function schemaLabel(schema: any): string {
+  if (schema.$ref) return definitionLabel(refKey(schema.$ref));
+  if (schema.enum) return schema.enum.join(' | ');
+  if (schema.items) return `array<${schemaLabel(schema.items)}>`;
+  const values = schema.additionalProperties;
+  return typeof values === 'object' ? `map<string, ${schemaLabel(values)}>` : (schema.type ?? 'object');
+}
+
+/** Follows a `$ref` and unwraps arrays down to the schema being described. */
+function unwrap(spec: any, schema: any): any {
+  if (schema?.items) return unwrap(spec, schema.items);
+  return schema?.$ref ? unwrap(spec, spec.definitions?.[refKey(schema.$ref)]) : (schema ?? {});
+}
+
+/**
+ * Resolves a schema to its display type plus the properties of the definition behind it.
+ * Arrays are unwrapped, so `array<dto.UserDto>` lists a user's fields.
+ */
+export function resolveSchema(spec: any, schema: any) {
+  const base = unwrap(spec, schema);
+  const required: string[] = base.required ?? [];
+
+  return {
+    label: schemaLabel(schema),
+    properties: Object.entries<any>(base.properties ?? {}).map(([name, property]) => ({
+      name,
+      schema: property,
+      label: schemaLabel(property),
+      expandable: !!unwrap(spec, property).properties,
+      required: required.includes(name),
+    })),
+  };
+}
+
 export interface IndexedEndpoint {
   tag: string;
   path: string;

@@ -3,7 +3,9 @@
   import yaml from 'js-yaml';
   import Badge from '$lib/components/ui/badge/badge.svelte';
   import * as Accordion from '$lib/components/ui/accordion/index.js';
-  import { indexOpenApi, filterIndexed } from '$lib/utils/openapi-util.js';
+  import SchemaView from '$lib/components/schema-view.svelte';
+  import { td as Td, th as Th, tr as Tr } from '$lib/components/mdsx/index.js';
+  import { indexOpenApi, filterIndexed, definitionLabel } from '$lib/utils/openapi-util.js';
 
   interface Props {
     src?: string;
@@ -52,19 +54,6 @@
       delete: 'bg-red-500',
     };
     return colors[method.toLowerCase()] || 'bg-gray-500';
-  }
-
-  function formatPropertyType(property: any): string {
-    if (property.type) {
-      if (property.type === 'array' && property.items) {
-        return `${property.type}<${formatPropertyType(property.items)}>`;
-      }
-      return property.type;
-    }
-    if (property.$ref) {
-      return property.$ref.split('/').pop() || 'object';
-    }
-    return 'unknown';
   }
 
   function getEndpointsByTag(paths: Record<string, Record<string, any>>) {
@@ -157,6 +146,9 @@
 
             <Accordion.Root type="multiple" class="space-y-2">
               {#each filtered[tagName] as ep, index}
+                {@const parameters = ep.operation.parameters ?? []}
+                {@const body = parameters.find((p: any) => p.in === 'body')}
+                {@const otherParams = parameters.filter((p: any) => p.in !== 'body')}
                 <Accordion.Item variant="card" value="endpoint-{tagName}-{index}">
                   <Accordion.Trigger class="px-4 py-3 hover:no-underline">
                     <div class="flex items-center gap-3 w-full text-left">
@@ -185,43 +177,34 @@
                       {/if}
 
                       <!-- Parameters -->
-                      {#if ep.operation.parameters && ep.operation.parameters.length > 0}
-                        <div>
-                          <h4 class="font-semibold mb-3">Parameters</h4>
-                          <div class="overflow-x-auto">
-                            <table class="w-full border-collapse border border-border">
+                      {#if otherParams.length > 0}
+                        <div class="space-y-2">
+                          <h4 class="font-semibold">Parameters</h4>
+                          <div class="w-full overflow-x-auto">
+                            <table class="w-full border-none text-sm">
                               <thead>
-                                <tr class="bg-muted">
-                                  <th class="border border-border p-2 text-left">Name</th>
-                                  <th class="border border-border p-2 text-left">Type</th>
-                                  <th class="border border-border p-2 text-left">In</th>
-                                  <th class="border border-border p-2 text-left">Required</th>
-                                  <th class="border border-border p-2 text-left">Description</th>
-                                </tr>
+                                <Tr>
+                                  <Th>Name</Th>
+                                  <Th>Type</Th>
+                                  <Th>In</Th>
+                                  <Th>Description</Th>
+                                </Tr>
                               </thead>
                               <tbody>
-                                {#each ep.operation.parameters as param}
-                                  <tr>
-                                    <td class="border border-border p-2">
-                                      <code class="text-sm">{param.name}</code>
-                                    </td>
-                                    <td class="border border-border p-2">
-                                      <Badge variant="outline">{param.type || 'string'}</Badge>
-                                    </td>
-                                    <td class="border border-border p-2">
-                                      <Badge variant="secondary">{param.in}</Badge>
-                                    </td>
-                                    <td class="border border-border p-2">
+                                {#each otherParams as param}
+                                  <Tr>
+                                    <Td class="whitespace-nowrap align-top">
+                                      <code>{param.name}</code>
                                       {#if param.required}
-                                        <Badge variant="destructive">Required</Badge>
-                                      {:else}
-                                        <Badge variant="outline">Optional</Badge>
+                                        <span class="text-destructive ml-1 text-xs">required</span>
                                       {/if}
-                                    </td>
-                                    <td class="border border-border p-2 text-sm text-muted-foreground">
-                                      {param.description || ''}
-                                    </td>
-                                  </tr>
+                                    </Td>
+                                    <Td class="text-muted-foreground align-top font-mono text-xs">
+                                      {param.type || 'string'}
+                                    </Td>
+                                    <Td class="text-muted-foreground align-top text-xs">{param.in}</Td>
+                                    <Td class="text-muted-foreground align-top">{param.description || ''}</Td>
+                                  </Tr>
                                 {/each}
                               </tbody>
                             </table>
@@ -230,25 +213,18 @@
                       {/if}
 
                       <!-- Request Body -->
-                      {#if ep.operation.requestBody}
-                        <div>
-                          <h4 class="font-semibold mb-3">Request Body</h4>
-                          <div class="space-y-2">
-                            {#if ep.operation.requestBody.description}
-                              <p class="text-sm text-muted-foreground">{ep.operation.requestBody.description}</p>
+                      {#if body}
+                        <div class="space-y-2">
+                          <div class="flex flex-wrap items-center gap-2">
+                            <h4 class="font-semibold">Request Body</h4>
+                            {#if !body.required}
+                              <span class="text-muted-foreground text-xs">optional</span>
                             {/if}
-                            {#if ep.operation.requestBody.content}
-                              {#each Object.entries(ep.operation.requestBody.content) as [contentType, content]}
-                                <div>
-                                  <Badge variant="outline" class="mb-2">{contentType}</Badge>
-                                  {#if (content as any).schema}
-                                    <pre class="bg-muted p-3 rounded text-sm overflow-x-auto"><code
-                                        >{JSON.stringify((content as any).schema, null, 2)}</code></pre>
-                                  {/if}
-                                </div>
-                              {/each}
+                            {#if body.description}
+                              <span class="text-sm text-muted-foreground">{body.description}</span>
                             {/if}
                           </div>
+                          <SchemaView {spec} schema={body.schema} />
                         </div>
                       {/if}
 
@@ -273,11 +249,7 @@
                                 </div>
 
                                 {#if response.schema}
-                                  <div class="mt-2">
-                                    <h5 class="text-sm font-medium mb-1">Schema:</h5>
-                                    <pre class="bg-muted p-2 rounded text-xs overflow-x-auto"><code
-                                        >{JSON.stringify(response.schema, null, 2)}</code></pre>
-                                  </div>
+                                  <SchemaView {spec} schema={response.schema} />
                                 {/if}
                               </div>
                             {/each}
@@ -308,7 +280,7 @@
             <Accordion.Item variant="card" value="model-{index}">
               <Accordion.Trigger class="px-4 py-3 hover:no-underline">
                 <div class="flex items-center gap-3 w-full text-left">
-                  <code class="font-mono text-sm">{modelName}</code>
+                  <code class="font-mono text-sm">{definitionLabel(modelName)}</code>
                   {#if model.description}
                     <span class="text-sm text-muted-foreground truncate flex-1">{model.description}</span>
                   {/if}
@@ -316,43 +288,7 @@
               </Accordion.Trigger>
 
               <Accordion.Content class="px-4 pb-4">
-                {#if model.properties}
-                  <div class="overflow-x-auto">
-                    <table class="w-full border-collapse border border-border">
-                      <thead>
-                        <tr class="bg-muted">
-                          <th class="border border-border p-2 text-left">Property</th>
-                          <th class="border border-border p-2 text-left">Type</th>
-                          <th class="border border-border p-2 text-left">Required</th>
-                          <th class="border border-border p-2 text-left">Description</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {#each Object.entries(model.properties) as [propName, propSchema]}
-                          {@const schema = propSchema as { description?: string }}
-                          <tr>
-                            <td class="border border-border p-2">
-                              <code class="text-sm">{propName}</code>
-                            </td>
-                            <td class="border border-border p-2">
-                              <Badge variant="outline">{formatPropertyType(schema)}</Badge>
-                            </td>
-                            <td class="border border-border p-2">
-                              {#if model.required && model.required.includes(propName)}
-                                <Badge variant="destructive">Required</Badge>
-                              {:else}
-                                <Badge variant="outline">Optional</Badge>
-                              {/if}
-                            </td>
-                            <td class="border border-border p-2 text-sm text-muted-foreground">
-                              {schema.description || ''}
-                            </td>
-                          </tr>
-                        {/each}
-                      </tbody>
-                    </table>
-                  </div>
-                {/if}
+                <SchemaView {spec} schema={{ $ref: `#/definitions/${modelName}` }} />
               </Accordion.Content>
             </Accordion.Item>
           {/each}
@@ -361,10 +297,3 @@
     {/if}
   </div>
 {/if}
-
-<style>
-  pre {
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-</style>
