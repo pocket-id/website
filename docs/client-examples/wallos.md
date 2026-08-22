@@ -27,9 +27,10 @@ Below URLs are used as placeholders for the [Wallos] and Pocket ID instances. Re
    - **Auth URL**
    - **Token URL**
    - **User info URL**.
-3. _Optional:_ Enable Create User automatically.   
-4. Turn the OIDC toggle on
-5. Save the settings.
-6. Test the OAuth login to ensure it works.
+3. _Optional:_ Enable Create User automatically.
+4. Set **Redirect URL** to wallos.example.com/index.php
+5. Turn the OIDC toggle on
+6. Save the settings.
+7. Test the OAuth login to ensure it works.
 
 [Wallos]: https://github.com/ellite/Wallos#readme
