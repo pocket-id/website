@@ -66,7 +66,20 @@ Pocket ID supports two database providers: **SQLite** and **PostgreSQL**. The da
 When using **SQLite**, the connection string is the path to the SQLite database file. Pocket ID automatically adds some parameters to the database path, turning it into a connection string like `file:data/pocket-id.db?_pragma=journal_mode(WAL)&_pragma=busy_timeout(2500)&_txlock=immediate&_pragma=foreign_keys(1)` - you can pass a full connection string if you need to customize the parameters.
 
 > [!CAUTION]
-> We **do NOT recommend** storing the SQLite database inside a networked filesystem, such as a NFS or SMB share. However, if you absolutely must, and are [aware of the risks](https://www.sqlite.org/useovernet.html), you need to modify `DB_CONNECTION_STRING` and disable journaling, by setting `_journal_mode=DELETE`. Note that this is not a recommended or supported scenario by the SQLite developers, and you should ensure to have proper backups for your database.
+> **Do NOT store SQLite inside a networked filesystem**, such as a NFS or SMB share, or a filesystem mounted via FUSE.  
+> SQLite is [not designed](https://www.sqlite.org/useovernet.html) to be stored inside networked filesystems, and doing so can cause your database to be corrupted. Because of that, Pocket ID does not support using SQLite on a NFS/SMB share or another networked filesystem.
+>
+> We have received reports from Pocket ID users who experienced a range of issues with SQLite on a networked filesystems, including:
+>
+> - Database operations getting stuck indefinitely
+> - Pocket ID crashing multiple times per day
+> - Irrecoverable database corruption
+>
+> If you absolutely must, some users have found that modifying the connection string `DB_CONNECTION_STRING` to disable journaling (setting `_journal_mode=DELETE`) and limiting to one concurrent connection (`_maxconn=1`) may help. However, treat these as experimental and not guaranteed to succeed. This scenario continues to be unsupported by Pocket ID, and maintainers will not be able to assist with problems. You should also make sure to have recurring backups of your database.
+>
+> Pocket ID will detect if the SQLite database is stored on a networked filesystem and will show a persistent warning in the admin UI. If you're aware of the risks and want to suppress it, set `DISMISS_SQLITE_STORAGE_WARNING=I accept the risks`
+>
+> (Note that this limitation does not apply to block devices mounted from a SAN via iSCSI or a similar protocol, and formatted with a standard filesystem like Ext4 or XFS, which remain supported natively)
 
 #### PostgreSQL
 
