@@ -6,8 +6,11 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
+
+concurrency:
+  group: update-changelog
+  cancel-in-progress: false
 
 jobs:
   update-changelog:
@@ -15,6 +18,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          ref: main
+          persist-credentials: false
 
       - name: Get latest release
         id: latest
@@ -23,7 +29,7 @@ jobs:
           url: "https://api.github.com/repos/pocket-id/pocket-id/releases/latest"
           method: "GET"
           bearerToken: ${{ secrets.GITHUB_TOKEN }}
-          customHeaders: "{\"Accept\":\"application/vnd.github+json\"}"
+          customHeaders: '{"Accept":"application/vnd.github+json"}'
           responseFile: "release.json"
 
       - name: Prepare current changelog
@@ -43,7 +49,6 @@ jobs:
           BODY=$(jq -r '.body // ""' release.json)
 
           echo "version=$TAG" >> "$GITHUB_OUTPUT"
-          echo "branch=chore/changelog-$TAG" >> "$GITHUB_OUTPUT"
 
           # If changelog exists and already has this tag, skip
           if [[ -f docs/changelog.current.md ]] && grep -qE "^##[[:space:]]+$TAG\b" docs/changelog.current.md; then
@@ -91,25 +96,28 @@ jobs:
 
           echo "updated=true" >> "$GITHUB_OUTPUT"
 
-      - name: Create pull request
+      - name: Create bot app token
         if: steps.build.outputs.updated == 'true'
-        uses: peter-evans/create-pull-request@v7
+        id: app-token
+        uses: actions/create-github-app-token@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "docs(changelog): add ${{ steps.build.outputs.version }} release
-            notes"
-          committer: "github-actions[bot]
-            <41898282+github-actions[bot]@users.noreply.github.com>"
-          author: "github-actions[bot]
-            <41898282+github-actions[bot]@users.noreply.github.com>"
-          signoff: true
-          title: "docs(changelog): add ${{ steps.build.outputs.version }} release notes"
-          body: "Automated changelog update for ${{ steps.build.outputs.version }} from
-            pocket-id/pocket-id latest release."
-          branch: "${{ steps.build.outputs.branch }}"
-          base: main
-          labels: "docs(changelog)"
-          draft: always-true
-          add-paths: |
-            docs/changelog.md
-          delete-branch: true
+          client-id: ${{ vars.BOT_APP_CLIENT_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          permission-contents: write
+
+      - name: Commit changelog to main
+        if: steps.build.outputs.updated == 'true'
+        env:
+          VERSION: ${{ steps.build.outputs.version }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+        run: |
+          bot_name="$APP_SLUG[bot]"
+          bot_id=$(gh api "users/$bot_name" --jq .id)
+          git config user.name "Pocket ID Bot"
+          git config user.email "$bot_id+$bot_name@users.noreply.github.com"
+          gh auth setup-git
+
+          git add docs/changelog.md
+          git commit --signoff -m "docs(changelog): add $VERSION release notes"
+          git push origin HEAD:refs/heads/main
