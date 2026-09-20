@@ -82,11 +82,10 @@ OpenCloud's desktop and mobile clients send hardcoded `client_id` values that ca
    ```
 4. Enable **Public Client**.
 5. Enable **PKCE**.
-6. Save and copy the **Client ID** (a UUID) — you will need it in Step 4.
-7. Click **Show Advanced Options**
-8. Set the **Client ID** to `OpenCloudDesktop`
-9. Optionally restrict access under **Allowed Groups** to the four opencloud groups created in Step 1.
-10. Save
+6. Click **Show Advanced Options**
+7. Set the **Client ID** to `OpenCloudDesktop`
+8. Optionally restrict access under **Allowed Groups** to the four opencloud groups created in Step 1.
+9. Save
 
 ### Android
 
@@ -98,11 +97,10 @@ OpenCloud's desktop and mobile clients send hardcoded `client_id` values that ca
    ```
 4. Enable **Public Client**.
 5. Enable **PKCE**.
-6. Save and copy the **Client ID** (a UUID) — you will need it in Step 4.
-7. Click **Show Advanced Options**
-8. Set the **Client ID** to `OpenCloudAndroid`
-9. Optionally restrict access under **Allowed Groups** to the four opencloud groups created in Step 1.
-10. Save
+6. Click **Show Advanced Options**
+7. Set the **Client ID** to `OpenCloudAndroid`
+8. Optionally restrict access under **Allowed Groups** to the four opencloud groups created in Step 1.
+9. Save
 
 ### iOS
 
@@ -114,11 +112,10 @@ OpenCloud's desktop and mobile clients send hardcoded `client_id` values that ca
    ```
 4. Enable **Public Client**.
 5. Enable **PKCE**.
-6. Save and copy the **Client ID** (a UUID) — you will need it in Step 4.
-7. Click **Show Advanced Options**
-8. Set the **Client ID** to `OpenCloudIOS`
-9. Optionally restrict access under **Allowed Groups** to the four opencloud groups created in Step 1.
-10. Save
+6. Click **Show Advanced Options**
+7. Set the **Client ID** to `OpenCloudIOS`
+8. Optionally restrict access under **Allowed Groups** to the four opencloud groups created in Step 1.
+9. Save
 
 ---
 
