@@ -1,11 +1,15 @@
-onlyBuiltDependencies:
-  - '@parcel/watcher'
-  - '@swc/core'
-  - '@tailwindcss/oxide'
-  - core-js
-  - core-js-pure
-  - esbuild
-  - postman-code-generators
+allowBuilds:
+  "@parcel/watcher": true
+  "@swc/core": true
+  "@tailwindcss/oxide": true
+  "core-js": true
+  "core-js-pure": true
+  "esbuild": true
+  "postman-code-generators": true
+  sharp: true
+
+minimumReleaseAgeExclude:
+  - "@lucide/svelte@1.49.0"
 
 overrides:
-  'devalue': '^5.3.2'
+  "devalue": "^5.3.2"

@@ -5,7 +5,7 @@
 <script lang="ts">
   import { cn } from "$lib/utils/utils.js";
   import { onDestroy } from "svelte";
-  import { useAnimation } from "./terminal.svelte.js";
+  import { useAnimation } from "./terminal-state.svelte.js";
   import { fly } from "svelte/transition";
   import type { TerminalLoadingProps } from "./types.js";
 

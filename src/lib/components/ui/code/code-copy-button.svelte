@@ -5,7 +5,7 @@
 <script lang="ts">
   import { CopyButton } from '$lib/components/ui/copy-button/index.js';
   import { cn } from '$lib/utils.js';
-  import { useCodeCopyButton } from './code.svelte.js';
+  import { useCodeCopyButton } from './code-state.svelte.js';
   import type { CodeCopyButtonProps } from './types.js';
 
   let {

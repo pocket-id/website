@@ -135,6 +135,7 @@
       <img
         class="h-[300px] 3xl:h-[400px] hidden 2xl:block rounded-3xl"
         src="/img/landing/login-screenshot.webp"
+        alt="Pocket ID passkey sign-in screen"
       />
     </div>
   </section>

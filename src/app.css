@@ -1,23 +1,23 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
+@import "tailwindcss";
+@import "tw-animate-css";
 
 @font-face {
-  font-family: 'Geist';
-  src: url('/fonts/Geist/geist.woff2') format('woff2');
+  font-family: "Geist";
+  src: url("/fonts/Geist/geist.woff2") format("woff2");
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Geist Mono';
-  src: url('/fonts/Geist/geist-mono.woff2') format('woff2');
+  font-family: "Geist Mono";
+  src: url("/fonts/Geist/geist-mono.woff2") format("woff2");
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Gloock';
-  src: url('/fonts/Gloock-Regular.woff') format('woff');
+  font-family: "Gloock";
+  src: url("/fonts/Gloock-Regular.woff") format("woff");
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -27,9 +27,9 @@
 @theme inline {
   --breakpoint-3xl: 1600px;
   --breakpoint-4xl: 2000px;
-  --font-sans: 'Geist', sans-serif;
-  --font-mono: 'Geist Mono', monospace;
-  --font-gloock: 'Gloock', serif;
+  --font-sans: "Geist", sans-serif;
+  --font-mono: "Geist Mono", monospace;
+  --font-gloock: "Gloock", serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -252,15 +252,15 @@
       @apply !mt-0;
     }
 
-    &:first-child>*[aria-level='3']:first-child {
+    &:first-child > *[aria-level="3"]:first-child {
       @apply !mt-0;
     }
 
-    >*[aria-level='3'] {
+    > *[aria-level="3"] {
       @apply !mt-16;
     }
 
-    >*[aria-level='3']+p {
+    > *[aria-level="3"] + p {
       @apply !mt-2;
     }
   }
@@ -278,7 +278,7 @@
     position: relative;
     @apply md:-mx-4;
 
-    &:has([data-rehype-pretty-code-title]) [data-slot='copy-button'] {
+    &:has([data-rehype-pretty-code-title]) [data-slot="copy-button"] {
       top: calc(var(--spacing) * 1.5) !important;
     }
   }
@@ -352,8 +352,12 @@
       left: 0;
       width: 2px;
       height: 100%;
-      content: '';
-      background-color: color-mix(in oklab, var(--muted-foreground) 50%, transparent);
+      content: "";
+      background-color: color-mix(
+        in oklab,
+        var(--muted-foreground) 50%,
+        transparent
+      );
     }
   }
 
@@ -408,8 +412,8 @@
   }
 
   /* Improve spacing around custom components */
-  .mdsx :global(.git-command),
-  .mdsx :global(.snippet) {
+  .mdsx .git-command,
+  .mdsx .snippet {
     @apply my-4;
   }
 }
