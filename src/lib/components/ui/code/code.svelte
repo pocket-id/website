@@ -6,7 +6,7 @@
   import { cn } from "$lib/utils.js";
   import { codeVariants } from "./index.js";
   import type { CodeRootProps } from "./types.js";
-  import { useCode } from "./code.svelte.js";
+  import { useCode } from "./code-state.svelte.js";
   import { box } from "svelte-toolbelt";
 
   let {
