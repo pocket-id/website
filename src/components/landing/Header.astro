@@ -1,0 +1,33 @@
+---
+// The landing page's own header: the logo, the ways into the docs, the repository and the theme switch
+import logo from '../../assets/logo-mark.svg?raw';
+import ThemeToggle from './ThemeToggle.astro';
+
+const links = [
+	{ href: '/docs/introduction', text: 'Docs' },
+	{ href: '/docs/client-examples', text: 'Client examples' },
+	{ href: '/docs/api', text: 'API' },
+	{ href: '/changelog', text: 'Changelog' }
+];
+const link = 'inline-flex h-8.5 items-center gap-2 rounded-lg px-3 text-sm font-medium text-gray-2 no-underline hover:bg-gray-7 hover:text-fg';
+---
+
+<header class="sticky top-0 z-10 border-b border-hairline bg-[color-mix(in_oklch,var(--sl-color-bg-nav),transparent_15%)] backdrop-blur-md">
+	<div class="mx-auto flex h-14 max-w-[72rem] items-center justify-between gap-4 px-6">
+		<a href="/" class="inline-flex items-center gap-2.5 text-[1.0625rem] font-semibold text-fg no-underline" aria-label="Pocket ID home">
+			<span class="text-fg [&>svg]:block [&>svg]:h-6 [&>svg]:w-auto" set:html={logo} />
+			Pocket ID
+		</a>
+		<nav class="flex items-center gap-1" aria-label="Site">
+			{/* Phones keep only the docs, the GitHub link and the theme switch */}
+			{links.map((l, i) => <a href={l.href} class:list={[link, i > 0 && 'max-md:hidden']}>{l.text}</a>)}
+			<a href="https://github.com/pocket-id/pocket-id" class={link} aria-label="GitHub">
+				<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+					<path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z" />
+				</svg>
+				<span class="max-sm:hidden">GitHub</span>
+			</a>
+			<ThemeToggle class="ml-2" />
+		</nav>
+	</div>
+</header>

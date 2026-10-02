@@ -1,0 +1,68 @@
+---
+// The API endpoints: every route of the spec on one page, grouped by resource, with the page's table of contents as the index
+import AnchorHeading from '@astrojs/starlight/components/AnchorHeading.astro';
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import '../../../styles/api.css';
+import Method from '../../../components/api/Method.astro';
+import Operation from '../../../components/api/Operation.astro';
+import Path from '../../../components/api/Path.astro';
+import { groups } from '../../../components/api/spec';
+
+const all = groups();
+
+// The table of contents lists each resource and its routes, which makes it the index a long reference needs
+const headings = all.flatMap((group) => [
+	{ depth: 2, slug: group.id, text: group.name },
+	...group.operations.map((op) => ({ depth: 3, slug: op.id, text: op.summary }))
+]);
+---
+
+<StarlightPage
+	frontmatter={{
+		title: 'API endpoints',
+		description: 'Every route of the Pocket ID REST API on one page, grouped by resource, with its parameters, request body and response fields.',
+		editUrl: false,
+		lastUpdated: false
+	}}
+	headings={headings}
+>
+	<p>
+		Every route of the REST API, with the parameters it takes and the fields it answers with.
+		The page comes from the backend's spec at every docs build, so it lists what the code serves.
+	</p>
+	<p>
+		Send an API key in the <code>X-API-KEY</code> header with each call.{' '}
+		<a href="/docs/api">REST API</a> covers creating keys and the shape of errors.
+		The raw spec is available as <a href="/swagger.json">swagger.json</a> and <a href="/swagger.yaml">swagger.yaml</a> for Postman, code generators and AI assistants.
+	</p>
+
+	{all.length === 0 && <p>The spec wasn't generated for this build, so there are no endpoints to show.</p>}
+
+	{
+		all.map((group) => (
+			<>
+				<AnchorHeading level={2} id={group.id}>
+					{group.name}
+				</AnchorHeading>
+				{group.description && <p>{group.description}</p>}
+				{/* A compact index of the group's routes, which reads like the route table of a router */}
+				<ul class="not-content api-index">
+					{group.operations.map((op) => (
+						<li>
+							<a href={`#${op.id}`}>
+								<Method method={op.method} />
+								<span>
+									<Path path={op.path} />
+									{op.summary}
+								</span>
+							</a>
+						</li>
+					))}
+				</ul>
+				{group.operations.map((op) => (
+					<Operation operation={op} />
+				))}
+			</>
+		))
+	}
+</StarlightPage>

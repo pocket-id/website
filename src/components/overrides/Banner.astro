@@ -1,0 +1,40 @@
+---
+// Starlight's banner, plus a notice that only shows on preview deployments, which document versions that aren't released yet
+import Default from '@astrojs/starlight/components/Banner.astro';
+
+const path = Astro.url.pathname;
+---
+
+<Default />
+<div class="preview-banner" data-preview-banner data-pagefind-ignore hidden>
+	This documentation is for an unreleased version of Pocket ID. See the <a href={`https://pocket-id.org${path}`}>docs for the latest release</a>.
+</div>
+
+<script is:inline>
+	// Production and local development need no notice, every other host is a preview deployment
+	(() => {
+		const host = location.hostname;
+		if (host === 'pocket-id.org' || host === 'localhost' || host === '127.0.0.1') return;
+		document.querySelectorAll('[data-preview-banner]').forEach((el) => el.removeAttribute('hidden'));
+	})();
+</script>
+
+<style>
+	.preview-banner {
+		padding: 0.5rem var(--sl-nav-pad-x);
+		border-bottom: 1px solid color-mix(in oklch, #3b82f6, transparent 50%);
+		background-color: color-mix(in oklch, #3b82f6, transparent 88%);
+		color: var(--sl-color-white);
+		font-size: var(--sl-text-sm);
+		line-height: var(--sl-line-height-headings);
+		text-align: center;
+		text-wrap: balance;
+	}
+	.preview-banner[hidden] {
+		display: none;
+	}
+	.preview-banner a {
+		color: inherit;
+		font-weight: 600;
+	}
+</style>

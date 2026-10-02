@@ -7,14 +7,13 @@ on:
       - preview
     paths:
       - "src/**"
-      - "docs/**"
-      - "static/**"
+      - "public/**"
       - "scripts/**"
       - "package.json"
       - "pnpm-lock.yaml"
       - "pnpm-workspace.yaml"
       - ".node-version"
-      - "svelte.config.js"
+      - "astro.config.mjs"
       - ".github/workflows/deploy-preview-branch.yml"
 
 permissions:
@@ -45,19 +44,6 @@ jobs:
       - name: Install swag
         run: go install github.com/swaggo/swag/cmd/swag@latest
 
-      - name: Generate swagger.yaml
-        run: |
-          cd pocket-id/backend
-          swag init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml -o ../../static -md ../../static
-
-      - name: Add API doc tags
-        run: |
-          chmod +x ./scripts/add-api-doc-tags.sh
-          ./scripts/add-api-doc-tags.sh
-
-      - name: Remove pocket-id repo
-        run: rm -rf pocket-id
-
       - name: Setup Node.js and pnpm
         uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
         with:
@@ -69,6 +55,8 @@ jobs:
 
       - name: Build website
         run: pnpm build
+        env:
+          POCKET_ID_DIR: pocket-id
 
       - name: Deploy to Cloudflare Pages
         uses: AdrianGonz97/refined-cf-pages-action@v1
@@ -79,5 +67,5 @@ jobs:
           projectName: pocket-id-website
           deploymentName: Preview
           branch: preview
-          directory: build
+          directory: dist
           wranglerVersion: "3"

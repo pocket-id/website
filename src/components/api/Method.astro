@@ -1,0 +1,9 @@
+---
+// An HTTP method as a badge tinted per method, styled in src/styles/api.css
+interface Props {
+	method: string;
+}
+const { method } = Astro.props;
+---
+
+<span class="api-method" data-method={method}>{method}</span>

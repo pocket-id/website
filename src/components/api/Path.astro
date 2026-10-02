@@ -1,0 +1,10 @@
+---
+// A route path in the code face with its {parameters} wrapped, so src/styles/api.css can dim them
+interface Props {
+	path: string;
+}
+const { path } = Astro.props;
+const parts = path.split(/(\{[^}]+\})/).filter(Boolean);
+---
+
+<code class="api-path">{parts.map((part) => (part.startsWith('{') ? <span>{part}</span> : part))}</code>

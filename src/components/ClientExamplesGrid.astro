@@ -1,0 +1,83 @@
+---
+// Every client example as a card with the app's icon, filtered as you type
+import { getCollection } from 'astro:content';
+
+const prefix = 'docs/client-examples/';
+const examples = (await getCollection('docs', (entry) => entry.id.startsWith(prefix)))
+	.map((entry) => ({
+		title: entry.data.title,
+		description: entry.data.description,
+		href: `/${entry.id}`,
+		name: entry.id.slice(prefix.length).toLowerCase()
+	}))
+	.sort((a, b) => a.title.localeCompare(b.title));
+
+// Icons come from the selfh.st and Dashboard Icons collections, tried in order until one exists, with the Pocket ID logo as the last resort
+const icons = (name: string) => [
+	`https://cdn.jsdelivr.net/gh/selfhst/icons@main/svg/${name}.svg`,
+	`https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/${name}.png`,
+	`https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/${name}.svg`,
+	`https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/${name}.png`,
+	'/img/logo.png'
+];
+---
+
+<div class="not-content mt-6">
+	<input
+		type="search"
+		placeholder={`Filter ${examples.length} apps`}
+		aria-label="Filter client examples"
+		class="mb-5 h-10 w-full rounded-lg border border-surface-border bg-surface px-3 font-sans text-sm text-fg [box-shadow:var(--surface-shadow)] placeholder:text-gray-3 focus:border-gray-4 focus:outline-none"
+		data-client-filter
+	/>
+	<ul class="m-0 grid list-none grid-cols-[repeat(auto-fill,minmax(10.5rem,1fr))] gap-3 p-0" data-client-list>
+		{
+			examples.map((ex) => {
+				const [first, ...rest] = icons(ex.name);
+				return (
+					<li class="m-0" data-search={`${ex.title} ${ex.name}`.toLowerCase()}>
+						<a
+							href={ex.href}
+							class="flex h-full flex-col items-center gap-2 rounded-lg border border-surface-border bg-surface p-4 text-center no-underline [box-shadow:var(--surface-shadow)] transition-colors hover:border-gray-4"
+						>
+							<img src={first} data-fallbacks={rest.join(' ')} alt="" width="40" height="40" loading="lazy" class="size-10 object-contain" />
+							<span class="text-sm font-semibold text-fg">{ex.title}</span>
+						</a>
+					</li>
+				);
+			})
+		}
+	</ul>
+	<p class="mt-4 hidden text-sm text-gray-3" data-client-empty>
+		No guide for that app yet. Most apps only need the client ID, client secret and discovery URL, so the steps of a similar app usually carry over.
+	</p>
+</div>
+
+<script>
+	// A missing icon falls through to the next source in its list
+	document.querySelectorAll<HTMLImageElement>('img[data-fallbacks]').forEach((img) => {
+		const next = () => {
+			const [url, ...rest] = (img.dataset.fallbacks ?? '').split(' ').filter(Boolean);
+			if (!url) return img.removeEventListener('error', next);
+			img.dataset.fallbacks = rest.join(' ');
+			img.src = url;
+		};
+		img.addEventListener('error', next);
+		if (img.complete && img.naturalWidth === 0) next();
+	});
+
+	// The filter matches the app's name, and an empty result points to the general steps
+	const input = document.querySelector<HTMLInputElement>('[data-client-filter]');
+	const items = [...document.querySelectorAll<HTMLElement>('[data-client-list] > li')];
+	const empty = document.querySelector<HTMLElement>('[data-client-empty]');
+	input?.addEventListener('input', () => {
+		const query = input.value.trim().toLowerCase();
+		let shown = 0;
+		for (const item of items) {
+			const match = !query || (item.dataset.search ?? '').includes(query);
+			item.hidden = !match;
+			if (match) shown++;
+		}
+		empty?.classList.toggle('hidden', shown > 0);
+	});
+</script>

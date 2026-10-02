@@ -1,0 +1,4 @@
+# Cloudflare Pages redirects for addresses that have no page of their own
+/docs /docs/introduction 301
+/docs/ /docs/introduction 301
+/sitemap.xml /sitemap-index.xml 301

@@ -34,8 +34,8 @@ jobs:
 
       - name: Prepare current changelog
         run: |
-          mkdir -p docs
-          [[ -f docs/changelog.md ]] && cp docs/changelog.md docs/changelog.current.md || true
+          mkdir -p src/content/docs
+          [[ -f src/content/docs/changelog.md ]] && cp src/content/docs/changelog.md src/content/docs/changelog.current.md || true
 
       - name: Build updated changelog
         id: build
@@ -51,7 +51,7 @@ jobs:
           echo "version=$TAG" >> "$GITHUB_OUTPUT"
 
           # If changelog exists and already has this tag, skip
-          if [[ -f docs/changelog.current.md ]] && grep -qE "^##[[:space:]]+$TAG\b" docs/changelog.current.md; then
+          if [[ -f src/content/docs/changelog.current.md ]] && grep -qE "^##[[:space:]]+$TAG\b" src/content/docs/changelog.current.md; then
             echo "updated=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
@@ -65,33 +65,33 @@ jobs:
             printf "%s\n" "$BODY"
           } > "$SECTION_FILE"
 
-          DEFAULT_FM="---"$'\n'"title: 'Changelog'"$'\n'"description: 'Release notes for pocket-id'"$'\n'"---"
+          DEFAULT_FM="---"$'\n'"title: Changelog"$'\n'"description: Release notes for every Pocket ID version."$'\n'"editUrl: false"$'\n'"tableOfContents:"$'\n'"  maxHeadingLevel: 2"$'\n'"---"
 
-          if [[ -f docs/changelog.current.md ]]; then
-            if head -n1 docs/changelog.current.md | grep -q '^---$'; then
-              END_LINE=$(awk '/^---$/{i++} i==2{print NR; exit}' docs/changelog.current.md || true)
+          if [[ -f src/content/docs/changelog.current.md ]]; then
+            if head -n1 src/content/docs/changelog.current.md | grep -q '^---$'; then
+              END_LINE=$(awk '/^---$/{i++} i==2{print NR; exit}' src/content/docs/changelog.current.md || true)
               if [[ -n "${END_LINE:-}" ]]; then
-                head -n "$END_LINE" docs/changelog.current.md > docs/changelog.md
-                echo >> docs/changelog.md
-                cat "$SECTION_FILE" >> docs/changelog.md
-                echo >> docs/changelog.md
-                tail -n +"$((END_LINE+1))" docs/changelog.current.md >> docs/changelog.md
+                head -n "$END_LINE" src/content/docs/changelog.current.md > src/content/docs/changelog.md
+                echo >> src/content/docs/changelog.md
+                cat "$SECTION_FILE" >> src/content/docs/changelog.md
+                echo >> src/content/docs/changelog.md
+                tail -n +"$((END_LINE+1))" src/content/docs/changelog.current.md >> src/content/docs/changelog.md
               else
-                printf "%s\n\n" "$DEFAULT_FM" > docs/changelog.md
-                cat "$SECTION_FILE" >> docs/changelog.md
-                echo >> docs/changelog.md
-                cat docs/changelog.current.md >> docs/changelog.md
+                printf "%s\n\n" "$DEFAULT_FM" > src/content/docs/changelog.md
+                cat "$SECTION_FILE" >> src/content/docs/changelog.md
+                echo >> src/content/docs/changelog.md
+                cat src/content/docs/changelog.current.md >> src/content/docs/changelog.md
               fi
             else
-              printf "%s\n\n" "$DEFAULT_FM" > docs/changelog.md
-              cat "$SECTION_FILE" >> docs/changelog.md
-              echo >> docs/changelog.md
-              cat docs/changelog.current.md >> docs/changelog.md
+              printf "%s\n\n" "$DEFAULT_FM" > src/content/docs/changelog.md
+              cat "$SECTION_FILE" >> src/content/docs/changelog.md
+              echo >> src/content/docs/changelog.md
+              cat src/content/docs/changelog.current.md >> src/content/docs/changelog.md
             fi
           else
-            printf "%s\n\n" "$DEFAULT_FM" > docs/changelog.md
-            cat "$SECTION_FILE" >> docs/changelog.md
-            echo >> docs/changelog.md
+            printf "%s\n\n" "$DEFAULT_FM" > src/content/docs/changelog.md
+            cat "$SECTION_FILE" >> src/content/docs/changelog.md
+            echo >> src/content/docs/changelog.md
           fi
 
           echo "updated=true" >> "$GITHUB_OUTPUT"
@@ -118,6 +118,6 @@ jobs:
           git config user.email "$bot_id+$bot_name@users.noreply.github.com"
           gh auth setup-git
 
-          git add docs/changelog.md
+          git add src/content/docs/changelog.md
           git commit --signoff -m "docs(changelog): add $VERSION release notes"
           git push origin HEAD:refs/heads/main

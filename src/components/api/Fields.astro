@@ -1,0 +1,43 @@
+---
+// A list of fields or parameters with their types, limits and allowed values, unfolding nested objects one level at a time
+import Disclosure from './Disclosure.astro';
+import type { Field } from './spec';
+
+interface Props {
+	fields: Field[];
+}
+const { fields } = Astro.props;
+
+// Spec texts are plain, except that the notes mark values with backticks, which become code here
+const escape = (text: string) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const code = (text: string) => `<code>${escape(text)}</code>`;
+const notes = (field: Field) =>
+	[field.values && `One of ${field.values.map(code).join(', ')}`, ...field.notes.map((note) => escape(note).replace(/`([^`]+)`/g, '<code>$1</code>'))]
+		.filter(Boolean)
+		.join(' · ');
+const count = (field: Field) => {
+	const n = field.children!.length;
+	return `${n} ${n === 1 ? 'field' : 'fields'}${field.type.startsWith('array') ? ' per item' : ''}`;
+};
+---
+
+<ul class="api-fields">
+	{
+		fields.map((field) => (
+			<li>
+				<div class="api-field">
+					<code class="api-name">{field.name}</code>
+					<span class="api-type">{field.type}</span>
+					{field.required && <span class="api-required">required</span>}
+				</div>
+				{field.description && <p class="api-desc">{field.description}</p>}
+				{(field.values || field.notes.length > 0) && <p class="api-notes" set:html={notes(field)} />}
+				{field.children && field.children.length > 0 && (
+					<Disclosure label={count(field)} nested>
+						<Astro.self fields={field.children} />
+					</Disclosure>
+				)}
+			</li>
+		))
+	}
+</ul>

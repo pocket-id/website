@@ -1,0 +1,14 @@
+---
+// A native disclosure for fields that would otherwise bury the page, styled in src/styles/api.css
+interface Props {
+	label: string;
+	// Nested fields hang off a hairline, so the level they belong to stays visible
+	nested?: boolean;
+}
+const { label, nested = false } = Astro.props;
+---
+
+<details class:list={['api-more', { nested }]}>
+	<summary>{label}</summary>
+	<div><slot /></div>
+</details>

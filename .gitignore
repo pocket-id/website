@@ -1,38 +1,18 @@
-# dependencies
-/node_modules
-
-# production
-/build
-
-# generated files
-.docusaurus
-.cache-loader
-
-# misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-/docs/api/endpoints
-/static/swagger.yaml
-/static/llms.txt
-/static/sitemap.xml
-
+# Dependencies
 node_modules
 
-# Output
-.output
-.vercel
-.netlify
+# Build output and Astro's generated types
+/dist
+/.astro
+
+# Generated from the pocket-id backend before every build, see scripts/openapi.mjs
+/src/generated
+
+# The pocket-id checkout CI uses to generate the API spec
+/pocket-id
+
+# Wrangler
 .wrangler
-/.svelte-kit
-/build
 
 # OS
 .DS_Store
@@ -42,9 +22,3 @@ Thumbs.db
 .env
 .env.*
 !.env.example
-!.env.test
-
-# Vite
-vite.config.js.timestamp-*
-vite.config.ts.timestamp-*
-.velite

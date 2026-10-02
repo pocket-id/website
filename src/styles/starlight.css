@@ -1,0 +1,171 @@
+/*
+ * Docs pages: the app's shadcn look on top of Starlight's layout
+ * These rules reach into markup that Starlight renders, where utility classes can't go, so they stay plain CSS and unlayered to beat Starlight's own layers
+ */
+:root {
+	--sl-line-height: 1.65;
+	--sl-text-h1: var(--sl-text-4xl);
+	--sl-text-h2: var(--sl-text-2xl);
+	--sl-text-h3: var(--sl-text-xl);
+	--sl-text-h4: var(--sl-text-lg);
+	--sl-color-bg-inline-code: var(--sl-color-gray-6);
+	--sl-content-width: 48rem;
+}
+:root[data-theme='light'] {
+	--sl-color-bg-inline-code: var(--sl-color-gray-7);
+}
+.site-title {
+	gap: 0.6rem;
+	font-weight: 600;
+	font-size: var(--sl-text-lg);
+}
+.site-title img {
+	height: 1.5rem;
+	width: auto;
+}
+
+/* The page title carries the brand's display face, the rest of the hierarchy stays in Geist */
+.content-panel h1 {
+	font-family: var(--font-display);
+	font-weight: 400;
+	letter-spacing: -0.01em;
+	line-height: 1.1;
+}
+.sl-markdown-content :is(h2, h3, h4, h5, h6) {
+	font-weight: 600;
+	letter-spacing: -0.015em;
+}
+.sl-markdown-content h2 {
+	margin-top: 2.5rem;
+}
+
+/* The brand has no color of its own, so links are text with an underline, the way the app's links look */
+.sl-markdown-content a:not(:where(.not-content *)) {
+	color: var(--sl-color-white);
+	font-weight: 500;
+	text-decoration: underline;
+	text-decoration-color: var(--sl-color-gray-4);
+	text-underline-offset: 0.2em;
+	text-decoration-thickness: 1px;
+}
+.sl-markdown-content a:not(:where(.not-content *)):hover {
+	text-decoration-color: currentColor;
+}
+
+/* Inline code sits in a hairline chip, except in components that style their own code, like the API reference */
+.sl-markdown-content :not(pre) > code:not(:where(.not-content *)) {
+	border: 1px solid var(--sl-color-hairline-light);
+	border-radius: 0.3rem;
+	padding: 0.1em 0.35em;
+	font-size: 0.85em;
+}
+
+/* Sidebar: rounded rows and a soft gray for the current page instead of a filled accent, the way the app's sidebar does it */
+.sidebar-content a {
+	border-radius: 0.375rem;
+}
+.sidebar-content a[aria-current='page'],
+.sidebar-content a[aria-current='page']:hover,
+.sidebar-content a[aria-current='page']:focus {
+	background-color: var(--sl-color-gray-6);
+	color: var(--sl-color-white);
+	font-weight: 600;
+}
+:root[data-theme='light'] .sidebar-content a[aria-current='page'] {
+	background-color: var(--sl-color-gray-7);
+}
+.sidebar-content a:hover,
+.sidebar-content a:focus {
+	color: var(--sl-color-white);
+}
+.sidebar-content summary {
+	border-radius: 0.375rem;
+}
+
+/* Header search: a control with a hairline edge */
+site-search > button[data-open-modal] {
+	background-color: var(--surface);
+	border: 1px solid var(--surface-border);
+	border-radius: 0.5rem;
+	color: var(--sl-color-gray-3);
+	box-shadow: var(--surface-shadow);
+}
+site-search > button[data-open-modal]:hover {
+	border-color: var(--sl-color-gray-5);
+	color: var(--sl-color-gray-2);
+}
+site-search > button[data-open-modal] kbd {
+	background-color: var(--sl-color-gray-7);
+	border-radius: 0.25rem;
+}
+
+/* Right-hand table of contents marks the current heading in bold */
+starlight-toc a[aria-current='true'] {
+	color: var(--sl-color-white);
+	font-weight: 600;
+}
+
+/* Previous and next links as cards */
+.pagination-links a {
+	border: 1px solid var(--surface-border);
+	border-radius: 0.5rem;
+	background-color: var(--surface);
+	box-shadow: var(--surface-shadow);
+	color: var(--sl-color-white);
+}
+.pagination-links a:hover {
+	border-color: var(--sl-color-gray-5);
+}
+.pagination-links a .link-title {
+	font-size: var(--sl-text-lg);
+	font-weight: 600;
+}
+
+/* Cards and link cards share the hairline card look */
+.sl-markdown-content :is(.card, .sl-link-card) {
+	border-color: var(--surface-border);
+	border-radius: 0.5rem;
+	background-color: var(--surface);
+	box-shadow: var(--surface-shadow);
+}
+.sl-markdown-content .sl-link-card:hover {
+	border-color: var(--sl-color-gray-4);
+	background-color: var(--surface);
+}
+
+/* Tables: semibold header row and hairlines only */
+.sl-markdown-content table {
+	font-size: var(--sl-text-sm);
+}
+.sl-markdown-content th {
+	font-weight: 600;
+	color: var(--sl-color-white);
+}
+.sl-markdown-content :is(th, td) {
+	border-color: var(--sl-color-hairline-light);
+}
+
+/* Code frames: shell blocks without a title lose the empty terminal title bar, and titled frames keep only the title */
+.expressive-code .frame.is-terminal:not(.has-title) > .header {
+	display: none;
+}
+.expressive-code .frame.is-terminal:not(.has-title) > pre {
+	border-top-left-radius: var(--ec-brdRad);
+	border-top-right-radius: var(--ec-brdRad);
+}
+.expressive-code .frame .header {
+	font-family: var(--font-sans);
+	font-weight: 500;
+}
+.expressive-code .copy button {
+	border-radius: 0.375rem;
+}
+
+/* Embedded videos keep their aspect ratio at every width */
+.sl-markdown-content iframe[src*='youtube'] {
+	width: 100%;
+	height: auto;
+	aspect-ratio: 16 / 9;
+	border: 0;
+	border-radius: 0.5rem;
+}

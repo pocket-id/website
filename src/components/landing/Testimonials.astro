@@ -1,0 +1,64 @@
+---
+// Comments from r/selfhosted on a slow, endless marquee that pauses on hover and stands still for readers who prefer less motion
+const comments = [
+	{
+		author: 'huzzyz',
+		text: 'I have been using Pocket ID since 2025 and it has been an excellent experience. It was incredibly easy to set up uses very few resources, and does exactly what I need without any unnecessary complexity.',
+		url: 'https://www.reddit.com/r/selfhosted/comments/1uunxeq/comment/ox5k1yp/'
+	},
+	{ author: 'mamwybejane', text: 'Amazing. Favorite self hosted service by far!', url: 'https://www.reddit.com/r/selfhosted/comments/1uunxeq/comment/ox4yk42/' },
+	{
+		author: 'Asfalots',
+		text: 'The only Auth application I could install and not even think about it later. You did an amazing job with this application.',
+		url: 'https://www.reddit.com/r/selfhosted/comments/1uunxeq/comment/ox5bnx2/'
+	},
+	{
+		author: 'hometechgeek',
+		text: 'Love PocketID, used for a while now, very nice design and stability, works so well with cloudflare tunnels.',
+		url: 'https://www.reddit.com/r/selfhosted/comments/1uunxeq/comment/ox54bsj/'
+	},
+	{
+		author: 'ProletariatPat',
+		text: "I put Pocket ID on a VPS (it's so light) and I've never looked back. Thank you, it's amazing!",
+		url: 'https://www.reddit.com/r/selfhosted/comments/1uunxeq/comment/ox5r4kn/'
+	},
+	{ author: 'dakoellis', text: 'All praise for pocket ID is warranted. This is a freakin awesome project', url: 'https://www.reddit.com/r/selfhosted/comments/1uunxeq/comment/ox666ua/' },
+	{
+		author: 'RedditNotFreeSpeech',
+		text: "It's so stinking simple to integrate and use and I can spend my time working on the subject matter pieces of my application.",
+		url: 'https://www.reddit.com/r/selfhosted/comments/1uunxeq/comment/ox7ntk1/'
+	},
+	{ author: 'unlevels', text: 'Love pocket id, its so simple to setup and visually pleasing!', url: 'https://www.reddit.com/r/selfhosted/comments/1uunxeq/comment/ox8jve5/' },
+	{
+		author: 'Funny-Satisfaction-1',
+		text: "I've really appreciated how easy pocket-id has been to setup and administer in my homelab.",
+		url: 'https://www.reddit.com/r/selfhosted/comments/1q287q1/comment/nxbo2xm/'
+	},
+	{
+		author: 'mydarb',
+		text: 'I just installed Pocket ID on Wednesday and was very impressed at how simple it was. Two hours from when I started it was running and all of my apps that support oidc were configured.',
+		url: 'https://www.reddit.com/r/selfhosted/comments/1q287q1/comment/nxc388t/'
+	}
+];
+const card =
+	'flex h-52 w-[min(80vw,22rem)] shrink-0 flex-col gap-3 rounded-xl border border-surface-border bg-surface p-5 no-underline [box-shadow:var(--surface-shadow)] transition-colors hover:border-gray-4';
+---
+
+<div class="group overflow-hidden mask-[linear-gradient(to_right,transparent,black_6%,black_94%,transparent)] motion-reduce:overflow-x-auto motion-reduce:mask-none">
+	{/* The list repeats once, so shifting it by half its width loops without a seam, and the copy is hidden from screen readers */}
+	<div class="flex w-max animate-marquee gap-4 pr-4 group-hover:[animation-play-state:paused] motion-reduce:animate-none">
+		{
+			[0, 1].map((copy) =>
+				comments.map((c) => (
+					<a href={c.url} class={card} aria-hidden={copy === 1 ? 'true' : undefined} tabindex={copy === 1 ? -1 : undefined}>
+						<span class="flex items-baseline justify-between gap-3">
+							<span class="truncate font-semibold text-fg">u/{c.author}</span>
+							<span class="shrink-0 text-xs text-gray-3">r/selfhosted</span>
+						</span>
+						<blockquote class="m-0 line-clamp-5 border-0 p-0 text-[0.9375rem] leading-relaxed text-gray-2">“{c.text}”</blockquote>
+					</a>
+				))
+			)
+		}
+	</div>
+</div>

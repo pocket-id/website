@@ -1,0 +1,37 @@
+---
+// Starlight's social links with the current release in front, linking to its release notes
+import Default from '@astrojs/starlight/components/SocialIcons.astro';
+import { latestVersion } from '../../lib/release';
+
+const version = await latestVersion();
+---
+
+{
+	version && (
+		<a class="release" href={`https://github.com/pocket-id/pocket-id/releases/tag/v${version}`} title="Latest release">
+			v{version}
+		</a>
+	)
+}
+<Default />
+
+<style>
+	.release {
+		display: inline-flex;
+		align-items: center;
+		height: 1.5rem;
+		margin-inline-end: 0.5rem;
+		padding: 0 0.5rem;
+		border: 1px solid var(--surface-border);
+		border-radius: 999px;
+		color: var(--sl-color-gray-2);
+		font-size: var(--sl-text-xs);
+		font-weight: 600;
+		text-decoration: none;
+		font-variant-numeric: tabular-nums;
+	}
+	.release:hover {
+		color: var(--sl-color-white);
+		border-color: var(--sl-color-gray-4);
+	}
+</style>

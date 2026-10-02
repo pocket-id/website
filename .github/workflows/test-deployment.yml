@@ -30,20 +30,6 @@ jobs:
       - name: Install swag
         run: go install github.com/swaggo/swag/cmd/swag@latest
 
-      - name: Generate swagger docs
-        run: |
-          cd pocket-id/backend
-            # yaml + json output (json optional if you still need it)
-          swag init -d ./internal,./internal/dto -g ../cmd/main.go -ot yaml,json -o ../../static -md ../../static
-
-      - name: Add API doc tags
-        run: |
-          chmod +x ./scripts/add-api-doc-tags.sh
-          ./scripts/add-api-doc-tags.sh
-
-      - name: Remove pocket-id repo
-        run: rm -rf pocket-id
-
       - name: Setup Node.js and pnpm
         uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
         with:
@@ -55,3 +41,5 @@ jobs:
 
       - name: Build website
         run: pnpm build
+        env:
+          POCKET_ID_DIR: pocket-id

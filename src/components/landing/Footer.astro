@@ -1,0 +1,26 @@
+---
+// A short footer for the landing page, the docs pages keep Starlight's own
+import logo from '../../assets/logo-mark.svg?raw';
+
+const links = [
+	{ href: '/docs/introduction', text: 'Docs' },
+	{ href: '/docs/setup/installation', text: 'Install' },
+	{ href: '/docs/api', text: 'API' },
+	{ href: '/changelog', text: 'Changelog' },
+	{ href: '/docs/helping-out/sponsors', text: 'Sponsors' },
+	{ href: 'https://github.com/pocket-id/pocket-id', text: 'GitHub' },
+	{ href: 'https://discord.gg/8wudU9KaxM', text: 'Discord' }
+];
+---
+
+<footer class="border-t border-hairline pt-8 pb-10 text-sm text-gray-3">
+	<div class="mx-auto flex max-w-[72rem] flex-wrap items-center justify-between gap-x-8 gap-y-4 px-6">
+		<div class="flex items-center gap-3 text-gray-2">
+			<span class="text-fg [&>svg]:block [&>svg]:h-5 [&>svg]:w-auto" set:html={logo} />
+			<span class="text-xs">Open source under the BSD 2-Clause license</span>
+		</div>
+		<nav class="flex flex-wrap gap-5" aria-label="Footer">
+			{links.map((l) => <a class="text-gray-2 no-underline hover:text-fg" href={l.href}>{l.text}</a>)}
+		</nav>
+	</div>
+</footer>

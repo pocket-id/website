@@ -5,7 +5,7 @@
 set -euo pipefail
 
 # Create docs directory if it doesn't exist
-mkdir -p docs
+mkdir -p src/content/docs
 
 # Fetch all releases from GitHub
 echo "Fetching all releases..."
@@ -14,10 +14,13 @@ curl -s -H "Accept: application/vnd.github+json" \
   > all_releases.json
 
 # Start with frontmatter
-cat > docs/changelog.md << 'EOF'
+cat > src/content/docs/changelog.md << 'EOF'
 ---
-title: 'Changelog'
-description: 'Release notes for pocket-id'
+title: Changelog
+description: Release notes for every Pocket ID version.
+editUrl: false
+tableOfContents:
+  maxHeadingLevel: 2
 ---
 
 EOF
@@ -31,7 +34,7 @@ jq -c '.[]' all_releases.json | while read -r release; do
   
   echo "Adding $TAG..."
   
-  cat >> docs/changelog.md << EOF
+  cat >> src/content/docs/changelog.md << EOF
 ## $TAG - $DATE
 
 [Release]($URL)
@@ -44,4 +47,4 @@ done
 # Cleanup
 rm all_releases.json
 
-echo "✅ Changelog imported successfully to docs/changelog.md"
+echo "✅ Changelog imported successfully to src/content/docs/changelog.md"

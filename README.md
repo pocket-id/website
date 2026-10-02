@@ -2,11 +2,9 @@
 
 Pocket ID is a simple OIDC provider that allows users to authenticate with their passkeys to your services.
 
-This website is built with [SvelteKit](https://svelte.dev/docs/kit/introduction) and [MDSX](https://mdsx.dev/docs).
+This repository holds [pocket-id.org](https://pocket-id.org): the landing page, the documentation and the changelog. It's built with [Astro](https://astro.build) and [Starlight](https://starlight.astro.build).
 
 ## Contributing
-
-### Setup
 
 1. Install the dependencies:
    ```bash
@@ -17,8 +15,22 @@ This website is built with [SvelteKit](https://svelte.dev/docs/kit/introduction)
    pnpm dev
    ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+The site runs at `http://localhost:4321` and reloads when you save a file.
 
 ### Structure
 
-The markdown files are located in the `docs` folder and the sidebar is configured via `src/lib/config/docs.ts`.
+| Path                            | Contents                                                                   |
+| ------------------------------- | -------------------------------------------------------------------------- |
+| `src/content/docs/docs/`        | The documentation pages, one Markdown file per page                        |
+| `src/content/docs/changelog.md` | The release notes, updated by a workflow after every release               |
+| `src/pages/index.astro`         | The landing page                                                           |
+| `src/components/`               | Diagrams, screenshots, the API reference and the landing page's components |
+| `astro.config.mjs`              | Site settings and the sidebar                                              |
+
+### API reference
+
+`pnpm dev` and `pnpm build` generate the API reference from the backend's code with [swag](https://github.com/swaggo/swag), which needs Go and a checkout of [pocket-id/pocket-id](https://github.com/pocket-id/pocket-id).
+The checkout is expected next to this repository, or wherever `POCKET_ID_DIR` points.
+Without one, the rest of the site builds and the endpoints page stays empty.
+
+See [the documentation guide](https://pocket-id.org/docs/helping-out/documentation) for how to write pages.

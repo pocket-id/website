@@ -1,0 +1,82 @@
+---
+// One API route: its method and path, the parameters and body it takes and the answers it gives when it succeeds, styled in src/styles/api.css
+import AnchorHeading from '@astrojs/starlight/components/AnchorHeading.astro';
+import Disclosure from './Disclosure.astro';
+import Fields from './Fields.astro';
+import Method from './Method.astro';
+import Path from './Path.astro';
+import type { Operation } from './spec';
+
+interface Props {
+	operation: Operation;
+}
+const { operation } = Astro.props;
+
+const locations = [
+	['path', 'Path parameters'],
+	['query', 'Query parameters'],
+	['header', 'Headers']
+] as const;
+const count = (n: number, noun: string) => `${n} ${noun}${n === 1 ? '' : 's'}`;
+const { body } = operation;
+---
+
+<section class="api-op">
+	<AnchorHeading level={3} id={operation.id}>{operation.summary}</AnchorHeading>
+	<div class="not-content">
+		<div class="api-endpoint">
+			<Method method={operation.method} />
+			<Path path={operation.path} />
+		</div>
+		{operation.description && <p class="api-guide">{operation.description}</p>}
+
+		{
+			locations.map(([location, title]) => {
+				const params = operation.params.filter((p) => p.in === location);
+				return (
+					params.length > 0 && (
+						<>
+							<p class="api-label">{title}</p>
+							<Fields fields={params} />
+						</>
+					)
+				);
+			})
+		}
+
+		{
+			body && (
+				<>
+					<p class="api-label">
+						Body <span>{body.contentType}</span>
+					</p>
+					{body.fields && body.type && <p class="api-desc">An array, with these fields per item:</p>}
+					{body.fields ? (
+						<Fields fields={body.fields} />
+					) : (
+						<p class="api-raw">
+							<span class="api-type">{body.type}</span> {body.type === 'binary' ? 'The raw request body.' : body.description}
+						</p>
+					)}
+				</>
+			)
+		}
+
+		<p class="api-label">{operation.responses.length === 1 ? 'Response' : 'Responses'}</p>
+		{
+			operation.responses.map((response) => (
+				<div class="api-response">
+					<div class="api-status">
+						<b>{response.status}</b> {response.description}
+						{response.contentType && <span>{response.contentType}</span>}
+					</div>
+					{response.fields && response.fields.length > 0 && (
+						<Disclosure label={count(response.fields.length, 'field') + (response.type?.startsWith('array') ? ' per item' : '')}>
+							<Fields fields={response.fields} />
+						</Disclosure>
+					)}
+				</div>
+			))
+		}
+	</div>
+</section>

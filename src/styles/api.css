@@ -1,0 +1,306 @@
+/*
+ * The API reference page, see src/pages/docs/api/endpoints.astro
+ * Its field rows repeat a few thousand times, so they carry short class names styled here instead of utility strings, which kept the page at twice the size
+ * Hairline rows, 6px badges tinted per method and the code face for names and types
+ */
+
+/* Route paths, with {parameters} dimmed so the fixed segments stand out */
+.api-path {
+	font-family: var(--font-mono);
+	font-size: 0.8125rem;
+	color: var(--sl-color-white);
+	overflow-wrap: anywhere;
+}
+.api-path span {
+	color: var(--sl-color-gray-3);
+}
+
+/* Method badges: blue reads, green creates, amber changes and red deletes */
+.api-method {
+	display: inline-flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	width: 3.75rem;
+	height: 1.375rem;
+	border-radius: 0.375rem;
+	font-family: var(--font-mono);
+	font-size: 0.6875rem;
+	font-weight: 600;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+	background: var(--sl-color-gray-6);
+	color: var(--sl-color-gray-2);
+}
+.api-method[data-method='get'] {
+	background: rgba(59, 130, 246, 0.16);
+	color: #93c5fd;
+}
+.api-method[data-method='post'] {
+	background: rgba(34, 197, 94, 0.16);
+	color: #86efac;
+}
+.api-method:is([data-method='put'], [data-method='patch']) {
+	background: rgba(245, 158, 11, 0.16);
+	color: #fcd34d;
+}
+.api-method[data-method='delete'] {
+	background: rgba(239, 68, 68, 0.16);
+	color: #fca5a5;
+}
+:root[data-theme='light'] .api-method[data-method='get'] {
+	background: #dbeafe;
+	color: #1e40af;
+}
+:root[data-theme='light'] .api-method[data-method='post'] {
+	background: #dcfce7;
+	color: #166534;
+}
+:root[data-theme='light'] .api-method:is([data-method='put'], [data-method='patch']) {
+	background: #fef3c7;
+	color: #92400e;
+}
+:root[data-theme='light'] .api-method[data-method='delete'] {
+	background: #fee2e2;
+	color: #991b1b;
+}
+
+/* Fields and parameters: hairline rows with the name, the type and the limits, and nested objects hanging off a hairline */
+.api-fields {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border-top: 1px solid var(--sl-color-hairline);
+}
+.api-fields > li {
+	margin: 0;
+	padding: 0.75rem 0;
+	border-bottom: 1px solid var(--sl-color-hairline);
+}
+.api-field {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.25rem 0.5rem;
+}
+.api-name {
+	font-family: var(--font-mono);
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: var(--sl-color-white);
+}
+.api-type {
+	font-family: var(--font-mono);
+	font-size: 0.75rem;
+	color: var(--sl-color-gray-3);
+}
+.api-required {
+	display: inline-flex;
+	align-items: center;
+	height: 1.25rem;
+	padding: 0 0.375rem;
+	border: 1px solid var(--surface-border);
+	border-radius: 0.375rem;
+	font-size: 0.6875rem;
+	font-weight: 500;
+	color: var(--sl-color-gray-2);
+}
+.api-desc {
+	margin: 0.25rem 0 0;
+	font-size: var(--sl-text-sm);
+	line-height: 1.5;
+	color: var(--sl-color-gray-2);
+}
+.api-notes {
+	margin: 0.25rem 0 0;
+	font-size: 0.75rem;
+	line-height: 1.5;
+	color: var(--sl-color-gray-3);
+}
+.api-notes code {
+	font-family: var(--font-mono);
+	font-size: 0.92em;
+	color: var(--sl-color-gray-2);
+}
+
+/* Disclosures for response fields and nested objects, with a chevron drawn from two borders that turns as it opens */
+.api-more {
+	margin-top: 0.5rem;
+}
+.api-more > summary {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.125rem 0.375rem 0.125rem 0.125rem;
+	border-radius: 0.375rem;
+	font-size: 0.75rem;
+	font-weight: 500;
+	color: var(--sl-color-gray-2);
+	cursor: pointer;
+	list-style: none;
+	user-select: none;
+}
+.api-more > summary::-webkit-details-marker {
+	display: none;
+}
+.api-more > summary::before {
+	content: '';
+	width: 0.375rem;
+	height: 0.375rem;
+	margin: 0 0.125rem 0 0.25rem;
+	border-right: 1.5px solid currentColor;
+	border-bottom: 1.5px solid currentColor;
+	transform: rotate(-45deg);
+	transition: transform 120ms ease;
+}
+.api-more[open] > summary::before {
+	transform: rotate(45deg);
+}
+.api-more > summary:hover {
+	color: var(--sl-color-white);
+}
+.api-more > div {
+	margin-top: 0.5rem;
+}
+.api-more.nested > div {
+	margin-left: 0.375rem;
+	padding-left: 1rem;
+	border-left: 1px solid var(--sl-color-hairline);
+}
+
+/* Each route opens with a hairline across the column, its heading and the endpoint bar */
+.api-op {
+	margin-top: 3rem;
+	padding-top: 0.25rem;
+	border-top: 1px solid var(--sl-color-hairline);
+}
+.api-endpoint {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.625rem;
+	margin-top: 0.75rem;
+	padding: 0.625rem 0.75rem;
+	border: 1px solid var(--surface-border);
+	border-radius: 0.5rem;
+	background: var(--surface);
+	box-shadow: var(--surface-shadow);
+}
+.api-endpoint .api-path {
+	padding-top: 0.0625rem;
+}
+.api-guide {
+	margin: 0.75rem 0 0;
+	font-size: var(--sl-text-sm);
+	color: var(--sl-color-gray-2);
+}
+.api-op a {
+	color: var(--sl-color-white);
+	text-decoration: underline;
+	text-decoration-color: var(--sl-color-gray-4);
+	text-underline-offset: 0.2em;
+}
+.api-op a:hover {
+	text-decoration-color: currentColor;
+}
+
+/* Section labels: small, semibold and sentence case, with the media type beside them in the code face */
+.api-label {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0 0.5rem;
+	margin: 1.5rem 0 0.25rem;
+	font-size: var(--sl-text-sm);
+	font-weight: 600;
+	color: var(--sl-color-white);
+}
+.api-label span,
+.api-status span {
+	font-family: var(--font-mono);
+	font-size: 0.75rem;
+	font-weight: 400;
+	color: var(--sl-color-gray-3);
+}
+.api-raw {
+	margin: 0;
+	padding: 0.75rem 0;
+	border-block: 1px solid var(--sl-color-hairline);
+	font-size: var(--sl-text-sm);
+	color: var(--sl-color-gray-2);
+}
+
+/* A response is a hairline card with its status, the status text and the media type on one line, its fields folded below */
+.api-response {
+	margin-bottom: 0.5rem;
+	padding: 0.625rem 0.75rem;
+	border: 1px solid var(--surface-border);
+	border-radius: 0.5rem;
+}
+.api-status {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.25rem 0.5rem;
+	font-size: var(--sl-text-sm);
+	color: var(--sl-color-gray-2);
+}
+.api-status::before {
+	content: '';
+	width: 0.375rem;
+	height: 0.375rem;
+	border-radius: 50%;
+	background: #4ade80;
+}
+:root[data-theme='light'] .api-status::before {
+	background: #16a34a;
+}
+.api-status b {
+	font-family: var(--font-mono);
+	font-size: 0.75rem;
+	font-weight: 600;
+	color: var(--sl-color-white);
+}
+.api-status span {
+	margin-left: auto;
+}
+
+/* The index under each resource heading, a route table like a router's, where each row jumps to its route */
+.api-index {
+	margin: 1rem 0 0;
+	padding: 0;
+	list-style: none;
+	overflow: hidden;
+	border: 1px solid var(--surface-border);
+	border-radius: 0.5rem;
+	background: var(--surface);
+	box-shadow: var(--surface-shadow);
+}
+.api-index > li {
+	margin: 0;
+	border-bottom: 1px solid var(--sl-color-hairline);
+}
+.api-index > li:last-child {
+	border-bottom: 0;
+}
+.api-index a {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.75rem;
+	padding: 0.5rem 0.75rem;
+	text-decoration: none;
+}
+.api-index a:hover {
+	background: var(--sl-color-gray-7);
+}
+.api-index a > span:last-child {
+	display: flex;
+	flex: 1;
+	flex-wrap: wrap;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 0.125rem 1rem;
+	min-width: 0;
+	padding-top: 0.0625rem;
+	font-size: var(--sl-text-sm);
+	color: var(--sl-color-gray-2);
+}

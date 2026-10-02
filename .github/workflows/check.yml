@@ -1,0 +1,52 @@
+name: Astro Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main, preview ]
+
+jobs:
+  type-check:
+    name: Run Astro Check
+    if: github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Checkout pocket-id repo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: pocket-id/pocket-id
+          path: pocket-id
+          ref: main
+
+      - name: Setup Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: pocket-id/backend/go.mod
+
+      - name: Install swag
+        run: go install github.com/swaggo/swag/cmd/swag@latest
+
+      - name: Setup Node.js and pnpm
+        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        with:
+          cache: true
+          install: false
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # The API reference imports the generated spec, so it has to exist before the type check
+      - name: Generate API spec
+        run: pnpm openapi
+        env:
+          POCKET_ID_DIR: pocket-id
+
+      - name: Run astro check
+        run: pnpm check

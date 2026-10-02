@@ -1,0 +1,175 @@
+/*
+ * The one stylesheet for the docs and the landing page: Tailwind's theme and utilities, the design tokens and the Starlight overrides
+ * Tailwind's preflight stays out, since it would reset Starlight's own styles, so utilities sit on top of Starlight's base like any other layer
+ */
+@layer base, starlight, theme, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+@import './starlight.css';
+
+/* Starlight and the landing page both keep the theme in data-theme on the root element */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+@custom-variant light (&:where([data-theme='light'], [data-theme='light'] *));
+
+/* Fonts: Geist for text and Geist Mono for code, as in the app, and Gloock for the brand's display type */
+@font-face {
+	font-family: 'Geist';
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url('/fonts/Geist/geist.woff2') format('woff2');
+}
+@font-face {
+	font-family: 'Geist Mono';
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url('/fonts/Geist/geist-mono.woff2') format('woff2');
+}
+@font-face {
+	font-family: 'Gloock';
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url('/fonts/Gloock-Regular.woff') format('woff');
+}
+
+/* Tokens that are the same in both themes, emitted even when no utility uses them because the Starlight overrides read them too */
+@theme static {
+	--font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	--font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+	--font-display: 'Gloock', Georgia, serif;
+
+	--animate-marquee: marquee 120s linear infinite;
+
+	@keyframes marquee {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform: translateX(-50%);
+		}
+	}
+	@keyframes rise {
+		from {
+			opacity: 0;
+			transform: translateY(12px);
+		}
+		to {
+			opacity: 1;
+			transform: none;
+		}
+	}
+}
+
+/* Tokens that flip with the theme, inlined into the utilities so they follow data-theme wherever they are used */
+@theme inline {
+	--color-fg: var(--sl-color-white);
+	--color-page: var(--sl-color-black);
+	--color-gray-1: var(--sl-color-gray-1);
+	--color-gray-2: var(--sl-color-gray-2);
+	--color-gray-3: var(--sl-color-gray-3);
+	--color-gray-4: var(--sl-color-gray-4);
+	--color-gray-5: var(--sl-color-gray-5);
+	--color-gray-6: var(--sl-color-gray-6);
+	--color-gray-7: var(--sl-color-gray-7);
+	--color-hairline: var(--sl-color-hairline);
+	--color-surface: var(--surface);
+	--color-surface-border: var(--surface-border);
+
+	/* Diagram colors, see src/components/diagrams/classes.ts */
+	--color-dg-ink: var(--dg-ink);
+	--color-dg-muted: var(--dg-muted);
+	--color-dg-line: var(--dg-line);
+	--color-dg-edge: var(--dg-edge);
+	--color-dg-card: var(--dg-card);
+	--color-dg-zone: var(--dg-zone);
+	--color-dg-key: var(--dg-key);
+	--color-dg-on-key: var(--dg-on-key);
+	--color-dg-key-line: var(--dg-key-line);
+	--color-dg-ok: var(--dg-ok);
+	--color-dg-danger: var(--dg-danger);
+}
+
+/*
+ * The docs follow the app: shadcn's zinc neutrals, hairline borders and a monochrome accent, since the brand is black and white
+ * Starlight flips its palette between themes, so "white" is the text color and "black" the page in both blocks
+ */
+:root {
+	--sl-font: var(--font-sans);
+	--sl-font-mono: var(--font-mono);
+	--sl-line-height-headings: 1.2;
+
+	/* Dark theme */
+	--sl-color-white: #fafafa;
+	--sl-color-gray-1: #e4e4e7;
+	--sl-color-gray-2: #d4d4d8;
+	--sl-color-gray-3: #a1a1aa;
+	--sl-color-gray-4: #52525b;
+	--sl-color-gray-5: #3f3f46;
+	--sl-color-gray-6: #27272a;
+	--sl-color-gray-7: #18181b;
+	--sl-color-black: #09090b;
+	--sl-color-accent-low: #27272a;
+	--sl-color-accent: #e4e4e7;
+	--sl-color-accent-high: #fafafa;
+	--sl-color-bg-nav: #09090b;
+	--sl-color-bg-sidebar: #09090b;
+	--sl-color-hairline-light: rgba(255, 255, 255, 0.07);
+	--sl-color-hairline: rgba(255, 255, 255, 0.1);
+	--sl-color-hairline-shade: rgba(255, 255, 255, 0.1);
+	--surface: #111113;
+	--surface-border: rgba(255, 255, 255, 0.1);
+	--surface-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+:root[data-theme='light'] {
+	--sl-color-white: #09090b;
+	--sl-color-gray-1: #18181b;
+	--sl-color-gray-2: #3f3f46;
+	--sl-color-gray-3: #71717a;
+	--sl-color-gray-4: #a1a1aa;
+	--sl-color-gray-5: #d4d4d8;
+	--sl-color-gray-6: #e4e4e7;
+	--sl-color-gray-7: #f4f4f5;
+	--sl-color-black: #ffffff;
+	--sl-color-accent-low: #f4f4f5;
+	--sl-color-accent: #18181b;
+	--sl-color-accent-high: #09090b;
+	--sl-color-bg-nav: #ffffff;
+	--sl-color-bg-sidebar: #ffffff;
+	--sl-color-hairline-light: rgba(0, 0, 0, 0.06);
+	--sl-color-hairline: rgba(0, 0, 0, 0.1);
+	--sl-color-hairline-shade: rgba(0, 0, 0, 0.1);
+	--surface: #ffffff;
+	--surface-border: rgba(0, 0, 0, 0.1);
+	--surface-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/*
+ * Diagrams: hand-drawn inline SVG on a card, themed through these tokens so one drawing works in both themes
+ * Every diagram component uses the class sets in src/components/diagrams/classes.ts instead of literal colors
+ * The key element of a drawing is inverted, black on light pages and white on dark ones, like the logo
+ */
+:root {
+	--dg-ink: var(--sl-color-white);
+	--dg-muted: var(--sl-color-gray-3);
+	--dg-line: var(--sl-color-gray-3);
+	--dg-edge: var(--sl-color-hairline);
+	--dg-card: var(--surface);
+	--dg-zone: #141416;
+	--dg-key: #fafafa;
+	--dg-on-key: #09090b;
+	--dg-key-line: #fafafa;
+	--dg-ok: #4ade80;
+	--dg-danger: #f87171;
+}
+:root[data-theme='light'] {
+	--dg-zone: #f4f4f5;
+	--dg-line: var(--sl-color-gray-4);
+	--dg-key: #18181b;
+	--dg-on-key: #fafafa;
+	--dg-key-line: #18181b;
+	--dg-ok: #16a34a;
+	--dg-danger: #dc2626;
+}

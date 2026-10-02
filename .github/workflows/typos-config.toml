@@ -25,8 +25,9 @@ signins = "signins"
 [files]
 extend-exclude = [
   # Add filenames or patterns to exclude from checking
-  "package-lock.json",
+  "pnpm-lock.yaml",
   "node_modules/",
-  ".docusaurus/",
-  "build/"
+  "dist/",
+  "src/generated/",
+  "*.svg"
 ]
