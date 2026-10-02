@@ -1,0 +1,48 @@
+---
+title: Upgrading
+seoTitle: Upgrade Pocket ID to a new release
+description: Update Pocket ID with Docker Compose or the binary, and what to check before a major release.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Pocket ID migrates its database on its own when a new version starts.
+Within a major version, such as 2.x, upgrades don't need any changes to your setup.
+
+Read the [changelog](/changelog) before you upgrade, and back up the `data` folder, or your PostgreSQL database, so you can go back if something goes wrong.
+[Data export and import](/docs/setup/data-export-import) can create the backup.
+
+<Tabs syncKey="install">
+<TabItem label="Docker Compose">
+
+The `v2` image tag follows the latest 2.x release, so pulling it gets the update:
+
+```bash
+docker compose pull
+docker compose up -d
+```
+
+To stay on one version, use a full version tag such as `ghcr.io/pocket-id/pocket-id:v2.17.0`, and change it to upgrade.
+
+</TabItem>
+<TabItem label="Binary">
+
+Stop Pocket ID, replace the binary with the one for your system from the [latest release](https://github.com/pocket-id/pocket-id/releases/latest), and start it again:
+
+```bash
+curl -fL -o pocket-id https://github.com/pocket-id/pocket-id/releases/latest/download/pocket-id_linux_amd64
+chmod +x pocket-id
+./pocket-id
+```
+
+</TabItem>
+</Tabs>
+
+Pocket ID refuses to start an older version on a database that a newer one already migrated, unless you set `ALLOW_DOWNGRADE=true`.
+
+## Major releases
+
+A major release can change settings or behavior, so it comes with a migration guide:
+
+- [Migrate to v2](/docs/setup/major-releases/migrate-v2), from 1.x
+- [Migrate to v1](/docs/setup/major-releases/migrate-v1), from 0.x

@@ -1,5 +1,5 @@
 ---
-title: Data Export and Import
+title: Data export and import
 description: Learn how to export and import your Pocket ID data for backup or migration
 ---
 
@@ -17,7 +17,7 @@ Use the `export` command to create a backup file:
 pocket-id export --path ./path/to/export.zip
 ```
 
-#### Exporting to standard output
+### Exporting to standard output
 
 You can pass `--path -` to write the export to standard output. This is helpful when piping the archive or working with Docker:
 
@@ -25,7 +25,7 @@ You can pass `--path -` to write the export to standard output. This is helpful 
 pocket-id export --path - > ./path/to/export.zip
 ```
 
-#### Example: Export with Docker
+### Export with Docker
 
 Exporting to standard output is often the simplest approach when running Pocket ID in Docker:
 
@@ -42,7 +42,7 @@ docker compose exec pocket-id ./pocket-id export --path - > ./path/to/export.zip
 pocket-id import --path ./path/to/export.zip
 ```
 
-#### Importing from standard input
+### Importing from standard input
 
 Like export, you can use `--path -` to read from standard input:
 
@@ -61,7 +61,7 @@ Uploads Path:  /app/data/uploads
 Do you want to continue? [y/N]:
 ```
 
-##### Example: Import with Docker
+### Import with Docker
 
 When using Docker, importing from standard input is often the easiest method:
 

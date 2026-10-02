@@ -1,71 +1,43 @@
 ---
-title: OIDC Client Authentication
-description: Learn how to authenticate OIDC clients in Pocket ID using client secrets and federated credentials.
+title: OIDC client authentication
+seoTitle: Authenticate OIDC clients without secrets using federated credentials
+description: Let workloads on Kubernetes, Azure, GitLab CI or a tailnet authenticate as OIDC clients with tokens from their platform instead of a client secret.
 ---
 
-In the context of OAuth2 / OpenID Connect, "Clients" refers to applications that request access to protected resources. In Pocket ID, they are configured in the _OIDC Clients_ section in the _Settings_ portal.
+import FederatedCredentialsFlow from '../../../../components/diagrams/FederatedCredentialsFlow.astro';
 
-Public clients can also provide their configuration through a [Client ID Metadata Document](/docs/guides/client-id-metadata-documents) instead of being registered manually.
+A confidential client proves who it is when it calls the token endpoint, usually with its client secret.
+A secret is shared between the app and Pocket ID, so it has to be stored, rotated and kept from leaking, which is where most of its risk lies.
 
-Typically OIDC Clients have a set of credentials that include:
+With **federated client credentials**, the client proves who it is with a token that its own platform issued instead, such as a Kubernetes service account token.
+Pocket ID trusts that token when its issuer, audience and subject match what you configured, so no long-lived secret exists at all:
 
-- Client ID: in Pocket ID, this is a UUID that identifies the client (application)
-- Client Secret: a shared secret, which in Pocket ID is a randomly-generated sequence of characters
+<FederatedCredentialsFlow />
 
-When using OAuth2 with flows such as the "authorization code flow", the most common one for confidential (non-public) clients, in the last step your application exchanges an authorization code for an access token by invoking Pocket ID's `/token` endpoint, and including its client ID and secret in the request.
+The app needs to support JWT client assertions.
+Instead of `client_secret`, it sends these two parameters to the token endpoint:
 
-## Shared secrets and security
+```txt
+client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+client_assertion=<token from the platform>
+```
 
-Client secrets are a kind of "shared secret", which means it is known to both the client (your application) and Pocket ID. It's a very important secret that must be protected.
+## Configure a client
 
-Just like with all secrets, however, managing the client secret correctly can be hard. In fact, [OWASP's 2025 list of "Top 10 Non-Human Identities Risks"](https://owasp.org/www-project-non-human-identities-top-10/2025/top-10-2025/) includes "secret leakage" in the second position. In practice, managing secrets, especially shared ones, is hard, and even seasoned DevOps professionals can sometimes make mistakes.
+Open the client under **Administration → OIDC Clients**, go to its **Credentials** tab and click **Add Federated Client Credential**:
 
-Thankfully, OAuth2 includes alternatives to shared secrets for authenticating clients (applications). This is supported in Pocket ID starting with version 1.3.0, with Federated Client Credentials.
+| Field | Description |
+| --- | --- |
+| **Issuer** | The `iss` claim of the platform's tokens. Required. |
+| **Subject** | The `sub` claim of the tokens. Defaults to the client ID. |
+| **Audience** | The `aud` claim of the tokens. Defaults to your `APP_URL`. |
+| **Signing keys** | Where Pocket ID gets the keys to verify the tokens: a **JWKS URL**, which defaults to `<issuer>/.well-known/jwks.json`, or **Public keys** you paste in. Use HTTPS for the JWKS URL. |
+| **Replay Protection** | Accepts each token only once. Turn it off if the platform hands out the same token several times. |
 
-## Using Federated Client Credentials
+A client can have several federated credentials, such as one per environment.
+The platforms below each need slightly different values.
 
-With Federated Client Credentials, OIDC clients can authenticate themselves (e.g. during the exchange of the authorization code for an access token when invoking the `/token` endpoint) using JWT tokens signed by third-party Identity Providers (IdP).
-
-To use Federated Client Credentials:
-
-- You will need an external IdP that can authenticate your application by issuing JWT tokens, for example:
-  - On apps running on Kubernetes, you can use service account tokens that are issued by the Kubernetes API server
-  - On cloud providers like AWS, Microsoft Azure, GCP, etc, you can use tokens issued by the cloud platform itself (e.g. AWS IAM Roles, Microsoft Entra Workload ID / Managed Identity, etc)
-  - [SPIFFE/SPIRE](https://spiffe.io/)
-  - On apps running on hosts that have joined a Tailscale network, you can use [tsiam](https://github.com/ItalyPaleAle/tsiam).
-  - Any other OIDC-compliant IdP
-- Your application must support using JWTs for client authentication. You will need to ensure that your application can obtain a JWT from the external IdP in an appropriate way (see below for some examples), and that you use that token as client assertion during the OAuth2 token exchange.
-
-:::tip
-To use Federated Client Credentials during the OAuth2 token exchange, your application will need to invoke the `/token` endpoint as per usual (including `grant_type=authorization_code` and the other parameters). However, instead of including a `client_secret`, you need to pass these two options:
-
-- `client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer` (this is a constant value)
-- `client_assertion=<jwt-token>` replacing `<jwt-token>` with the token issued by the external IdP
-:::
-
-## Configuring a client for Federated Client Credentials in Pocket ID
-
-When editing a client in Pocket ID (in the _OIDC Clients_ section in the _Settings_ page), you can configure Federated Client Credentials for the client.
-
-:::tip
-Federated Client Credentials may be hidden under _Advanced Options_ by default.
-:::
-
-Each identity allows specifying:
-
-- **Issuer** (required): Must map to the value of the `iss` claim in the JWT tokens issued by the external IdP.
-- **Audience** (optional): Must map to the value of the `aud` claim in the JWT tokens.  
-  If empty, this defaults to the public URL of Pocket ID.
-- **Subject** (optional): Must map to the value of the `sub` claim in the JWT tokens.  
-  If empty, this defaults to the ID of the OIDC client in Pocket ID (the UUID).
-- **JWKS URL** (optional): URL where the JWKS (JSON Web Key Set) document can be retrieved.  
-  If empty, this defaults to `<issuer>/.well-known/jwks.json`.
-
-  :::note
-  While HTTP URLs are accepted, using HTTPS is strongly recommended for security.
-  :::
-
-### Kubernetes Service Account Tokens
+## Kubernetes service account tokens
 
 Using Kubernetes 1.21 or higher, you can use Projected Token Volumes to have the Kubernetes API server issue a token for the audience of your choice, and make it available to your app as projected volume.
 
@@ -83,7 +55,7 @@ Additional resources:
 - Kubernetes docs: [Configure Service Accounts for Pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)
 - Kubernetes docs: [Projected Volumes for `serviceAccountToken`](https://kubernetes.io/docs/concepts/storage/projected-volumes/#serviceaccounttoken)
 
-### Microsoft Azure
+## Microsoft Azure
 
 On Microsoft Azure, you can use Microsoft Entra Workload ID (e.g. Managed Identity or Workload Identity) to federate with Pocket ID.
 
@@ -107,7 +79,7 @@ Inside your application, you can [obtain a token](https://learn.microsoft.com/en
 - Recommended: using one of the Azure SDKs to get a token from Managed Identity, with the requested _resource_ as the client ID of the Entra ID application. SDKs work on all Azure services automatically.
 - Manually invoking the endpoint metadata service. The endpoint can be different depending on the Azure service; in the case of an Azure Virtual Machine, the URL is `http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=<client-id>` (where `<client-id>` is the client ID of the Entra ID application); make sure to also set the HTTP header `Metadata:true` in the request.
 
-### Tailscale with tsiam
+## Tailscale with tsiam
 
 If your application is running on a node that is joined to a Tailscale network ("tailnet"), you can use the third-party [tsiam](https://github.com/ItalyPaleAle/tsiam) application to provide workload identity.
 
@@ -120,18 +92,18 @@ Configuration values for Federated Client Credentials in Pocket ID:
 - **Subject**: The full name of the node in the tailnet, e.g. `<node-name>.tail<tailnet-id>.ts.net`
 - **JWKS URL**: Leave empty to use the default value
 
-### Gitlab Pipelines
+## GitLab CI
 
-When running jobs in Gitlab Pipelines, your job can authenticate as an OIDC client with Pocket ID using [Gitlab ID tokens](https://docs.gitlab.com/ci/secrets/id_token_authentication/).
+When running jobs in GitLab Pipelines, your job can authenticate as an OIDC client with Pocket ID using [GitLab ID tokens](https://docs.gitlab.com/ci/secrets/id_token_authentication/).
 
 Configuration values for Federated Client Credentials in Pocket ID:
 
-- **Issuer**: `https://gitlab.com` (or your self-hosted Gitlab domain)
+- **Issuer**: `https://gitlab.com` (or your self-hosted GitLab domain)
 - **Audience**: `https://pocketid.example.com` - recommended to use the Pocket ID endpoint as the audience.
 - **Subject**: `project_path:my-group/my-project:ref_type:branch:ref:main` - replace `my-group/my-project` with the project you will be running the pipeline on. If working on a branch, change `main` to your branch name. Currently, wildcards are not supported, so if you need to authenticate from pipelines running on different branches, you will need to create a Federated Client Credential for each branch.
 - **JWKS URL**: `https://gitlab.com/oauth/discovery/keys` - if self-hosting, replace `gitlab.com`.
 
-Here's an example Gitlab job that authenticates as an OIDC client:
+Here's an example GitLab job that authenticates as an OIDC client:
 
 ```yaml
 # .gitlab-ci.yml

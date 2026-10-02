@@ -1,6 +1,7 @@
 ---
-title: Custom Keys
-description: Configure custom signing keys for enhanced security
+title: Custom signing keys
+seoTitle: Change the algorithm and key Pocket ID signs tokens with
+description: Rotate the key Pocket ID signs tokens with, or switch to a larger RSA key, ECDSA or EdDSA.
 ---
 
 By default, Pocket ID generates a RSA-2048 private key upon first startup, which is used to sign all tokens. You can optionally use a key with a different RSA key size (e.g. 3072 or 4096), or even a different algorithm (e.g. ECDSA with P-256, or EdDSA with Ed25519).
@@ -11,7 +12,7 @@ Rotating/re-generating the private key will invalidate all tokens signed by Pock
 You will need to restart Pocket ID for the new key to be picked up. Additionally, you may need to restart all applications that consume tokens issued by Pocket ID.
 :::
 
-Pocket ID include a command that can be used to generate a new key, which replaces the existing one and also allows rotating the private key:
+Pocket ID includes a command that can be used to generate a new key, which replaces the existing one and also allows rotating the private key:
 
 ```sh
 pocket-id key-rotate

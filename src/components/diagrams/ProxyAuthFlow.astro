@@ -1,0 +1,31 @@
+---
+// How an authentication proxy protects an app that has no sign-in of its own
+import Sequence from './Sequence.astro';
+
+interface Props {
+	caption?: string;
+}
+const {
+	caption = 'The authentication proxy is the OIDC client. It sends visitors without a session to Pocket ID, and only forwards requests to the app once they signed in.'
+} = Astro.props;
+---
+
+<Sequence
+	caption={caption}
+	actors={[
+		{ id: 'browser', title: 'Browser' },
+		{ id: 'proxy', title: 'Auth proxy', sub: 'OAuth2 Proxy, Tinyauth…' },
+		{ id: 'pid', title: 'Pocket ID', key: true },
+		{ id: 'app', title: 'Protected app', sub: 'no OIDC support' }
+	]}
+	messages={[
+		{ from: 'browser', to: 'proxy', label: 'opens the app' },
+		{ from: 'proxy', to: 'browser', label: 'no session, redirect' },
+		{ from: 'browser', to: 'pid', label: 'signs in with a passkey' },
+		{ from: 'pid', to: 'browser', label: 'redirect back with a code' },
+		{ from: 'browser', to: 'proxy', label: 'callback with the code' },
+		{ from: 'proxy', to: 'pid', label: 'code for tokens', key: true },
+		{ from: 'proxy', to: 'app', label: 'forwards the request', key: true },
+		{ from: 'proxy', to: 'browser', label: "the app's response" }
+	]}
+/>

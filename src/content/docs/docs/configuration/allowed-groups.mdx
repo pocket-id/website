@@ -1,0 +1,28 @@
+---
+title: Allowed user groups
+seoTitle: Restrict an OIDC client to user groups
+description: Choose which user groups may sign in to each OIDC client, and what happens to users who aren't in one of them.
+---
+
+import Screenshot from '../../../../components/Screenshot.astro';
+
+Each OIDC client decides who may sign in to it.
+Open the client under **Administration → OIDC Clients** and go to its **Access** tab:
+
+<Screenshot name="oidc-client-allowed-groups" alt="The Allowed User Groups card with Selected user groups chosen and the groups Family and Media ticked" />
+
+- **Selected user groups** lets only members of the ticked groups sign in.
+  Tick or untick groups and click **Save** in the bar at the bottom.
+- **All Users** lets every user sign in, and removes the client's group selection.
+
+A client you create in the admin UI starts with **Selected user groups** and no group ticked, so nobody can sign in until you choose.
+Clients created through the API are open to all users unless the request restricts them.
+
+## For users outside the groups
+
+Users who aren't in one of the groups get "You are not allowed to access this service" instead of being sent back to the app.
+Apps they already signed in to lose access at their next token refresh, since Pocket ID checks the groups again every time.
+
+The groups also decide which apps a user sees on their [app dashboard](/docs/configuration/appdashboard), and, with [SCIM](/docs/configuration/scim), which users Pocket ID provisions to the app.
+
+You can also set the clients of a group from the other side, on the group's **Allowed OIDC Clients** tab under **Administration → User Groups**.

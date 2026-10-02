@@ -1,0 +1,56 @@
+---
+title: Sign-in methods
+seoTitle: Sign-in methods in Pocket ID, from passkeys to login codes
+description: How users sign in with a passkey, from another device, with a login code or by email, and the passkey policies admins can set.
+---
+
+import Screenshot from '../../../../components/Screenshot.astro';
+import CrossDeviceFlow from '../../../../components/diagrams/CrossDeviceFlow.astro';
+
+Users sign in to Pocket ID with a passkey.
+When they don't have one at hand, **Alternative Sign In Methods** on the sign-in page offers the other ways:
+
+<Screenshot name="sign-in-alternatives" alt="The Alternative Sign In page with the options Sign in with another device and Login Code" />
+
+## Passkey
+
+A passkey is a key pair: the private half stays on the user's device, password manager or security key, and Pocket ID only stores the public half.
+The user unlocks it with a fingerprint, face scan or PIN, and it only works on the domain it was created for, which makes phishing it close to impossible.
+
+Admins decide which passkeys are allowed under **Application Configuration → Passkeys**:
+
+| Setting | Effect |
+| --- | --- |
+| **User verification** | **Required** makes every sign-in ask for a fingerprint, face scan or PIN, **Preferred** also allows touch-only security keys |
+| **Allow synced passkeys** | Allows passkeys that sync between devices, such as those in iCloud Keychain or a password manager |
+| **Allowed authenticator type** | **Any passkey**, **Device passkeys only** or **External security keys only**, such as USB or NFC keys |
+
+User verification applies to every sign-in, while the other two settings only apply to passkeys added from then on.
+
+## Sign in with another device
+
+Users can sign in on a device without their passkey, such as a borrowed laptop or a TV, by approving the sign-in on their phone:
+
+<CrossDeviceFlow />
+
+1. On the new device, choose **Alternative Sign In Methods → Sign in with another device**.
+2. Scan the QR code with the phone that has the passkey, or open the shown address there and enter the code.
+3. Sign in on the phone with the passkey if it asks, check the device and location it shows, and click **Approve**.
+
+Only approve requests you started yourself, since approving one signs that device in to your account.
+
+## Login code
+
+An admin can create a login code that signs a user in once, to add a first passkey or to get back in after losing all of them.
+[User management](/docs/setup/user-management#add-the-first-passkey) shows how to create one in the admin UI, and [Account recovery](/docs/troubleshooting/account-recovery) how to create one from the command line.
+
+The user enters it under **Alternative Sign In Methods → Login Code**, or opens the link that comes with it.
+
+## Login code by email
+
+:::danger[Weakens your security]
+With this method, anyone who can read a user's email can sign in as them, so their email account becomes as valuable as their passkey.
+:::
+
+With SMTP set up under **Application Configuration → Email**, turn on **Email Login Code Requested by User**.
+**Alternative Sign In Methods** then also offers **Email Login**, where users request a login code for their email address.

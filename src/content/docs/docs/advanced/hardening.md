@@ -1,5 +1,6 @@
 ---
-title: Container Security Hardening
+title: Container hardening
+seoTitle: Harden the Pocket ID container with distroless, non-root and read-only
 description: Secure your Pocket ID deployment with distroless containers and hardening
 ---
 
@@ -57,7 +58,7 @@ ghcr.io/pocket-id/pocket-id:v2-distroless
 
 You can also use a specific version (such as `v2.x.x-distroless`) or branch (`v2.x-distroless`).
 
-Note that distroless containers are non-root by default. You will need to **set permissions on the mountpoints** as described in the [System requirements](#system-requirements) section.
+Note that distroless containers are non-root by default and ignore `PUID` and `PGID`. You will need to **set permissions on the mountpoints** as described in the [System requirements](#system-requirements) section.
 
 :::note
 Distroless containers do not include a shell, so you will not be able to enter into the container (e.g. with `docker exec`) for debugging purposes.

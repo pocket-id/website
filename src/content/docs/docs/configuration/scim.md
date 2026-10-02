@@ -1,59 +1,41 @@
 ---
-title: SCIM Provisioning
-description: Configure automatic user and group provisioning for client applications
+title: SCIM provisioning
+seoTitle: Provision users and groups to apps with SCIM
+description: Keep the users and groups of an app in sync with Pocket ID through SCIM, so new users exist before they sign in and removed users are gone.
 ---
 
-Pocket ID supports [SCIM](https://scim.cloud/) (System for Cross-domain Identity Management) to provision and deprovision users and groups automatically. With SCIM enabled, changes you make in Pocket ID are synchronized to connected client applications without manual updates.
+OIDC only tells an app who signs in, so an app learns about a user at their first sign-in and never hears when they're deleted.
+With [SCIM](https://scim.cloud), Pocket ID pushes its users and groups to the app instead, so the app creates, updates and removes them as you change them in Pocket ID.
 
-OIDC is responsible only for authentication and does not manage user lifecycle events. For example:
+The app has to offer a SCIM endpoint, and its documentation names the URL and how to get a token for it.
 
-- Deleting a user in Pocket ID does not remove them from the client application.
-- Creating a user in Pocket ID does not create them in the client application unless they sign in at least once.
+## Enable SCIM for a client
 
-SCIM fills this gap by keeping user and group data in sync between Pocket ID and your applications.
+1. Open the client under **Administration → OIDC Clients** and go to its **SCIM Provisioning** tab.
+2. Enter the **SCIM Endpoint** and **SCIM Token** from the app.
+3. Click **Enable**.
+4. Click **Sync now** to sync right away and check the setup.
 
 ## What gets synced
 
-If the client is unrestricted, meaning every user can access it, all users and groups in Pocket ID are synced to the client application. If the clients has configured allowed user groups, only users and groups assigned to that client are synced. If you change the allowed user groups or user assignments, the resources get removed or added during the next sync.
+Pocket ID syncs the users who may sign in to the client and their groups.
+For a client restricted to [some groups](/docs/configuration/allowed-groups), that's the members of those groups, and for a client open to all users, it's everyone.
+When you change the groups, users who lose access are removed from the app at the next sync.
 
-## Enable SCIM on an OIDC Client
+## When it syncs
 
-To enable SCIM provisioning:
+- Five minutes after the last change to users or groups, so a batch of changes goes out in one sync.
+- Every hour, even without changes.
+- Whenever you click **Sync now**.
 
-1. Select the client you want to configure SCIM for in the list of the **OIDC Clients** page.
-2. Scroll to the **SCIM Provisioning** section.
-3. Enter the **SCIM Endpoint URL** and **SCIM Token** provided by your client application.
-4. Click **Enable**.
-5. (Optional) Click **Sync now** to run an immediate synchronization and verify the setup.
+## Troubleshooting
 
-## Sync Interval
-
-Pocket ID synchronizes users and groups with the client application at least once per hour.
-
-When you make changes to users or groups, a sync is scheduled to run **five minutes after the most recent change**. If additional changes occur during that period, the timer resets. In practice:
-
-- A sync runs five minutes after the last change, or
-- A sync runs automatically once per hour if no changes occur.
-
-You can also trigger a manual synchronization at any time by clicking **Sync now** in the SCIM Provisioning section.
-
-## Sync Troubleshooting
-
-When SCIM sync fails, first determine whether the problem is with Pocket ID or the client application.
-
-Start by checking whether the client application actually received the synced data. Use the client’s SCIM API to list users and groups:
+First check whether the data reached the app, by listing its users and groups through its SCIM API:
 
 ```bash
-# List Users
-curl -H "Authorization: Bearer <SCIM Token>" "<SCIM Endpoint>/Users"
-
-# List Groups
-curl -H "Authorization: Bearer <SCIM Token>" "<SCIM Endpoint>/Groups"
+curl -H "Authorization: Bearer <SCIM token>" "<SCIM endpoint>/Users"
+curl -H "Authorization: Bearer <SCIM token>" "<SCIM endpoint>/Groups"
 ```
 
-Replace `<SCIM Token>` and `<SCIM Endpoint>` with the values configured in Pocket ID.
-
-- If users and groups appear in the results, sync worked and the issue is likely elsewhere.
-- If they are missing, review the Pocket ID logs for SCIM-related errors.
-
-If you believe the problem is a bug in Pocket ID, please [open an issue](ttps://github.com/pocket-id/pocket-id/issues/new/choose).
+If they're there, the sync works and the problem lies in the app.
+If they're missing, look for SCIM errors in Pocket ID's logs, and [open an issue](https://github.com/pocket-id/pocket-id/issues/new/choose) if you think Pocket ID is at fault.

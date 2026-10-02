@@ -1,9 +1,9 @@
 ---
-title: Migrate to v2.0
+title: Migrate to v2
 description: Migrate from previous versions to Pocket ID v2.0
 ---
 
-If you are upgrading from a version prior to v1.0, please first follow the [migration guide to v1.0](/docs/setup/major-releases/migrate-v1) before proceeding with this guide.
+If you're on a version before 1.0, follow the [migration guide to v1](/docs/setup/major-releases/migrate-v1) first.
 
 If you are using Docker, you have to change the image tag in your `docker-compose.yml` from `v1` to `v2`:
 
@@ -22,7 +22,7 @@ v2.0 is a major release that includes breaking changes. Please read this migrati
 
 ### Environment Variables
 
-- The `ENCRYPTION_KEY` environment variable is now **mandatory**. You must set this variable to a at least 16 characters long random string. You can generate a secure random string using `openssl rand -base64 32`.
+- The `ENCRYPTION_KEY` environment variable is now **mandatory**. You must set this variable to a random string of at least 16 characters. You can generate a secure random string using `openssl rand -base64 32`.
 - `KEYS_STORAGE` and `KEYS_PATH` have been removed. JWKs are now always stored in the database. See [JWKs on Disk](#jwks-on-disk) for more information.
 - `LDAP_ATTRIBUTE_ADMIN_GROUP` has been renamed to `LDAP_ADMIN_GROUP_NAME`.
 - `DB_PROVIDER` has been removed. We will now automatically detect the database type from the `DB_CONNECTION_STRING`.

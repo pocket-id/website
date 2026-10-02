@@ -1,0 +1,179 @@
+---
+title: Installation
+seoTitle: Install Pocket ID with Docker or as a binary
+description: Run Pocket ID with Docker Compose or as a single binary, then create the admin account and its passkey.
+---
+
+import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+import Screenshot from '../../../../components/Screenshot.astro';
+
+Pocket ID is a single program with a built-in SQLite database, so one container or one binary is all it needs.
+
+:::note[HTTPS is required]
+Browsers only allow passkeys on HTTPS pages, or on `localhost` while you try Pocket ID out.
+Plan for a domain such as `id.example.com` and a [reverse proxy](/docs/setup/reverse-proxy) in front of Pocket ID.
+:::
+
+## Install
+
+<Tabs syncKey="install">
+<TabItem label="Docker Compose">
+
+<Steps>
+
+1. Download the Compose file and the example `.env` file:
+
+   ```bash
+   curl -O https://raw.githubusercontent.com/pocket-id/pocket-id/main/docker-compose.yml
+   curl -o .env https://raw.githubusercontent.com/pocket-id/pocket-id/main/.env.example
+   ```
+
+2. Set the address you'll open Pocket ID at and an encryption key in `.env`:
+
+   ```ini title=".env"
+   APP_URL=https://id.example.com
+   # Generate one with: openssl rand -base64 32
+   ENCRYPTION_KEY=<random string of at least 16 characters>
+   ```
+
+   [Environment variables](/docs/configuration/environment-variables) lists every other option.
+
+3. Start Pocket ID:
+
+   ```bash
+   docker compose up -d
+   ```
+
+</Steps>
+
+Pocket ID listens on port 1411 and keeps its database and uploads in `./data`.
+The images are published as `ghcr.io/pocket-id/pocket-id` and `pocketid/pocket-id` on Docker Hub, and the `v2` tag follows the latest 2.x release.
+
+</TabItem>
+<TabItem label="Binary">
+
+<Steps>
+
+1. Download the binary for your system from the [latest release](https://github.com/pocket-id/pocket-id/releases/latest), named `pocket-id_<os>_<architecture>`, such as `pocket-id_linux_amd64`:
+
+   ```bash
+   curl -fL -o pocket-id https://github.com/pocket-id/pocket-id/releases/latest/download/pocket-id_linux_amd64
+   chmod +x pocket-id
+   ```
+
+   Releases cover Linux, macOS, Windows, FreeBSD and OpenBSD on amd64 and arm64, and Linux on 386 and armv7.
+
+2. Download the example `.env` file next to the binary and set `APP_URL` and `ENCRYPTION_KEY` in it, as in the Docker Compose steps:
+
+   ```bash
+   curl -o .env https://raw.githubusercontent.com/pocket-id/pocket-id/main/.env.example
+   ```
+
+3. Start Pocket ID:
+
+   ```bash
+   ./pocket-id
+   ```
+
+</Steps>
+
+Pocket ID reads the `.env` file from the directory it runs in, listens on port 1411 and keeps its data in a `data` directory next to it.
+To run it as a service, start it with systemd or your platform's equivalent.
+
+</TabItem>
+</Tabs>
+
+## Create the admin account
+
+Open `https://id.example.com/setup` and fill in your username, email address and name.
+
+<Screenshot name="setup" alt="The Sign Up to Pocket ID page with fields for username, email, first name and last name" />
+
+After **Sign Up**, add a passkey with **Add Passkey** on your account page, since that's how you sign in from now on.
+The setup page only works until the first account exists.
+
+Next, [connect your first app](/docs/setup/connect-an-app), or [add users](/docs/setup/user-management).
+
+## Offline use
+
+Pocket ID makes two kinds of outgoing requests, which you can turn off for air-gapped servers:
+
+- `VERSION_CHECK_DISABLED=true` stops the check for new releases on GitHub.
+- `ANALYTICS_DISABLED=true` stops the daily [heartbeat](/docs/configuration/analytics) that counts running instances.
+
+## Community installation methods
+
+:::caution
+These methods are maintained by the community, not by the Pocket ID team, and may lag behind releases.
+:::
+
+### Podman Quadlet
+
+For rootless Podman, save this as `~/.config/containers/systemd/pocket-id.container`.
+For rootful Podman, save it in `/etc/containers/systemd/` and change `WantedBy` to `multi-user.target`.
+
+```ini title="pocket-id.container"
+[Container]
+Image=ghcr.io/pocket-id/pocket-id:v2
+PublishPort=1411:1411
+Volume=pocket-id:/app/data:Z
+
+# Optional: updates the image automatically, needs podman-auto-update.timer
+AutoUpdate=registry
+
+HealthCmd=/app/pocket-id healthcheck
+HealthInterval=1m30s
+HealthTimeout=5s
+HealthRetries=2
+HealthStartPeriod=10s
+
+Environment=APP_URL=https://id.example.com
+# A file with the key, generated with: openssl rand -base64 32
+Environment=ENCRYPTION_KEY_FILE=/path/to/encryption_key
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
+```
+
+### Proxmox
+
+Run the [community helper script](https://community-scripts.github.io/ProxmoxVE/scripts?id=pocketid) as root in the Proxmox shell:
+
+```bash
+bash -c "$(wget -qLO - https://github.com/community-scripts/ProxmoxVE/raw/main/ct/pocketid.sh)"
+```
+
+The script installs Pocket ID as a service in `/opt/pocket-id`, with its configuration in `/opt/pocket-id/.env`.
+
+### Kubernetes
+
+- [Helm chart](https://github.com/matslarson/pocket-id-helm) by @matslarson
+- [Helm chart](https://artifacthub.io/packages/helm/anza-labs/pocket-id) by anza-labs
+- [Kubernetes operator](https://github.com/aclerici38/pocket-id-operator) by @aclerici38
+
+### Other platforms
+
+- **Unraid:** install Pocket ID from the Community Apps store.
+- **NixOS:** enable the module with `services.pocket-id.enable = true;`, and see its [options](https://search.nixos.org/options?channel=unstable&query=pocket-id).
+- **Homebrew:** `brew install pocket-id`
+
+## Build from source
+
+Building from source needs [Go](https://go.dev/doc/install) 1.27 or newer, [Node.js](https://nodejs.org) 24 or newer with [pnpm](https://pnpm.io), and Git:
+
+```bash
+git clone https://github.com/pocket-id/pocket-id
+cd pocket-id
+git checkout "$(git describe --tags "$(git rev-list --tags --max-count=1)")"
+
+# The frontend builds into the backend, which embeds it into the binary
+pnpm install
+pnpm --filter pocket-id-frontend build
+cd backend
+go build -o ../pocket-id ./cmd
+```
+
+Then create a `.env` file next to the binary and start it as in the binary steps above.

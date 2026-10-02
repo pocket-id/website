@@ -1,7 +1,11 @@
 ---
-title: APIs and Permissions
+title: APIs and permissions
+seoTitle: Protect your own APIs with Pocket ID access tokens
 description: Let applications get access tokens for your APIs with only the permissions they need.
 ---
+
+import Screenshot from '../../../../components/Screenshot.astro';
+import ApiAccessFlow from '../../../../components/diagrams/ApiAccessFlow.astro';
 
 Pocket ID can issue access tokens that an application can use to call your API. This is useful when, for example, a web app signs a user in and then needs to load data from its backend.
 
@@ -27,9 +31,11 @@ Imagine you have an order management app:
 
 The frontend asks Pocket ID for an access token for the Orders API. The token says which API it is for and which actions are allowed. The backend checks the token before returning or changing any orders.
 
+<ApiAccessFlow />
+
 ## Create an API
 
-1. Open **Settings > APIs**.
+1. Open **Administration → APIs**.
 2. Select **Add API**.
 3. Enter a friendly name, such as `Orders API`.
 4. Enter a unique resource, such as `https://api.orders.example.com`.
@@ -47,13 +53,15 @@ Open the API you created and add the actions that clients may request. Each perm
 
 Keep each permission focused on one action. This lets you give every client only the access it needs.
 
+<Screenshot name="api-permissions" alt="The Orders API with the resource https://api.orders.example.com and the permissions read:orders and write:orders" />
+
 ## Allow an OIDC client to use the API
 
-1. Open **Settings > OIDC Clients**.
-2. Select the client that will call the API.
-3. Find **API access** and edit the API.
+1. Open **Administration → OIDC Clients**.
+2. Select the client that will call the API and go to its **Access** tab.
+3. Under **API access**, click **Add API** and choose the API.
 4. Select the permissions the client may request.
-5. Save the client.
+5. Save the changes.
 
 There are two access types:
 
@@ -66,7 +74,7 @@ Public clients cannot use client access because they cannot safely keep a client
 
 You can grant user-delegated access to every client registered through a [Client ID Metadata Document](/docs/guides/client-id-metadata-documents):
 
-1. Open **Settings > APIs** and select the API.
+1. Open **Administration → APIs** and select the API.
 2. Under **API access**, select **Metadata document clients**.
 3. Enable **Allow all metadata document clients**.
 4. Select the permissions these clients may request.

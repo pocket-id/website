@@ -1,0 +1,53 @@
+---
+title: Introduction
+seoTitle: Pocket ID, a simple OIDC provider for passkey sign-in
+description: Pocket ID is a self-hosted OpenID Connect provider that lets users sign in to your apps with passkeys instead of passwords.
+---
+
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+import Screenshot from '../../../components/Screenshot.astro';
+import SignInFlow from '../../../components/diagrams/SignInFlow.astro';
+
+Pocket ID is a self-hosted OpenID Connect (OIDC) provider: one place where your users sign in, for every app you connect to it.
+It's made for homelabs and small teams that find [Keycloak](https://www.keycloak.org) or [Authentik](https://goauthentik.io) too much for what they need.
+
+Pocket ID only supports [passkeys](https://www.passkeys.io), so there are no passwords to reuse, leak or phish.
+A passkey can live in a password manager, on a phone or on a hardware key such as a YubiKey, and it unlocks with a fingerprint, face scan or PIN.
+
+<Screenshot name="sign-in" alt="The Pocket ID sign-in page with an Authenticate button" />
+
+You can try it on the [demo instance](https://demo.pocket-id.org).
+
+## How sign-in works
+
+Any app that offers sign-in with OpenID Connect, often labeled as SSO, OAuth or OIDC, can use Pocket ID.
+You register the app in Pocket ID as an **OIDC client**, and the app sends its users to Pocket ID when they sign in:
+
+<SignInFlow />
+
+Pocket ID only lets a user through when their passkey checks out and, if you restricted the client to some groups, when they're a member of one of them.
+The app then receives tokens with the user's name, email address and groups, and creates its own session from them.
+
+Apps without OIDC support, and apps that only support LDAP or SAML, can still sit behind Pocket ID with an authentication proxy, as [Proxy services](/docs/guides/proxy-services) shows.
+
+## Concepts
+
+- **Users** sign in with their passkeys, and an admin can let a user in once with a **login code**, such as to add their first passkey.
+- **Groups** decide which users may sign in to which client, and the apps you connect receive them in the token to assign roles.
+- **OIDC clients** are the apps that use Pocket ID for sign-in, each with its own client ID, secret and callback URLs.
+- **APIs** are your own backends that accept access tokens from Pocket ID, which you only need for [API access](/docs/guides/apis).
+
+## Next steps
+
+<CardGrid>
+	<LinkCard title="Install Pocket ID" href="/docs/setup/installation" description="Start Pocket ID with Docker Compose or as a single binary." />
+	<LinkCard title="Put it behind HTTPS" href="/docs/setup/reverse-proxy" description="Passkeys only work over HTTPS, so Pocket ID needs a reverse proxy." />
+	<LinkCard title="Connect your first app" href="/docs/setup/connect-an-app" description="Create an OIDC client and give the app the values it asks for." />
+	<LinkCard title="Client examples" href="/docs/client-examples" description="Step-by-step setup for nearly a hundred apps, from Immich to Proxmox." />
+</CardGrid>
+
+## Videos
+
+- [Use a custom OIDC and passkeys to log in to Tailscale with Pocket ID](https://www.youtube.com/watch?v=sPUkAm7yDlU) by Tailscale
+- [Improving Security with Hardware Keys - Authentik & Pocket-ID](https://www.youtube.com/watch?v=QC5IUmu7cgw) by Jim's Garage
+- [Protect your MCP Server with OAuth 2.1 in just 5 minutes with Pocket ID](https://www.youtube.com/watch?v=JjoXz2u5r3Y)

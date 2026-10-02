@@ -1,0 +1,87 @@
+---
+// Where a reverse proxy sits: browsers and apps reach Pocket ID over HTTPS at its public URL, and only the proxy talks to port 1411
+import Figure from '../Figure.astro';
+import { dg, dgBox, dgSub, dgTitle } from './classes';
+
+interface Props {
+	caption?: string;
+}
+const {
+	caption = 'Browsers and the apps you connect both reach Pocket ID at its public HTTPS URL, which is APP_URL. The proxy terminates TLS and forwards every path to port 1411.'
+} = Astro.props;
+
+// Three columns: the clients on the left, the proxy in the middle and the server with Pocket ID on the right
+const rowH = 56;
+const left = { x: 0, w: 150 };
+const proxy = { x: 238, w: 166, y: 46, h: 160 };
+const server = { x: 474, w: 206, y: 4, h: 246 };
+const pid = { x: server.x + 14, y: 66, w: server.w - 28 };
+const data = { x: server.x + 14, y: 164, w: server.w - 28 };
+const rows = [{ y: 46, title: 'Browsers', sub: 'sign-in and admin UI' }, { y: 150, title: 'Your apps', sub: 'tokens and user info' }];
+const mid = (y: number) => y + rowH / 2;
+---
+
+<Figure caption={caption}>
+	<svg viewBox="0 0 680 254" role="img" aria-label={caption}>
+		<defs>
+			<marker id="rp-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+				<path d="M0,0 L10,5 L0,10 z" class={dg.arrowhead} />
+			</marker>
+			<marker id="rp-key" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+				<path d="M0,0 L10,5 L0,10 z" class={dg.arrowheadKey} />
+			</marker>
+		</defs>
+
+		<rect class={dg.zone} x={server.x} y={server.y} width={server.w} height={server.h} rx="12" />
+		<text class={dg.zoneLabel} x={server.x + 14} y={server.y + 26}>Your server</text>
+
+		{
+			rows.map((r) => (
+				<g>
+					<rect class={dg.box} x={left.x} y={r.y} width={left.w} height={rowH} rx="8" />
+					<text class={dg.title} x={left.x + 14} y={r.y + 24}>
+						{r.title}
+					</text>
+					<text class={dg.sub} x={left.x + 14} y={r.y + 41}>
+						{r.sub}
+					</text>
+				</g>
+			))
+		}
+
+		<g>
+			<rect class={dg.box} x={proxy.x} y={proxy.y} width={proxy.w} height={proxy.h} rx="8" />
+			<text class={dg.title} x={proxy.x + 14} y={proxy.y + 26}>Reverse proxy</text>
+			<text class={dg.sub} x={proxy.x + 14} y={proxy.y + 44}>Caddy, nginx, Traefik…</text>
+			<text class={dg.mono} x={proxy.x + 14} y={proxy.y + 134}>id.example.com:443</text>
+		</g>
+
+		<g>
+			<rect class={dgBox('key')} x={pid.x} y={pid.y} width={pid.w} height={rowH} rx="8" />
+			<text class={dgTitle(true)} x={pid.x + 14} y={pid.y + 24}>Pocket ID</text>
+			<text class={dgSub(true)} x={pid.x + 14} y={pid.y + 41}>listens on port 1411</text>
+		</g>
+		<g>
+			<rect class={dg.box} x={data.x} y={data.y} width={data.w} height={rowH} rx="8" />
+			<text class={dg.title} x={data.x + 14} y={data.y + 24}>Data</text>
+			<text class={dg.sub} x={data.x + 14} y={data.y + 41}>database and uploads</text>
+		</g>
+
+		{/* Both kinds of clients use HTTPS to the proxy */}
+		{
+			rows.map((r) => (
+				<g>
+					<line class={dg.edge} x1={left.x + left.w} y1={mid(r.y)} x2={proxy.x - 2} y2={mid(r.y)} marker-end="url(#rp-arrow)" />
+					<text class={dg.edgeLabel} x={(left.x + left.w + proxy.x) / 2} y={mid(r.y) - 8} text-anchor="middle">
+						HTTPS
+					</text>
+				</g>
+			))
+		}
+
+		{/* Only the proxy reaches Pocket ID, over plain HTTP inside the server or the Docker network */}
+		<line class={dg.edgeKey} x1={proxy.x + proxy.w} y1={mid(pid.y)} x2={pid.x - 2} y2={mid(pid.y)} marker-end="url(#rp-key)" />
+		<text class={dg.edgeLabelKey} x={(proxy.x + proxy.w + pid.x) / 2} y={mid(pid.y) - 8} text-anchor="middle">HTTP</text>
+		<line class={dg.edge} x1={pid.x + pid.w / 2} y1={pid.y + rowH} x2={data.x + data.w / 2} y2={data.y - 2} marker-end="url(#rp-arrow)" />
+	</svg>
+</Figure>

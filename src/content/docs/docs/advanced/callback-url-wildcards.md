@@ -1,19 +1,28 @@
 ---
-title: Callback URL Wildcards
-description: Using wildcards in OIDC client callback URLs
+title: Callback URLs
+seoTitle: Callback URL rules and wildcards for OIDC clients
+description: How Pocket ID matches callback and logout URLs, and the wildcard patterns they support.
 ---
 
-Both Callback URLs and Logout Callback URLs support wildcard patterns to allow flexibility in specifying acceptable redirect URIs.
+Pocket ID only redirects users to the **Callback URLs** of a client after sign-in, and to its **Logout Callback URLs** after sign-out.
+Every client needs at least one callback URL, since Pocket ID doesn't save the first URL an app sends anymore.
+
+- A URL has to match exactly, unless it contains a wildcard.
+- An `http://` URL on `localhost` or a loopback address such as `127.0.0.1`, registered without a port, matches on any port, for desktop and command-line apps that pick a free one.
+- `http://` URLs on other hosts work while `ALLOW_INSECURE_CALLBACK_URLS` is `true`, its default for now.
+- If a client has exactly one callback URL, apps may leave out `redirect_uri`.
+
+## Wildcards
+
+Both kinds of URLs support wildcard patterns, for apps whose callback URL changes, such as preview deployments.
 
 :::caution
 If possible, prefer exact URLs instead of wildcards for better security.
 :::
 
-## Wildcard Types
-
 Two types of wildcards are supported: Single Wildcards (`*`) and Globstars (`**`).
 
-### Single Wildcard (`*`)
+### Single wildcard (`*`)
 
 Matches **any characters inside a single segment**, such as:
 

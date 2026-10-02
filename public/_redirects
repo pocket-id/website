@@ -2,3 +2,4 @@
 /docs /docs/introduction 301
 /docs/ /docs/introduction 301
 /sitemap.xml /sitemap-index.xml 301
+/docs/advanced/nginx-reverse-proxy /docs/setup/reverse-proxy 301

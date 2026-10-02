@@ -1,0 +1,120 @@
+---
+// A sequence diagram: one lane per party, and one row per message in the order they happen
+// The flows in these docs all fit this shape, so each diagram only lists its parties and messages, and they all share one look
+import Figure from '../Figure.astro';
+import { dg, dgBox, dgSub, dgTitle } from './classes';
+
+export type Actor = { id: string; title: string; sub?: string; key?: boolean };
+// A message from a party to itself draws a note on its lane instead of an arrow
+export type Message = { from: string; to: string; label: string; key?: boolean; dashed?: boolean };
+
+interface Props {
+	actors: Actor[];
+	messages: Message[];
+	caption: string;
+	// Marks a span of rows, such as the part that happens server to server, by its first and last message index
+	band?: { from: number; to: number; label: string };
+}
+const { actors, messages, caption, band } = Astro.props;
+
+// Lanes spread across the content column's width, so text stays at 1:1 on desktop
+const width = 680;
+const margin = actors.length > 3 ? 78 : 92;
+const lane = (id: string) => {
+	const i = actors.findIndex((a) => a.id === id);
+	if (i === -1) throw new Error(`Unknown actor ${id}`);
+	return margin + (i * (width - 2 * margin)) / (actors.length - 1);
+};
+const boxW = Math.min(156, (width - 2 * margin) / (actors.length - 1) - 16);
+const boxH = 50;
+const rowH = 40;
+const top = boxH + 38;
+const rowY = (i: number) => top + i * rowH;
+const height = rowY(messages.length - 1) + 22;
+
+// Every drawing on a page gets its own marker ids, since a page can hold several diagrams, and hashing the caption keeps builds reproducible
+let hash = 0;
+for (const char of caption) hash = (hash * 31 + char.charCodeAt(0)) | 0;
+const uid = `seq-${(hash >>> 0).toString(36)}`;
+---
+
+<Figure caption={caption}>
+	<svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label={caption}>
+		<defs>
+			<marker id={`${uid}-a`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+				<path d="M0,0 L10,5 L0,10 z" class={dg.arrowhead} />
+			</marker>
+			<marker id={`${uid}-k`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+				<path d="M0,0 L10,5 L0,10 z" class={dg.arrowheadKey} />
+			</marker>
+		</defs>
+
+		{/* A band behind a span of rows groups the messages that happen out of the browser's sight */}
+		{
+			band && (
+				<g>
+					<rect class={dg.zone} x="2" y={rowY(band.from) - 26} width={width - 4} height={rowY(band.to) - rowY(band.from) + 38} rx="10" />
+					<text class={dg.zoneLabel} x="14" y={rowY(band.from) - 10}>
+						{band.label}
+					</text>
+				</g>
+			)
+		}
+
+		{/* Lifelines run from each party's box to the last row */}
+		{actors.map((a) => <line class={dg.lifeline} x1={lane(a.id)} y1={boxH} x2={lane(a.id)} y2={height - 4} />)}
+
+		{
+			actors.map((a) => (
+				<g>
+					<rect class={dgBox(a.key ? 'key' : undefined)} x={lane(a.id) - boxW / 2} y="0" width={boxW} height={boxH} rx="8" />
+					<text class={dgTitle(a.key)} x={lane(a.id)} y={a.sub ? 21 : 29} text-anchor="middle">
+						{a.title}
+					</text>
+					{a.sub && (
+						<text class={dgSub(a.key)} x={lane(a.id)} y="38" text-anchor="middle">
+							{a.sub}
+						</text>
+					)}
+				</g>
+			))
+		}
+
+		{
+			messages.map((m, i) => {
+				const y = rowY(i);
+				const x1 = lane(m.from);
+				const x2 = lane(m.to);
+				if (m.from === m.to) {
+					// A note sits on its lane, wide enough for its text at roughly 6px per character, and moves inward at the edges of the drawing
+					const w = m.label.length * 6 + 20;
+					const x = Math.min(Math.max(x1 - w / 2, 2), width - w - 2);
+					return (
+						<g>
+							<rect class={dg.box} x={x} y={y - 14} width={w} height="24" rx="6" />
+							<text class={dg.sub} x={x + w / 2} y={y + 2} text-anchor="middle">
+								{m.label}
+							</text>
+						</g>
+					);
+				}
+				const dir = x2 > x1 ? 1 : -1;
+				return (
+					<g>
+						<line
+							class={m.key ? dg.edgeKey : m.dashed ? dg.edgeDashed : dg.edge}
+							x1={x1 + dir * 4}
+							y1={y}
+							x2={x2 - dir * 6}
+							y2={y}
+							marker-end={`url(#${uid}-${m.key ? 'k' : 'a'})`}
+						/>
+						<text class={m.key ? dg.edgeLabelKey : dg.edgeLabel} x={(x1 + x2) / 2} y={y - 7} text-anchor="middle">
+							{m.label}
+						</text>
+					</g>
+				);
+			})
+		}
+	</svg>
+</Figure>

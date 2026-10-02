@@ -9,7 +9,8 @@
     "dev": "node scripts/openapi.mjs && astro dev",
     "build": "node scripts/openapi.mjs && astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "screenshots": "node scripts/screenshots.mjs"
   },
   "dependencies": {
     "@astrojs/starlight": "^0.42.4",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "playwright": "1.63.0",
     "typescript": "^6.0.3"
   }
 }

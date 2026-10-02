@@ -1,282 +1,291 @@
 ---
-title: Environment Variables
-description: Complete reference for all Pocket ID configuration options
+title: Environment variables
+seoTitle: Pocket ID environment variables reference
+description: Every environment variable Pocket ID reads, with its default, grouped by topic, plus the variables that replace the settings of the admin UI.
 ---
 
-Below are all the environment variables supported by Pocket ID. These should be configured in your `.env ` file.
+Pocket ID reads its configuration from environment variables, and from a `.env` file in the directory it runs in.
+Only `ENCRYPTION_KEY` is required, and `APP_URL` has to be set for anything beyond trying Pocket ID on `localhost`.
 
-Be cautious when modifying environment variables that are not recommended to change.
+Variables that hold secrets also accept a `_FILE` variant with the path of a file that contains the value, which works with Docker secrets: `ENCRYPTION_KEY_FILE`, `DB_CONNECTION_STRING_FILE`, `STATIC_API_KEY_FILE`, `S3_SECRET_ACCESS_KEY_FILE` and `MAXMIND_LICENSE_KEY_FILE`.
+The file wins over the plain variable.
 
-<div class="env-var-table">
+## Essentials
 
-| Variable                              | Default Value                                                                                           | Recommended to change | Description                                                                                                                                                                                                                                                                                                                                                               |
-| ------------------------------------- | ------------------------------------------------------------------------------------------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `APP_URL`                             | `http://localhost:1411`                                                                                 | yes                   | The URL where you will access the app.                                                                                                                                                                                                                                                                                                                                    |
-| `ENCRYPTION_KEY`                      | `-`                                                                                                     | yes                   | Key used to encrypt data, including the private keys. It's recommended to use a random sequence of characters, for example generated with `openssl rand -base64 32`<br/>See the [Encryption keys](#encryption-keys) section below for more details.                                                                                                                       |
-| `ENCRYPTION_KEY_FILE`                 | `-`                                                                                                     | yes                   | Alternative to passing the encryption key with the `ENCRYPTION_KEY` variable, set to the path of a file containing a random encryption key. _This can be used with Docker secrets too._                                                                                                                                                                                   |
-| `TRUST_PROXY`                         | `false`                                                                                                 | yes                   | The reverse proxy IP addresses or CIDR ranges that Pocket ID should trust. The values `true` and `false` are also supported.<br/>See the [Reverse proxy settings](#reverse-proxy-settings) section below for more details.                                                                                                                                                |
-| `PROXY_PROTOCOL`                      | `false`                                                                                                 | yes                   | The reverse proxy IP addresses or CIDR ranges that are allowed to send [PROXY protocol](https://www.haproxy.org/download/2.9/doc/proxy-protocol.txt) headers. This is useful when a load balancer sends the original client address before the HTTP connection. See the [Reverse proxy settings](#reverse-proxy-settings) section below for more details.                 |
-| `TRUSTED_PLATFORM`                    | `-`                                                                                                     | yes                   | The trusted platform header for obtaining the client's real IP.<br/>See the [Reverse proxy settings](#reverse-proxy-settings) section below for more details.                                                                                                                                                                                                             |
-| `ALLOW_INSECURE_CALLBACK_URLS`        | `true`                                                                                                  | yes                   | Whether OIDC clients may use plain HTTP callback URLs on non-loopback hosts. For better security, set this to `false` unless one of your clients requires an HTTP callback URL. HTTP callback URLs on loopback hosts such as `localhost` remain allowed.                                                                                                                  |
-| `CLOUDFLARE_LOCATION_HEADERS`         | `false`                                                                                                 | no                    | Use Cloudflare location headers instead of GeoLite for audit logs and login notifications. See [Cloudflare location headers](#cloudflare-location-headers). |
-| `MAXMIND_LICENSE_KEY`                 | `-`                                                                                                     | yes                   | License Key for the GeoLite2 Database. The license key enables automatic GeoLite database downloads for IP locations in the audit log. Without a local database, public locations are unknown unless `CLOUDFLARE_LOCATION_HEADERS` is enabled. You can obtain a license key for free [here](https://www.maxmind.com/en/geolite2/signup).                                                                |
-| `MAXMIND_LICENSE_KEY_FILE`            | `-`                                                                                                     | yes                   | Alternative to passing the License Key for GeoLite2 Database with the `MAXMIND_LICENSE_KEY` variable, set to the path of a file containing the key. _This can be used with Docker secrets too._                                                                                                                                                                           |
-| `PUID` and `PGID`                     | `1000`                                                                                                  | yes                   | The user and group ID of the user who should run Pocket ID inside the Docker container and owns the files that are mounted with the volume. You can get the `PUID` and `GUID` of your user on your host machine by using the command `id`. For more information see [this article](https://docs.linuxserver.io/general/understanding-puid-and-pgid/#using-the-variables). |
-| `DB_CONNECTION_STRING`                | `data/pocket-id.db`                                                                                     | no                    | Specifies the connection string used to connect to the database.<br/>See the [Database connection string](#database-connection-string) section below for more details.                                                                                                                                                                                                    |
-| `DB_CONNECTION_STRING_FILE`           | `-`                                                                                                     | no                    | Alternative to passing the database connection string with the `DB_CONNECTION_STRING` variable, set to the path of a file containing the connection string. _This can be used with Docker secrets too._                                                                                                                                                                   |
-| `FILE_BACKEND`                        | `filesystem`                                                                                            | no                    | The backend used for file storage. Valid values: `filesystem`, `s3`, `database`.                                                                                                                                                                                                                                                                                          |
-| `UPLOAD_PATH`                         | `data/uploads`                                                                                          | no                    | The path where the uploaded files are stored. Only has an effect if `FILE_BACKEND` is `filesystem` or `s3`.                                                                                                                                                                                                                                                               |
-| `S3_BUCKET`                           | `-`                                                                                                     | yes                   | The S3 bucket name. Required if `FILE_BACKEND` is `s3`.                                                                                                                                                                                                                                                                                                                   |
-| `S3_REGION`                           | `-`                                                                                                     | yes                   | The S3 region. Required if `FILE_BACKEND` is `s3`.                                                                                                                                                                                                                                                                                                                        |
-| `S3_ENDPOINT`                         | `-`                                                                                                     | yes                   | The S3 endpoint URL. Required if `FILE_BACKEND` is `s3`.                                                                                                                                                                                                                                                                                                                  |
-| `S3_ACCESS_KEY_ID`                    | `-`                                                                                                     | yes                   | The S3 access key ID. Required if `FILE_BACKEND` is `s3`.                                                                                                                                                                                                                                                                                                                 |
-| `S3_SECRET_ACCESS_KEY`                | `-`                                                                                                     | yes                   | The S3 secret access key. Required if `FILE_BACKEND` is `s3`.                                                                                                                                                                                                                                                                                                             |
-| `S3_FORCE_PATH_STYLE`                 | `false`                                                                                                 | no                    | Force path style for S3.                                                                                                                                                                                                                                                                                                                                                  |
-| `S3_DISABLE_DEFAULT_INTEGRITY_CHECKS` | `false`                                                                                                 | no                    | Disable default integrity checks for S3.                                                                                                                                                                                                                                                                                                                                  |
-| `LOG_LEVEL`                           | `info`                                                                                                  | no                    | How verbose the logs should be. Valid values: `debug`, `info`, `warn`, `error`                                                                                                                                                                                                                                                                                            |
-| `LOG_QUERY_ARGS`                      | `false`                                                                                                 | no                    | Include database query parameter values in traces and in query logs emitted with `LOG_LEVEL=debug`. Query parameters can contain sensitive data, so enable this only while troubleshooting and protect the resulting telemetry.                                                                                                                                           |
-| `GEOLITE_DB_PATH`                     | `data/GeoLite2-City.mmdb`                                                                               | no                    | The path where the GeoLite2 database should be stored.                                                                                                                                                                                                                                                                                                                    |
-| `GEOLITE_DB_URL`                      | `https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=%s&suffix=tar.gz` | no                    | The custom download URL for the Geolite DB (default value should be fine for most users.)                                                                                                                                                                                                                                                                                 |
-| `PORT`                                | `1411`                                                                                                  | no                    | The port on which Pocket ID should listen.                                                                                                                                                                                                                                                                                                                                |
-| `HOST`                                | `0.0.0.0`                                                                                               | no                    | The address on which Pocket ID should listen.                                                                                                                                                                                                                                                                                                                             |
-| `LOG_JSON`                            | `false`                                                                                                 | no                    | If true, emit logs formatted as JSON.                                                                                                                                                                                                                                                                                                                                     |
-| `UNIX_SOCKET`                         | `-`                                                                                                     | no                    | The Unix socket path on which Pocket ID should listen. When set, the server will use a Unix socket instead of TCP, and the `PORT`/`HOST` parameters are ignored.                                                                                                                                                                                                          |
-| `UNIX_SOCKET_MODE`                    | `-`                                                                                                     | no                    | The Unix socket mode. Only takes effect when `UNIX_SOCKET` is set.                                                                                                                                                                                                                                                                                                        |
-| `LOCAL_IPV6_RANGES`                   | `-`                                                                                                     | no                    | User configured local IPv6 ranges for the audit log.                                                                                                                                                                                                                                                                                                                      |
-| `TLS_CERT`                            | `-`                                                                                                     | no                    | PEM-encoded TLS certificate provided directly in the environment variable. Must be set along with `TLS_KEY` and cannot be combined with `TLS_CERT_FILE` or `TLS_KEY_FILE`. Inline certificate data is not automatically reloaded.                                                                                                                                         |
-| `TLS_KEY`                             | `-`                                                                                                     | no                    | PEM-encoded TLS private key provided directly in the environment variable. Must be set along with `TLS_CERT` and cannot be combined with `TLS_CERT_FILE` or `TLS_KEY_FILE`. Inline key data is not automatically reloaded.                                                                                                                                                |
-| `TLS_CERT_FILE`                       | `-`                                                                                                     | no                    | Path to a PEM-encoded TLS certificate file. Must be set along with `TLS_KEY_FILE` and cannot be combined with `TLS_CERT` or `TLS_KEY`. Pocket ID monitors the certificate and key files and automatically reloads them when they change.                                                                                                                                  |
-| `TLS_KEY_FILE`                        | `-`                                                                                                     | no                    | Path to a PEM-encoded TLS private key file. Must be set along with `TLS_CERT_FILE` and cannot be combined with `TLS_CERT` or `TLS_KEY`. Pocket ID monitors the certificate and key files and automatically reloads them when they change.                                                                                                                                 |
-| `UI_CONFIG_DISABLED`                  | `false`                                                                                                 | no                    | See [Overriding the UI configuration](#overriding-the-ui-configuration).                                                                                                                                                                                                                                                                                                  |
-| `ANALYTICS_DISABLED`                  | `false`                                                                                                 | no                    | Disable heartbeat that gets sent every 24 hours to count how many Pocket ID instances are running. This is recommended for air-gapped environments. Read more [about analytics](/docs/configuration/analytics).                                                                                                                                                           |
-| `VERSION_CHECK_DISABLED`              | `false`                                                                                                 | no                    | Set to true to disable the automatic version check against GitHub. This is highly recommended for air-gapped environments or deployments without reliable internet access.                                                                                                                                                                                                |
-| `INTERNAL_APP_URL`                    | `-`                                                                                                     | no                    | Sets the base URL of all URLs that need to be accessible from other clients in `/well-known/ openid-configuration`. This can be useful if `APP_URL` isn't accessible by your OIDC clients.                                                                                                                                                                                |
-| `AUDIT_LOG_RETENTION_DAYS`            | `90`                                                                                                    | no                    | Defines how many days it will take before the audit logs are deleted.                                                                                                                                                                                                                                                                                                     |
-| `STATIC_API_KEY`                      | `-`                                                                                                     | no                    | A static API key that grants admin access to the Pocket ID instance. This will create an admin account called "Static API User" under the hood. This API key can be useful for declarative installations. If possible prefer [regular API Keys](/docs/api)                                                                                                                |
-| `DISABLE_RATE_LIMITING`               | `false`                                                                                                 | no                    | You can disable the built-in rate limiting if you want to set your own rate limiting policy. Do not disable this if you don't have your own rate limiting configured in your reverse proxy.                                                                                                                                                                               |
+| Variable | Default | Description |
+| --- | --- | --- |
+| `APP_URL` | `http://localhost:1411` | The address you open Pocket ID at, such as `https://id.example.com`, without a path. Passkeys are bound to its domain. |
+| `ENCRYPTION_KEY` | | Encrypts sensitive data such as the token signing keys, at least 16 bytes. See [Encryption keys](#encryption-keys). |
+| `TRUST_PROXY` | `false` | The reverse proxies to take the client IP from. See [Reverse proxy settings](#reverse-proxy-settings). |
+| `MAXMIND_LICENSE_KEY` | | A free [MaxMind](https://www.maxmind.com/en/geolite2/signup) key, which lets Pocket ID download the GeoLite2 database to show locations in the audit log. |
+| `PUID`, `PGID` | `1000` | The user and group the Docker container runs Pocket ID as, and which owns `/app/data`. They have no effect on the `-distroless` images or when the container already runs as another user. |
 
-</div>
+## Network
 
-### Database connection string
+| Variable | Default | Description |
+| --- | --- | --- |
+| `PORT` | `1411` | The port Pocket ID listens on. |
+| `HOST` | `0.0.0.0` | The address Pocket ID listens on. |
+| `UNIX_SOCKET` | | Listen on this Unix socket path instead of `HOST` and `PORT`. |
+| `UNIX_SOCKET_MODE` | | The socket's permissions in octal, such as `0660`. |
+| `SYSTEMD_SOCKET` | `false` | Use the socket systemd passes in with socket activation, on Linux. Can't be combined with `UNIX_SOCKET`. |
+| `TRUSTED_PLATFORM` | | The header your platform puts the client IP in, such as `CF-Connecting-IP`. See [Reverse proxy settings](#reverse-proxy-settings). |
+| `PROXY_PROTOCOL` | `false` | The load balancers that send the PROXY protocol. See [Reverse proxy settings](#reverse-proxy-settings). |
+| `INTERNAL_APP_URL` | `APP_URL` | The base URL of the token, userinfo, introspection and JWKS endpoints in the discovery document, for apps that reach Pocket ID at another address than browsers. |
+| `TLS_CERT_FILE`, `TLS_KEY_FILE` | | Paths of a PEM certificate and key, to serve HTTPS directly. Pocket ID reloads them when they change. |
+| `TLS_CERT`, `TLS_KEY` | | The PEM certificate and key as values, instead of files. They can't be combined with the file variables. |
+| `LOCAL_IPV6_RANGES` | | Comma-separated IPv6 ranges, such as `fd00::/8`, that the audit log labels as local network. |
 
-The `DB_CONNECTION_STRING` environment variable configures how Pocket ID connects to the database. Alternatively, set `DB_CONNECTION_STRING_FILE` to the path of a file containing the connection string, including a mounted Docker secret.
+## Database and file storage
 
-Pocket ID supports two database providers: **SQLite** and **PostgreSQL**. The database provider is automatically inferred from the connection string. By default, Pocket ID uses **SQLite** with a database file located at `data/pocket-id.db`.
+| Variable | Default | Description |
+| --- | --- | --- |
+| `DB_CONNECTION_STRING` | `data/pocket-id.db` | The SQLite database file or a PostgreSQL URL. See [Database connection string](#database-connection-string). |
+| `FILE_BACKEND` | `filesystem` | Where uploads such as logos and profile pictures go: `filesystem`, `database` or `s3`. |
+| `UPLOAD_PATH` | `data/uploads` | The uploads folder for `filesystem`, or the key prefix inside the bucket for `s3`. |
+| `S3_BUCKET` | | The bucket, for `FILE_BACKEND=s3`. |
+| `S3_REGION` | | The bucket's region. |
+| `S3_ENDPOINT` | | The S3 endpoint, for storage other than AWS, such as MinIO or Cloudflare R2. |
+| `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY` | | The S3 credentials. |
+| `S3_FORCE_PATH_STYLE` | `false` | Address the bucket in the path instead of the host name, which MinIO and some other providers need. |
+| `S3_DISABLE_DEFAULT_INTEGRITY_CHECKS` | `false` | Turn off the checksums newer AWS SDKs send, for providers that reject them. |
+| `ALLOW_DOWNGRADE` | `false` | Let an older version start on a database that a newer version already migrated, by downloading and running the newer version's down migrations from GitHub. |
 
-#### SQLite
+## Security
 
-When using **SQLite**, the connection string is the path to the SQLite database file. Pocket ID automatically adds some parameters to the database path, turning it into a connection string like `file:data/pocket-id.db?_pragma=journal_mode(WAL)&_pragma=busy_timeout(2500)&_txlock=immediate&_pragma=foreign_keys(1)` - you can pass a full connection string if you need to customize the parameters.
+| Variable | Default | Description |
+| --- | --- | --- |
+| `ALLOW_INSECURE_CALLBACK_URLS` | `true` | Allow `http://` callback URLs on hosts other than `localhost`. Set it to `false` unless a client needs one. |
+| `DISABLE_RATE_LIMITING` | `false` | Turn off the built-in rate limits. Only do this when your reverse proxy limits requests instead. |
+| `STATIC_API_KEY` | | An API key of at least 16 characters with admin rights, for declarative setups. It acts as a user named "Static API User". Prefer [regular API keys](/docs/api) where you can. |
+| `AUDIT_LOG_RETENTION_DAYS` | `90` | How many days the audit log keeps events. |
+
+## Locations
+
+Pocket ID shows where a sign-in came from in the audit log and in new-device emails.
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `MAXMIND_LICENSE_KEY` | | Enables downloading and updating the GeoLite2 database. |
+| `GEOLITE_DB_PATH` | `data/GeoLite2-City.mmdb` | Where the GeoLite2 database is stored. You can also place a database there yourself. |
+| `GEOLITE_DB_URL` | MaxMind's download URL | A different download URL, where `%s` stands for the license key. A custom URL works without a key. |
+| `CLOUDFLARE_LOCATION_HEADERS` | `false` | Take locations from Cloudflare's headers instead of GeoLite2. See [Cloudflare location headers](#cloudflare-location-headers). |
+
+## Logging
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `LOG_LEVEL` | `info` | `debug`, `info`, `warn` or `error`. |
+| `LOG_JSON` | `false` | Write logs as JSON. |
+| `LOG_QUERY_ARGS` | `false` | Include the values of database queries in debug logs and traces. They can contain personal data, so only turn this on while troubleshooting. |
+
+[Observability](#observability) covers metrics and traces.
+
+## Other
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `UI_CONFIG_DISABLED` | `false` | Take the settings of **Application Configuration** from environment variables. See [Overriding the UI configuration](#overriding-the-ui-configuration). |
+| `ANALYTICS_DISABLED` | `false` | Turn off the daily [heartbeat](/docs/configuration/analytics) that counts running instances. |
+| `VERSION_CHECK_DISABLED` | `false` | Turn off the check for new releases on GitHub. |
+| `DISMISS_SQLITE_STORAGE_WARNING` | | Set to `i accept the risks` to hide the admin warning about a SQLite database on a network share. |
+| `ACTORS_PORT`, `ACTORS_HOST` | `1414`, `0.0.0.0` | The UDP port and address of Pocket ID's internal task runtime. Only change the port if 1414 is taken. |
+
+## Database connection string
+
+Pocket ID supports SQLite and PostgreSQL and picks one from `DB_CONNECTION_STRING`: a URL that starts with `postgres://` or `postgresql://` is PostgreSQL, and anything else is a path to a SQLite file.
+
+### SQLite
+
+SQLite needs no setup, and the default `data/pocket-id.db` is fine for most installations.
+Pocket ID adds the connection parameters it needs, such as write-ahead logging and a busy timeout, and you can pass a full `file:` connection string to change them.
 
 :::danger
-We **do NOT recommend** storing the SQLite database inside a networked filesystem, such as a NFS or SMB share. However, if you absolutely must, and are [aware of the risks](https://www.sqlite.org/useovernet.html), you need to modify `DB_CONNECTION_STRING` and disable journaling, by setting `_journal_mode=DELETE`. Note that this is not a recommended or supported scenario by the SQLite developers, and you should ensure to have proper backups for your database.
+Don't store the SQLite database on a network share, such as NFS or SMB.
+If you have to, and know the [risks](https://www.sqlite.org/useovernet.html), add `_journal_mode=DELETE` to the connection string and keep backups.
+Pocket ID warns about this in the admin UI, which `DISMISS_SQLITE_STORAGE_WARNING` hides.
 :::
 
-#### PostgreSQL
+### PostgreSQL
 
-When using **PostgreSQL**, the connection string is a DSN as supported by libpq:
+Use a PostgreSQL URL:
 
+```ini
+DB_CONNECTION_STRING=postgres://pocketid:password@localhost:5432/pocketid
 ```
 
-Format:
-postgresql://[user[:password]@][netloc][:port][/dbname][?param1=value1&...]
+Pocket ID creates its tables on the first start.
+Only one Pocket ID instance may use a database at a time.
 
-Example:
-postgres://pocketid:123456@localhost:5432/pocketid
+## Encryption keys
 
-```
+Pocket ID encrypts sensitive data, such as the keys it signs tokens with, using `ENCRYPTION_KEY`.
+The key must be at least 16 bytes, and a random 32-character string is a good choice:
 
-### Encryption keys
-
-An encryption key of at least 16 bytes is needed to encrypt sensitive data, such as the token signing keys.
-
-A good encryption key is a 32-characters-long random string. You can generate one using tools like OpenSSL:
-
-```sh
+```bash
 openssl rand -base64 32
 ```
 
-You can pass the encryption key to Pocket ID in two ways:
+Set it as `ENCRYPTION_KEY`, or save it in a file and point `ENCRYPTION_KEY_FILE` at it.
+Pocket ID reads the file as it is, so a trailing newline becomes part of the key: write it with `printf '%s' "<key>" > encryption_key` rather than `echo`.
 
-1. Set its value in the `ENCRYPTION_KEY` variable directly
-2. Save it to a file mounted inside the container and set `ENCRYPTION_KEY_FILE` to its path (the file is treated as binary, so **any CR/LF line terminator will be treated as part of the key**). This also works with Docker Secrets.
+To change the key, re-encrypt the data with the new one, then update the variable and restart Pocket ID:
 
-#### Updating the encryption key
+```bash
+# With Docker Compose
+docker compose exec pocket-id /app/pocket-id encryption-key-rotate --new-key <new key>
 
-To update the encryption key you can use the CLI command `encryption-key-rotate`:
-
-```sh
-# Using the binary directly:
-pocket-id encryption-key-rotate --new-key <new-encryption-key>
-
-# In Docker:
-docker compose exec -it pocket-id ./pocket-id encryption-key-rotate --new-key <new-encryption-key>
+# With the binary
+./pocket-id encryption-key-rotate --new-key <new key>
 ```
 
-After running the command, all existing encrypted data will be re-encrypted with the new key. You need to update your environment variable with the new key and restart Pocket ID.
+## Reverse proxy settings
 
-:::danger
-If you are using a file mounted inside the container pointed to by the `ENCRYPTION_KEY_FILE` environment variable, ensure no CR/LF line terminator is appended to the key in the file, as otherwise the key will not match the one passed to `./pocket-id encryption-key-rotate` and decryption will fail.
+Behind a [reverse proxy](/docs/setup/reverse-proxy), every request reaches Pocket ID from the proxy's address.
+Pocket ID needs the client's real IP for the audit log and its rate limits, and there are three ways to pass it on.
+
+### `TRUST_PROXY`
+
+A comma-separated list of the proxies' IP addresses or CIDR ranges, such as `10.0.0.10,172.18.0.0/16`.
+Requests from these addresses may set the client IP in `X-Forwarded-For` or `X-Real-IP`.
+
+- `false`, the default, trusts no proxy.
+- `true` trusts every address, so only use it when Pocket ID can't be reached without going through your proxy.
+
+### `TRUSTED_PLATFORM`
+
+The name of a header that a CDN or platform sets to the client IP, which Pocket ID then reads directly instead of `X-Forwarded-For`:
+
+- `CF-Connecting-IP` for Cloudflare
+- `Fly-Client-IP` for Fly.io
+- `X-Appengine-Remote-Addr` for Google App Engine
+- any header your own proxy sets
+
+:::tip
+Prefer `TRUSTED_PLATFORM` behind a CDN that sets such a header, since it's simpler and more reliable than listing the CDN's addresses.
 :::
 
-### Cloudflare location headers
+### `PROXY_PROTOCOL`
 
-Set `CLOUDFLARE_LOCATION_HEADERS=true` to use `CF-IPCountry` and `CF-IPCity` for audit log locations and new-login emails. Country codes are converted to English country names. GeoLite database loading, watching, and downloads are disabled, and a MaxMind license key is not needed. Missing or unknown country values remain unknown; missing city values remain empty. Private network addresses retain their LAN or Tailscale labels.
+A comma-separated list of the load balancers that send the [PROXY protocol](https://www.haproxy.org/download/2.9/doc/proxy-protocol.txt) header, which carries the client address in front of the HTTP connection.
+Connections from the listed addresses must send the header, and connections from other addresses are rejected, except from `localhost`, so the health check keeps working.
+`true` expects the header from every address.
 
-Enable Cloudflare's [Add visitor location headers Managed Transform](https://developers.cloudflare.com/rules/transform/managed-transforms/reference/#add-visitor-location-headers) and configure the real client IP, for example with `TRUSTED_PLATFORM=CF-Connecting-IP`.
+It needs a TCP listener, so it can't be combined with `UNIX_SOCKET`.
 
-```env
+## Cloudflare location headers
+
+With `CLOUDFLARE_LOCATION_HEADERS=true`, Pocket ID takes the country and city of sign-ins from Cloudflare's `CF-IPCountry` and `CF-IPCity` headers instead of the GeoLite2 database, so it needs no MaxMind key.
+Turn on Cloudflare's [Add visitor location headers](https://developers.cloudflare.com/rules/transform/managed-transforms/reference/#add-visitor-location-headers) managed transform, and let Pocket ID read the client IP from Cloudflare too:
+
+```ini
 CLOUDFLARE_LOCATION_HEADERS=true
 TRUSTED_PLATFORM=CF-Connecting-IP
 ```
 
-Only enable this setting when Pocket ID is reachable exclusively through Cloudflare, or through a trusted reverse proxy that removes untrusted location headers. Otherwise, clients can forge location information. The setting trusts the headers; it does not verify that requests came from Cloudflare.
-
-Locations are available only for the IP of the client making the current request. Looking up a different IP, such as when reviewing a remote sign-in request from another device, returns no public location in this mode.
-
-### Reverse proxy settings
-
-When running Pocket ID behind a reverse proxy (such as Nginx, Caddy, Traefik, or a cloud load balancer), you need to configure how the application determines the client's real IP address. This is important for security features like rate limiting and audit logging.
-
-Pocket ID uses the [Gin](https://github.com/gin-gonic/gin) web framework, which provides two mechanisms for obtaining the client's real IP:
-
-#### `TRUST_PROXY`
-
-Set `TRUST_PROXY` to a comma-separated list of the proxy IP addresses or CIDR ranges that Pocket ID should trust. Requests from these proxies can provide the client IP through headers such as `X-Forwarded-For` or `X-Real-IP`.
-
-- **Default**: `false`
-- **Recommended**: List only the proxies that connect directly to Pocket ID, for example `10.0.0.10,10.0.1.0/24,fd00::/8`.
-- **`true`**: Trusts proxies from all IPv4 and IPv6 addresses. Use this only when Pocket ID cannot be reached without going through a trusted reverse proxy.
-- **`false`**: Does not trust any proxy.
-
-#### `TRUSTED_PLATFORM`
-
-When `TRUSTED_PLATFORM` is set to a non-empty value, it configures [`gin.Engine.TrustedPlatform`](https://github.com/gin-gonic/website/blob/f76445735c884a57bd84e39f1aa000675529c678/src/content/docs/en/docs/deployment/index.md#dont-trust-all-proxies). This tells Gin to directly read the client's real IP from a specific HTTP request header set by a trusted platform or CDN, bypassing the `X-Forwarded-For` parsing logic.
-
-- **Default**: Not set
-- **Supported values**:
-  - `X-Appengine-Remote-Addr` - For Google App Engine
-  - `CF-Connecting-IP` - For Cloudflare
-  - `Fly-Client-IP` - For Fly.io
-  - Any custom header name that your reverse proxy uses to pass the client's real IP
-
-:::tip
-If you're using a CDN or platform that sets a specific header for the client IP, prefer using `TRUSTED_PLATFORM` over `TRUST_PROXY` as it provides a more direct and reliable way to obtain the client's real IP address.
-:::
-
-#### `PROXY_PROTOCOL`
-
-Set `PROXY_PROTOCOL` to a comma-separated list of IP addresses or CIDR ranges for the reverse proxies that are allowed to send PROXY protocol headers. Pocket ID uses the information from this header to get the original client IP address.
-
-- **Default**: `false`
-- **Recommended**: List only the proxies that connect directly to Pocket ID, for example `10.0.0.10,10.0.1.0/24`.
-- **`true`**: Accepts PROXY protocol headers from all IPv4 and IPv6 addresses. Use this only when Pocket ID cannot be reached without going through a trusted proxy.
-- **`false`**: Does not enable PROXY protocol.
-
-This setting requires a TCP listener and cannot be used together with `UNIX_SOCKET`. Use `TRUST_PROXY` when your reverse proxy passes the client IP in HTTP headers such as `X-Forwarded-For` instead.
+Pocket ID trusts these headers without checking where a request came from, so only use this when Pocket ID is reachable through Cloudflare alone.
+Locations are only known for the client of the current request, so a sign-in request from another device shows no location in this mode.
 
 ## Overriding the UI configuration
 
-You can change additional settings directly in the Pocket ID UI. However, if you prefer to configure them via environment variables, you can do so by setting the following variables.
+The settings under **Application Configuration** are stored in the database.
+To manage them as environment variables instead, set `UI_CONFIG_DISABLED=true`.
+The admin UI then shows a notice that the settings come from the environment, and every setting you don't set keeps its default.
 
-To enable environment variable overrides, set `UI_CONFIG_DISABLED` to `true`. When `UI_CONFIG_DISABLED` is set to true, Pocket ID will use values from the environment variables. If a variable is not set, the system will fall back to its default values.
+Booleans must be exactly `true` or `false`, and a variable set to an empty value counts as set, so leave out the ones you don't use.
+`SMTP_PASSWORD` and `LDAP_BIND_PASSWORD` also accept a `_FILE` variant.
 
-| Variable                                           | Default Value                | Description                                                                                                                                                                       |
-| -------------------------------------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `APP_NAME`                                         | `Pocket ID`                  | The name of the app.                                                                                                                                                              |
-| `SESSION_DURATION`                                 | `60`                         | The duration of a session in minutes before the user has to sign in again.                                                                                                        |
-| `HOME_PAGE_URL`                                    | `/settings/account`          | The page users are redirected to after signing in.                                                                                                                                |
-| `REQUIRE_USER_EMAIL`                               | `true`                       | Requires users to have an email address. If disabled, the users without an email address won't be able to use features that require an email address.                             |
-| `EMAILS_VERIFIED`                                  | `false`                      | When enabled, users' email addresses will be marked as verified by default upon signup or when their email address is changed.                                                    |
-| `ALLOW_OWN_ACCOUNT_EDIT`                           | `true`                       | Whether the users should be able to edit their own account details.                                                                                                               |
-| `ALLOW_USER_SIGNUPS`                               | `disabled`                   | Whether the user signup functionality is enabled. Valid Values: `disabled`, `withToken`, `open`                                                                                   |
-| `SIGNUP_DEFAULT_CUSTOM_CLAIMS`                     | `[]`                         | Assign these custom claims automatically to new users upon signup. Example: `[{"key":"claim1","value":"value1"},{"key":"claim2","value":"value2"}]`                               |
-| `SIGNUP_DEFAULT_USER_GROUP_IDS`                    | `[]`                         | Assign these groups automatically to new users upon signup. Example: `["a3888f2b-4c00-4b23-9c85-a3c8d685eb1f"]`                                                                   |
-| `DISABLE_ANIMATIONS`                               | `false`                      | Turn off all animations throughout the Admin UI.                                                                                                                                  |
-| `ACCENT_COLOR`                                     | `default`                    | A custom accent color for the UI. Accepts any valid CSS color value such as hex, RGB or HSL.                                                                                      |
-| `SMTP_HOST`                                        | `-`                          | SMTP server hostname.                                                                                                                                                             |
-| `SMTP_PORT`                                        | `-`                          | SMTP server port.                                                                                                                                                                 |
-| `SMTP_FROM`                                        | `-`                          | Sender email address for outgoing emails. Format: `user@example.com`                                                                                                              |
-| `SMTP_USER`                                        | `-`                          | SMTP username for authentication.                                                                                                                                                 |
-| `SMTP_PASSWORD`                                    | `-`                          | SMTP password for authentication.                                                                                                                                                 |
-| `SMTP_PASSWORD_FILE`                               | `-`                          | Alternative to `SMTP_PASSWORD_FILE` variable, set to the path of a file containing the SMTP password. _This can be used with Docker secrets too._                                 |
-| `SMTP_TLS`                                         | `none`                       | Which TLS Option to use. Valid values are: `none`, `starttls` and `tls`.                                                                                                          |
-| `SMTP_SKIP_CERT_VERIFY`                            | `false`                      | Whether to skip SMTP certificate verification. This can be useful for self-signed certificates.                                                                                   |
-| `EMAIL_LOGIN_NOTIFICATION_ENABLED`                 | `false`                      | Send an email to the user when they log in from a new device.                                                                                                                     |
-| `EMAIL_ONE_TIME_ACCESS_AS_ADMIN_ENABLED`           | `false`                      | Allows an admin to send a login code to the user via email.                                                                                                                       |
-| `EMAIL_API_KEY_EXPIRATION_ENABLED`                 | `false`                      | Send an email to the user when their API key is about to expire.                                                                                                                  |
-| `EMAIL_ONE_TIME_ACCESS_AS_UNAUTHENTICATED_ENABLED` | `false`                      | Allows users to bypass passkeys by requesting a login code sent to their email. This reduces the security significantly as anyone with access to the user's email can gain entry. |
-| `EMAIL_VERIFICATION_ENABLED`                       | `false`                      | Send a verification email to users when they sign up or change their email address.                                                                                               |
-| `LDAP_ENABLED`                                     | `false`                      | Whether LDAP authentication is enabled.                                                                                                                                           |
-| `LDAP_URL`                                         | `-`                          | LDAP server URL.                                                                                                                                                                  |
-| `LDAP_BIND_DN`                                     | `-`                          | LDAP bind distinguished name (DN).                                                                                                                                                |
-| `LDAP_BIND_PASSWORD`                               | `-`                          | LDAP bind password.                                                                                                                                                               |
-| `LDAP_BIND_PASSWORD_FILE`                          | `-`                          | Alternative to `LDAP_BIND_PASSWORD_FILE` variable, set to the path of a file containing the LDAP bind password. _This can be used with Docker secrets too._                       |
-| `LDAP_BASE`                                        | `-`                          | LDAP search base DN.                                                                                                                                                              |
-| `LDAP_USER_SEARCH_FILTER`                          | `(objectClass=person)`       | LDAP user search filter.                                                                                                                                                          |
-| `LDAP_USER_GROUP_SEARCH_FILTER`                    | `(objectClass=groupOfNames)` | The Search filter to use to search/sync groups.                                                                                                                                   |
-| `LDAP_SKIP_CERT_VERIFY`                            | `false`                      | Whether to skip LDAP certificate verification. This can be useful for self-signed certificates.                                                                                   |
-| `LDAP_SOFT_DELETE_USERS`                           | `false`                      | When enabled, users removed from LDAP will be disabled rather than deleted from the system.                                                                                       |
-| `LDAP_ATTRIBUTE_USER_UNIQUE_IDENTIFIER`            | `-`                          | LDAP attribute for user unique identifier. The value of this attribute should never change.                                                                                       |
-| `LDAP_ATTRIBUTE_USER_USERNAME`                     | `-`                          | LDAP attribute for user username.                                                                                                                                                 |
-| `LDAP_ATTRIBUTE_USER_EMAIL`                        | `-`                          | LDAP attribute for user email.                                                                                                                                                    |
-| `LDAP_ATTRIBUTE_USER_FIRST_NAME`                   | `-`                          | LDAP attribute for user first name.                                                                                                                                               |
-| `LDAP_ATTRIBUTE_USER_LAST_NAME`                    | `-`                          | LDAP attribute for user last name.                                                                                                                                                |
-| `LDAP_ATTRIBUTE_USER_PROFILE_PICTURE`              | `-`                          | LDAP attribute for the profile picture of a user.                                                                                                                                 |
-| `LDAP_ATTRIBUTE_GROUP_MEMBER`                      | `member`                     | LDAP attribute to use for querying members of a group.                                                                                                                            |
-| `LDAP_ATTRIBUTE_GROUP_UNIQUE_IDENTIFIER`           | `-`                          | LDAP attribute for group unique identifier. The value of this attribute should never change.                                                                                      |
-| `LDAP_ATTRIBUTE_GROUP_NAME`                        | `-`                          | LDAP attribute for group name.                                                                                                                                                    |
-| `LDAP_ADMIN_GROUP_NAME`                            | `-`                          | Name of the admin group. Members of this group will have Admin Privileges in Pocket ID.                                                                                           |
-| `WEBAUTHN_USER_VERIFICATION`                       | `required`                   | Whether passkeys must verify the user with a biometric or PIN. Valid values: `required`, `preferred`.                                                                             |
-| `WEBAUTHN_ALLOW_SYNCED_PASSKEYS`                   | `true`                       | Whether users can register passkeys that can be backed up and synchronized across devices.                                                                                        |
-| `WEBAUTHN_AUTHENTICATOR_ATTACHMENT`                | `any`                        | The authenticator type users may register. Valid values: `any`, `platform`, `cross-platform`.                                                                                     |
-| `CIMD_URL_ALLOWLIST`                               | `[]`                         | JSON array of allowed Client ID Metadata Document URL patterns. An empty array disables metadata-document clients.                                                                |
+### General
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `APP_NAME` | `Pocket ID` | The name shown in the UI and in emails, up to 30 characters. |
+| `SESSION_DURATION` | `60` | How many minutes a Pocket ID session lasts before users sign in again. |
+| `HOME_PAGE_URL` | `/settings/account` | The page users land on after signing in to Pocket ID itself. |
+| `ACCENT_COLOR` | `default` | The UI's accent color, as any CSS color. |
+| `DISABLE_ANIMATIONS` | `false` | Turn off the UI's animations. |
+| `ALLOW_OWN_ACCOUNT_EDIT` | `true` | Let users edit their own name and email address. |
+| `AUTO_CREATE_OIDC_CLIENT_SECRET` | `true` | Create a secret that doesn't expire for every new confidential client. |
+| `CIMD_URL_ALLOWLIST` | `[]` | A JSON array of the [Client ID Metadata Document](/docs/guides/client-id-metadata-documents) URLs Pocket ID accepts. Empty turns the feature off. |
+
+### Users and signups
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `REQUIRE_USER_EMAIL` | `true` | Require an email address on every account. Users without one can't use features that send email. |
+| `EMAILS_VERIFIED` | `false` | Mark email addresses as verified when users sign up or change them. |
+| `ALLOW_USER_SIGNUPS` | `disabled` | `disabled`, `withToken` for [signup links](/docs/setup/user-management#signup-links), or `open`. |
+| `SIGNUP_DEFAULT_USER_GROUP_IDS` | `[]` | A JSON array of group IDs that new accounts join, such as `["a3888f2b-4c00-4b23-9c85-a3c8d685eb1f"]`. |
+| `SIGNUP_DEFAULT_CUSTOM_CLAIMS` | `[]` | Custom claims for new accounts, such as `[{"key":"plan","value":"free"}]`. |
+
+### Passkeys
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `WEBAUTHN_USER_VERIFICATION` | `required` | `required` or `preferred`, which also allows touch-only security keys. |
+| `WEBAUTHN_ALLOW_SYNCED_PASSKEYS` | `true` | Allow passkeys that sync between devices. |
+| `WEBAUTHN_AUTHENTICATOR_ATTACHMENT` | `any` | `any`, `platform` for device passkeys only, or `cross-platform` for security keys only. |
+
+[Sign-in methods](/docs/guides/sign-in-methods#passkey) explains these settings.
+
+### Email
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `SMTP_HOST`, `SMTP_PORT` | | The SMTP server. |
+| `SMTP_FROM` | | The sender address, such as `id@example.com`. |
+| `SMTP_USER`, `SMTP_PASSWORD` | | The SMTP credentials. |
+| `SMTP_TLS` | `none` | `none`, `starttls` or `tls`. |
+| `SMTP_SKIP_CERT_VERIFY` | `false` | Accept self-signed certificates. |
+| `EMAIL_LOGIN_NOTIFICATION_ENABLED` | `false` | Email users when they sign in from a new device. |
+| `EMAIL_ONE_TIME_ACCESS_AS_ADMIN_ENABLED` | `false` | Let admins email a login code to a user. |
+| `EMAIL_ONE_TIME_ACCESS_AS_UNAUTHENTICATED_ENABLED` | `false` | Let users request a login code by email. Anyone with access to their email can then sign in as them. |
+| `EMAIL_API_KEY_EXPIRATION_ENABLED` | `false` | Email users before their API keys expire. |
+| `EMAIL_VERIFICATION_ENABLED` | `false` | Email users a link to verify their address when they sign up or change it. |
+
+### LDAP
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `LDAP_ENABLED` | `false` | Sync users and groups from LDAP. |
+| `LDAP_URL` | | The server's URL, such as `ldaps://ldap.example.com:636`. |
+| `LDAP_BIND_DN`, `LDAP_BIND_PASSWORD` | | The account Pocket ID searches LDAP with. |
+| `LDAP_BASE` | | The base DN of the search. |
+| `LDAP_USER_SEARCH_FILTER` | `(objectClass=person)` | Which entries are users. |
+| `LDAP_USER_GROUP_SEARCH_FILTER` | `(objectClass=groupOfNames)` | Which entries are groups. |
+| `LDAP_SKIP_CERT_VERIFY` | `false` | Accept self-signed certificates. |
+| `LDAP_SOFT_DELETE_USERS` | `true` | Disable users who disappear from LDAP instead of deleting them. |
+| `LDAP_ATTRIBUTE_USER_UNIQUE_IDENTIFIER` | | The attribute that identifies a user, whose value must never change. |
+| `LDAP_ATTRIBUTE_USER_USERNAME` | | The username attribute. |
+| `LDAP_ATTRIBUTE_USER_EMAIL` | | The email attribute. |
+| `LDAP_ATTRIBUTE_USER_FIRST_NAME`, `LDAP_ATTRIBUTE_USER_LAST_NAME` | | The name attributes. |
+| `LDAP_ATTRIBUTE_USER_DISPLAY_NAME` | `cn` | The display name attribute. |
+| `LDAP_ATTRIBUTE_USER_PROFILE_PICTURE` | | The profile picture attribute. |
+| `LDAP_ATTRIBUTE_GROUP_MEMBER` | `member` | The attribute that lists a group's members. |
+| `LDAP_ATTRIBUTE_GROUP_UNIQUE_IDENTIFIER` | | The attribute that identifies a group, whose value must never change. |
+| `LDAP_ATTRIBUTE_GROUP_NAME` | | The group name attribute. |
+| `LDAP_ADMIN_GROUP_NAME` | | The group whose members become admins. |
+
+[LDAP](/docs/configuration/ldap) explains these settings.
 
 ## Observability
 
-Pocket ID offers multiple options for observability, including logs, metrics, and traces.
+Pocket ID writes logs, and can export metrics and traces through [OpenTelemetry](https://opentelemetry.io).
+The standard `OTEL_*` [environment variables](https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/) configure it, and every exporter is off by default.
 
-You can configure Pocket ID to emit metrics and traces.
+To send logs, metrics and traces to a collector:
 
-- Both can be sent to an OpenTelemetry collector.
-- For metrics, you can also configure Pocket ID to expose them on a Prometheus-compatible endpoint.
-
-### Using OpenTelemetry for logs, metrics, and traces
-
-The behavior of the log, trace, and metric exporters can be controlled using the `OTEL_*` environment variables. These are documented in the [OpenTelemetry SDK environment variables documentation](https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/).
-
-By default, log, trace, and metric export are all disabled. To send data to an OpenTelemetry collector, set the corresponding exporter to `otlp`, for example:
-
-```
-OTEL_TRACES_EXPORTER=otlp
-OTEL_METRICS_EXPORTER=otlp
+```ini
 OTEL_LOGS_EXPORTER=otlp
+OTEL_METRICS_EXPORTER=otlp
+OTEL_TRACES_EXPORTER=otlp
 OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
 ```
 
-When tracing is enabled, Pocket ID also traces database queries, including queries made by its background actor system. With `LOG_LEVEL=debug`, Pocket ID logs database queries and actor-provider operations too.
+Traces include the database queries, without their values unless `LOG_QUERY_ARGS=true`.
+When traces go to an OTLP/HTTP endpoint, Pocket ID also traces page views and API calls in the browser and sends them through its own `/internal/telemetry/traces` endpoint, so the collector stays private.
 
-Query parameter values are excluded from traces and logs by default because they can contain credentials, tokens, or personal data. Set `LOG_QUERY_ARGS=true` only when the values are needed for troubleshooting, and disable it again afterwards.
+### Prometheus
 
-### Using Prometheus for metrics
-
-If you want to enable the `/metrics` endpoint for Prometheus metrics scraping instead of using OTLP metrics pushing, set:
-
-```
-OTEL_METRICS_EXPORTER=prometheus
-```
-
-This will start a **second** HTTP server with just the metrics endpoint. It is by default bound to:
-
-- `OTEL_EXPORTER_PROMETHEUS_HOST`: `localhost`
-- `OTEL_EXPORTER_PROMETHEUS_PORT`: `9464`
-
-### Tracing from the browser frontend
-
-When trace export is enabled and configured with an OTLP/HTTP collector endpoint, Pocket ID automatically also captures traces from the browser-based frontend, such as page views and the API calls they trigger. These are correlated with the corresponding backend (and database) spans, so a page view shows up as a single trace end-to-end.
-
-This is enabled automatically, with no additional environment variable, whenever both of these are true:
-
-- `OTEL_TRACES_EXPORTER` is set to `otlp`
-- An OTLP/HTTP collector endpoint can be resolved, either from `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT` or from `OTEL_EXPORTER_OTLP_ENDPOINT`
-
-When enabled, the frontend sends its trace data to the backend at `/internal/telemetry/traces`, which forwards it to your collector. This keeps everything same-origin, so there's no need to expose the collector to the browser or configure CORS. If either condition above isn't met, browser tracing stays disabled and this endpoint isn't registered.
+To let Prometheus scrape metrics instead, set `OTEL_METRICS_EXPORTER=prometheus`.
+Pocket ID then serves `/metrics` on a second port, `localhost:9464` by default, which `OTEL_EXPORTER_PROMETHEUS_HOST` and `OTEL_EXPORTER_PROMETHEUS_PORT` change.

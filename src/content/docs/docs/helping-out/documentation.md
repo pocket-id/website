@@ -57,6 +57,24 @@ Put images under `public/img/` and reference them with an absolute path and alt 
 ![The OIDC client form](/img/example/client-form.png)
 ```
 
+### Screenshots of Pocket ID
+
+Screenshots of Pocket ID itself come in a light and a dark version, and the `Screenshot` component shows the one matching the reader's theme:
+
+```mdx
+import Screenshot from '../../../../components/Screenshot.astro';
+
+<Screenshot name="my-apps" alt="The My Apps page with a tile for every app" />
+```
+
+`pnpm screenshots` recreates all of them in `src/assets/screens/` from a fresh Pocket ID container with demo data, so they stay consistent when the UI changes.
+It needs Docker and Playwright's Chromium, which `pnpm exec playwright install chromium` installs.
+
+### Diagrams
+
+Diagrams are inline SVG components in `src/components/diagrams/`, drawn with the shared classes in `classes.ts` so they follow the theme.
+Request flows only need a list of parties and messages for the `Sequence` component, as `SignInFlow.astro` shows.
+
 ## Submit your changes
 
 Open a pull request with a title that follows [Conventional Commits](https://www.conventionalcommits.org), such as `docs: add Vikunja example`.

@@ -1,0 +1,119 @@
+---
+title: Reverse proxy
+seoTitle: Run Pocket ID behind Caddy, nginx, Traefik or Cloudflare Tunnel
+description: Serve Pocket ID over HTTPS with Caddy, nginx, Traefik or a Cloudflare Tunnel, and let it see your users' real IP addresses.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import ReverseProxy from '../../../../components/diagrams/ReverseProxy.astro';
+
+Browsers only create and use passkeys in a [secure context](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts), so Pocket ID has to be served over HTTPS, except when you open it at `localhost`.
+Pocket ID listens on plain HTTP on port 1411, and a reverse proxy in front of it adds the HTTPS.
+
+<ReverseProxy />
+
+Point a domain such as `id.example.com` at your server, then set it as the public URL in your `.env` file:
+
+```ini title=".env"
+APP_URL=https://id.example.com
+```
+
+`APP_URL` has to be the exact address you open Pocket ID at.
+Passkeys are bound to its domain, and Pocket ID builds every URL it hands to your apps from it.
+
+## Proxy configuration
+
+<Tabs syncKey="proxy">
+<TabItem label="Caddy">
+
+Caddy fetches a certificate for the domain on its own:
+
+```txt title="Caddyfile"
+id.example.com {
+	reverse_proxy pocket-id:1411
+}
+```
+
+`pocket-id:1411` works when Caddy runs in the same Docker network as Pocket ID.
+For Caddy on the host, use `localhost:1411`.
+
+</TabItem>
+<TabItem label="nginx">
+
+This server block assumes certificates from Certbot and Pocket ID's port published on `127.0.0.1`:
+
+```nginx title="/etc/nginx/conf.d/pocket-id.conf"
+server {
+    listen 443 ssl;
+    server_name id.example.com;
+
+    ssl_certificate     /etc/letsencrypt/live/id.example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/id.example.com/privkey.pem;
+
+    location / {
+        proxy_pass http://127.0.0.1:1411;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # Pocket ID sends larger response headers than nginx buffers by default
+        proxy_busy_buffers_size 512k;
+        proxy_buffers 4 512k;
+        proxy_buffer_size 256k;
+    }
+}
+```
+
+Without the larger buffers, some pages fail with `502 Bad Gateway` and `upstream sent too big header` in nginx's error log.
+
+</TabItem>
+<TabItem label="Traefik">
+
+Labels on the Pocket ID service route the domain to port 1411.
+They assume a Traefik instance on a Docker network it shares with Pocket ID, with an entry point named `websecure` and a certificate resolver named `letsencrypt`:
+
+```yaml title="docker-compose.yml"
+services:
+  pocket-id:
+    # image, env_file and volumes as before
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.pocket-id.rule: Host(`id.example.com`)
+      traefik.http.routers.pocket-id.entrypoints: websecure
+      traefik.http.routers.pocket-id.tls.certresolver: letsencrypt
+      traefik.http.services.pocket-id.loadbalancer.server.port: "1411"
+```
+
+</TabItem>
+<TabItem label="Cloudflare Tunnel">
+
+Add a public hostname to your tunnel, such as `id.example.com`, with the service `http://pocket-id:1411`, or `http://localhost:1411` when `cloudflared` runs on the host.
+Cloudflare adds the HTTPS, so nothing on your server needs a certificate.
+
+Turn off **Rocket Loader** for the domain, since it rewrites the page's scripts and breaks Pocket ID's [Content Security Policy](/docs/troubleshooting/common-issues#content-security-policy-errors).
+
+</TabItem>
+</Tabs>
+
+## Client IP addresses
+
+Pocket ID records the IP address and location of each sign-in in the audit log, and its rate limits count requests per IP address.
+Behind a proxy, every request comes from the proxy's address, so tell Pocket ID which proxies it can trust to pass the real one on:
+
+```ini title=".env"
+# The address or network of the proxy, such as the Docker network it shares with Pocket ID
+TRUST_PROXY=172.18.0.0/16
+```
+
+Behind Cloudflare, read the address from the header Cloudflare sets instead:
+
+```ini title=".env"
+TRUSTED_PLATFORM=CF-Connecting-IP
+```
+
+[Environment variables](/docs/configuration/environment-variables#reverse-proxy-settings) explains both options, and `PROXY_PROTOCOL` for load balancers that send the PROXY protocol.
+
+## Check the setup
+
+Open `https://id.example.com` and create your admin account on `/setup`, as [Installation](/docs/setup/installation) describes.
+If your browser refuses to create the passkey, the page isn't served over HTTPS or `APP_URL` doesn't match the address in the address bar.

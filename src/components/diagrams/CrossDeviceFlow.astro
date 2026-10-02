@@ -1,0 +1,28 @@
+---
+// Signing in on a device without a passkey by approving the request on one that has it
+import Sequence from './Sequence.astro';
+
+interface Props {
+	caption?: string;
+}
+const {
+	caption = 'The new device shows a QR code and waits. Once you approve the request with your passkey on your phone, the new device is signed in. The request expires after 5 minutes.'
+} = Astro.props;
+---
+
+<Sequence
+	caption={caption}
+	actors={[
+		{ id: 'new', title: 'New device', sub: 'no passkey' },
+		{ id: 'pid', title: 'Pocket ID', key: true },
+		{ id: 'phone', title: 'Your phone', sub: 'has the passkey' }
+	]}
+	messages={[
+		{ from: 'new', to: 'pid', label: 'Sign in with another device' },
+		{ from: 'pid', to: 'new', label: 'QR code and code' },
+		{ from: 'phone', to: 'pid', label: 'scans the QR code' },
+		{ from: 'pid', to: 'phone', label: 'shows the device and location' },
+		{ from: 'phone', to: 'pid', label: 'approves with the passkey', key: true },
+		{ from: 'pid', to: 'new', label: 'signed in', key: true }
+	]}
+/>

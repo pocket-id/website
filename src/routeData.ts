@@ -18,8 +18,10 @@ export const onRequest = defineRouteMiddleware((context) => {
 	const { head, entry, siteTitle } = route;
 
 	// A page's short heading stays its h1, and its seoTitle replaces it in the tab title, search results and link previews
+	// Titles that already name the product skip the site name, which would only repeat it
 	if (entry.data.seoTitle) {
-		setTag(head, 'title', {}, `${entry.data.seoTitle} | ${siteTitle}`);
+		const title = entry.data.seoTitle.includes(siteTitle) ? entry.data.seoTitle : `${entry.data.seoTitle} | ${siteTitle}`;
+		setTag(head, 'title', {}, title);
 		setTag(head, 'meta', { property: 'og:title' }, entry.data.seoTitle);
 	}
 

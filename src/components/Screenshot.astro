@@ -1,0 +1,30 @@
+---
+// A screenshot of Pocket ID in the reader's theme, from the light and dark captures in src/assets/screens/<name>-light and -dark, as PNG or JPEG
+// The captures come from scripts/screenshots, which seeds a fresh instance with demo data
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { card, figcaption } from './figure';
+
+interface Props {
+	name: string;
+	alt: string;
+	caption?: string;
+}
+const { name, alt, caption } = Astro.props;
+
+// A missing capture fails the build, so a page never ships with a broken image
+const screens = import.meta.glob<{ default: ImageMetadata }>('../assets/screens/*.{png,jpg}', { eager: true });
+const pick = (theme: 'light' | 'dark') => {
+	const image = screens[`../assets/screens/${name}-${theme}.png`] ?? screens[`../assets/screens/${name}-${theme}.jpg`];
+	if (!image) throw new Error(`Missing screenshot src/assets/screens/${name}-${theme}.png or .jpg`);
+	return image.default;
+};
+const light = pick('light');
+const dark = pick('dark');
+---
+
+<figure class={card}>
+	<Image src={light} alt={alt} class="block h-auto w-full dark:hidden" widths={[800, 1600]} sizes="(min-width: 50rem) 46rem, 100vw" />
+	<Image src={dark} alt={alt} class="block h-auto w-full light:hidden" widths={[800, 1600]} sizes="(min-width: 50rem) 46rem, 100vw" />
+	{caption && <figcaption class={figcaption}>{caption}</figcaption>}
+</figure>

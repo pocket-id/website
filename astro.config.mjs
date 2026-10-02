@@ -66,53 +66,48 @@ export default defineConfig({
 			editLink: { baseUrl: 'https://github.com/pocket-id/website/edit/main/' },
 			lastUpdated: true,
 			sidebar: [
+				// The sidebar follows a reader's path: get it running, manage who gets in, connect apps, run it in production, look things up
 				{
 					label: 'Getting started',
-					items: ['docs/introduction']
+					items: ['docs/introduction', 'docs/setup/installation', 'docs/setup/reverse-proxy', 'docs/setup/connect-an-app']
 				},
 				{
-					label: 'Setup',
+					label: 'Users and access',
 					items: [
-						'docs/setup/installation',
-						'docs/setup/upgrading',
-						'docs/setup/major-releases/migrate-v2',
-						'docs/setup/data-export-import',
-						'docs/setup/user-management'
-					]
-				},
-				{
-					label: 'Configuration',
-					items: [
+						'docs/setup/user-management',
+						'docs/guides/sign-in-methods',
 						'docs/configuration/allowed-groups',
-						'docs/configuration/analytics',
 						'docs/configuration/appdashboard',
-						'docs/configuration/environment-variables',
 						'docs/configuration/ldap',
 						'docs/configuration/scim'
 					]
 				},
 				{
-					label: 'Guides',
+					label: 'Apps and APIs',
 					items: [
-						'docs/guides/apis',
-						'docs/guides/client-id-metadata-documents',
+						'docs/guides/scopes-and-claims',
+						'docs/advanced/callback-url-wildcards',
 						'docs/guides/oidc-client-authentication',
-						'docs/guides/proxy-services',
-						'docs/guides/sign-in-methods'
+						'docs/guides/client-id-metadata-documents',
+						'docs/guides/apis',
+						'docs/guides/proxy-services'
 					]
 				},
 				{
-					label: 'Advanced',
+					label: 'Self-hosting',
 					items: [
-						'docs/advanced/callback-url-wildcards',
+						'docs/configuration/environment-variables',
+						'docs/setup/upgrading',
+						'docs/setup/major-releases/migrate-v2',
+						'docs/setup/data-export-import',
 						'docs/advanced/hardening',
 						'docs/advanced/custom-keys',
-						'docs/advanced/nginx-reverse-proxy'
+						'docs/configuration/analytics'
 					]
 				},
 				{
 					label: 'Troubleshooting',
-					items: ['docs/troubleshooting/account-recovery', 'docs/troubleshooting/common-issues']
+					items: ['docs/troubleshooting/common-issues', 'docs/troubleshooting/account-recovery']
 				},
 				{
 					label: 'Client examples',

@@ -1,0 +1,29 @@
+---
+// How an app gets an access token for one of your APIs and how the API checks it
+import Sequence from './Sequence.astro';
+
+interface Props {
+	caption?: string;
+}
+const {
+	caption = 'The app asks for a token for one API and the permissions it needs. The API accepts the token only after checking its signature, its audience and the permission the request needs.'
+} = Astro.props;
+---
+
+<Sequence
+	caption={caption}
+	actors={[
+		{ id: 'app', title: 'Your app', sub: 'an OIDC client' },
+		{ id: 'pid', title: 'Pocket ID', key: true },
+		{ id: 'api', title: 'Your API', sub: 'api.orders.example.com' }
+	]}
+	messages={[
+		{ from: 'app', to: 'pid', label: 'token for resource + read:orders' },
+		{ from: 'pid', to: 'pid', label: 'client may request read:orders?' },
+		{ from: 'pid', to: 'app', label: 'access token, aud = the API' },
+		{ from: 'app', to: 'api', label: 'Authorization: Bearer <token>', key: true },
+		{ from: 'api', to: 'pid', label: 'signing keys from jwks.json', dashed: true },
+		{ from: 'api', to: 'api', label: 'checks signature, iss, aud, exp and scope' },
+		{ from: 'api', to: 'app', label: 'orders' }
+	]}
+/>

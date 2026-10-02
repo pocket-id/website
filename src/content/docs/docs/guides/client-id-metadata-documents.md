@@ -1,5 +1,5 @@
 ---
-title: Client ID Metadata Documents
+title: Client ID metadata documents
 description: Let public OAuth clients provide their configuration from an HTTPS URL
 ---
 
@@ -11,7 +11,7 @@ This feature follows the [OAuth Client ID Metadata Document Internet-Draft](http
 
 Metadata-document clients are disabled by default.
 
-1. Open **Settings > Application Configuration > OIDC**.
+1. Open **Application Configuration → OIDC**.
 2. Add the exact metadata document URLs that Pocket ID should accept.
 3. Save the configuration.
 
@@ -47,7 +47,7 @@ Pocket ID supports these metadata-document clients:
 - The only supported response type is `code`.
 - Redirect and post-logout redirect URIs must be absolute URLs. Wildcards are not accepted in document-provided redirect URIs.
 
-The client sends the document URL as the `client_id` in its OAuth requests. Pocket ID downloads and caches the document, then shows the resulting client under **Settings > OIDC Clients** with the type **Metadata Document**.
+The client sends the document URL as the `client_id` in its OAuth requests. Pocket ID downloads and caches the document, then shows the resulting client under **Administration → OIDC Clients** with the type **Metadata Document**.
 
 ## Refresh and manage a client
 
@@ -59,7 +59,7 @@ Use **Refresh** in the OIDC client list to fetch a document immediately. Fields 
 
 An administrator can grant an API to every current and future metadata-document client:
 
-1. Open **Settings > APIs** and select the API.
+1. Open **Administration → APIs** and select the API.
 2. Under **API access**, select **Metadata document clients**.
 3. Enable access and select the permissions that these clients may request.
 4. Save the API.

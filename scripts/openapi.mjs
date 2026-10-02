@@ -66,7 +66,7 @@ if (!fs.existsSync(path.join(backend, 'go.mod'))) fallback(`no pocket-id checkou
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'pocket-id-swagger-'));
 try {
 	fs.writeFileSync(path.join(tmp, 'api.md'), 'Pocket ID API Reference\n');
-	swag(['init', '-q', '-d', './internal,./internal/dto', '-g', '../cmd/main.go', '-ot', 'json,yaml', '-o', tmp, '-md', tmp]);
+	swag(['init', '-q', '-d', './internal,./internal/dto', '-g', '../cmd/main.go', '--outputTypes', 'json,yaml', '-o', tmp, '-md', tmp]);
 
 	const spec = JSON.parse(fs.readFileSync(path.join(tmp, 'swagger.json'), 'utf8'));
 	spec.tags = tags;

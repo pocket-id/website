@@ -1,0 +1,17 @@
+---
+// A card around a hand-drawn diagram, with the caption stating the one thing the drawing shows
+import { card, figcaption } from './figure';
+
+interface Props {
+	caption?: string;
+}
+const { caption } = Astro.props;
+---
+
+<figure class={card}>
+	{/* Wide drawings scroll inside the card on phones instead of shrinking their text */}
+	<div class="overflow-x-auto p-5 [&>svg]:mx-auto [&>svg]:block [&>svg]:h-auto [&>svg]:w-full [&>svg]:max-w-[42.5rem] [&>svg]:min-w-[36rem] [&>svg]:font-sans">
+		<slot />
+	</div>
+	{caption && <figcaption class={figcaption}>{caption}</figcaption>}
+</figure>

@@ -1,0 +1,32 @@
+---
+// The authorization code flow every OIDC app uses with Pocket ID, from opening the app to a signed-in session
+import Sequence from './Sequence.astro';
+
+interface Props {
+	caption?: string;
+}
+const {
+	caption = 'The browser carries the user between the app and Pocket ID, while the app fetches the tokens from Pocket ID directly, so both the browser and the app need to reach Pocket ID.'
+} = Astro.props;
+---
+
+<Sequence
+	caption={caption}
+	actors={[
+		{ id: 'browser', title: 'Browser', sub: 'the user' },
+		{ id: 'app', title: 'Your app', sub: 'the OIDC client' },
+		{ id: 'pid', title: 'Pocket ID', sub: 'the OIDC provider', key: true }
+	]}
+	messages={[
+		{ from: 'browser', to: 'app', label: 'opens the app' },
+		{ from: 'app', to: 'browser', label: 'redirect to Pocket ID' },
+		{ from: 'browser', to: 'pid', label: 'sign in with a passkey' },
+		{ from: 'pid', to: 'pid', label: 'checks the passkey and allowed groups' },
+		{ from: 'pid', to: 'browser', label: 'redirect to the callback URL with a code' },
+		{ from: 'browser', to: 'app', label: 'callback URL ?code=…' },
+		{ from: 'app', to: 'pid', label: 'code, client ID and secret', key: true },
+		{ from: 'pid', to: 'app', label: 'ID token and access token', key: true },
+		{ from: 'app', to: 'browser', label: 'signed in' }
+	]}
+	band={{ from: 6, to: 7, label: 'Server to server' }}
+/>

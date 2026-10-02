@@ -87,7 +87,6 @@
 	--color-dg-key: var(--dg-key);
 	--color-dg-on-key: var(--dg-on-key);
 	--color-dg-key-line: var(--dg-key-line);
-	--color-dg-ok: var(--dg-ok);
 	--color-dg-danger: var(--dg-danger);
 }
 
@@ -161,7 +160,6 @@
 	--dg-key: #fafafa;
 	--dg-on-key: #09090b;
 	--dg-key-line: #fafafa;
-	--dg-ok: #4ade80;
 	--dg-danger: #f87171;
 }
 :root[data-theme='light'] {
@@ -170,6 +168,5 @@
 	--dg-key: #18181b;
 	--dg-on-key: #fafafa;
 	--dg-key-line: #18181b;
-	--dg-ok: #16a34a;
 	--dg-danger: #dc2626;
 }
