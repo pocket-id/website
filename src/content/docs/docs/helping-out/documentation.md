@@ -1,6 +1,6 @@
 ---
 title: Documentation
-description: Contribute to the Pocket ID website and documentation
+description: Run the Pocket ID website locally, write or edit a docs page, and add a setup guide for an app.
 ---
 
 The website is built with [Astro](https://astro.build) and [Starlight](https://starlight.astro.build), and lives in the [pocket-id/website](https://github.com/pocket-id/website) repository.

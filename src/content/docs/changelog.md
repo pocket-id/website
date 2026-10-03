@@ -1,6 +1,6 @@
 ---
 title: Changelog
-description: Release notes for every Pocket ID version.
+description: Release notes for every Pocket ID version, with the new features, fixes and breaking changes of each release.
 editUrl: false
 tableOfContents:
   maxHeadingLevel: 2

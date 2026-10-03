@@ -1,6 +1,6 @@
 ---
 title: Migrate to v2
-description: Migrate from previous versions to Pocket ID v2.0
+description: The breaking changes in Pocket ID v2.0, such as the mandatory encryption key, and how to upgrade from v1.
 ---
 
 If you're on a version before 1.0, follow the [migration guide to v1](/docs/setup/major-releases/migrate-v1) first.

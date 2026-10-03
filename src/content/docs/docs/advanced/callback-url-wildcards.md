@@ -1,6 +1,6 @@
 ---
 title: Callback URLs
-seoTitle: Callback URL rules and wildcards for OIDC clients
+seoTitle: Callback URL wildcards for OIDC clients
 description: How Pocket ID matches callback and logout URLs, and the wildcard patterns they support.
 ---
 
