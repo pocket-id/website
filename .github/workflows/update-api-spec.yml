@@ -3,7 +3,7 @@ name: Update API spec
 # Regenerates the committed spec in src/generated from the pocket-id backend, so the site builds without Go or the backend
 on:
   schedule:
-    - cron: "30 * * * *"
+    - cron: '30 * * * *'
   workflow_dispatch:
 
 permissions:

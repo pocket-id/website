@@ -1,14 +1,14 @@
-name: Astro Check
+name: Check
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main, preview ]
+    branches: [main, preview]
 
 jobs:
-  type-check:
-    name: Run Astro Check
+  check:
+    name: Format, lint and type check
     if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     permissions:
@@ -18,14 +18,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Setup Node.js and pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+      - name: Setup Vite+
+        uses: voidzero-dev/setup-vp@3754dd7dbdb32bd8f6d28b6043de13ad3a75f21f # v1.21.1
         with:
+          node-version-file: .node-version
           cache: true
-          install: false
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Run astro check
-        run: pnpm check
+      # astro check generates the types of Astro's virtual modules, which vp check needs too
+      - name: Run checks
+        run: vp run check

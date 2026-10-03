@@ -1,6 +1,6 @@
 name: 🚀 Documentation Request
-description: "Submit a Documentation Request"
-title: "🚀 Documentation: "
+description: 'Submit a Documentation Request'
+title: '🚀 Documentation: '
 labels: [documentation]
 body:
   - type: textarea
@@ -8,6 +8,6 @@ body:
     validations:
       required: true
     attributes:
-      label: "Documentation Request"
-      description: "A clear and concise description of what the request for documentation is."
-      placeholder: "You should add ..."
+      label: 'Documentation Request'
+      description: 'A clear and concise description of what the request for documentation is.'
+      placeholder: 'You should add ...'

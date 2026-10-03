@@ -4,7 +4,13 @@
 import { SPONSORS_GITHUB_TOKEN_KMENDELL, SPONSORS_GITHUB_TOKEN_STONITH404 } from 'astro:env/server';
 
 export type Tier = 'gold' | 'silver' | 'sponsor' | 'past';
-export type Sponsor = { name: string | null; login: string; avatar: string; link: string; tier: Tier };
+export type Sponsor = {
+	name: string | null;
+	login: string;
+	avatar: string;
+	link: string;
+	tier: Tier;
+};
 
 const maintainers = [
 	{ login: 'stonith404', token: SPONSORS_GITHUB_TOKEN_STONITH404 },
@@ -45,10 +51,19 @@ type Sponsorship = {
 	isOneTimePayment: boolean;
 	privacyLevel: 'PUBLIC' | 'PRIVATE';
 	tier: { monthlyPriceInDollars: number } | null;
-	sponsorEntity: { __typename: 'User' | 'Organization'; login: string; name: string | null; avatarUrl: string; websiteUrl?: string | null } | null;
+	sponsorEntity: {
+		__typename: 'User' | 'Organization';
+		login: string;
+		name: string | null;
+		avatarUrl: string;
+		websiteUrl?: string | null;
+	} | null;
 };
 
-type SponsorshipPage = { pageInfo: { hasNextPage: boolean; endCursor: string | null }; nodes: Sponsorship[] };
+type SponsorshipPage = {
+	pageInfo: { hasNextPage: boolean; endCursor: string | null };
+	nodes: Sponsorship[];
+};
 
 async function fetchSponsorships(login: string, token: string) {
 	const sponsorships: Sponsorship[] = [];
@@ -56,12 +71,22 @@ async function fetchSponsorships(login: string, token: string) {
 	do {
 		const res: Response = await fetch('https://api.github.com/graphql', {
 			method: 'POST',
-			headers: { Authorization: `bearer ${token}`, 'Content-Type': 'application/json', 'User-Agent': 'pocket-id-website' },
+			headers: {
+				Authorization: `bearer ${token}`,
+				'Content-Type': 'application/json',
+				'User-Agent': 'pocket-id-website'
+			},
 			body: JSON.stringify({ query, variables: { login, cursor } }),
 			signal: AbortSignal.timeout(10_000)
 		});
-		const body: { data?: { user: { sponsorshipsAsMaintainer: SponsorshipPage } }; errors?: unknown } = await res.json();
-		if (!res.ok || body.errors || !body.data) throw new Error(`Fetching the sponsors of ${login} failed: ${JSON.stringify(body.errors ?? body)}`);
+		const body: {
+			data?: { user: { sponsorshipsAsMaintainer: SponsorshipPage } };
+			errors?: unknown;
+		} = await res.json();
+		if (!res.ok || body.errors || !body.data)
+			throw new Error(
+				`Fetching the sponsors of ${login} failed: ${JSON.stringify(body.errors ?? body)}`
+			);
 
 		const page = body.data.user.sponsorshipsAsMaintainer;
 		sponsorships.push(...page.nodes);
@@ -73,15 +98,21 @@ async function fetchSponsorships(login: string, token: string) {
 const month = 30 * 24 * 60 * 60 * 1000;
 
 // Like on GitHub, a one-time payment counts as a current sponsorship for a month, with its amount as the monthly one
-const isCurrent = (s: Sponsorship) => s.isActive || (s.isOneTimePayment && Date.now() - Date.parse(s.tierSelectedAt ?? s.createdAt) < month);
+const isCurrent = (s: Sponsorship) =>
+	s.isActive ||
+	(s.isOneTimePayment && Date.now() - Date.parse(s.tierSelectedAt ?? s.createdAt) < month);
 
 // A maintainer whose token is missing or whose request fails is left out, so the others' sponsors still show
 // Undefined only when no maintainer's sponsors could be fetched, and complete tells whether everyone's were
-export async function fetchSponsors(): Promise<{ sponsors: Sponsor[]; complete: boolean } | undefined> {
+export async function fetchSponsors(): Promise<
+	{ sponsors: Sponsor[]; complete: boolean } | undefined
+> {
 	const results = await Promise.all(
 		maintainers.map(async (m) => {
 			if (!m.token) {
-				console.warn(`SPONSORS_GITHUB_TOKEN_${m.login.toUpperCase()} is not set, so the sponsors of ${m.login} are left out`);
+				console.warn(
+					`SPONSORS_GITHUB_TOKEN_${m.login.toUpperCase()} is not set, so the sponsors of ${m.login} are left out`
+				);
 				return undefined;
 			}
 			try {
@@ -115,11 +146,17 @@ export async function fetchSponsors(): Promise<{ sponsors: Sponsor[]; complete: 
 		byLogin.set(entity.login, sponsor);
 	}
 
-	const sponsors = (
-		[...byLogin.values()]
-			// Current sponsors by amount, then everyone by how long they've supported the project
-			.sort((a, b) => Number(b.monthly > 0) - Number(a.monthly > 0) || b.monthly - a.monthly || a.since.localeCompare(b.since))
-			.map(({ monthly, since, ...s }): Sponsor => ({ ...s, tier: monthly > 0 ? tiers.find((t) => monthly >= t.from)!.name : 'past' }))
-	);
+	const sponsors = [...byLogin.values()]
+		// Current sponsors by amount, then everyone by how long they've supported the project
+		.sort(
+			(a, b) =>
+				Number(b.monthly > 0) - Number(a.monthly > 0) ||
+				b.monthly - a.monthly ||
+				a.since.localeCompare(b.since)
+		)
+		.map(({ monthly, since, ...s }): Sponsor => ({
+			...s,
+			tier: monthly > 0 ? tiers.find((t) => monthly >= t.from)!.name : 'past'
+		}));
 	return { sponsors, complete: fetched.length === maintainers.length };
 }

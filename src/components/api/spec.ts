@@ -19,7 +19,13 @@ export type Param = Field & { in: string };
 
 export type Body = { contentType: string; fields?: Field[]; type?: string; description?: string };
 
-export type Response = { status: string; description: string; contentType?: string; fields?: Field[]; type?: string };
+export type Response = {
+	status: string;
+	description: string;
+	contentType?: string;
+	fields?: Field[];
+	type?: string;
+};
 
 export type Operation = {
 	id: string;
@@ -56,12 +62,15 @@ function resolve(schema: Schema | undefined): Schema {
 	return schema;
 }
 
-const isObject = (schema: Schema) => schema.type === 'object' || (!schema.type && schema.properties);
-const hasFields = (schema: Schema) => isObject(schema) && Object.keys(schema.properties ?? {}).length > 0;
+const isObject = (schema: Schema) =>
+	schema.type === 'object' || (!schema.type && schema.properties);
+const hasFields = (schema: Schema) =>
+	isObject(schema) && Object.keys(schema.properties ?? {}).length > 0;
 
 // The plural of a type label, so an array of objects doesn't read as "array of object"
 function plural(label: string): string {
-	if (label.startsWith('array of ') || label.startsWith('map of ')) return label.replace(/^(array|map)/, '$1s');
+	if (label.startsWith('array of ') || label.startsWith('map of '))
+		return label.replace(/^(array|map)/, '$1s');
 	if (label === 'any') return 'values';
 	if (label === 'binary') return label;
 	return `${label}s`;
@@ -73,7 +82,12 @@ export function typeLabel(input: Schema | undefined): string {
 	const base: string | undefined = schema.type;
 	let label: string;
 	if (base === 'array') label = `array of ${plural(typeLabel(schema.items))}`;
-	else if (base === 'object' && !schema.properties && schema.additionalProperties && typeof schema.additionalProperties === 'object') {
+	else if (
+		base === 'object' &&
+		!schema.properties &&
+		schema.additionalProperties &&
+		typeof schema.additionalProperties === 'object'
+	) {
 		label = `map of ${plural(typeLabel(schema.additionalProperties))}`;
 	} else if (base === 'file' || (base === 'string' && schema.format === 'binary')) label = 'binary';
 	else if (base === 'string' && schema.format === 'date-time') label = 'date-time string';
@@ -100,7 +114,10 @@ function notes(schema: Schema): string[] {
 	if (schema.pattern) out.push(`matches \`${schema.pattern}\``);
 	// swag writes string defaults with their quotes, such as "\"asc\"", so they are shown as written
 	if (schema.default !== undefined) {
-		const value = typeof schema.default === 'string' ? schema.default.replace(/^"(.*)"$/, '$1') : schema.default;
+		const value =
+			typeof schema.default === 'string'
+				? schema.default.replace(/^"(.*)"$/, '$1')
+				: schema.default;
 		out.push(`defaults to \`${typeof value === 'string' ? value : JSON.stringify(value)}\``);
 	}
 	return out;
@@ -135,7 +152,10 @@ export function fields(input: Schema | undefined, request = false, seen: string[
 			description: clean(raw.description ?? property.description),
 			notes: notes(property),
 			values: enumOf(property),
-			children: nested && !(ref && seen.includes(ref)) ? fields(nested, request, ref ? [...seen, ref] : seen) : undefined
+			children:
+				nested && !(ref && seen.includes(ref))
+					? fields(nested, request, ref ? [...seen, ref] : seen)
+					: undefined
 		});
 	}
 	// A caller scans a request for what it must send, while an answer keeps the spec's order, since its fields are all there anyway
@@ -171,7 +191,11 @@ function operation(path: string, method: string, op: Schema, id: string): Operat
 	// A JSON body is the schema of the body parameter, and an upload is the form fields of a multipart request
 	let body: Body | undefined;
 	if (bodyParam) body = schemaBody(op.consumes?.[0] ?? 'application/json', bodyParam.schema, true);
-	else if (formParams.length) body = { contentType: op.consumes?.[0] ?? 'multipart/form-data', fields: formParams.map(param) };
+	else if (formParams.length)
+		body = {
+			contentType: op.consumes?.[0] ?? 'multipart/form-data',
+			fields: formParams.map(param)
+		};
 
 	// Errors share one shape that the REST API page explains, so each operation lists only its successful answers
 	const responses: Response[] = Object.entries<Schema>(op.responses ?? {})
@@ -179,7 +203,11 @@ function operation(path: string, method: string, op: Schema, id: string): Operat
 		.map(([status, response]) => {
 			const description = clean(response.description) ?? '';
 			if (!response.schema) return { status, description };
-			return { status, description, ...schemaBody(op.produces?.[0] ?? 'application/json', response.schema, false) };
+			return {
+				status,
+				description,
+				...schemaBody(op.produces?.[0] ?? 'application/json', response.schema, false)
+			};
 		});
 
 	const summary = clean(op.summary) ?? `${method.toUpperCase()} ${path}`;
@@ -214,9 +242,15 @@ export function groups(): Group[] {
 			byName.set(name, [...(byName.get(name) ?? []), operation(path, method, op, id)]);
 		}
 	}
-	const rank = (name: string) => (groupOrder.includes(name) ? groupOrder.indexOf(name) : groupOrder.length);
+	const rank = (name: string) =>
+		groupOrder.includes(name) ? groupOrder.indexOf(name) : groupOrder.length;
 	const describe = (name: string) => spec.tags?.find((t: Schema) => t.name === name)?.description;
 	return [...byName.entries()]
 		.sort(([a], [b]) => rank(a) - rank(b) || a.localeCompare(b))
-		.map(([name, operations]) => ({ id: slug(name), name, description: describe(name), operations }));
+		.map(([name, operations]) => ({
+			id: slug(name),
+			name,
+			description: describe(name),
+			operations
+		}));
 }

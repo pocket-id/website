@@ -2,7 +2,7 @@ name: Update pocket-id Changelog
 
 on:
   schedule:
-    - cron: "0 * * * *"
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -26,11 +26,11 @@ jobs:
         id: latest
         uses: fjogeleit/http-request-action@v1
         with:
-          url: "https://api.github.com/repos/pocket-id/pocket-id/releases/latest"
-          method: "GET"
+          url: 'https://api.github.com/repos/pocket-id/pocket-id/releases/latest'
+          method: 'GET'
           bearerToken: ${{ secrets.GITHUB_TOKEN }}
           customHeaders: '{"Accept":"application/vnd.github+json"}'
-          responseFile: "release.json"
+          responseFile: 'release.json'
 
       - name: Prepare current changelog
         run: |

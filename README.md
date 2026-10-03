@@ -17,6 +17,8 @@ This repository holds [pocket-id.org](https://pocket-id.org): the landing page a
 
 The site runs at `http://localhost:4321` and reloads when you save a file.
 
+Formatting, linting and type checks run with [Vite+](https://viteplus.dev): `pnpm check` runs all of them, and a commit hook fixes the staged files. With the [`vp` CLI](https://viteplus.dev/guide/) installed, `vp install`, `vp run dev` and `vp check` work as well.
+
 ### Structure
 
 | Path                     | Contents                                                                   |

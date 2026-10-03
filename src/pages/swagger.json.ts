@@ -2,4 +2,5 @@
 import type { APIRoute } from 'astro';
 import spec from '../generated/swagger.json';
 
-export const GET: APIRoute = () => new Response(JSON.stringify(spec, null, 2), { headers: { 'Content-Type': 'application/json' } });
+export const GET: APIRoute = () =>
+	new Response(JSON.stringify(spec, null, 2), { headers: { 'Content-Type': 'application/json' } });

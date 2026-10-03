@@ -6,19 +6,32 @@ let version: Promise<string | undefined> | undefined;
 
 // The version file on the main branch holds the version of the latest release, such as 2.17.0
 export function latestVersion() {
-	version ??= fetch('https://raw.githubusercontent.com/pocket-id/pocket-id/refs/heads/main/.version')
+	version ??= fetch(
+		'https://raw.githubusercontent.com/pocket-id/pocket-id/refs/heads/main/.version'
+	)
 		.then((res) => (res.ok ? res.text() : undefined))
 		.then((text) => text?.trim() || undefined)
 		.catch(() => undefined);
 	return version;
 }
 
-export type Stats = { instances?: number; stars?: number; contributors?: number; dockerPulls?: number };
+export type Stats = {
+	instances?: number;
+	stars?: number;
+	contributors?: number;
+	dockerPulls?: number;
+};
 
 // Active instances come from the opt-out heartbeat described on the analytics page, the rest from GitHub and the container registries
 // Not memoized, since a warm function would otherwise keep the first numbers it fetched; the CDN caches the rendered island instead
 export async function projectStats(): Promise<Stats> {
-	const [instances, stars, contributors, hub, ghcr] = await Promise.all([activeInstances(), githubStars(), githubContributors(), dockerHubPulls(), ghcrPulls()]);
+	const [instances, stars, contributors, hub, ghcr] = await Promise.all([
+		activeInstances(),
+		githubStars(),
+		githubContributors(),
+		dockerHubPulls(),
+		ghcrPulls()
+	]);
 	return {
 		instances,
 		stars,
@@ -30,11 +43,20 @@ export async function projectStats(): Promise<Stats> {
 
 // Fetches a URL and reads a number from the response, giving up after ten seconds so a slow service can't stall the build
 // A failure only hides the number, so it's logged to show up in the build and function logs
-async function count(url: string, read: (res: Response) => Promise<number | undefined>, headers: Record<string, string> = {}) {
+async function count(
+	url: string,
+	read: (res: Response) => Promise<number | undefined>,
+	headers: Record<string, string> = {}
+) {
 	try {
-		const res = await fetch(url, { headers: { 'User-Agent': 'pocket-id-website', ...headers }, signal: AbortSignal.timeout(10_000) });
+		const res = await fetch(url, {
+			headers: { 'User-Agent': 'pocket-id-website', ...headers },
+			signal: AbortSignal.timeout(10_000)
+		});
 		if (!res.ok) {
-			console.warn(`Fetching ${url} failed with ${res.status}: ${(await res.text()).slice(0, 300)}`);
+			console.warn(
+				`Fetching ${url} failed with ${res.status}: ${(await res.text()).slice(0, 300)}`
+			);
 			return undefined;
 		}
 		const n = await read(res);
@@ -46,13 +68,22 @@ async function count(url: string, read: (res: Response) => Promise<number | unde
 	}
 }
 
-const activeInstances = () => count('https://analytics.pocket-id.org/stats', async (res) => (await res.json()).total);
+const activeInstances = () =>
+	count('https://analytics.pocket-id.org/stats', async (res) => (await res.json()).total);
 
 // A token raises GitHub's limit from 60 to 5000 requests an hour, which matters on shared CI runners and Vercel's functions
 // The pocket-id organization rejects classic tokens that live longer than 366 days, even for public data
-const githubHeaders = { Accept: 'application/vnd.github+json', ...(GITHUB_TOKEN && { Authorization: `Bearer ${GITHUB_TOKEN}` }) };
+const githubHeaders = {
+	Accept: 'application/vnd.github+json',
+	...(GITHUB_TOKEN && { Authorization: `Bearer ${GITHUB_TOKEN}` })
+};
 
-export const githubStars = () => count('https://api.github.com/repos/pocket-id/pocket-id', async (res) => (await res.json()).stargazers_count, githubHeaders);
+export const githubStars = () =>
+	count(
+		'https://api.github.com/repos/pocket-id/pocket-id',
+		async (res) => (await res.json()).stargazers_count,
+		githubHeaders
+	);
 
 // With one contributor per page, the number of the last page is the number of contributors
 const githubContributors = () =>
@@ -65,7 +96,11 @@ const githubContributors = () =>
 		githubHeaders
 	);
 
-const dockerHubPulls = () => count('https://hub.docker.com/v2/repositories/pocketid/pocket-id/', async (res) => (await res.json()).pull_count);
+const dockerHubPulls = () =>
+	count(
+		'https://hub.docker.com/v2/repositories/pocketid/pocket-id/',
+		async (res) => (await res.json()).pull_count
+	);
 
 // GitHub has no API for container downloads, so the exact count is read from the title of the "Total downloads" heading on the package page
 const ghcrPulls = () =>

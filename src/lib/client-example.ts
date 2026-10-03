@@ -57,47 +57,81 @@ function urls(intro: string, items: string[]) {
 export function createClientMarkdown(title: string, client: ClientExample) {
 	const wanted = client.values ?? (client.public ? ['clientId', 'discoveryUrl'] : shownByDefault);
 	const copied = wanted.filter((key) => !(client.public && key === 'clientSecret'));
-	const visible = copied.filter((key) => shownByDefault.includes(key)).map((key) => `the ${bold(values[key])}`);
-	const hidden = copied.filter((key) => !shownByDefault.includes(key)).map((key) => `the ${bold(values[key])}`);
+	const visible = copied
+		.filter((key) => shownByDefault.includes(key))
+		.map((key) => `the ${bold(values[key])}`);
+	const hidden = copied
+		.filter((key) => !shownByDefault.includes(key))
+		.map((key) => `the ${bold(values[key])}`);
 
 	const name = [`Enter a name such as ${code(title)}`];
 	if (client.public) name.push(`choose ${bold('Public Client')} as the client type`);
 	name.push(`add the callback ${client.callbackUrls.length > 1 ? 'URLs' : 'URL'}`);
 	const create = urls(list(name), client.callbackUrls);
-	if (client.customClientId) create.push(`Click ${bold('Set custom client ID')} and enter ${code(client.customClientId)}, which the app expects.`);
+	if (client.customClientId)
+		create.push(
+			`Click ${bold('Set custom client ID')} and enter ${code(client.customClientId)}, which the app expects.`
+		);
 
-	const copy = [visible.length ? `Click ${bold('Create')} and copy ${list(visible)}.` : `Click ${bold('Create')}.`];
-	if (hidden.length) copy.push(`Under ${bold('Show more details')}, ${visible.length ? 'also ' : ''}copy ${list(hidden)}.`);
+	const copy = [
+		visible.length
+			? `Click ${bold('Create')} and copy ${list(visible)}.`
+			: `Click ${bold('Create')}.`
+	];
+	if (hidden.length)
+		copy.push(
+			`Under ${bold('Show more details')}, ${visible.length ? 'also ' : ''}copy ${list(hidden)}.`
+		);
 	if (copied.includes('clientSecret')) copy.push('The client secret is only shown once.');
 
 	const general: string[] = [];
-	if (client.launchUrl) general.push(`set ${bold('Client Launch URL')} to ${code(client.launchUrl)}`);
-	if (client.logoutCallbackUrls?.length) general.push(`add ${list(client.logoutCallbackUrls.map(code))} to ${bold('Logout Callback URLs')}`);
+	if (client.launchUrl)
+		general.push(`set ${bold('Client Launch URL')} to ${code(client.launchUrl)}`);
+	if (client.logoutCallbackUrls?.length)
+		general.push(
+			`add ${list(client.logoutCallbackUrls.map(code))} to ${bold('Logout Callback URLs')}`
+		);
 	if (client.pkce && !client.public) general.push(`turn on ${bold('PKCE')}`);
 
 	const steps: string[][] = [
-		[`In Pocket ID, open ${bold('Administration → OIDC Clients')} and click ${bold('Add OIDC Client')}.`],
+		[
+			`In Pocket ID, open ${bold('Administration → OIDC Clients')} and click ${bold('Add OIDC Client')}.`
+		],
 		create,
 		copy,
-		...(general.length ? [[`On the client's ${bold('General')} tab, ${list(general)}, then click ${bold('Save')}.`]] : []),
+		...(general.length
+			? [[`On the client's ${bold('General')} tab, ${list(general)}, then click ${bold('Save')}.`]]
+			: []),
 		client.allowedGroups?.length
-			? [`On the client's ${bold('Access')} tab, select ${list(client.allowedGroups.map(code))} under ${bold('Allowed User Groups')}.`]
-			: [`On the client's ${bold('Access')} tab, select the groups that may sign in under ${bold('Allowed User Groups')}, or choose ${bold('All Users')}.`]
+			? [
+					`On the client's ${bold('Access')} tab, select ${list(client.allowedGroups.map(code))} under ${bold('Allowed User Groups')}.`
+				]
+			: [
+					`On the client's ${bold('Access')} tab, select the groups that may sign in under ${bold('Allowed User Groups')}, or choose ${bold('All Users')}.`
+				]
 	];
 
 	// Lines after the first of a step are indented to stay inside its list item, and no blank lines keep the list as tight as a written one
-	const items = steps.map((lines, i) => [`${i + 1}. ${lines[0]}`, ...lines.slice(1).map((line) => `   ${line}`)].join('\n'));
+	const items = steps.map((lines, i) =>
+		[`${i + 1}. ${lines[0]}`, ...lines.slice(1).map((line) => `   ${line}`)].join('\n')
+	);
 	return `## Create the client in Pocket ID\n\n${items.join('\n')}`;
 }
 
 // Markdown plugin for the Satteri processor that replaces the `::create-client` line with the section
 const createClientPlugin = {
 	name: 'pocket-id-create-client',
-	leafDirective(node: { name: string }, ctx: { data: Record<string, any>; fileURL: URL | undefined }) {
+	leafDirective(
+		node: { name: string },
+		ctx: { data: Record<string, any>; fileURL: URL | undefined }
+	) {
 		if (node.name !== 'create-client') return;
 		const frontmatter = ctx.data.astro?.frontmatter ?? {};
 		const parsed = clientSchema.safeParse(frontmatter.client);
-		if (!parsed.success) throw new Error(`${ctx.fileURL?.pathname}: ::create-client needs a valid \`client\` in the frontmatter: ${parsed.error.message}`);
+		if (!parsed.success)
+			throw new Error(
+				`${ctx.fileURL?.pathname}: ::create-client needs a valid \`client\` in the frontmatter: ${parsed.error.message}`
+			);
 		return { raw: createClientMarkdown(frontmatter.title, parsed.data) };
 	}
 };
@@ -107,8 +141,11 @@ export const clientExamples = (): AstroIntegration => ({
 	name: 'pocket-id-client-examples',
 	hooks: {
 		'astro:config:setup': ({ config }) => {
-			const options = config.markdown.processor?.options as { mdastPlugins?: unknown[] } | undefined;
-			if (!options?.mdastPlugins) throw new Error('The client examples need the Satteri Markdown processor');
+			const options = config.markdown.processor?.options as
+				| { mdastPlugins?: unknown[] }
+				| undefined;
+			if (!options?.mdastPlugins)
+				throw new Error('The client examples need the Satteri Markdown processor');
 			options.mdastPlugins.push(createClientPlugin);
 		}
 	}
