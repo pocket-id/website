@@ -1,30 +1,19 @@
 ---
-// The project's GitHub sponsors, fetched at build time from the list the resources repository keeps up to date
-type Sponsor = { name: string | null; login: string; avatar: string; link: string };
+// The sponsor list loads after the page, so a row of empty avatars holds its place until it arrives
+// starlight-llms-txt renders the page's content outside a page, where server islands can't render, so the AI text leaves the list out
+import SponsorTiers from './SponsorTiers.astro';
 
-const sponsors: Sponsor[] = await fetch('https://raw.githubusercontent.com/pocket-id/resources/refs/heads/main/sponsors.json')
-	.then((res) => (res.ok ? res.json() : []))
-	.then((raw: Sponsor[] | { sponsors: Sponsor[] }) => (Array.isArray(raw) ? raw : (raw.sponsors ?? [])))
-	.catch(() => []);
+const forLlms = /^\/llms[^/]*\.txt$/.test(Astro.url.pathname);
 ---
 
 {
-	sponsors.length > 0 ? (
-		<ul class="not-content m-0 mt-6 grid list-none grid-cols-[repeat(auto-fill,minmax(9.5rem,1fr))] gap-3 p-0">
-			{sponsors.map((s) => (
-				<li class="m-0">
-					<a
-						href={s.link}
-						class="flex h-full flex-col items-center gap-2 rounded-2xl border border-surface-border bg-surface p-4 text-center no-underline [box-shadow:var(--surface-shadow)] transition-[border-color,translate] duration-200 hover:-translate-y-0.5 hover:border-gray-4"
-					>
-						<img src={s.avatar} alt="" width="56" height="56" loading="lazy" class="size-14 rounded-full" />
-						<span class="w-full truncate text-sm font-medium text-fg">{s.name ?? s.login}</span>
-						<span class="w-full truncate text-xs text-gray-3">@{s.login}</span>
-					</a>
-				</li>
-			))}
-		</ul>
-	) : (
-		<p>The sponsor list is unavailable right now, see the GitHub Sponsors pages linked above.</p>
+	!forLlms && (
+		<SponsorTiers server:defer>
+			<ul slot="fallback" class="not-content m-0 mt-8 flex list-none flex-wrap gap-2 p-0" aria-hidden="true">
+				{Array.from({ length: 12 }, () => (
+					<li class="m-0 size-12 animate-pulse rounded-full bg-surface-muted" />
+				))}
+			</ul>
+		</SponsorTiers>
 	)
 }

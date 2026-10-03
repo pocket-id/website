@@ -1,0 +1,77 @@
+---
+// The project's GitHub sponsors by tier, rendered as a server island so new sponsors show up without a deploy
+import { cacheIsland } from '../lib/island-cache';
+import { fetchSponsors, type Sponsor, type Tier } from '../lib/sponsors';
+
+const sponsors = await fetchSponsors();
+cacheIsland(Astro.response, sponsors ? 60*60 : 60);
+
+const byTier = (tier: Tier) => (sponsors ?? []).filter((s) => s.tier === tier);
+const label = (s: Sponsor) => s.name ?? s.login;
+
+const card =
+	'flex h-full flex-col items-center gap-2 rounded-2xl border border-surface-border bg-surface p-4 text-center no-underline [box-shadow:var(--surface-shadow)] transition-[border-color,translate] duration-200 hover:-translate-y-0.5 hover:border-gray-4';
+const heading = 'm-0 mb-3 text-sm font-medium text-gray-3';
+
+// Gold and silver sponsors get a card, the others an avatar, and past sponsors a smaller, faded one
+const cardTiers = [
+	{ title: 'Gold sponsors', list: byTier('gold'), grid: 'grid-cols-[repeat(auto-fill,minmax(10rem,1fr))]', avatar: 'size-18', size: 72 },
+	{ title: 'Silver sponsors', list: byTier('silver'), grid: 'grid-cols-[repeat(auto-fill,minmax(8.5rem,1fr))]', avatar: 'size-12', size: 48 }
+];
+const avatarTiers = [
+	{ title: 'Sponsors', list: byTier('sponsor'), avatar: 'size-12', size: 48, faded: false },
+	{ title: 'Past sponsors', list: byTier('past'), avatar: 'size-9', size: 36, faded: true }
+];
+---
+
+{
+	!sponsors && <p>The sponsor list is unavailable right now, see the GitHub Sponsors pages linked above.</p>
+}
+<div class="not-content mt-8 flex flex-col gap-8 empty:hidden">
+	{
+		cardTiers.map(
+			(t) =>
+				t.list.length > 0 && (
+					<section>
+						<h3 class={heading}>{t.title}</h3>
+						<ul class:list={['m-0 grid list-none gap-3 p-0', t.grid]}>
+							{t.list.map((s) => (
+								<li class="m-0">
+									<a href={s.link} target="_blank" rel="noopener" class={card}>
+										<img src={s.avatar} alt="" width={t.size} height={t.size} loading="lazy" class:list={['rounded-full', t.avatar]} />
+										<span class="w-full truncate text-sm font-medium text-fg">{label(s)}</span>
+										<span class="-mt-1 w-full truncate text-xs text-gray-3">@{s.login}</span>
+									</a>
+								</li>
+							))}
+						</ul>
+					</section>
+				)
+		)
+	}
+	{
+		avatarTiers.map(
+			(t) =>
+				t.list.length > 0 && (
+					<section>
+						<h3 class={heading}>{t.title}</h3>
+						<ul class="m-0 flex list-none flex-wrap gap-2 p-0">
+							{t.list.map((s) => (
+								<li class="m-0">
+									<a
+										href={s.link}
+										target="_blank"
+										rel="noopener"
+										title={label(s)}
+										class:list={['block rounded-full transition-[opacity,filter,translate] duration-200 hover:-translate-y-0.5', t.faded && 'opacity-60 grayscale hover:opacity-100 hover:grayscale-0']}
+									>
+										<img src={s.avatar} alt={label(s)} width={t.size} height={t.size} loading="lazy" class:list={['rounded-full border border-surface-border', t.avatar]} />
+									</a>
+								</li>
+							))}
+						</ul>
+					</section>
+				)
+		)
+	}
+</div>

@@ -1,5 +1,5 @@
-// The current Pocket ID release and the project's public numbers, fetched once per build so every page shows the same values
-// The site rebuilds whenever a release lands in the changelog, so build time is fresh enough, and a failed fetch only hides the value
+// The current Pocket ID release, fetched once per build, and the project's public numbers, fetched whenever the stats island renders
+// The site rebuilds whenever a release lands in the changelog, so build time is fresh enough for the version, and a failed fetch only hides the value
 import { GITHUB_TOKEN } from 'astro:env/server';
 
 let version: Promise<string | undefined> | undefined;
@@ -15,20 +15,17 @@ export function latestVersion() {
 
 export type Stats = { instances?: number; stars?: number; contributors?: number; dockerPulls?: number };
 
-let stats: Promise<Stats> | undefined;
-
 // Active instances come from the opt-out heartbeat described on the analytics page, the rest from GitHub and the container registries
-export function projectStats() {
-	stats ??= Promise.all([activeInstances(), githubStars(), githubContributors(), dockerHubPulls(), ghcrPulls()]).then(
-		([instances, stars, contributors, hub, ghcr]) => ({
-			instances,
-			stars,
-			contributors,
-			// The image is published to both registries, and a count from only one of them would undersell the total
-			dockerPulls: hub !== undefined && ghcr !== undefined ? hub + ghcr : undefined
-		})
-	);
-	return stats;
+// Not memoized, since a warm function would otherwise keep the first numbers it fetched; the CDN caches the rendered island instead
+export async function projectStats(): Promise<Stats> {
+	const [instances, stars, contributors, hub, ghcr] = await Promise.all([activeInstances(), githubStars(), githubContributors(), dockerHubPulls(), ghcrPulls()]);
+	return {
+		instances,
+		stars,
+		contributors,
+		// The image is published to both registries, and a count from only one of them would undersell the total
+		dockerPulls: hub !== undefined && ghcr !== undefined ? hub + ghcr : undefined
+	};
 }
 
 // Fetches a URL and reads a number from the response, giving up after ten seconds so a slow service can't stall the build
@@ -48,7 +45,7 @@ const activeInstances = () => count('https://analytics.pocket-id.org/stats', asy
 // A token raises GitHub's limit from 60 to 5000 requests an hour, which matters on shared CI runners
 const githubHeaders = { Accept: 'application/vnd.github+json', ...(GITHUB_TOKEN && { Authorization: `Bearer ${GITHUB_TOKEN}` }) };
 
-const githubStars = () => count('https://api.github.com/repos/pocket-id/pocket-id', async (res) => (await res.json()).stargazers_count, githubHeaders);
+export const githubStars = () => count('https://api.github.com/repos/pocket-id/pocket-id', async (res) => (await res.json()).stargazers_count, githubHeaders);
 
 // With one contributor per page, the number of the last page is the number of contributors
 const githubContributors = () =>

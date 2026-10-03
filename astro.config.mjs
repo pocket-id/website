@@ -1,5 +1,6 @@
 // @ts-check
 import starlight from '@astrojs/starlight';
+import vercel from '@astrojs/vercel';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig, envField } from 'astro/config';
 import starlightLlmsTxt from 'starlight-llms-txt';
@@ -11,11 +12,21 @@ const site = 'https://pocket-id.org';
 export default defineConfig({
 	site,
 	trailingSlash: 'never',
-	build: { format: 'preserve' },
+	// Pages stay prerendered, the adapter only serves the server islands for the landing page numbers and the sponsor list
+	adapter: vercel(),
+	// Permanent redirects for moved pages, which the adapter writes into Vercel's routing
+	redirects: {
+		'/docs': { status: 308, destination: '/docs/introduction' },
+		'/sitemap.xml': { status: 308, destination: '/sitemap-index.xml' },
+		'/docs/advanced/nginx-reverse-proxy': { status: 308, destination: '/docs/setup/reverse-proxy' }
+	},
 	env: {
 		schema: {
 			// Optional, raises the GitHub API rate limit for the stats on the landing page
-			GITHUB_TOKEN: envField.string({ context: 'server', access: 'secret', optional: true })
+			GITHUB_TOKEN: envField.string({ context: 'server', access: 'secret', optional: true }),
+			// Classic tokens with the read:user scope of each maintainer, without which the sponsors page shows no sponsor list
+			SPONSORS_GITHUB_TOKEN_STONITH404: envField.string({ context: 'server', access: 'secret', optional: true }),
+			SPONSORS_GITHUB_TOKEN_KMENDELL: envField.string({ context: 'server', access: 'secret', optional: true })
 		}
 	},
 	vite: {

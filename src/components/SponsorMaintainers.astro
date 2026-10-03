@@ -1,0 +1,30 @@
+---
+// A card per maintainer that links to their GitHub Sponsors page
+import Heart from '@lucide/astro/icons/heart';
+import { button } from './landing/button';
+
+const maintainers = [
+	{ name: 'Elias Schneider', login: 'stonith404', role: 'Creator and maintainer', avatar: 'https://avatars.githubusercontent.com/u/58886915?v=4' },
+	{ name: 'Kyle Mendell', login: 'kmendell', role: 'Maintainer', avatar: 'https://avatars.githubusercontent.com/u/25576967?v=4' }
+];
+---
+
+<ul class="not-content m-0 mt-6 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2">
+	{
+		maintainers.map((m) => (
+			<li class="m-0 flex flex-col gap-4 rounded-2xl border border-surface-border bg-surface p-4 [box-shadow:var(--surface-shadow)]">
+				<span class="flex items-center gap-3">
+					<img src={m.avatar} alt="" width="44" height="44" class="size-11 shrink-0 rounded-full" />
+					<span class="flex min-w-0 flex-col">
+						<span class="truncate font-medium leading-snug text-fg">{m.name}</span>
+						<span class="truncate text-sm text-gray-3">{m.role}</span>
+					</span>
+				</span>
+				<a href={`https://github.com/sponsors/${m.login}`} target="_blank" rel="noopener" class:list={[button.secondary, 'h-10 text-sm']} aria-label={`Sponsor ${m.name} on GitHub`}>
+					<Heart />
+					Sponsor
+				</a>
+			</li>
+		))
+	}
+</ul>

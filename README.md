@@ -36,10 +36,10 @@ See [the documentation guide](https://pocket-id.org/docs/helping-out/documentati
 
 ## Deployment
 
-The site is hosted on [Vercel](https://vercel.com), which builds it from the repository with `pnpm build`, and `vercel.json` holds the redirects and URL settings.
+The site is hosted on [Vercel](https://vercel.com), which builds it from the repository with `pnpm build`, and redirects for moved pages go in `redirects` in `astro.config.mjs`.
 
 - Pushes to `main` deploy to production
 - Pushes to `preview` deploy the docs of the unreleased version, at the domain assigned to the branch in Vercel
 - Pull requests get a preview deployment, linked in a comment by Vercel
 
-The optional `GITHUB_TOKEN` environment variable in Vercel raises the GitHub API rate limit for the stats on the landing page.
+Every page is prerendered, except for two server islands that Vercel renders on request and caches for an hour: the numbers on the landing page and the sponsor list.
