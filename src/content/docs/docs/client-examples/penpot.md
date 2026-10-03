@@ -15,7 +15,7 @@ description: Configure Penpot with Pocket ID
 1. Go to **Administration > OIDC Clients** and create a new OIDC Client for Penpot.
 2. Set the **Callback URL** to the value below.
    ```
-   https://<your-penpot-url>/api/auth/oidc/callback
+   https://pocketid.yourdomain.com/api/auth/oidc/callback
    ```
 3. *Optional:* Get a link to the Penpot **logo** from [Dashboard Icons](https://dashboardicons.com/icons/external/penpot)
 4. Copy the **Client ID**, **Client Secret**, and **OIDC Discovery URL** for use in the next section.
