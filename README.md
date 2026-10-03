@@ -36,10 +36,10 @@ See [the documentation guide](https://pocket-id.org/docs/helping-out/documentati
 
 ## Deployment
 
-The site is hosted on [Vercel](https://vercel.com). GitHub Actions builds it, since the API reference needs Go and a pocket-id checkout, and deploys the output with the Vercel CLI, see `.github/actions/deploy-vercel`. Vercel doesn't build from Git itself, and `vercel.json` holds the redirects and URL settings.
+The site is hosted on [Vercel](https://vercel.com), which builds it from the repository with `pnpm build`, and `vercel.json` holds the redirects and URL settings.
 
 - Pushes to `main` deploy to production
-- Pushes to `preview` deploy the docs of the unreleased version, at the domain in the `VERCEL_PREVIEW_DOMAIN` variable if it's set
-- Pull requests get a preview deployment, linked in a comment
+- Pushes to `preview` deploy the docs of the unreleased version, at the domain assigned to the branch in Vercel
+- Pull requests get a preview deployment, linked in a comment by Vercel
 
-The workflows need the `VERCEL_TOKEN`, `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` secrets.
+The optional `GITHUB_TOKEN` environment variable in Vercel raises the GitHub API rate limit for the stats on the landing page.
