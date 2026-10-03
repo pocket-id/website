@@ -30,7 +30,7 @@ pocket-id export --path - > ./path/to/export.zip
 Exporting to standard output is often the simplest approach when running Pocket ID in Docker:
 
 ```bash
-docker compose exec pocket-id ./pocket-id export --path - > ./path/to/export.zip
+docker compose exec -T pocket-id ./pocket-id export --path - > ./path/to/export.zip
 ```
 
 ## Importing Data
@@ -66,5 +66,7 @@ Do you want to continue? [y/N]:
 When using Docker, importing from standard input is often the easiest method:
 
 ```bash
-cat ./export.zip | docker compose run pocket-id ./pocket-id import --yes --path -
+cat ./export.zip | docker compose run -T pocket-id ./pocket-id import --yes --path -
 ```
+
+The `-T` flag disables TTY allocation. Without it, Docker fails with `the input device is not a TTY` when piping data into the container, and binary output from the export may be corrupted.
