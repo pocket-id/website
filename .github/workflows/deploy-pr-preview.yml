@@ -6,12 +6,11 @@ on:
       - completed
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  group: ${{ github.workflow }}-${{ github.event.workflow_run.head_repository.full_name }}-${{ github.event.workflow_run.head_branch }}
   cancel-in-progress: true
 
 permissions:
   actions: read
-  deployments: write
   contents: read
   pull-requests: write
 
@@ -20,21 +19,39 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
+      # The default branch, never the pull request's code, since this job has the deploy secrets.
+      # It provides vercel.json and the deploy action, the pull request only provides the built site.
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
       - name: Download build artifact
         uses: actions/download-artifact@v8
-        id: preview-build-artifact
         with:
           name: preview-build
-          path: build
+          path: dist
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ github.event.workflow_run.id }}
 
-      - name: Deploy to Cloudflare Pages
-        uses: AdrianGonz97/refined-cf-pages-action@v1
+      - name: Deploy to Vercel
+        id: deploy
+        uses: ./.github/actions/deploy-vercel
         with:
-          apiToken: ${{ secrets.CF_API_TOKEN_NEW }}
-          accountId: ${{ secrets.CF_ACCOUNT_ID_NEW }}
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-          projectName: pocket-id-website
-          deploymentName: pr-preview
-          directory: ${{ steps.preview-build-artifact.outputs.download-path }}
+          token: ${{ secrets.VERCEL_TOKEN }}
+          org-id: ${{ secrets.VERCEL_ORG_ID }}
+          project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      # workflow_run doesn't name the pull requests of forks, so the commit finds it
+      - name: Comment preview URL
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          URL: ${{ steps.deploy.outputs.url }}
+        run: |
+          pr=$(gh pr list --repo "$REPO" --state open --search "$HEAD_SHA" --json number --jq '.[0].number')
+          if [[ -z "$pr" ]]; then
+            echo "No open pull request for $HEAD_SHA"
+            exit 0
+          fi
+          gh pr comment "$pr" --repo "$REPO" --edit-last --create-if-none \
+            --body "Preview of this pull request: $URL (commit ${HEAD_SHA:0:7})"

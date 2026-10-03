@@ -14,17 +14,17 @@ on:
       - "pnpm-workspace.yaml"
       - ".node-version"
       - "astro.config.mjs"
+      - "vercel.json"
       - ".github/workflows/deploy-preview-branch.yml"
+      - ".github/actions/deploy-vercel/**"
 
 permissions:
-  actions: read
-  deployments: write
   contents: read
 
 jobs:
   deploy-preview-branch:
     runs-on: ubuntu-latest
-    name: Deploy Preview Branch to Cloudflare Pages
+    name: Deploy Preview Branch to Vercel
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -59,14 +59,11 @@ jobs:
           POCKET_ID_DIR: pocket-id
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Deploy to Cloudflare Pages
-        uses: AdrianGonz97/refined-cf-pages-action@v1
+      - name: Deploy to Vercel
+        uses: ./.github/actions/deploy-vercel
         with:
-          apiToken: ${{ secrets.CF_API_TOKEN_NEW }}
-          accountId: ${{ secrets.CF_ACCOUNT_ID_NEW }}
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-          projectName: pocket-id-website
-          deploymentName: Preview
-          branch: preview
-          directory: dist
-          wranglerVersion: "3"
+          token: ${{ secrets.VERCEL_TOKEN }}
+          org-id: ${{ secrets.VERCEL_ORG_ID }}
+          project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          # A stable address for the docs of the unreleased version, optional
+          alias: ${{ vars.VERCEL_PREVIEW_DOMAIN }}

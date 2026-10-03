@@ -9,7 +9,6 @@ const site = 'https://pocket-id.org';
 
 export default defineConfig({
 	site,
-	// Pages build to docs/setup/installation.html and link without the extension, so every address the old site used keeps working
 	trailingSlash: 'never',
 	build: { format: 'preserve' },
 	env: {

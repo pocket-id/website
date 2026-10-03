@@ -33,3 +33,13 @@ The checkout is expected next to this repository, or wherever `POCKET_ID_DIR` po
 Without one, the rest of the site builds and the endpoints page stays empty.
 
 See [the documentation guide](https://pocket-id.org/docs/helping-out/documentation) for how to write pages.
+
+## Deployment
+
+The site is hosted on [Vercel](https://vercel.com). GitHub Actions builds it, since the API reference needs Go and a pocket-id checkout, and deploys the output with the Vercel CLI, see `.github/actions/deploy-vercel`. Vercel doesn't build from Git itself, and `vercel.json` holds the redirects and URL settings.
+
+- Pushes to `main` deploy to production
+- Pushes to `preview` deploy the docs of the unreleased version, at the domain in the `VERCEL_PREVIEW_DOMAIN` variable if it's set
+- Pull requests get a preview deployment, linked in a comment
+
+The workflows need the `VERCEL_TOKEN`, `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` secrets.

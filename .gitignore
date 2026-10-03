@@ -11,8 +11,8 @@ node_modules
 # The pocket-id checkout CI uses to generate the API spec
 /pocket-id
 
-# Wrangler
-.wrangler
+# Vercel CLI
+.vercel
 
 # OS
 .DS_Store

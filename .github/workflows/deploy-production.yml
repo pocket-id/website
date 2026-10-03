@@ -15,17 +15,16 @@ on:
       - "pnpm-workspace.yaml"
       - ".node-version"
       - "astro.config.mjs"
-      - ".github/workflows/deploy-production.yml"
       - "scripts/**"
+      - "vercel.json"
+      - ".github/workflows/deploy-production.yml"
+      - ".github/actions/deploy-vercel/**"
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      deployments: write
-      actions: write
-      pull-requests: write
 
     steps:
       - name: Checkout
@@ -61,14 +60,10 @@ jobs:
           POCKET_ID_DIR: pocket-id
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Deploy to Cloudflare Pages
-        uses: AdrianGonz97/refined-cf-pages-action@v1
+      - name: Deploy to Vercel
+        uses: ./.github/actions/deploy-vercel
         with:
-          apiToken: ${{ secrets.CF_API_TOKEN_NEW }}
-          accountId: ${{ secrets.CF_ACCOUNT_ID_NEW }}
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-          projectName: pocket-id-website
-          deploymentName: Production
-          branch: main
-          directory: dist
-          wranglerVersion: "3"
+          token: ${{ secrets.VERCEL_TOKEN }}
+          org-id: ${{ secrets.VERCEL_ORG_ID }}
+          project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          production: true

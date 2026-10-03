@@ -1,0 +1,69 @@
+name: Deploy to Vercel
+description: Deploys the site built into dist to Vercel, with the routing from vercel.json
+
+inputs:
+  token:
+    description: Vercel access token
+    required: true
+  org-id:
+    description: ID of the Vercel team that owns the project
+    required: true
+  project-id:
+    description: ID of the Vercel project
+    required: true
+  production:
+    description: Whether to deploy to production instead of a preview
+    default: "false"
+  alias:
+    description: Domain to point at the deployment, for example a stable address for a preview
+    default: ""
+
+outputs:
+  url:
+    description: URL of the deployment
+    value: ${{ steps.deploy.outputs.url }}
+
+runs:
+  using: composite
+  steps:
+    # The site is built beforehand, because the API reference needs Go and a pocket-id checkout, so Vercel only packages dist
+    - name: Package build output
+      shell: bash
+      env:
+        ORG_ID: ${{ inputs.org-id }}
+        PROJECT_ID: ${{ inputs.project-id }}
+        PRODUCTION: ${{ inputs.production }}
+        VERCEL_TELEMETRY_DISABLED: "1"
+      run: |
+        mkdir -p .vercel
+        jq -n --arg org "$ORG_ID" --arg project "$PROJECT_ID" \
+          '{orgId: $org, projectId: $project, settings: {framework: null, installCommand: "", buildCommand: "", outputDirectory: "dist"}}' \
+          > .vercel/project.json
+        args=()
+        [[ "$PRODUCTION" == "true" ]] && args+=(--prod)
+        npx --yes vercel@62 build "${args[@]}"
+
+    - name: Deploy
+      id: deploy
+      shell: bash
+      env:
+        VERCEL_TOKEN: ${{ inputs.token }}
+        PRODUCTION: ${{ inputs.production }}
+        VERCEL_TELEMETRY_DISABLED: "1"
+      run: |
+        args=()
+        [[ "$PRODUCTION" == "true" ]] && args+=(--prod)
+        url=$(npx --yes vercel@62 deploy --prebuilt --archive=tgz "${args[@]}" --token "$VERCEL_TOKEN")
+        echo "url=$url" >> "$GITHUB_OUTPUT"
+        echo "Deployed to $url" >> "$GITHUB_STEP_SUMMARY"
+
+    - name: Assign domain
+      if: inputs.alias != ''
+      shell: bash
+      env:
+        VERCEL_TOKEN: ${{ inputs.token }}
+        ORG_ID: ${{ inputs.org-id }}
+        URL: ${{ steps.deploy.outputs.url }}
+        ALIAS: ${{ inputs.alias }}
+        VERCEL_TELEMETRY_DISABLED: "1"
+      run: npx --yes vercel@62 alias set "$URL" "$ALIAS" --scope "$ORG_ID" --token "$VERCEL_TOKEN"
