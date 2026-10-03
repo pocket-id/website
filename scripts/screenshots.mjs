@@ -234,6 +234,45 @@ async function shoot(page, name, theme, target, { until } = {}) {
 	console.log(`screenshots: ${path.relative(docs, file)}`);
 }
 
+// The landing page shows single cards of the app on its feature tiles, captured at a phone-sized viewport so they're narrow enough for a tile
+// Everything but the card is hidden and the page has no background, so the PNG is the card with its shadow on transparency
+// `until` cuts a long card off above an element inside it, like in shoot
+async function shootCard(page, name, theme, target, { width, until } = {}) {
+	const before = page.viewportSize();
+	await page.setViewportSize({ width, height: 1200 });
+	await settle(page);
+	await tidy(page);
+	const handle = await target.elementHandle();
+	await page.evaluate((el) => {
+		// Opacity does nothing on a display: contents wrapper like SvelteKit's app root, so those hide their children instead
+		const hide = (node) => {
+			if (['SCRIPT', 'STYLE', 'LINK'].includes(node.tagName)) return;
+			if (getComputedStyle(node).display === 'contents') for (const child of node.children) hide(child);
+			else node.style.setProperty('opacity', '0', 'important');
+		};
+		for (let node = el; node && node !== document.documentElement; node = node.parentElement) {
+			for (const sibling of node.parentElement?.children ?? []) {
+				if (sibling !== node) hide(sibling);
+			}
+			if (node !== el) node.style.setProperty('background', 'transparent', 'important');
+		}
+		document.documentElement.style.setProperty('background', 'transparent', 'important');
+		for (const overlay of document.querySelectorAll('[data-slot="dialog-overlay"], [data-dialog-overlay]')) overlay.style.setProperty('display', 'none', 'important');
+	}, handle);
+	const file = path.join(outDir, `landing-${name}-${theme}.png`);
+	const scroll = await page.evaluate(() => ({ x: window.scrollX, y: window.scrollY }));
+	const box = await target.boundingBox();
+	const pad = 16;
+	const top = box.y + scroll.y - pad;
+	const bottom = until ? (await until.boundingBox()).y + scroll.y - 8 : box.y + scroll.y + box.height + pad;
+	const clip = { x: box.x + scroll.x - pad, y: top, width: box.width + pad * 2, height: bottom - top };
+	await page.screenshot({ path: file, clip, fullPage: true, omitBackground: true });
+	console.log(`screenshots: ${path.relative(docs, file)}`);
+	await page.setViewportSize(before);
+	await page.reload();
+	await settle(page);
+}
+
 async function main() {
 	fs.mkdirSync(outDir, { recursive: true });
 	for (const file of fs.readdirSync(outDir)) fs.rmSync(path.join(outDir, file));
@@ -284,11 +323,9 @@ async function main() {
 			const admin = await context(browser, theme, session);
 			const p = await admin.newPage();
 
-			// The account page with its passkey, and the audit log of the sign-ins so far, for the landing page
-			await p.goto(`${base}/settings/account`);
-			await shoot(p, 'account', theme);
+			// The audit log of the sign-ins so far, for the landing page
 			await p.goto(`${base}/settings/audit-log`);
-			await shoot(p, 'audit-log', theme);
+			await shootCard(p, 'audit-log', theme, p.locator('[data-slot="card"]').first(), { width: 640 });
 
 			// The create form, filled in for an app, and the connection details the new client shows once
 			await p.goto(`${base}/settings/admin/oidc-clients`);
@@ -324,6 +361,7 @@ async function main() {
 			await p.getByRole('button', { name: 'Save', exact: true }).click();
 			await p.getByText('You have unsaved changes').waitFor({ state: 'hidden' });
 			await shoot(p, 'oidc-client-allowed-groups', theme, groupsCard);
+			await shootCard(p, 'allowed-groups', theme, groupsCard, { width: 420 });
 
 			// The consent screen users see the first time they sign in to a client
 			const clientId = new URL(p.url()).pathname.split('/').pop();
@@ -343,17 +381,22 @@ async function main() {
 			await dialog.getByRole('button', { name: 'Show Code' }).click();
 			await dialog.getByTestId('login-code-link').waitFor();
 			await shoot(p, 'login-code', theme, dialog);
+			await shootCard(p, 'login-code', theme, dialog, { width: 480 });
 
 			await p.goto(`${base}/settings/apps`);
 			await shoot(p, 'my-apps', theme);
+			const apps = p.locator('.settings-content .grid').first();
+			await shootCard(p, 'my-apps', theme, apps, { width: 420, until: apps.locator(':scope > *').nth(3) });
 
 			await p.goto(`${base}/settings/admin/apis/${ordersApiId}`);
 			await shoot(p, 'api-permissions', theme);
+			await shootCard(p, 'api-permissions', theme, p.locator('[data-slot="card"]').filter({ hasText: 'The permissions (scopes)' }).first(), { width: 820 });
 
 			await p.goto(`${base}/settings/admin/application-configuration#ldap`);
 			await settle(p);
 			const ldapCard = p.locator('[data-slot="card"]').filter({ hasText: 'LDAP' }).first();
 			await shoot(p, 'ldap', theme, ldapCard, { until: ldapCard.getByText('Attribute Mapping') });
+			await shootCard(p, 'ldap', theme, ldapCard, { width: 420, until: ldapCard.getByText('Attribute Mapping') });
 
 			await admin.close();
 		}

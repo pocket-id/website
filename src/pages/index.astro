@@ -10,16 +10,20 @@ import Languages from '@lucide/astro/icons/languages';
 import QrCode from '@lucide/astro/icons/qr-code';
 import RefreshCw from '@lucide/astro/icons/refresh-cw';
 import Server from '@lucide/astro/icons/server';
+import { getImage } from 'astro:assets';
+import mountain from '../assets/brand/mountain.webp';
 import ConnectArrow from '../components/brand/ConnectArrow.astro';
 import Logo from '../components/brand/Logo.astro';
 import Footer from '../components/landing/Footer.astro';
 import Header from '../components/landing/Header.astro';
 import PasskeyList from '../components/landing/PasskeyList.astro';
 import SignInDemo from '../components/landing/SignInDemo.astro';
+import Stats from '../components/landing/Stats.astro';
+import StatsGrid from '../components/landing/StatsGrid.astro';
 import Testimonials from '../components/landing/Testimonials.astro';
 import ThemedShot from '../components/landing/ThemedShot.astro';
 import { button } from '../components/landing/button';
-import { projectStats } from '../lib/release';
+import { githubStars } from '../lib/release';
 import { sharedHead } from '../sharedHead';
 
 const title = 'Pocket ID | Easy-to-use OIDC Provider';
@@ -27,15 +31,10 @@ const description = 'An easy-to-use OpenID Connect Certified™ and OAuth 2.0 pr
 const site = Astro.site!;
 const canonical = new URL(Astro.url.pathname, site);
 
-// Numbers shown under the hero, each hidden when the stats service didn't answer during the build
-const stats = await projectStats();
+// The star count in the header is fetched once per build, while the numbers under the hero load as a server island
+const stars = await githubStars();
 const compact = (n: number) => new Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 }).format(n).toLowerCase();
-const numbers = [
-	{ value: stats.instances, label: 'active instances', suffix: '+' },
-	{ value: stats.dockerPulls, label: 'Docker pulls', suffix: '' },
-	{ value: stats.stars, label: 'GitHub stars', suffix: '' },
-	{ value: stats.contributors, label: 'contributors', suffix: '' }
-].filter((n): n is { value: number; label: string; suffix: string } => typeof n.value === 'number');
+const statLabels = ['active instances', 'Docker pulls', 'GitHub stars', 'contributors'];
 
 const features: { icon: typeof Code; title: string; text: string; href?: string }[] = [
 	{ icon: RefreshCw, title: 'SCIM provisioning', text: 'Create and remove accounts in your apps as you change them in Pocket ID.', href: '/docs/configuration/scim' },
@@ -76,9 +75,11 @@ const lede = 'm-0 mt-4 text-lg leading-[1.6] text-gray-3 text-pretty';
 const tile = 'relative overflow-hidden rounded-[1.75rem] border border-surface-border bg-surface [box-shadow:var(--surface-shadow)]';
 const h3 = 'm-0 text-2xl font-semibold tracking-[-0.01em] text-fg';
 const p3 = 'm-0 mt-2 leading-relaxed text-gray-3';
-// Screenshots in the feature tiles sit in a rounded window in the app's page color, which crops them, anchored at the top and positioned per tile
-const shotWindow = 'relative mx-8 mt-6 mb-8 flex-1 overflow-hidden rounded-2xl border border-surface-border bg-page';
-const shotFrame = 'absolute top-0 h-auto max-w-none';
+// The UI in the feature tiles sits on a stage that fills the rest of the tile, over a soft crop of the photo behind the app's sign-in page
+// The photo is washed out with the page color, so the cards stand out in both themes, and the features section sets it as --stage-photo
+const stagePhoto = await getImage({ src: mountain, width: 640 });
+const stage =
+	'relative isolate mx-6 mt-6 mb-6 flex-1 overflow-hidden rounded-2xl border border-surface-border bg-page before:absolute before:inset-0 before:-z-10 before:scale-110 before:bg-(image:--stage-photo) before:bg-cover before:bg-center before:blur-[3px] after:absolute after:inset-0 after:-z-10 after:bg-page/45 dark:after:bg-page/60';
 ---
 
 <!doctype html>
@@ -114,7 +115,7 @@ const shotFrame = 'absolute top-0 h-auto max-w-none';
 		</script>
 	</head>
 	<body class="m-0 overflow-x-hidden">
-		<Header stars={stats.stars ? compact(stats.stars) : undefined} />
+		<Header stars={stars !== undefined ? compact(stars) : undefined} />
 		<main>
 			{/* Hero: what Pocket ID is in the app's display face, above the sign-in screen it describes */}
 			<section class="pt-[clamp(3.5rem,8vw,6rem)] pb-[clamp(4rem,8vw,6rem)]">
@@ -144,24 +145,9 @@ const shotFrame = 'absolute top-0 h-auto max-w-none';
 			</section>
 
 			{/* Numbers */}
-			{
-				numbers.length > 0 && (
-					<section class="border-y border-hairline" aria-label="Pocket ID in numbers">
-						<dl class:list={[wrap, 'm-0 grid grid-cols-2 md:grid-cols-4']}>
-							{numbers.map((n, i) => (
-								<div class:list={['py-10 text-center', i > 0 && 'md:border-l border-hairline', i % 2 === 1 && 'max-md:border-l', i > 1 && 'max-md:border-t']}>
-									<dt class="sr-only">{n.label}</dt>
-									<dd class="m-0 font-display text-[clamp(2.25rem,4vw,3rem)] leading-none text-fg tabular-nums">
-										{compact(n.value)}
-										{n.suffix}
-									</dd>
-									<dd class="m-0 mt-2 text-sm text-gray-3">{n.label}</dd>
-								</div>
-							))}
-						</dl>
-					</section>
-				)
-			}
+			<Stats server:defer>
+				<StatsGrid slot="fallback" items={statLabels.map((label) => ({ label }))} />
+			</Stats>
 
 			{/* Community */}
 			<section class={section} aria-labelledby="community-title">
@@ -172,7 +158,12 @@ const shotFrame = 'absolute top-0 h-auto max-w-none';
 			</section>
 
 			{/* Features, each shown in the real UI */}
-			<section class:list={[section, 'border-t border-hairline']} id="features" aria-labelledby="features-title">
+			<section
+				class:list={[section, 'border-t border-hairline']}
+				id="features"
+				aria-labelledby="features-title"
+				style={`--stage-photo: url(${stagePhoto.src})`}
+			>
 				<div class={wrap}>
 					<div class="max-w-[42rem]">
 						<h2 id="features-title" class={h2}>Features</h2>
@@ -180,7 +171,7 @@ const shotFrame = 'absolute top-0 h-auto max-w-none';
 					</div>
 
 					<div class="mt-14 grid gap-5 lg:grid-cols-6">
-						{/* Passkeys: the account page's passkey list, rebuilt rather than screenshotted, which the window crops on wide screens */}
+						{/* Passkeys: the account page's passkey list, rebuilt rather than screenshotted, which the stage crops on wide screens */}
 						<article class:list={[tile, 'flex flex-col lg:col-span-4 lg:h-[32rem]']}>
 							<div class="p-8 pb-0">
 								<h3 class={h3}>Passkeys instead of passwords</h3>
@@ -188,18 +179,29 @@ const shotFrame = 'absolute top-0 h-auto max-w-none';
 									Pocket ID has no passwords. Users sign in with passkeys from their device, password manager or security key, and can add as many as they like.
 								</p>
 							</div>
-							<div class:list={[shotWindow, 'p-2 sm:p-4']}>
+							<div class:list={[stage, 'p-2 sm:p-4']}>
 								<PasskeyList />
 							</div>
 						</article>
 
-						<article class:list={[tile, 'flex flex-col lg:col-span-2 max-lg:h-[28rem] lg:h-[32rem]']}>
+						{/* The other tiles show one card of the app each, sized by their capture width: phone-wide cards on the narrow tiles, wider ones on the half-width tiles */}
+						<article class:list={[tile, 'flex h-[32rem] flex-col lg:col-span-2']}>
+							<div class="p-8 pb-0">
+								<h3 class={h3}>Login codes</h3>
+								<p class={p3}>Send new users a one-time login code or link, so they can add their first passkey.</p>
+							</div>
+							<div class={stage}>
+								<ThemedShot name="login-code" alt="The login code dialog with a code and QR code" />
+							</div>
+						</article>
+
+						<article class:list={[tile, 'flex h-[28rem] flex-col lg:col-span-2']}>
 							<div class="p-8 pb-0">
 								<h3 class={h3}>Access by group</h3>
 								<p class={p3}>Limit a client to selected user groups, and users outside them can't sign in to it.</p>
 							</div>
-							<div class={shotWindow}>
-								<ThemedShot name="oidc-client-allowed-groups" alt="The allowed user groups of a client" class:list={[shotFrame, 'left-0 w-[30rem]']} />
+							<div class={stage}>
+								<ThemedShot name="allowed-groups" alt="The allowed user groups of a client" />
 							</div>
 						</article>
 
@@ -208,28 +210,28 @@ const shotFrame = 'absolute top-0 h-auto max-w-none';
 								<h3 class={h3}>App dashboard</h3>
 								<p class={p3}>The My Apps page lists the apps that a user has access to.</p>
 							</div>
-							<div class={shotWindow}>
-								<ThemedShot name="my-apps" alt="The My Apps dashboard" class:list={[shotFrame, 'left-0 w-[44rem]']} />
+							<div class={stage}>
+								<ThemedShot name="my-apps" alt="The My Apps dashboard" />
 							</div>
 						</article>
 
 						<article class:list={[tile, 'flex h-[28rem] flex-col lg:col-span-2']}>
 							<div class="p-8 pb-0">
-								<h3 class={h3}>Login codes</h3>
-								<p class={p3}>Send new users a one-time login code or link, so they can add their first passkey.</p>
+								<h3 class={h3}>LDAP sync</h3>
+								<p class={p3}>Import users and groups from LDAP or Active Directory and keep them in sync.</p>
 							</div>
-							<div class={shotWindow}>
-								<ThemedShot name="login-code" alt="The login code dialog with a code and QR code" class:list={[shotFrame, 'left-1/2 w-[19rem] -translate-x-1/2']} />
+							<div class={stage}>
+								<ThemedShot name="ldap" alt="The LDAP settings" />
 							</div>
 						</article>
 
-						<article class:list={[tile, 'flex h-[28rem] flex-col lg:col-span-2']}>
+						<article class:list={[tile, 'flex h-[26rem] flex-col lg:col-span-3']}>
 							<div class="p-8 pb-0">
 								<h3 class={h3}>Access tokens for your APIs</h3>
 								<p class={p3}>Define an API with its permissions, and clients get tokens limited to what they were granted.</p>
 							</div>
-							<div class={shotWindow}>
-								<ThemedShot name="api-permissions" alt="An API with its permissions" class:list={[shotFrame, 'left-0 w-[44rem]']} />
+							<div class={stage}>
+								<ThemedShot name="api-permissions" alt="An API with its permissions" />
 							</div>
 						</article>
 
@@ -238,18 +240,8 @@ const shotFrame = 'absolute top-0 h-auto max-w-none';
 								<h3 class={h3}>Audit log</h3>
 								<p class={p3}>Every sign-in is logged with its device, IP address and approximate location, per user and for the whole instance.</p>
 							</div>
-							<div class={shotWindow}>
-								<ThemedShot name="audit-log" alt="The audit log with sign-in events" class:list={[shotFrame, 'top-[-6.5rem] left-[-11.5rem] w-[52rem]']} />
-							</div>
-						</article>
-
-						<article class:list={[tile, 'flex h-[26rem] flex-col lg:col-span-3']}>
-							<div class="p-8 pb-0">
-								<h3 class={h3}>LDAP sync</h3>
-								<p class={p3}>Import users and groups from LDAP or Active Directory and keep them in sync.</p>
-							</div>
-							<div class={shotWindow}>
-								<ThemedShot name="ldap" alt="The LDAP settings" class:list={[shotFrame, 'left-0 w-[36rem]']} />
+							<div class={stage}>
+								<ThemedShot name="audit-log" alt="The audit log with sign-in events" />
 							</div>
 						</article>
 					</div>

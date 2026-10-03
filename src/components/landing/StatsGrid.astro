@@ -1,0 +1,23 @@
+---
+// The row of numbers under the hero, where a value that hasn't loaded yet shows as an empty bar
+interface Props {
+	items: { value?: string; label: string }[];
+}
+const { items } = Astro.props;
+---
+
+<section class="border-y border-hairline" aria-label="Pocket ID in numbers">
+	<dl class="mx-auto m-0 grid max-w-[76rem] grid-cols-2 px-5 sm:px-6 md:grid-cols-4">
+		{
+			items.map((n, i) => (
+				<div class:list={['py-10 text-center', i > 0 && 'md:border-l border-hairline', i % 2 === 1 && 'max-md:border-l', i > 1 && 'max-md:border-t']}>
+					<dt class="sr-only">{n.label}</dt>
+					<dd class="m-0 font-display text-[clamp(2.25rem,4vw,3rem)] leading-none text-fg tabular-nums">
+						{n.value ?? <span class="inline-block h-[1em] w-[2.5em] animate-pulse rounded-lg bg-surface-muted align-top" aria-hidden="true" />}
+					</dd>
+					<dd class="m-0 mt-2 text-sm text-gray-3">{n.label}</dd>
+				</div>
+			))
+		}
+	</dl>
+</section>
