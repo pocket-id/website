@@ -2,25 +2,22 @@
 // The landing page lives outside Starlight, so it carries its own header and footer instead of the docs chrome
 import '../styles/landing.css';
 import ArrowRight from '@lucide/astro/icons/arrow-right';
+import ArrowUpRight from '@lucide/astro/icons/arrow-up-right';
 import BookOpen from '@lucide/astro/icons/book-open';
-import Bot from '@lucide/astro/icons/bot';
 import Code from '@lucide/astro/icons/code';
-import Database from '@lucide/astro/icons/database';
-import FileText from '@lucide/astro/icons/file-text';
-import HousePlug from '@lucide/astro/icons/house-plug';
 import KeyRound from '@lucide/astro/icons/key-round';
 import Languages from '@lucide/astro/icons/languages';
-import Play from '@lucide/astro/icons/play';
 import QrCode from '@lucide/astro/icons/qr-code';
 import RefreshCw from '@lucide/astro/icons/refresh-cw';
 import Server from '@lucide/astro/icons/server';
-import Shield from '@lucide/astro/icons/shield';
-import ShieldCheck from '@lucide/astro/icons/shield-check';
-import Target from '@lucide/astro/icons/target';
-import Users from '@lucide/astro/icons/users';
+import ConnectArrow from '../components/brand/ConnectArrow.astro';
+import Logo from '../components/brand/Logo.astro';
 import Footer from '../components/landing/Footer.astro';
 import Header from '../components/landing/Header.astro';
+import PasskeyList from '../components/landing/PasskeyList.astro';
+import SignInDemo from '../components/landing/SignInDemo.astro';
 import Testimonials from '../components/landing/Testimonials.astro';
+import ThemedShot from '../components/landing/ThemedShot.astro';
 import { button } from '../components/landing/button';
 import { projectStats } from '../lib/release';
 import { sharedHead } from '../sharedHead';
@@ -34,67 +31,19 @@ const canonical = new URL(Astro.url.pathname, site);
 const stats = await projectStats();
 const compact = (n: number) => new Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 }).format(n).toLowerCase();
 const numbers = [
-	{ value: stats.instances, label: 'Active instances', suffix: '+' },
+	{ value: stats.instances, label: 'active instances', suffix: '+' },
 	{ value: stats.dockerPulls, label: 'Docker pulls', suffix: '' },
 	{ value: stats.stars, label: 'GitHub stars', suffix: '' },
-	{ value: stats.contributors, label: 'Contributors', suffix: '' }
+	{ value: stats.contributors, label: 'contributors', suffix: '' }
 ].filter((n): n is { value: number; label: string; suffix: string } => typeof n.value === 'number');
 
-const useCases = [
-	{
-		icon: HousePlug,
-		title: 'One login for your homelab',
-		text: 'Connect dashboards, media servers, admin tools and everything else you self-host to one passwordless sign-in. Use groups to decide who can access each service.',
-		link: { text: 'Browse integrations', href: '/docs/client-examples' }
-	},
-	{
-		icon: ShieldCheck,
-		title: 'Protect applications and APIs',
-		text: 'Add passkey sign-in to OIDC applications and issue scoped access tokens for your own APIs. Each token is limited to the intended API and allowed actions.',
-		link: { text: 'Learn about API access', href: '/docs/guides/apis' }
-	}
-];
-
-const mainFeatures = [
-	{
-		icon: Shield,
-		title: 'Passwordless authentication',
-		text: 'Pocket ID only supports passwordless authentication, which is easier and more secure than signing in with a password.',
-		image: 'auth_screenshot.webp',
-		height: 913
-	},
-	{
-		icon: Users,
-		title: 'Group-based access control',
-		text: 'Choose which user groups may access each application so only authorized users can sign in.',
-		image: 'group_restriction_screenshot.webp',
-		height: 972
-	},
-	{ icon: Database, title: 'LDAP integration', text: 'Sync your users and groups from your LDAP server to Pocket ID.', image: 'ldap_screenshot.webp',
-		height: 936 },
-	{
-		icon: Code,
-		title: 'REST API',
-		text: 'Use the documented administrative API to build integrations, automate user management and manage Pocket ID programmatically.',
-		image: 'rest_api_screenshot.webp',
-		height: 936
-	},
-	{
-		icon: Target,
-		title: 'API resource indicators',
-		text: 'Request access tokens for a specific API with the OAuth 2.0 resource parameter and grant only the scopes that API exposes.',
-		image: 'api_resource_screenshot.webp',
-		height: 936
-	}
-];
-
-const moreFeatures = [
-	{ icon: QrCode, title: 'Sign in from another device', text: 'Scan a QR code and approve the request on another device that has your passkey.' },
-	{ icon: Languages, title: 'Translated by the community', text: 'Pocket ID is available in over 25 languages, and more translations are always welcome.' },
-	{ icon: RefreshCw, title: 'SCIM provisioning', text: 'Automatically provision and deprovision users and groups in connected applications.' },
-	{ icon: FileText, title: 'Audit logs', text: 'Audit logs for important events, both global and per user.' },
-	{ icon: KeyRound, title: 'Metadata-based OAuth clients', text: 'Connect compatible clients through a hosted metadata document instead of registering each one by hand.' },
-	{ icon: Server, title: 'Self-hosted', text: 'A single small binary or container with SQLite or PostgreSQL, and complete control over your authentication.' }
+const features: { icon: typeof Code; title: string; text: string; href?: string }[] = [
+	{ icon: RefreshCw, title: 'SCIM provisioning', text: 'Create and remove accounts in your apps as you change them in Pocket ID.', href: '/docs/configuration/scim' },
+	{ icon: Server, title: 'Low resource usage', text: 'Runs as a single binary with SQLite built in. PostgreSQL is supported too.', href: '/docs/setup/installation' },
+	{ icon: QrCode, title: 'Sign in from another device', text: 'Scan a QR code and approve the sign-in on the phone that has your passkey.', href: '/docs/guides/sign-in-methods#sign-in-with-another-device' },
+	{ icon: Code, title: 'REST API', text: 'Manage users, groups and clients through the API with an API key.', href: '/docs/api' },
+	{ icon: KeyRound, title: 'Federated client credentials', text: 'Workloads on Kubernetes, GitLab CI or Azure can authenticate without a client secret.', href: '/docs/guides/oidc-client-authentication' },
+	{ icon: Languages, title: 'Translations', text: 'The interface is translated into more than 25 languages by the community.', href: '/docs/helping-out/translating' }
 ];
 
 // Structured data gives search results the site's name and describes the software behind it
@@ -119,13 +68,17 @@ const structuredData = {
 	]
 };
 
-// Shared type for every section: the headings, the lede below them and the cards
-const section = 'py-[clamp(3.5rem,8vw,6rem)]';
-const wrap = 'mx-auto max-w-[72rem] px-6';
-const h2 = 'm-0 mb-4 font-display text-[clamp(2rem,4vw,2.75rem)] font-normal leading-[1.1] tracking-[-0.01em] text-fg text-balance';
-const lede = 'm-0 text-lg leading-[1.55] text-gray-3 text-pretty';
-const card = 'rounded-xl border border-surface-border bg-surface [box-shadow:var(--surface-shadow)]';
-const textLink = 'inline-flex items-center gap-1.5 text-sm font-medium text-fg no-underline hover:underline underline-offset-4 [&_svg]:size-4';
+// Shared type for every section: the heading and the lede
+const wrap = 'mx-auto max-w-[76rem] px-5 sm:px-6';
+const section = 'py-[clamp(4rem,8vw,6.5rem)]';
+const h2 = 'm-0 font-display text-[clamp(1.875rem,3.4vw,2.5rem)] font-normal leading-[1.1] tracking-[-0.01em] text-fg text-balance';
+const lede = 'm-0 mt-4 text-lg leading-[1.6] text-gray-3 text-pretty';
+const tile = 'relative overflow-hidden rounded-[1.75rem] border border-surface-border bg-surface [box-shadow:var(--surface-shadow)]';
+const h3 = 'm-0 text-2xl font-semibold tracking-[-0.01em] text-fg';
+const p3 = 'm-0 mt-2 leading-relaxed text-gray-3';
+// Screenshots in the feature tiles sit in a rounded window in the app's page color, which crops them, anchored at the top and positioned per tile
+const shotWindow = 'relative mx-8 mt-6 mb-8 flex-1 overflow-hidden rounded-2xl border border-surface-border bg-page';
+const shotFrame = 'absolute top-0 h-auto max-w-none';
 ---
 
 <!doctype html>
@@ -149,7 +102,7 @@ const textLink = 'inline-flex items-center gap-1.5 text-sm font-medium text-fg n
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonical} />
 		<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-		<meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
+		<meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
 		<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
 		<script is:inline>
 			// Apply the stored theme before the first paint, using Starlight's key so the docs and the landing page agree
@@ -160,144 +113,163 @@ const textLink = 'inline-flex items-center gap-1.5 text-sm font-medium text-fg n
 			})();
 		</script>
 	</head>
-	<body class="m-0">
-		<a
-			href="#mcp-agents"
-			class="group block border-b border-hairline bg-gray-7 px-4 py-2.5 text-center text-sm font-medium text-fg no-underline hover:bg-gray-6"
-		>
-			<span class="mr-2 rounded-full border border-surface-border bg-surface px-2 py-0.5 text-xs font-semibold uppercase tracking-wide">New</span>
-			Protect your MCP server with Pocket ID in just a few minutes.
-			<ArrowRight class="ml-1 inline size-4 align-[-0.15em] transition-transform group-hover:translate-x-0.5" />
-		</a>
-		<Header />
+	<body class="m-0 overflow-x-hidden">
+		<Header stars={stats.stars ? compact(stats.stars) : undefined} />
 		<main>
-			{/* Hero */}
-			<section class="pt-[clamp(3.5rem,9vw,7rem)] pb-[clamp(3rem,6vw,5rem)]">
-				<div class:list={[wrap, 'grid items-center gap-12 lg:grid-cols-[1.05fr_1fr]']}>
-					<div class="animate-[rise_0.6s_ease-out_both]">
-						<h1 class="m-0 mb-6 font-display text-[clamp(3rem,8vw,5rem)] font-normal leading-none tracking-[-0.02em] text-fg">Pocket ID</h1>
-						<p class="m-0 mb-8 max-w-[34rem] text-[clamp(1.125rem,1.8vw,1.375rem)] leading-[1.5] text-gray-3 text-pretty">
-							The most user-friendly OpenID Connect Certified™ and OAuth 2.0 provider that lets users sign in to your applications with passkeys.
+			{/* Hero: what Pocket ID is in the app's display face, above the sign-in screen it describes */}
+			<section class="pt-[clamp(3.5rem,8vw,6rem)] pb-[clamp(4rem,8vw,6rem)]">
+				<div class={wrap}>
+					<div class="mx-auto flex max-w-[50rem] flex-col items-center text-center">
+						<Logo class="mb-8 h-14 w-auto text-fg" title="Pocket ID" animate />
+						<h1 class="m-0 font-display text-[clamp(2.25rem,4.6vw,3.5rem)] font-normal leading-[1.05] tracking-[-0.015em] text-fg text-balance">
+							Passkey sign-in for your self-hosted apps
+						</h1>
+						<p class="m-0 mt-7 max-w-[36rem] text-[clamp(1.0625rem,1.6vw,1.25rem)] leading-[1.6] text-gray-3 text-pretty">
+							Pocket ID is a simple OpenID Connect provider that you host yourself. Add your apps as OIDC clients, and users sign in to them with a passkey instead of a password.
 						</p>
-						<div class="flex flex-wrap gap-3">
-							<a class={button.primary} href="/docs/introduction"><BookOpen /> Documentation</a>
-							<a class={button.secondary} href="https://demo.pocket-id.org"><Play /> Demo</a>
+						<div class="mt-9 flex flex-wrap justify-center gap-3">
+							<a class={button.primary} href="/docs/setup/installation">Get started <ArrowRight /></a>
+							<a class={button.secondary} href="https://demo.pocket-id.org">Try the demo <ArrowUpRight /></a>
 						</div>
-						{
-							numbers.length > 0 && (
-								<div class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-6">
-									{numbers.map((n) => (
-										<div>
-											<div class="text-[1.75rem] font-semibold leading-none tracking-tight text-fg tabular-nums">
-												{compact(n.value)}
-												{n.suffix}
-											</div>
-											<div class="mt-1.5 text-sm text-gray-3">{n.label}</div>
-										</div>
-									))}
-									<img src="/img/landing/oidc-certified.webp" alt="OpenID Certified" width="77" height="40" class="h-10 w-auto" />
-								</div>
-							)
-						}
+						<p class="m-0 mt-8 inline-flex items-center gap-2 text-sm text-gray-3">
+							<img src="/img/landing/oidc-certified.webp" alt="" width="46" height="24" class="h-6 w-auto rounded-sm" />
+							OpenID Connect Certified™
+						</p>
 					</div>
-					<img
-						src="/img/landing/login-screenshot.webp"
-						alt="The Pocket ID sign-in screen asking whether to sign in to Pangolin"
-						width="1600"
-						height="869"
-						class:list={[card, 'h-auto w-full p-0 max-lg:hidden animate-[rise_0.6s_ease-out_0.1s_both]']}
-					/>
+
+					<div class="mx-auto mt-[clamp(3rem,7vw,4.5rem)] max-w-[68rem]">
+						<SignInDemo />
+					</div>
 				</div>
 			</section>
 
+			{/* Numbers */}
+			{
+				numbers.length > 0 && (
+					<section class="border-y border-hairline" aria-label="Pocket ID in numbers">
+						<dl class:list={[wrap, 'm-0 grid grid-cols-2 md:grid-cols-4']}>
+							{numbers.map((n, i) => (
+								<div class:list={['py-10 text-center', i > 0 && 'md:border-l border-hairline', i % 2 === 1 && 'max-md:border-l', i > 1 && 'max-md:border-t']}>
+									<dt class="sr-only">{n.label}</dt>
+									<dd class="m-0 font-display text-[clamp(2.25rem,4vw,3rem)] leading-none text-fg tabular-nums">
+										{compact(n.value)}
+										{n.suffix}
+									</dd>
+									<dd class="m-0 mt-2 text-sm text-gray-3">{n.label}</dd>
+								</div>
+							))}
+						</dl>
+					</section>
+				)
+			}
+
 			{/* Community */}
-			<section class="pb-[clamp(3rem,6vw,5rem)]" aria-labelledby="community-title">
-				<div class:list={[wrap, 'mb-8 text-center']}>
-					<h2 id="community-title" class={h2}>Loved by the community</h2>
-					<p class={lede}>What self-hosters are saying about Pocket ID.</p>
+			<section class={section} aria-labelledby="community-title">
+				<div class:list={[wrap, 'mb-10 max-w-[40rem] text-center']}>
+					<h2 id="community-title" class={h2}>What self-hosters say</h2>
 				</div>
 				<Testimonials />
 			</section>
 
-			{/* Use cases */}
-			<section class:list={[section, 'border-t border-hairline']} id="use-cases">
+			{/* Features, each shown in the real UI */}
+			<section class:list={[section, 'border-t border-hairline']} id="features" aria-labelledby="features-title">
 				<div class={wrap}>
-					<div class="mx-auto mb-12 max-w-[40rem] text-center">
-						<h2 class={h2}>Built for more than login</h2>
-						<p class={lede}>Secure AI tools, your homelab and custom applications with one simple identity provider.</p>
+					<div class="max-w-[42rem]">
+						<h2 id="features-title" class={h2}>Features</h2>
+						<p class={lede}>Pocket ID handles sign-in and leaves out what a self-hosted setup rarely needs, so it stays small and easy to maintain.</p>
 					</div>
-					<div class="grid gap-5 md:grid-cols-12">
-						<article id="mcp-agents" class:list={[card, 'flex scroll-mt-24 flex-col gap-5 p-6 md:col-span-7 md:row-span-2']}>
-							<Bot class="size-7 text-fg" />
-							<div>
-								<h3 class="m-0 mb-2 text-xl font-semibold text-fg">AI agents and MCP servers</h3>
-								<p class="m-0 leading-relaxed text-gray-3">
-									Use Pocket ID as the OAuth provider for AI applications and remote MCP servers. Users approve access with their passkey, while scoped tokens limit which tools and data each
-									client can reach.
+
+					<div class="mt-14 grid gap-5 lg:grid-cols-6">
+						{/* Passkeys: the account page's passkey list, rebuilt rather than screenshotted, which the window crops on wide screens */}
+						<article class:list={[tile, 'flex flex-col lg:col-span-4 lg:h-[32rem]']}>
+							<div class="p-8 pb-0">
+								<h3 class={h3}>Passkeys instead of passwords</h3>
+								<p class:list={[p3, 'max-w-lg']}>
+									Pocket ID has no passwords. Users sign in with passkeys from their device, password manager or security key, and can add as many as they like.
 								</p>
 							</div>
-							<iframe
-								class="aspect-video w-full rounded-lg border border-surface-border"
-								src="https://www.youtube-nocookie.com/embed/JjoXz2u5r3Y"
-								title="Protect your MCP server with Pocket ID"
-								loading="lazy"
-								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-								referrerpolicy="strict-origin-when-cross-origin"
-								allowfullscreen></iframe>
-							<a class={textLink} href="https://github.com/pocket-id/mcp-oauth-demo">See an example <ArrowRight /></a>
+							<div class:list={[shotWindow, 'p-2 sm:p-4']}>
+								<PasskeyList />
+							</div>
 						</article>
-						{
-							useCases.map((u) => (
-								<article class:list={[card, 'flex flex-col gap-4 p-6 md:col-span-5']}>
-									<u.icon class="size-7 text-fg" />
-									<div class="flex-1">
-										<h3 class="m-0 mb-2 text-lg font-semibold text-fg">{u.title}</h3>
-										<p class="m-0 leading-relaxed text-gray-3">{u.text}</p>
-									</div>
-									<a class={textLink} href={u.link.href}>
-										{u.link.text} <ArrowRight />
-									</a>
-								</article>
-							))
-						}
-					</div>
-				</div>
-			</section>
 
-			{/* Features */}
-			<section class:list={[section, 'border-t border-hairline']} id="features">
-				<div class={wrap}>
-					<div class="mx-auto mb-14 max-w-[40rem] text-center">
-						<h2 class={h2}>Key features</h2>
-						<p class={lede}>Everything you need for modern authentication in one simple package.</p>
+						<article class:list={[tile, 'flex flex-col lg:col-span-2 max-lg:h-[28rem] lg:h-[32rem]']}>
+							<div class="p-8 pb-0">
+								<h3 class={h3}>Access by group</h3>
+								<p class={p3}>Limit a client to selected user groups, and users outside them can't sign in to it.</p>
+							</div>
+							<div class={shotWindow}>
+								<ThemedShot name="oidc-client-allowed-groups" alt="The allowed user groups of a client" class:list={[shotFrame, 'left-0 w-[30rem]']} />
+							</div>
+						</article>
+
+						<article class:list={[tile, 'flex h-[28rem] flex-col lg:col-span-2']}>
+							<div class="p-8 pb-0">
+								<h3 class={h3}>App dashboard</h3>
+								<p class={p3}>The My Apps page lists the apps that a user has access to.</p>
+							</div>
+							<div class={shotWindow}>
+								<ThemedShot name="my-apps" alt="The My Apps dashboard" class:list={[shotFrame, 'left-0 w-[44rem]']} />
+							</div>
+						</article>
+
+						<article class:list={[tile, 'flex h-[28rem] flex-col lg:col-span-2']}>
+							<div class="p-8 pb-0">
+								<h3 class={h3}>Login codes</h3>
+								<p class={p3}>Send new users a one-time login code or link, so they can add their first passkey.</p>
+							</div>
+							<div class={shotWindow}>
+								<ThemedShot name="login-code" alt="The login code dialog with a code and QR code" class:list={[shotFrame, 'left-1/2 w-[19rem] -translate-x-1/2']} />
+							</div>
+						</article>
+
+						<article class:list={[tile, 'flex h-[28rem] flex-col lg:col-span-2']}>
+							<div class="p-8 pb-0">
+								<h3 class={h3}>Access tokens for your APIs</h3>
+								<p class={p3}>Define an API with its permissions, and clients get tokens limited to what they were granted.</p>
+							</div>
+							<div class={shotWindow}>
+								<ThemedShot name="api-permissions" alt="An API with its permissions" class:list={[shotFrame, 'left-0 w-[44rem]']} />
+							</div>
+						</article>
+
+						<article class:list={[tile, 'flex h-[26rem] flex-col lg:col-span-3']}>
+							<div class="p-8 pb-0">
+								<h3 class={h3}>Audit log</h3>
+								<p class={p3}>Every sign-in is logged with its device, IP address and approximate location, per user and for the whole instance.</p>
+							</div>
+							<div class={shotWindow}>
+								<ThemedShot name="audit-log" alt="The audit log with sign-in events" class:list={[shotFrame, 'top-[-6.5rem] left-[-11.5rem] w-[52rem]']} />
+							</div>
+						</article>
+
+						<article class:list={[tile, 'flex h-[26rem] flex-col lg:col-span-3']}>
+							<div class="p-8 pb-0">
+								<h3 class={h3}>LDAP sync</h3>
+								<p class={p3}>Import users and groups from LDAP or Active Directory and keep them in sync.</p>
+							</div>
+							<div class={shotWindow}>
+								<ThemedShot name="ldap" alt="The LDAP settings" class:list={[shotFrame, 'left-0 w-[36rem]']} />
+							</div>
+						</article>
 					</div>
-					<div class="grid gap-14">
+
+					<ul class="m-0 mt-5 grid list-none gap-px overflow-hidden rounded-[1.75rem] border border-surface-border bg-surface-border p-0 sm:grid-cols-2 lg:grid-cols-3">
 						{
-							mainFeatures.map((f, i) => (
-								<div class="grid items-center gap-8 md:grid-cols-2">
-									<div class:list={[i % 2 === 0 && 'md:order-2']}>
-										<div class="mb-3 flex items-center gap-3">
-											<f.icon class="size-7 text-fg" />
-											<h3 class="m-0 text-2xl font-semibold text-fg">{f.title}</h3>
-										</div>
-										<p class="m-0 text-lg leading-relaxed text-gray-3">{f.text}</p>
-									</div>
-									<div class:list={[card, 'p-3', i % 2 === 0 && 'md:order-1']}>
-										<img src={`/img/landing/${f.image}`} alt={f.title} width="1600" height={f.height} loading="lazy" class="block h-auto w-full rounded-lg" />
-									</div>
-								</div>
-							))
-						}
-					</div>
-					<ul class="m-0 mt-16 grid list-none gap-px overflow-hidden rounded-xl border border-surface-border bg-surface-border p-0 sm:grid-cols-2 lg:grid-cols-3">
-						{
-							moreFeatures.map((f) => (
-								<li class="bg-surface p-6">
-									<div class="mb-2 flex items-center gap-2.5">
-										<f.icon class="size-5 text-fg" />
-										<h3 class="m-0 text-base font-semibold text-fg">{f.title}</h3>
-									</div>
-									<p class="m-0 text-[0.9375rem] leading-relaxed text-gray-3">{f.text}</p>
+							features.map((f) => (
+								<li class="m-0 bg-surface">
+									<a href={f.href} class:list={['group flex h-full gap-4 p-7 no-underline', !f.href && 'pointer-events-none']}>
+										<span class="grid size-10 shrink-0 place-items-center rounded-xl bg-surface-muted text-fg">
+											<f.icon class="size-5" />
+										</span>
+										<span>
+											<span class="flex items-center gap-1.5 font-semibold text-fg">
+												{f.title}
+												{f.href && <ArrowRight class="size-3.5 -translate-x-1 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />}
+											</span>
+											<span class="mt-1 block text-[0.9375rem] leading-relaxed text-gray-3">{f.text}</span>
+										</span>
+									</a>
 								</li>
 							))
 						}
@@ -305,16 +277,73 @@ const textLink = 'inline-flex items-center gap-1.5 text-sm font-medium text-fg n
 				</div>
 			</section>
 
-			{/* Call to action */}
-			<section class:list={[section, 'border-t border-hairline']}>
-				<div class:list={[wrap, 'max-w-[44rem] text-center']}>
-					<h2 class={h2}>Ready to get started?</h2>
-					<p class:list={[lede, 'mb-8']}>Deploy Pocket ID today and give your users secure, passwordless sign-in.</p>
-					<div class="flex flex-wrap justify-center gap-3">
-						<a class={button.primary} href="/docs/setup/installation">Install Pocket ID <ArrowRight /></a>
-						<a class={button.secondary} href="https://github.com/pocket-id/pocket-id">View on GitHub</a>
+			{/* AI agents and MCP servers, on an inverted panel */}
+			<section class="pb-[clamp(4rem,8vw,6.5rem)]" id="ai" aria-labelledby="ai-title">
+				<div class={wrap}>
+					<div class="grid items-center gap-10 overflow-hidden rounded-[2rem] bg-fg p-[clamp(1.75rem,4vw,3.5rem)] text-page lg:grid-cols-[1fr_1.15fr]">
+						<div>
+							<h2 id="ai-title" class="m-0 font-display text-[clamp(1.875rem,3.4vw,2.5rem)] font-normal leading-[1.1] tracking-[-0.01em] text-balance">
+								OAuth for MCP servers
+							</h2>
+							<p class="m-0 mt-5 text-lg leading-[1.6] opacity-75">
+								Pocket ID can be the OAuth authorization server for remote MCP servers and other AI tools. Users approve access with their passkey, and each client gets a token limited to the scopes it was granted.
+							</p>
+							<div class="mt-8 flex flex-wrap gap-3">
+								<a class="inline-flex h-11 items-center gap-2 rounded-full bg-page px-5 text-[0.9375rem] font-medium text-fg no-underline transition-opacity hover:opacity-85" href="https://github.com/pocket-id/mcp-oauth-demo">
+									View the example <ArrowUpRight class="size-4" />
+								</a>
+								<a class="inline-flex h-11 items-center gap-2 rounded-full px-4 text-[0.9375rem] font-medium text-page no-underline opacity-80 transition-opacity hover:opacity-100" href="/docs/guides/apis">
+									Read about API access <ArrowRight class="size-4" />
+								</a>
+							</div>
+						</div>
+						<iframe
+							class="aspect-video w-full rounded-2xl border-0 bg-black"
+							src="https://www.youtube-nocookie.com/embed/JjoXz2u5r3Y"
+							title="Protect your MCP server with Pocket ID"
+							loading="lazy"
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+							referrerpolicy="strict-origin-when-cross-origin"
+							allowfullscreen></iframe>
 					</div>
 				</div>
+			</section>
+
+			{/* Where to go next, below the sign-in screen's arrow turned to point at the buttons */}
+			<section class="pb-[clamp(4rem,8vw,6.5rem)]" aria-labelledby="cta-title">
+				<div class:list={[wrap, 'flex flex-col items-center text-center']}>
+					<div class="cta-arrow relative h-36 w-14 text-fg">
+						<ConnectArrow class="absolute top-1/2 left-1/2 w-36 max-w-none -translate-x-1/2 -translate-y-1/2 rotate-90 [&_g]:[stroke-width:2.5]" draw />
+					</div>
+					<h2 id="cta-title" class:list={[h2, 'mt-12']}>Ready to get started?</h2>
+					<p class:list={[lede, 'max-w-[36rem]']}>Pocket ID runs as a single Docker container or binary. The docs walk you through the installation and connecting your first app.</p>
+					<div class="mt-9 flex flex-wrap justify-center gap-3">
+						<a class={button.primary} href="/docs/setup/installation"><BookOpen /> Read the docs</a>
+						<a class={button.secondary} href="https://github.com/pocket-id/pocket-id">
+							<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z" /></svg>
+							View on GitHub
+						</a>
+					</div>
+				</div>
+				<script>
+					// The arrow is far below the fold on load, so it waits out of sight and traces itself in once it scrolls into view
+					const arrow = document.querySelector<SVGSVGElement>('.cta-arrow svg');
+					if (arrow && arrow.getBoundingClientRect().top > innerHeight) {
+						arrow.style.visibility = 'hidden';
+						const observer = new IntersectionObserver(
+							([entry]) => {
+								if (!entry.isIntersecting) return;
+								observer.disconnect();
+								arrow.classList.remove('connect-arrow-draw');
+								void arrow.getBoundingClientRect();
+								arrow.classList.add('connect-arrow-draw');
+								arrow.style.visibility = '';
+							},
+							{ threshold: 0.6 }
+						);
+						observer.observe(arrow);
+					}
+				</script>
 			</section>
 		</main>
 		<Footer />

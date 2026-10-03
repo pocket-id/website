@@ -1,0 +1,71 @@
+---
+// The hero's picture of Pocket ID: the consent screen of the app, rebuilt in HTML with the app's own classes so it stays sharp and follows the theme
+// It's a picture, not a demo, so nothing in it reacts to the pointer and only the arrow draws itself in, as it does in the app
+import { Image } from 'astro:assets';
+import Mail from '@lucide/astro/icons/mail';
+import User from '@lucide/astro/icons/user';
+import Users from '@lucide/astro/icons/users';
+import mountain from '../../assets/brand/mountain.webp';
+import ConnectArrow from '../brand/ConnectArrow.astro';
+import Logo from '../brand/Logo.astro';
+
+const scopes = [
+	{ icon: Mail, title: 'Email', text: 'View your email address' },
+	{ icon: User, title: 'Profile', text: 'View your profile information' },
+	{ icon: Users, title: 'Groups', text: 'View the groups you are a member of' }
+];
+---
+
+<div
+	class="relative grid overflow-hidden rounded-[1.75rem] border border-surface-border bg-page [box-shadow:var(--surface-shadow-lg)] select-none lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]"
+	role="img"
+	aria-label="The Pocket ID sign-in page asking whether to share your email, profile and groups with Immich"
+>
+	{/* The sign-in column, with the same spacing, cards and buttons as the app's interaction page */}
+	<div class="flex flex-col items-center justify-center px-6 py-12 text-center text-sm sm:px-12 lg:py-16" aria-hidden="true">
+		<div class="flex justify-center gap-3">
+			<div class="rounded-2xl bg-surface-muted p-3">
+				<Logo class="size-10 text-fg" />
+			</div>
+			<ConnectArrow class="w-32 text-fg max-sm:w-24" draw />
+			<div class="rounded-2xl bg-surface-muted p-3">
+				<img src="https://cdn.jsdelivr.net/gh/selfhst/icons@main/svg/immich.svg" alt="" width="40" height="40" class="size-10" />
+			</div>
+		</div>
+
+		<p class="m-0 mt-5 font-display text-3xl font-bold text-fg sm:text-4xl">Sign in to Immich</p>
+		<p class="m-0 mt-2 mb-10 text-base text-gray-3">
+			Do you want to sign in to <b class="font-bold">Immich</b> with your Pocket ID account?
+		</p>
+
+		<div class="mb-10 flex w-full max-w-md flex-col gap-3 overflow-hidden rounded-[1.625rem] border border-[color-mix(in_oklch,var(--sl-color-white),transparent_95%)] bg-surface-raised py-6 shadow-sm dark:border-[color-mix(in_oklch,var(--sl-color-white),transparent_90%)]">
+			<p class="m-0 px-6 text-start text-gray-3"><b class="font-bold">Immich</b> wants to access the following information:</p>
+			<div class="flex flex-col gap-1 px-6">
+				{
+					scopes.map((s) => (
+						<div class="flex items-center gap-3.5 py-1.5">
+							<span class="flex items-center justify-center rounded-lg bg-surface-muted p-2 text-fg">
+								<s.icon class="size-5" />
+							</span>
+							<span class="flex flex-col gap-1 text-start">
+								<span class="leading-snug font-semibold text-fg">{s.title}</span>
+								<span class="text-gray-3">{s.text}</span>
+							</span>
+						</div>
+					))
+				}
+			</div>
+		</div>
+
+		<div class="flex w-full max-w-md flex-row-reverse gap-2">
+			<span class="inline-flex h-9.5 flex-1 items-center justify-center rounded-[1.625rem] bg-[#171717] font-medium text-[#fafafa] dark:bg-[#e5e5e5] dark:text-[#171717]">Sign in</span>
+			<span class="inline-flex h-9.5 flex-1 items-center justify-center rounded-[1.625rem] bg-surface-muted font-medium text-fg">Cancel</span>
+		</div>
+	</div>
+
+	{/* The background image beside it, inset and rounded like on the app's sign-in pages, with the signed-in user's avatar in the corner */}
+	<div class="relative m-4 hidden min-h-[34rem] overflow-hidden rounded-[2.5rem] lg:block" aria-hidden="true">
+		<Image src={mountain} alt="" widths={[640, 1100]} sizes="32rem" class="absolute inset-0 size-full object-cover" loading="eager" />
+		<span class="absolute top-5 right-5 grid size-10 place-items-center rounded-full bg-white font-display text-base text-black ring-1 ring-black/10">TM</span>
+	</div>
+</div>

@@ -1,148 +1,240 @@
 /*
- * Docs pages: the app's shadcn look on top of Starlight's layout
+ * Docs pages: the app's look on top of Starlight's layout, with Gloock for titles, pill controls, soft cards and black-and-white accents
  * These rules reach into markup that Starlight renders, where utility classes can't go, so they stay plain CSS and unlayered to beat Starlight's own layers
  */
 :root {
-	--sl-line-height: 1.65;
-	--sl-text-h1: var(--sl-text-4xl);
-	--sl-text-h2: var(--sl-text-2xl);
-	--sl-text-h3: var(--sl-text-xl);
-	--sl-text-h4: var(--sl-text-lg);
-	--sl-color-bg-inline-code: var(--sl-color-gray-6);
-	--sl-content-width: 48rem;
+	--sl-line-height: 1.7;
+	--sl-text-h2: 1.625rem;
+	--sl-text-h3: 1.25rem;
+	--sl-text-h4: 1.0625rem;
+	--sl-color-bg-inline-code: var(--surface-muted);
+	--sl-content-width: 46rem;
+	--sl-nav-height: 4rem;
+	--radius: 0.75rem;
 }
-:root[data-theme='light'] {
-	--sl-color-bg-inline-code: var(--sl-color-gray-7);
+
+/* Header: the mark and the wordmark in the display face, as the app's header shows them */
+.header {
+	border-bottom-color: var(--sl-color-hairline);
 }
 .site-title {
 	gap: 0.6rem;
-	font-weight: 600;
-	font-size: var(--sl-text-lg);
+	color: var(--sl-color-white);
 }
 .site-title img {
-	height: 1.5rem;
+	height: 1.65rem;
 	width: auto;
 }
-
-/* The page title carries the brand's display face, the rest of the hierarchy stays in Geist */
-.content-panel h1 {
+.site-title span {
 	font-family: var(--font-display);
+	font-size: 1.375rem;
 	font-weight: 400;
-	letter-spacing: -0.01em;
-	line-height: 1.1;
+	line-height: 1;
+	color: var(--sl-color-white);
+}
+
+/* Search: a muted pill like the app's inputs */
+site-search > button[data-open-modal] {
+	height: 2.5rem;
+	padding-inline: 1rem 0.5rem;
+	border: 0;
+	border-radius: 999px;
+	background-color: var(--surface-muted);
+	color: var(--sl-color-gray-3);
+	box-shadow: none;
+	transition: background-color 0.15s ease;
+}
+site-search > button[data-open-modal]:hover {
+	background-color: var(--sl-color-gray-6);
+	color: var(--sl-color-gray-2);
+}
+site-search > button[data-open-modal] kbd {
+	border: 0;
+	border-radius: 999px;
+	background-color: var(--surface);
+	padding-inline: 0.5rem;
+}
+site-search dialog {
+	border-radius: 1.25rem;
+}
+
+/* Theme picker: a pill too */
+starlight-theme-select select {
+	border-radius: 999px;
+}
+
+/* Sidebar: like the app's, with a soft background in light mode and the current page as a raised white card */
+.sidebar-pane {
+	border-inline-end-color: var(--sl-color-hairline);
+}
+.sidebar-content {
+	padding-top: 1.5rem;
+}
+.sidebar-content .top-level > li + li {
+	margin-top: 1.25rem;
+}
+.sidebar-content summary {
+	border-radius: 0.5rem;
+}
+.sidebar-content .group-label .large {
+	font-size: var(--sl-text-xs);
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	color: var(--sl-color-gray-3);
+}
+.sidebar-content ul ul li {
+	border-inline-start: 0;
+	margin-inline-start: 0;
+	padding-inline-start: 0;
+}
+.sidebar-content a {
+	border-radius: 0.625rem;
+	padding: 0.4em 0.75rem;
+	font-size: var(--sl-text-sm);
+	color: var(--sl-color-gray-2);
+	transition:
+		background-color 0.15s ease,
+		color 0.15s ease;
+}
+.sidebar-content a:hover,
+.sidebar-content a:focus {
+	background-color: var(--surface-muted);
+	color: var(--sl-color-white);
+}
+.sidebar-content a[aria-current='page'],
+.sidebar-content a[aria-current='page']:hover,
+.sidebar-content a[aria-current='page']:focus {
+	background-color: var(--surface-muted);
+	color: var(--sl-color-white);
+	font-weight: 600;
+}
+:root[data-theme='light'] .sidebar-content a[aria-current='page'] {
+	background-color: #ffffff;
+	box-shadow:
+		0 1px 2px rgba(0, 0, 0, 0.06),
+		0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+/* Page content */
+.content-panel + .content-panel {
+	border-top-color: var(--sl-color-hairline);
 }
 .sl-markdown-content :is(h2, h3, h4, h5, h6) {
 	font-weight: 600;
 	letter-spacing: -0.015em;
 }
 .sl-markdown-content h2 {
-	margin-top: 2.5rem;
+	margin-top: 3rem;
+}
+.sl-markdown-content h3 {
+	margin-top: 2rem;
 }
 
-/* The brand has no color of its own, so links are text with an underline, the way the app's links look */
-.sl-markdown-content a:not(:where(.not-content *)) {
+/* Links are text with an underline, the way the app's links look */
+.sl-markdown-content a:not(:where(.not-content *)):not(.sl-link-card) {
 	color: var(--sl-color-white);
 	font-weight: 500;
 	text-decoration: underline;
 	text-decoration-color: var(--sl-color-gray-4);
-	text-underline-offset: 0.2em;
+	text-underline-offset: 0.22em;
 	text-decoration-thickness: 1px;
+	transition: text-decoration-color 0.15s ease;
 }
-.sl-markdown-content a:not(:where(.not-content *)):hover {
+.sl-markdown-content a:not(:where(.not-content *)):not(.sl-link-card):hover {
 	text-decoration-color: currentColor;
 }
+.sl-markdown-content .sl-link-card {
+	text-decoration: none;
+}
+.sl-markdown-content strong {
+	color: var(--sl-color-white);
+}
 
-/* Inline code sits in a hairline chip, except in components that style their own code, like the API reference */
+/* Inline code sits in a soft chip, except in components that style their own code, like the API reference */
 .sl-markdown-content :not(pre) > code:not(:where(.not-content *)) {
-	border: 1px solid var(--sl-color-hairline-light);
-	border-radius: 0.3rem;
-	padding: 0.1em 0.35em;
+	border: 0;
+	border-radius: 0.375rem;
+	padding: 0.15em 0.4em;
 	font-size: 0.85em;
-}
-
-/* Sidebar: rounded rows and a soft gray for the current page instead of a filled accent, the way the app's sidebar does it */
-.sidebar-content a {
-	border-radius: 0.375rem;
-}
-.sidebar-content a[aria-current='page'],
-.sidebar-content a[aria-current='page']:hover,
-.sidebar-content a[aria-current='page']:focus {
-	background-color: var(--sl-color-gray-6);
-	color: var(--sl-color-white);
-	font-weight: 600;
-}
-:root[data-theme='light'] .sidebar-content a[aria-current='page'] {
-	background-color: var(--sl-color-gray-7);
-}
-.sidebar-content a:hover,
-.sidebar-content a:focus {
 	color: var(--sl-color-white);
 }
-.sidebar-content summary {
-	border-radius: 0.375rem;
-}
 
-/* Header search: a control with a hairline edge */
-site-search > button[data-open-modal] {
-	background-color: var(--surface);
+/* Asides: a soft card in the page's grays, where only the title and the icon carry the color of the kind */
+.starlight-aside {
 	border: 1px solid var(--surface-border);
-	border-radius: 0.5rem;
-	color: var(--sl-color-gray-3);
-	box-shadow: var(--surface-shadow);
-}
-site-search > button[data-open-modal]:hover {
-	border-color: var(--sl-color-gray-5);
+	border-radius: var(--radius);
+	background-color: var(--surface-muted);
+	padding: 1rem 1.125rem;
 	color: var(--sl-color-gray-2);
 }
-site-search > button[data-open-modal] kbd {
-	background-color: var(--sl-color-gray-7);
-	border-radius: 0.25rem;
+:root[data-theme='light'] .starlight-aside {
+	background-color: #fafafa;
 }
-
-/* Right-hand table of contents marks the current heading in bold */
-starlight-toc a[aria-current='true'] {
-	color: var(--sl-color-white);
-	font-weight: 600;
+.starlight-aside--note {
+	--sl-color-asides-text-accent: #2563eb;
 }
-
-/* Previous and next links as cards */
-.pagination-links a {
-	border: 1px solid var(--surface-border);
-	border-radius: 0.5rem;
-	background-color: var(--surface);
-	box-shadow: var(--surface-shadow);
-	color: var(--sl-color-white);
+.starlight-aside--tip {
+	--sl-color-asides-text-accent: #16a34a;
 }
-.pagination-links a:hover {
-	border-color: var(--sl-color-gray-5);
+.starlight-aside--caution {
+	--sl-color-asides-text-accent: #d97706;
 }
-.pagination-links a .link-title {
-	font-size: var(--sl-text-lg);
-	font-weight: 600;
+.starlight-aside--danger {
+	--sl-color-asides-text-accent: #dc2626;
 }
-
-/* Cards and link cards share the hairline card look */
-.sl-markdown-content :is(.card, .sl-link-card) {
-	border-color: var(--surface-border);
-	border-radius: 0.5rem;
-	background-color: var(--surface);
-	box-shadow: var(--surface-shadow);
+:root[data-theme='dark'] .starlight-aside--note {
+	--sl-color-asides-text-accent: #60a5fa;
 }
-.sl-markdown-content .sl-link-card:hover {
-	border-color: var(--sl-color-gray-4);
-	background-color: var(--surface);
+:root[data-theme='dark'] .starlight-aside--tip {
+	--sl-color-asides-text-accent: #4ade80;
 }
-
-/* Tables: semibold header row and hairlines only */
-.sl-markdown-content table {
+:root[data-theme='dark'] .starlight-aside--caution {
+	--sl-color-asides-text-accent: #fbbf24;
+}
+:root[data-theme='dark'] .starlight-aside--danger {
+	--sl-color-asides-text-accent: #f87171;
+}
+.starlight-aside__title {
 	font-size: var(--sl-text-sm);
 }
-.sl-markdown-content th {
+.starlight-aside__content a {
+	color: var(--sl-color-white);
+}
+
+/* Steps: the numbers are solid black tiles, like the key elements of the diagrams */
+.sl-steps > li::before {
+	border-radius: 0.5rem;
+	background-color: var(--sl-color-white);
+	color: var(--sl-color-black);
+	box-shadow: none;
+}
+.sl-steps > li::after {
+	background-color: var(--sl-color-hairline);
+}
+
+/* Tables: a rounded card with a soft header row and hairlines between rows */
+.sl-markdown-content table:not(:where(.not-content *)) {
+	border: 1px solid var(--surface-border);
+	border-radius: var(--radius);
+	border-collapse: separate;
+	border-spacing: 0;
+	font-size: var(--sl-text-sm);
+}
+.sl-markdown-content th:not(:where(.not-content *)) {
+	background-color: var(--surface-muted);
 	font-weight: 600;
 	color: var(--sl-color-white);
 }
-.sl-markdown-content :is(th, td) {
-	border-color: var(--sl-color-hairline-light);
+:root[data-theme='light'] .sl-markdown-content th:not(:where(.not-content *)) {
+	background-color: #fafafa;
+}
+.sl-markdown-content :is(th, td):not(:where(.not-content *)) {
+	border: 0;
+	border-bottom: 1px solid var(--sl-color-hairline-light);
+	padding: 0.65rem 0.9rem;
+}
+.sl-markdown-content tr:last-child td:not(:where(.not-content *)) {
+	border-bottom: 0;
 }
 
 /* Code frames: shell blocks without a title lose the empty terminal title bar, and titled frames keep only the title */
@@ -158,7 +250,85 @@ starlight-toc a[aria-current='true'] {
 	font-weight: 500;
 }
 .expressive-code .copy button {
-	border-radius: 0.375rem;
+	border-radius: 0.5rem;
+}
+
+/* Tabs: the active tab is marked in the text color */
+starlight-tabs [role='tablist'] {
+	border-bottom-color: var(--sl-color-hairline);
+}
+starlight-tabs [role='tab'] {
+	font-size: var(--sl-text-sm);
+	font-weight: 500;
+	color: var(--sl-color-gray-3);
+}
+starlight-tabs [role='tab'][aria-selected='true'] {
+	border-color: var(--sl-color-white);
+	color: var(--sl-color-white);
+	font-weight: 600;
+}
+
+/* Cards and link cards: soft rounded cards that lift a little under the pointer */
+.sl-markdown-content :is(.card, .sl-link-card) {
+	border: 1px solid var(--surface-border);
+	border-radius: 1.25rem;
+	background-color: var(--surface);
+	box-shadow: var(--surface-shadow);
+}
+.sl-markdown-content .sl-link-card {
+	padding: 1.125rem 1.25rem;
+	transition:
+		border-color 0.15s ease,
+		transform 0.2s ease,
+		box-shadow 0.2s ease;
+}
+.sl-markdown-content .sl-link-card:hover {
+	border-color: var(--sl-color-gray-4);
+	background-color: var(--surface);
+	box-shadow: var(--surface-shadow-lg);
+	transform: translateY(-2px);
+}
+.sl-markdown-content .sl-link-card .title {
+	font-size: var(--sl-text-base);
+	font-weight: 600;
+	color: var(--sl-color-white);
+}
+.sl-markdown-content .sl-link-card .description {
+	color: var(--sl-color-gray-3);
+}
+
+/* Right-hand table of contents marks the current heading in bold */
+starlight-toc a[aria-current='true'],
+mobile-starlight-toc a[aria-current='true'] {
+	color: var(--sl-color-white);
+	font-weight: 600;
+}
+starlight-toc h2,
+mobile-starlight-toc h2 {
+	font-size: var(--sl-text-xs);
+	font-weight: 600;
+	color: var(--sl-color-gray-3);
+}
+
+/* Previous and next links as cards */
+.pagination-links a {
+	border: 1px solid var(--surface-border);
+	border-radius: 1.25rem;
+	background-color: var(--surface);
+	box-shadow: var(--surface-shadow);
+	color: var(--sl-color-white);
+	transition:
+		border-color 0.15s ease,
+		box-shadow 0.2s ease;
+}
+.pagination-links a:hover {
+	border-color: var(--sl-color-gray-4);
+	box-shadow: var(--surface-shadow-lg);
+}
+.pagination-links a .link-title {
+	font-family: var(--font-display);
+	font-size: var(--sl-text-xl);
+	font-weight: 400;
 }
 
 /* Embedded videos keep their aspect ratio at every width */
@@ -167,5 +337,30 @@ starlight-toc a[aria-current='true'] {
 	height: auto;
 	aspect-ratio: 16 / 9;
 	border: 0;
-	border-radius: 0.5rem;
+	border-radius: var(--radius);
+}
+
+/* Splash pages such as the not-found page: the hero title in the display face and pill buttons */
+.hero h1 {
+	font-family: var(--font-display);
+	font-weight: 400;
+	letter-spacing: -0.02em;
+}
+.sl-link-button {
+	border-radius: 999px;
+}
+.hero > img {
+	width: 100%;
+	max-width: 30rem;
+	aspect-ratio: 4 / 5;
+	object-fit: cover;
+	border-radius: 2rem;
+}
+
+/* The mobile menu button is a muted circle like the search button next to it */
+.sl-menu-button,
+:root[data-theme='light'] .sl-menu-button {
+	background-color: var(--surface-muted);
+	color: var(--sl-color-white);
+	box-shadow: none;
 }

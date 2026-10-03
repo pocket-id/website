@@ -38,31 +38,41 @@ export default defineConfig({
 			components: {
 				// Adds the notice for preview deployments of unreleased versions
 				Banner: './src/components/overrides/Banner.astro',
+				// Puts the main sections next to the title and search on the right
+				Header: './src/components/overrides/Header.astro',
 				// Adds the current release next to the social links
-				SocialIcons: './src/components/overrides/SocialIcons.astro'
+				SocialIcons: './src/components/overrides/SocialIcons.astro',
+				// Shows the title in the brand's display face and the description below it
+				PageTitle: './src/components/overrides/PageTitle.astro',
+				// A single button that switches between light and dark, like the app's
+				ThemeSelect: './src/components/overrides/ThemeSelect.astro'
 			},
 			expressiveCode: {
 				// Names the pages use for languages Shiki knows under another name
 				shiki: { langAlias: { env: 'dotenv', conf: 'nginx', cfg: 'ini', Yaml: 'yaml' } },
 				styleOverrides: {
-					borderRadius: '0.5rem',
+					borderRadius: '0.75rem',
 					borderColor: 'var(--sl-color-hairline)',
+					codeBackground: 'var(--code-bg)',
 					codeFontSize: '0.8125rem',
-					codeLineHeight: '1.6',
+					codeLineHeight: '1.65',
 					frames: {
 						shadowColor: 'transparent',
+						editorBackground: 'var(--code-bg)',
+						terminalBackground: 'var(--code-bg)',
+						editorTabBarBackground: 'var(--code-chrome)',
+						editorActiveTabBackground: 'var(--code-bg)',
+						editorTabBarBorderBottomColor: 'var(--sl-color-hairline)',
+						terminalTitlebarBackground: 'var(--code-chrome)',
 						terminalTitlebarDotsForeground: 'transparent',
 						terminalTitlebarDotsOpacity: '0',
 						terminalTitlebarBorderBottomColor: 'var(--sl-color-hairline)',
-						editorActiveTabIndicatorTopColor: 'var(--sl-color-white)',
-						editorActiveTabIndicatorBottomColor: 'transparent'
+						editorActiveTabIndicatorTopColor: 'transparent',
+						editorActiveTabIndicatorBottomColor: 'var(--sl-color-white)'
 					}
 				}
 			},
-			social: [
-				{ icon: 'github', label: 'GitHub', href: 'https://github.com/pocket-id/pocket-id' },
-				{ icon: 'discord', label: 'Discord', href: 'https://discord.gg/8wudU9KaxM' }
-			],
+			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/pocket-id/pocket-id' }],
 			editLink: { baseUrl: 'https://github.com/pocket-id/website/edit/main/' },
 			lastUpdated: true,
 			sidebar: [
@@ -109,11 +119,8 @@ export default defineConfig({
 					label: 'Troubleshooting',
 					items: ['docs/troubleshooting/common-issues', 'docs/troubleshooting/account-recovery']
 				},
-				{
-					label: 'Client examples',
-					collapsed: true,
-					items: [{ autogenerate: { directory: 'docs/client-examples' } }]
-				},
+				// The guides for each app are reached from the overview and the header, since listing nearly a hundred of them would bury the rest of the sidebar
+				{ label: 'Client examples', link: '/docs/client-examples' },
 				{
 					label: 'Reference',
 					items: ['docs/api', { label: 'API endpoints', link: '/docs/api/endpoints' }, 'changelog']

@@ -170,8 +170,11 @@ async function seed() {
 
 // The captures ----------------------------------------------------------------
 
+// A regular desktop Chrome user agent, so the audit log names the device the way it would for a real visitor
+const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36';
+
 async function context(browser, theme, storageState) {
-	return browser.newContext({ viewport, deviceScaleFactor: 2, colorScheme: theme, reducedMotion: 'reduce', storageState });
+	return browser.newContext({ viewport, deviceScaleFactor: 2, colorScheme: theme, reducedMotion: 'reduce', storageState, userAgent });
 }
 
 // Pages settle once the network is idle and fonts are in, and a short pause lets late layout shifts end
@@ -280,6 +283,12 @@ async function main() {
 
 			const admin = await context(browser, theme, session);
 			const p = await admin.newPage();
+
+			// The account page with its passkey, and the audit log of the sign-ins so far, for the landing page
+			await p.goto(`${base}/settings/account`);
+			await shoot(p, 'account', theme);
+			await p.goto(`${base}/settings/audit-log`);
+			await shoot(p, 'audit-log', theme);
 
 			// The create form, filled in for an app, and the connection details the new client shows once
 			await p.goto(`${base}/settings/admin/oidc-clients`);

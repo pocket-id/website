@@ -27,10 +27,10 @@ const icons = (name: string) => [
 		type="search"
 		placeholder={`Filter ${examples.length} apps`}
 		aria-label="Filter client examples"
-		class="mb-5 h-10 w-full rounded-lg border border-surface-border bg-surface px-3 font-sans text-sm text-fg [box-shadow:var(--surface-shadow)] placeholder:text-gray-3 focus:border-gray-4 focus:outline-none"
+		class="mb-5 h-11 w-full rounded-full border-0 bg-surface-muted px-5 font-sans text-[0.9375rem] text-fg placeholder:text-gray-3 focus:outline-2 focus:outline-gray-4"
 		data-client-filter
 	/>
-	<ul class="m-0 grid list-none grid-cols-[repeat(auto-fill,minmax(10.5rem,1fr))] gap-3 p-0" data-client-list>
+	<ul class="m-0 grid list-none grid-cols-[repeat(auto-fill,minmax(9.5rem,1fr))] gap-3 p-0" data-client-list>
 		{
 			examples.map((ex) => {
 				const [first, ...rest] = icons(ex.name);
@@ -38,9 +38,12 @@ const icons = (name: string) => [
 					<li class="m-0" data-search={`${ex.title} ${ex.name}`.toLowerCase()}>
 						<a
 							href={ex.href}
-							class="flex h-full flex-col items-center gap-2 rounded-lg border border-surface-border bg-surface p-4 text-center no-underline [box-shadow:var(--surface-shadow)] transition-colors hover:border-gray-4"
+							class="group flex h-full flex-col items-center gap-3 rounded-2xl border border-surface-border bg-surface px-3 pt-5 pb-4 text-center no-underline [box-shadow:var(--surface-shadow)] transition-[border-color,box-shadow,translate] duration-200 hover:-translate-y-0.5 hover:border-gray-4 hover:[box-shadow:var(--surface-shadow-lg)]"
 						>
-							<img src={first} data-fallbacks={rest.join(' ')} alt="" width="40" height="40" loading="lazy" class="size-10 object-contain" />
+							{/* The app's logo in a muted tile, the way Pocket ID shows client logos */}
+							<span class="grid size-14 place-items-center rounded-2xl bg-surface-muted">
+								<img src={first} data-fallbacks={rest.join(' ')} alt="" width="32" height="32" loading="lazy" class="size-8 object-contain" />
+							</span>
 							<span class="text-sm font-semibold text-fg">{ex.title}</span>
 						</a>
 					</li>

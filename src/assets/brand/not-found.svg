@@ -1,0 +1,239 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+	<!-- The picture on the not-found page: the Pocket ID mark on a screen that keeps glitching, animated with CSS so it also runs inside an <img> -->
+	<style>
+		/* Every glitch layer jumps between frames instead of easing, and shares one 5s loop so the bursts line up */
+		.shake, .ghost, .shift, .tear, .noise, .label {
+			animation: 5s steps(1) infinite;
+		}
+		.shake {
+			transform-origin: 200px 250px;
+			animation-name: shake;
+		}
+		.ghost, .tear, .noise {
+			opacity: 0;
+		}
+		/* Bars and blocks stretch around their own center, so scaling them doesn't move them */
+		.tear, .noise {
+			transform-box: fill-box;
+			transform-origin: center;
+		}
+		.ghost-r { animation-name: ghost-r; }
+		.ghost-c { animation-name: ghost-c; }
+		.shift-a { animation-name: shift-a; }
+		.shift-b { animation-name: shift-b; }
+		.shift-c { animation-name: shift-c; }
+		.shift-d { animation-name: shift-d; }
+		.tear-a { animation-name: tear-a; }
+		.tear-b { animation-name: tear-b; }
+		.noise-a { animation-name: noise-a; }
+		.noise-b { animation-name: noise-b; }
+		.label { animation-name: label; }
+		.roll { animation: roll 7s linear infinite; }
+
+		/* Three bursts per loop: a short one, a single twitch, and a long one. The frames in between hold still */
+		@keyframes shake {
+			0%, 10%, 45%, 76%, 100% { transform: none; }
+			6% { transform: translate(-4px, 1px) skewX(-7deg); }
+			7.2% { transform: translate(5px, -1px) skewX(4deg); }
+			8.4% { transform: translate(-2px, 0); }
+			44% { transform: translate(3px, 0); }
+			68% { transform: translate(-6px, 2px) skewX(9deg); }
+			69.5% { transform: translate(4px, 0) skewX(-4deg); }
+			71% { transform: translate(0, -3px) scale(1.03); }
+			72.5% { transform: translate(-3px, 1px) skewX(3deg); }
+			74% { transform: translate(1px, 0); }
+		}
+		@keyframes ghost-r {
+			0%, 10%, 45%, 76%, 100% { opacity: 0; transform: none; }
+			6% { opacity: 0.9; transform: translate(-8px, 0); }
+			7.2% { opacity: 0.9; transform: translate(6px, 2px); }
+			8.4% { opacity: 0.7; transform: translate(-4px, 0); }
+			44% { opacity: 0.8; transform: translate(-5px, 0); }
+			68% { opacity: 1; transform: translate(-12px, 0); }
+			69.5% { opacity: 1; transform: translate(8px, -2px); }
+			71% { opacity: 0.9; transform: translate(-6px, 0); }
+			72.5% { opacity: 0.9; transform: translate(-9px, 1px); }
+			74% { opacity: 0.6; transform: translate(-3px, 0); }
+		}
+		@keyframes ghost-c {
+			0%, 10%, 45%, 76%, 100% { opacity: 0; transform: none; }
+			6% { opacity: 0.9; transform: translate(8px, 0); }
+			7.2% { opacity: 0.9; transform: translate(-6px, -2px); }
+			8.4% { opacity: 0.7; transform: translate(4px, 0); }
+			44% { opacity: 0.8; transform: translate(5px, 0); }
+			68% { opacity: 1; transform: translate(12px, 0); }
+			69.5% { opacity: 1; transform: translate(-8px, 2px); }
+			71% { opacity: 0.9; transform: translate(6px, 0); }
+			72.5% { opacity: 0.9; transform: translate(9px, -1px); }
+			74% { opacity: 0.6; transform: translate(3px, 0); }
+		}
+
+		/* Each band of the mark slides sideways on its own, with one stray twitch outside the bursts */
+		@keyframes shift-a {
+			0%, 10%, 28%, 45%, 76%, 100% { transform: none; }
+			6% { transform: translate(26px, 0); }
+			7.2% { transform: translate(-12px, 0); }
+			8.4% { transform: translate(18px, 0); }
+			27% { transform: translate(10px, 0); }
+			44% { transform: translate(-8px, 0); }
+			68% { transform: translate(-34px, 0); }
+			69.5% { transform: translate(20px, 0); }
+			71% { transform: translate(-10px, 0); }
+			72.5% { transform: translate(40px, 0); }
+			74% { transform: translate(6px, 0); }
+		}
+		@keyframes shift-b {
+			0%, 10%, 45%, 76%, 89%, 100% { transform: none; }
+			6% { transform: translate(-18px, 0); }
+			7.2% { transform: translate(30px, 0); }
+			8.4% { transform: translate(-6px, 0); }
+			68% { transform: translate(28px, 0); }
+			69.5% { transform: translate(-40px, 0); }
+			71% { transform: translate(14px, 0); }
+			72.5% { transform: translate(-6px, 0); }
+			74% { transform: translate(-22px, 0); }
+			88% { transform: translate(-12px, 0); }
+		}
+		@keyframes shift-c {
+			0%, 10%, 45%, 76%, 100% { transform: none; }
+			6% { transform: translate(8px, 0); }
+			8.4% { transform: translate(-26px, 0); }
+			44% { transform: translate(14px, 0); }
+			68% { transform: translate(-16px, 0); }
+			71% { transform: translate(36px, 0); }
+			72.5% { transform: translate(12px, 0); }
+			74% { transform: none; }
+		}
+		@keyframes shift-d {
+			0%, 10%, 45%, 58%, 76%, 100% { transform: none; }
+			6% { transform: translate(-30px, 0); }
+			7.2% { transform: translate(44px, 0); }
+			57% { transform: translate(16px, 0); }
+			68% { transform: translate(60px, 0); }
+			69.5% { transform: translate(-50px, 0); }
+			71% { transform: translate(60px, 0); }
+			72.5% { transform: translate(-20px, 0); }
+		}
+
+		/* Black bars that cut through the mark, and stray bright blocks next to it */
+		@keyframes tear-a {
+			0%, 8.4%, 45%, 74%, 100% { opacity: 0; }
+			6% { opacity: 1; transform: translate(0, 0); }
+			7.2% { opacity: 1; transform: translate(14px, 92px) scaleY(2); }
+			44% { opacity: 1; transform: translate(-10px, 150px); }
+			68% { opacity: 1; transform: translate(-20px, 48px) scaleY(3); }
+			69.5% { opacity: 1; transform: translate(10px, 128px); }
+			71% { opacity: 1; transform: translate(0, 20px) scaleY(2); }
+			72.5% { opacity: 1; transform: translate(24px, 176px) scaleY(3); }
+		}
+		@keyframes tear-b {
+			0%, 10%, 76%, 100% { opacity: 0; }
+			7.2% { opacity: 1; transform: translate(0, 0); }
+			8.4% { opacity: 1; transform: translate(-16px, -70px) scaleY(3); }
+			68% { opacity: 1; transform: translate(12px, -110px); }
+			69.5% { opacity: 1; transform: translate(-8px, 26px) scaleY(2); }
+			71% { opacity: 1; transform: translate(20px, -44px) scaleY(3); }
+			74% { opacity: 1; transform: translate(0, -150px); }
+		}
+		@keyframes noise-a {
+			0%, 8.4%, 71%, 100% { opacity: 0; }
+			6% { opacity: 0.9; transform: translate(0, 0); }
+			7.2% { opacity: 0.9; transform: translate(190px, 96px); }
+			68% { opacity: 0.9; transform: translate(206px, -34px); }
+			69.5% { opacity: 0.9; transform: translate(-14px, 130px) scaleX(2); }
+		}
+		@keyframes noise-b {
+			0%, 45%, 76%, 100% { opacity: 0; }
+			44% { opacity: 0.7; transform: translate(0, 0); }
+			71% { opacity: 0.9; transform: translate(-212px, -150px) scaleX(1.5); }
+			72.5% { opacity: 0.9; transform: translate(-30px, 40px); }
+			74% { opacity: 0.7; transform: translate(-180px, -66px) scaleX(0.5); }
+		}
+		@keyframes label {
+			0%, 10%, 45%, 76%, 100% { opacity: 0.5; transform: none; }
+			6%, 68%, 71% { opacity: 1; transform: translate(4px, 0); }
+			7.2%, 44%, 69.5% { opacity: 0; }
+			8.4%, 72.5% { opacity: 1; transform: translate(-3px, 0); }
+		}
+		/* The dark bar of a screen out of sync rolls down the picture */
+		@keyframes roll {
+			to { transform: translateY(640px); }
+		}
+
+		/* Without motion, the picture holds one frame of the glitch */
+		@media (prefers-reduced-motion: reduce) {
+			.shake, .ghost, .shift, .tear, .noise, .label, .roll {
+				animation: none;
+			}
+			.ghost { opacity: 0.9; }
+			.ghost-r { transform: translate(-6px, 0); }
+			.ghost-c { transform: translate(6px, 0); }
+			.shift-a { transform: translate(22px, 0); }
+			.shift-b { transform: translate(-16px, 0); }
+			.shift-d { transform: translate(34px, 0); }
+			.tear-a { opacity: 1; transform: translate(0, 92px); }
+		}
+	</style>
+	<defs>
+		<symbol id="mark" viewBox="-250.368 -706.48 521.274 712.96">
+			<path d="M-250.368,-706.48C-166.912,-706.48 -83.456,-706.48 0,-706.48C149.377,-706.48 270.906,-584.953 270.906,-435.576C270.906,-376.876 252.438,-321.028 217.506,-274.062C183.258,-228.019 136.385,-194.563 81.955,-177.305C76.939,-175.715 71.924,-174.124 66.908,-172.534C54.955,-231.481 43.003,-290.429 31.05,-349.376C34.355,-350.974 37.661,-352.571 40.966,-354.169C73.345,-369.822 94.269,-403.156 94.269,-439.094C94.269,-491.073 51.982,-533.36 0,-533.36C-51.978,-533.36 -94.267,-491.073 -94.267,-439.094C-94.267,-403.156 -73.344,-369.822 -40.963,-354.169C-37.718,-352.6 -34.473,-351.032 -31.228,-349.463C-50.48,-230.815 -69.733,-112.167 -88.985,6.48C-142.779,6.48 -196.574,6.48 -250.368,6.48Z" />
+		</symbol>
+		<radialGradient id="screen" cx="50%" cy="46%" r="72%">
+			<stop offset="0" stop-color="#2b2b2b" />
+			<stop offset="1" stop-color="#0e0e0e" />
+		</radialGradient>
+		<linearGradient id="bar" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0" stop-color="#000" stop-opacity="0" />
+			<stop offset="0.6" stop-color="#000" stop-opacity="0.45" />
+			<stop offset="1" stop-color="#000" stop-opacity="0" />
+		</linearGradient>
+		<pattern id="scanlines" width="4" height="4" patternUnits="userSpaceOnUse">
+			<rect width="4" height="1.5" fill="#000" opacity="0.3" />
+		</pattern>
+		<clipPath id="frame"><rect width="400" height="500" /></clipPath>
+		<clipPath id="band-a"><rect y="158" width="400" height="20" /></clipPath>
+		<clipPath id="band-b"><rect y="206" width="400" height="30" /></clipPath>
+		<clipPath id="band-c"><rect y="282" width="400" height="14" /></clipPath>
+		<clipPath id="band-d"><rect y="330" width="400" height="6" /></clipPath>
+	</defs>
+
+	<!-- Shaking pushes the bands past the edge, which the frame cuts off -->
+	<g clip-path="url(#frame)">
+		<rect width="400" height="500" fill="url(#screen)" />
+
+		<g class="shake">
+			<!-- Color fringes that slip out from under the mark during a burst -->
+			<use class="ghost ghost-r" href="#mark" x="115" y="134" width="170" height="232" fill="#ff2d55" />
+			<use class="ghost ghost-c" href="#mark" x="115" y="134" width="170" height="232" fill="#00e5ff" />
+			<use href="#mark" x="115" y="134" width="170" height="232" fill="#fafafa" />
+
+			<!-- Each band paints the screen over the mark and draws its own copy on top, which is the part that slides -->
+			<g clip-path="url(#band-a)">
+				<rect width="400" height="500" fill="url(#screen)" />
+				<use class="shift shift-a" href="#mark" x="115" y="134" width="170" height="232" fill="#fafafa" />
+			</g>
+			<g clip-path="url(#band-b)">
+				<rect width="400" height="500" fill="url(#screen)" />
+				<use class="shift shift-b" href="#mark" x="115" y="134" width="170" height="232" fill="#fafafa" />
+			</g>
+			<g clip-path="url(#band-c)">
+				<rect width="400" height="500" fill="url(#screen)" />
+				<use class="shift shift-c" href="#mark" x="115" y="134" width="170" height="232" fill="#fafafa" />
+			</g>
+			<g clip-path="url(#band-d)">
+				<rect width="400" height="500" fill="url(#screen)" />
+				<use class="shift shift-d" href="#mark" x="115" y="134" width="170" height="232" fill="#fafafa" />
+			</g>
+		</g>
+
+		<rect class="tear tear-a" x="96" y="164" width="208" height="5" fill="#0a0a0a" />
+		<rect class="tear tear-b" x="110" y="318" width="180" height="4" fill="#0a0a0a" />
+		<rect class="noise noise-a" x="64" y="212" width="46" height="4" fill="#fafafa" />
+		<rect class="noise noise-b" x="296" y="338" width="60" height="3" fill="#fafafa" />
+
+		<text class="label" x="32" y="462" fill="#fafafa" opacity="0.5" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" letter-spacing="2">ERROR 404</text>
+
+		<rect class="roll" y="-140" width="400" height="140" fill="url(#bar)" />
+		<rect width="400" height="500" fill="url(#scanlines)" />
+	</g>
+</svg>

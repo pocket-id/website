@@ -1,0 +1,110 @@
+---
+// The page heading: the title in the brand's display face, and the description as a lead
+// Client example pages open with the app's logo linked to Pocket ID's, the way the sign-in screen shows them
+import ConnectArrow from '../brand/ConnectArrow.astro';
+import Logo from '../brand/Logo.astro';
+
+const { entry } = Astro.locals.starlightRoute;
+
+const examplePrefix = 'docs/client-examples/';
+const app = entry.id.startsWith(examplePrefix) ? entry.id.slice(examplePrefix.length).toLowerCase() : undefined;
+const { title, description } = entry.data;
+
+// Starlight's skip link and table of contents point at this id
+const PAGE_TITLE_ID = '_top';
+
+const icons = (name: string) => [
+	`https://cdn.jsdelivr.net/gh/selfhst/icons@main/svg/${name}.svg`,
+	`https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/${name}.png`,
+	`https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/${name}.svg`,
+	`https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/${name}.png`
+];
+---
+
+<div class="page-title">
+	{
+		app && (
+			<div class="app-link" aria-hidden="true">
+				<span class="app-tile">
+					<Logo class="app-tile-logo" />
+				</span>
+				<ConnectArrow class="app-arrow" draw />
+				<span class="app-tile">
+					<img src={icons(app)[0]} data-fallbacks={icons(app).slice(1).join(' ')} alt="" width="32" height="32" />
+				</span>
+			</div>
+		)
+	}
+	<h1 id={PAGE_TITLE_ID}>{title}</h1>
+	{description && <p class="page-lead">{description}</p>}
+</div>
+
+{
+	app && (
+		<script>
+			// A missing icon falls through to the next source, and the tile stays empty when none exists
+			document.querySelectorAll<HTMLImageElement>('.app-tile img[data-fallbacks]').forEach((img) => {
+				const next = () => {
+					const [url, ...rest] = (img.dataset.fallbacks ?? '').split(' ').filter(Boolean);
+					if (!url) return img.remove();
+					img.dataset.fallbacks = rest.join(' ');
+					img.src = url;
+				};
+				img.addEventListener('error', next);
+				if (img.complete && img.naturalWidth === 0) next();
+			});
+		</script>
+	)
+}
+
+<style>
+	.app-link {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		margin-bottom: 1.5rem;
+	}
+	.app-tile {
+		display: grid;
+		place-items: center;
+		width: 3.5rem;
+		height: 3.5rem;
+		border-radius: 1rem;
+		background-color: var(--surface-muted);
+		color: var(--sl-color-white);
+	}
+	.app-tile img {
+		width: 2rem;
+		height: 2rem;
+		object-fit: contain;
+	}
+	.app-tile :global(.app-tile-logo) {
+		height: 1.9rem;
+		width: auto;
+	}
+	.app-link :global(.app-arrow) {
+		width: 5.5rem;
+		color: var(--sl-color-white);
+	}
+	.page-title {
+		margin-top: 1rem;
+	}
+	h1 {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: clamp(2.25rem, 4vw, 3rem);
+		font-weight: 400;
+		line-height: 1.05;
+		letter-spacing: -0.015em;
+		color: var(--sl-color-white);
+		text-wrap: balance;
+	}
+	.page-lead {
+		margin: 1rem 0 0;
+		max-width: 40rem;
+		font-size: var(--sl-text-lg);
+		line-height: 1.55;
+		color: var(--sl-color-gray-3);
+		text-wrap: pretty;
+	}
+</style>

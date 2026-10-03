@@ -14,3 +14,18 @@
 		max-width: 100%;
 	}
 }
+
+/* Sections further down fade up as they scroll into view, where the browser supports scroll-driven animations */
+@supports (animation-timeline: view()) {
+	main > section:not(:first-child) > div {
+		animation: rise linear both;
+		animation-timeline: view();
+		animation-range: entry 0% entry 40%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	main > section > div {
+		animation: none !important;
+	}
+}

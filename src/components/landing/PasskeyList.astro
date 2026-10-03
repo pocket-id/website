@@ -1,0 +1,65 @@
+---
+// The passkeys card from the account page, rebuilt in HTML with the app's classes so it stays sharp and follows the theme
+// Pocket ID names a new passkey after its provider and shows the provider's icon, from the icons the app ships, or a key when there is none
+// Phones leave out the buttons, so the names have room
+import Calendar from '@lucide/astro/icons/calendar';
+import KeyRound from '@lucide/astro/icons/key-round';
+import Pencil from '@lucide/astro/icons/pencil';
+import Trash from '@lucide/astro/icons/trash';
+
+const icons = '/img/landing/passkeys';
+const passkeys: { name: string; added: string; icon?: string; darkIcon?: string }[] = [
+	{ name: 'Apple Passwords', added: '3/14/2026', icon: `${icons}/apple-passwords.svg` },
+	{ name: 'YubiKey 5 Series', added: '4/2/2026' },
+	{ name: '1Password', added: '6/21/2026', icon: `${icons}/1password-light.svg`, darkIcon: `${icons}/1password-dark.svg` },
+	{ name: 'Google Password Manager', added: '9/8/2026', icon: `${icons}/google-password-manager.svg` }
+];
+---
+
+<div
+	class="rounded-[2rem] border border-surface-border bg-surface-raised p-4 text-sm shadow-sm select-none sm:p-5"
+	role="img"
+	aria-label={`The passkeys of an account: ${passkeys.map((p) => p.name).join(', ')}`}
+>
+	<div class="flex items-center gap-3.5" aria-hidden="true">
+		<KeyRound class="size-5 shrink-0 text-fg opacity-80" />
+		<div class="min-w-0 flex-1">
+			<p class="m-0 text-xl font-semibold text-fg">Passkeys</p>
+			<p class="m-0 mt-0.5 text-gray-3 max-sm:hidden">Manage your passkeys that you can use to authenticate yourself.</p>
+		</div>
+		<span class="inline-flex h-9 shrink-0 items-center rounded-full border border-surface-border px-4 font-medium text-fg max-sm:hidden">Add Passkey</span>
+	</div>
+	<ul class="m-0 mt-3 list-none p-0" aria-hidden="true">
+		{
+			passkeys.map((p) => (
+				<li class="m-0 flex items-center gap-3.5 py-3 sm:px-4">
+					<span class="grid size-11 shrink-0 place-items-center rounded-xl bg-surface-muted text-gray-3">
+						{p.icon ? (
+							<>
+								<img src={p.icon} alt="" width="28" height="28" class:list={['size-7 object-contain', p.darkIcon && 'dark:hidden']} />
+								{p.darkIcon && <img src={p.darkIcon} alt="" width="28" height="28" class="size-7 object-contain light:hidden" />}
+							</>
+						) : (
+							<KeyRound class="size-6" />
+						)}
+					</span>
+					<span class="flex min-w-0 flex-1 flex-col gap-0.5">
+						<span class="truncate font-medium text-fg">{p.name}</span>
+						<span class="flex items-center whitespace-nowrap text-gray-3">
+							<Calendar class="mr-1 size-3" />
+							Added on {p.added}
+						</span>
+					</span>
+					<span class="flex shrink-0 text-fg max-sm:hidden">
+						<span class="grid size-8 place-items-center">
+							<Pencil class="size-4" />
+						</span>
+						<span class="grid size-8 place-items-center">
+							<Trash class="size-4" />
+						</span>
+					</span>
+				</li>
+			))
+		}
+	</ul>
+</div>

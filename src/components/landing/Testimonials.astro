@@ -41,7 +41,8 @@ const comments = [
 	}
 ];
 const card =
-	'flex h-52 w-[min(80vw,22rem)] shrink-0 flex-col gap-3 rounded-xl border border-surface-border bg-surface p-5 no-underline [box-shadow:var(--surface-shadow)] transition-colors hover:border-gray-4';
+	'flex h-60 w-[min(80vw,23rem)] shrink-0 flex-col justify-between gap-4 rounded-3xl border border-surface-border bg-surface p-6 no-underline [box-shadow:var(--surface-shadow)] transition-colors hover:border-gray-4';
+const initial = (name: string) => name.replace(/[^A-Za-z]/g, '').charAt(0).toUpperCase();
 ---
 
 <div class="group overflow-hidden mask-[linear-gradient(to_right,transparent,black_6%,black_94%,transparent)] motion-reduce:overflow-x-auto motion-reduce:mask-none">
@@ -51,11 +52,18 @@ const card =
 			[0, 1].map((copy) =>
 				comments.map((c) => (
 					<a href={c.url} class={card} aria-hidden={copy === 1 ? 'true' : undefined} tabindex={copy === 1 ? -1 : undefined}>
-						<span class="flex items-baseline justify-between gap-3">
-							<span class="truncate font-semibold text-fg">u/{c.author}</span>
-							<span class="shrink-0 text-xs text-gray-3">r/selfhosted</span>
+						<div>
+							<span class="block h-6 font-display text-5xl leading-[0.9] text-gray-4" aria-hidden="true">“</span>
+							<blockquote class="m-0 mt-2 line-clamp-4 border-0 p-0 text-[0.9375rem] leading-relaxed text-gray-2">{c.text}</blockquote>
+						</div>
+						<span class="flex items-center gap-3">
+							{/* An initial in the display face, the way the app draws avatars */}
+							<span class="grid size-9 shrink-0 place-items-center rounded-full bg-surface-muted font-display text-base text-fg">{initial(c.author)}</span>
+							<span class="min-w-0 leading-tight">
+								<span class="block truncate text-sm font-semibold text-fg">u/{c.author}</span>
+								<span class="block text-xs text-gray-3">on r/selfhosted</span>
+							</span>
 						</span>
-						<blockquote class="m-0 line-clamp-5 border-0 p-0 text-[0.9375rem] leading-relaxed text-gray-2">“{c.text}”</blockquote>
 					</a>
 				))
 			)

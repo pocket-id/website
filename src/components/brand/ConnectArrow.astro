@@ -1,0 +1,54 @@
+---
+// The hand-drawn arrow that links Pocket ID and an app on the sign-in screen, drawn from the same two pen passes as the app's icon
+// With `draw`, it traces itself in like a pen stroke, and `data-draw` on an ancestor replays that whenever a script toggles it
+interface Props {
+	class?: string;
+	draw?: boolean;
+}
+const { class: className, draw = false } = Astro.props;
+---
+
+<svg viewBox="0 0 181.05 72.62" class:list={['connect-arrow', { 'connect-arrow-draw': draw }, className]} aria-hidden="true">
+	<g transform="translate(11.145 36.748)" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none">
+		<path pathLength="1" d="M-1.1,0.2 C27.4,0.1 60.2,2.2 77.8,-4.4 C93.1,-9.9 94.2,-28.5 81.1,-31.8 C65.7,-35.1 57,-16.4 67.9,-3.3 C76.7,7.7 98.6,5.5 120.5,-1.1 C135.8,-5.5 149,-3.3 159,-1.9"></path>
+		<path pathLength="1" d="M0.5,-0.6 C28.8,-0.9 61.6,1.1 79.1,-5.6 C94.6,-11.4 95.2,-29.3 81.9,-32.6 C66.4,-35.6 56.1,-17.6 66.6,-4.2 C75.6,8.6 99.4,6.6 121.2,-0.3 C136.6,-4.4 150.1,-2.6 159.9,-2.4"></path>
+		<path
+			class="connect-arrow-head"
+			d="M137.15 3.58 C144.96 0.13, 151.62 -1.33, 159.9 -2.4 M137.15 3.58 C143.85 1.87, 149.96 -0.23, 159.9 -2.4 M138.63 -12.45 C146.01 -10.77, 152.19 -7.08, 159.9 -2.4 M138.63 -12.45 C144.94 -9.33, 150.61 -6.62, 159.9 -2.4"
+		></path>
+	</g>
+</svg>
+
+<style>
+	/* The two passes trace in one after the other, and the head appears once the line reaches it */
+	.connect-arrow-draw path:not(.connect-arrow-head) {
+		stroke-dasharray: 1;
+		stroke-dashoffset: 1;
+		animation: connect-arrow-trace 0.9s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+	}
+	.connect-arrow-draw path:nth-child(2) {
+		animation-delay: 0.12s;
+	}
+	.connect-arrow-draw .connect-arrow-head {
+		opacity: 0;
+		animation: connect-arrow-head 0.2s ease-out 0.85s forwards;
+	}
+	@keyframes connect-arrow-trace {
+		to {
+			stroke-dashoffset: 0;
+		}
+	}
+	@keyframes connect-arrow-head {
+		to {
+			opacity: 1;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.connect-arrow-draw path,
+		.connect-arrow-draw .connect-arrow-head {
+			animation: none;
+			stroke-dashoffset: 0;
+			opacity: 1;
+		}
+	}
+</style>

@@ -15,7 +15,7 @@ const sponsors: Sponsor[] = await fetch('https://raw.githubusercontent.com/pocke
 				<li class="m-0">
 					<a
 						href={s.link}
-						class="flex h-full flex-col items-center gap-2 rounded-lg border border-surface-border bg-surface p-3 text-center no-underline [box-shadow:var(--surface-shadow)] hover:border-gray-4"
+						class="flex h-full flex-col items-center gap-2 rounded-2xl border border-surface-border bg-surface p-4 text-center no-underline [box-shadow:var(--surface-shadow)] transition-[border-color,translate] duration-200 hover:-translate-y-0.5 hover:border-gray-4"
 					>
 						<img src={s.avatar} alt="" width="56" height="56" loading="lazy" class="size-14 rounded-full" />
 						<span class="w-full truncate text-sm font-medium text-fg">{s.name ?? s.login}</span>

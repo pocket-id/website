@@ -1,0 +1,23 @@
+---
+// A Pocket ID screenshot in the reader's theme for the landing page, from the same captures as the docs, see scripts/screenshots.mjs
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+	name: string;
+	alt: string;
+	class?: string;
+	sizes?: string;
+}
+const { name, alt, class: className, sizes = '(min-width: 64rem) 40rem, 100vw' } = Astro.props;
+
+const screens = import.meta.glob<{ default: ImageMetadata }>('../../assets/screens/*.{png,jpg}', { eager: true });
+const pick = (theme: 'light' | 'dark') => {
+	const image = screens[`../../assets/screens/${name}-${theme}.png`] ?? screens[`../../assets/screens/${name}-${theme}.jpg`];
+	if (!image) throw new Error(`Missing screenshot src/assets/screens/${name}-${theme}`);
+	return image.default;
+};
+---
+
+<Image src={pick('light')} alt={alt} widths={[640, 1280]} {sizes} loading="lazy" class:list={['dark:hidden', className]} />
+<Image src={pick('dark')} alt={alt} widths={[640, 1280]} {sizes} loading="lazy" class:list={['light:hidden', className]} />

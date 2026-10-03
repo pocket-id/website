@@ -41,24 +41,25 @@
 	--font-display: 'Gloock', Georgia, serif;
 
 	--animate-marquee: marquee 120s linear infinite;
+}
 
-	@keyframes marquee {
-		from {
-			transform: translateX(0);
-		}
-		to {
-			transform: translateX(-50%);
-		}
+/* Keyframes live outside the theme, so they exist for arbitrary animation utilities and plain CSS too */
+@keyframes marquee {
+	from {
+		transform: translateX(0);
 	}
-	@keyframes rise {
-		from {
-			opacity: 0;
-			transform: translateY(12px);
-		}
-		to {
-			opacity: 1;
-			transform: none;
-		}
+	to {
+		transform: translateX(-50%);
+	}
+}
+@keyframes rise {
+	from {
+		opacity: 0;
+		transform: translateY(14px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
 	}
 }
 
@@ -75,6 +76,8 @@
 	--color-gray-7: var(--sl-color-gray-7);
 	--color-hairline: var(--sl-color-hairline);
 	--color-surface: var(--surface);
+	--color-surface-raised: var(--surface-raised);
+	--color-surface-muted: var(--surface-muted);
 	--color-surface-border: var(--surface-border);
 
 	/* Diagram colors, see src/components/diagrams/classes.ts */
@@ -91,7 +94,7 @@
 }
 
 /*
- * The docs follow the app: shadcn's zinc neutrals, hairline borders and a monochrome accent, since the brand is black and white
+ * The docs follow the app: shadcn's neutral grays without any hue, hairline borders and a black-and-white accent like the logo
  * Starlight flips its palette between themes, so "white" is the text color and "black" the page in both blocks
  */
 :root {
@@ -99,50 +102,60 @@
 	--sl-font-mono: var(--font-mono);
 	--sl-line-height-headings: 1.2;
 
-	/* Dark theme */
+	/* Dark theme, from the app's .dark tokens */
 	--sl-color-white: #fafafa;
-	--sl-color-gray-1: #e4e4e7;
-	--sl-color-gray-2: #d4d4d8;
-	--sl-color-gray-3: #a1a1aa;
-	--sl-color-gray-4: #52525b;
-	--sl-color-gray-5: #3f3f46;
-	--sl-color-gray-6: #27272a;
-	--sl-color-gray-7: #18181b;
-	--sl-color-black: #09090b;
-	--sl-color-accent-low: #27272a;
-	--sl-color-accent: #e4e4e7;
+	--sl-color-gray-1: #e5e5e5;
+	--sl-color-gray-2: #d4d4d4;
+	--sl-color-gray-3: #a1a1a1;
+	--sl-color-gray-4: #5c5c5c;
+	--sl-color-gray-5: #404040;
+	--sl-color-gray-6: #262626;
+	--sl-color-gray-7: #171717;
+	--sl-color-black: #0a0a0a;
+	--sl-color-accent-low: #262626;
+	--sl-color-accent: #e5e5e5;
 	--sl-color-accent-high: #fafafa;
-	--sl-color-bg-nav: #09090b;
-	--sl-color-bg-sidebar: #09090b;
+	--sl-color-bg-nav: #0a0a0a;
+	--sl-color-bg-sidebar: #0a0a0a;
 	--sl-color-hairline-light: rgba(255, 255, 255, 0.07);
 	--sl-color-hairline: rgba(255, 255, 255, 0.1);
 	--sl-color-hairline-shade: rgba(255, 255, 255, 0.1);
-	--surface: #111113;
+	--surface: #171717;
+	--surface-raised: #1f1f1f;
+	--surface-muted: #262626;
 	--surface-border: rgba(255, 255, 255, 0.1);
-	--surface-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+	--surface-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+	--surface-shadow-lg: 0 24px 60px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.06);
+	--code-bg: #121212;
+	--code-chrome: #171717;
 }
 
 :root[data-theme='light'] {
-	--sl-color-white: #09090b;
-	--sl-color-gray-1: #18181b;
-	--sl-color-gray-2: #3f3f46;
-	--sl-color-gray-3: #71717a;
-	--sl-color-gray-4: #a1a1aa;
-	--sl-color-gray-5: #d4d4d8;
-	--sl-color-gray-6: #e4e4e7;
-	--sl-color-gray-7: #f4f4f5;
+	--sl-color-white: #0a0a0a;
+	--sl-color-gray-1: #171717;
+	--sl-color-gray-2: #404040;
+	--sl-color-gray-3: #737373;
+	--sl-color-gray-4: #a3a3a3;
+	--sl-color-gray-5: #d4d4d4;
+	--sl-color-gray-6: #e5e5e5;
+	--sl-color-gray-7: #f5f5f5;
 	--sl-color-black: #ffffff;
-	--sl-color-accent-low: #f4f4f5;
-	--sl-color-accent: #18181b;
-	--sl-color-accent-high: #09090b;
+	--sl-color-accent-low: #f5f5f5;
+	--sl-color-accent: #171717;
+	--sl-color-accent-high: #0a0a0a;
 	--sl-color-bg-nav: #ffffff;
-	--sl-color-bg-sidebar: #ffffff;
+	--sl-color-bg-sidebar: #fafafa;
 	--sl-color-hairline-light: rgba(0, 0, 0, 0.06);
-	--sl-color-hairline: rgba(0, 0, 0, 0.1);
-	--sl-color-hairline-shade: rgba(0, 0, 0, 0.1);
+	--sl-color-hairline: rgba(0, 0, 0, 0.09);
+	--sl-color-hairline-shade: rgba(0, 0, 0, 0.09);
 	--surface: #ffffff;
-	--surface-border: rgba(0, 0, 0, 0.1);
+	--surface-raised: #ffffff;
+	--surface-muted: #f5f5f5;
+	--surface-border: rgba(0, 0, 0, 0.09);
 	--surface-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+	--surface-shadow-lg: 0 24px 60px -24px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
+	--code-bg: #fafafa;
+	--code-chrome: #f5f5f5;
 }
 
 /*
@@ -156,17 +169,17 @@
 	--dg-line: var(--sl-color-gray-3);
 	--dg-edge: var(--sl-color-hairline);
 	--dg-card: var(--surface);
-	--dg-zone: #141416;
+	--dg-zone: #131313;
 	--dg-key: #fafafa;
-	--dg-on-key: #09090b;
+	--dg-on-key: #0a0a0a;
 	--dg-key-line: #fafafa;
 	--dg-danger: #f87171;
 }
 :root[data-theme='light'] {
-	--dg-zone: #f4f4f5;
+	--dg-zone: #f5f5f5;
 	--dg-line: var(--sl-color-gray-4);
-	--dg-key: #18181b;
+	--dg-key: #171717;
 	--dg-on-key: #fafafa;
-	--dg-key-line: #18181b;
+	--dg-key-line: #171717;
 	--dg-danger: #dc2626;
 }

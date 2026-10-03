@@ -31,6 +31,13 @@ export const onRequest = defineRouteMiddleware((context) => {
 		if (tag.tag === 'meta' && tag.attrs?.property === 'og:url' && typeof tag.attrs.content === 'string') tag.attrs.content = tag.attrs.content.replace(/\.html$/, '');
 	}
 
+	// Client example pages aren't in the sidebar, so its link to the overview marks where they belong
+	if (route.id.startsWith('docs/client-examples/')) {
+		for (const item of route.sidebar) {
+			if (item.type === 'link' && item.href === '/docs/client-examples') item.isCurrent = true;
+		}
+	}
+
 	// The not-found page answers every unknown address, so it must never show up in search results
 	if (route.id === '404') setTag(head, 'meta', { name: 'robots' }, 'noindex');
 });
