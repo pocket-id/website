@@ -1,7 +1,7 @@
 // @ts-check
 import starlight from '@astrojs/starlight';
 import tailwindcss from '@tailwindcss/vite';
-import { defineConfig } from 'astro/config';
+import { defineConfig, envField } from 'astro/config';
 import starlightLlmsTxt from 'starlight-llms-txt';
 import { sharedHead } from './src/sharedHead.ts';
 
@@ -12,6 +12,12 @@ export default defineConfig({
 	// Pages build to docs/setup/installation.html and link without the extension, so every address the old site used keeps working
 	trailingSlash: 'never',
 	build: { format: 'preserve' },
+	env: {
+		schema: {
+			// Optional, raises the GitHub API rate limit for the stats on the landing page
+			GITHUB_TOKEN: envField.string({ context: 'server', access: 'secret', optional: true })
+		}
+	},
 	vite: {
 		plugins: [tailwindcss()]
 	},

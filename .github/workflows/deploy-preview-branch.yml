@@ -57,6 +57,7 @@ jobs:
         run: pnpm build
         env:
           POCKET_ID_DIR: pocket-id
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to Cloudflare Pages
         uses: AdrianGonz97/refined-cf-pages-action@v1
