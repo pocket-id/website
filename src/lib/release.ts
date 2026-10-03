@@ -41,28 +41,34 @@ export async function projectStats(): Promise<Stats> {
 	};
 }
 
-// Fetches a URL and reads a number from the response, giving up after ten seconds so a slow service can't stall the build
+// Fetches a URL and reads a number from the response, giving up after five seconds so a slow service can't stall the build
+// GitHub's API now and then hangs and answers 504, so a timeout or server error gets one more try
 // A failure only hides the number, so it's logged to show up in the build and function logs
 async function count(
 	url: string,
 	read: (res: Response) => Promise<number | undefined>,
-	headers: Record<string, string> = {}
-) {
+	headers: Record<string, string> = {},
+	attempt = 1
+): Promise<number | undefined> {
+	const retry = attempt < 2;
 	try {
 		const res = await fetch(url, {
 			headers: { 'User-Agent': 'pocket-id-website', ...headers },
-			signal: AbortSignal.timeout(10_000)
+			signal: AbortSignal.timeout(5_000)
 		});
 		if (!res.ok) {
-			console.warn(
-				`Fetching ${url} failed with ${res.status}: ${(await res.text()).slice(0, 300)}`
-			);
+			const body = (await res.text()).slice(0, 300);
+			if (res.status >= 500 && retry) return count(url, read, headers, attempt + 1);
+			console.warn(`Fetching ${url} failed with ${res.status}: ${body}`);
 			return undefined;
 		}
 		const n = await read(res);
+		// A body that's never read keeps its connection busy, and later requests to the same host then hang in a warm function
+		if (!res.bodyUsed) await res.body?.cancel();
 		if (!Number.isFinite(n)) console.warn(`No number found in the response of ${url}`);
 		return Number.isFinite(n) ? n : undefined;
 	} catch (err) {
+		if (retry) return count(url, read, headers, attempt + 1);
 		console.warn(`Fetching ${url} failed: ${err}`);
 		return undefined;
 	}
