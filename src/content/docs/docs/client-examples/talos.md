@@ -1,36 +1,38 @@
 ---
 title: Talos
-description: Set up Talos Linux with Pocket ID authentication
+description: Sign in to Kubernetes on Talos Linux with Pocket ID.
+client:
+  callbackUrls:
+    - http://localhost:8000
+  values:
+    - clientId
+    - clientSecret
 ---
 
-Talos is a lightweight API driven full stack Kubernetes system. As with any Kubernetes server, you can set it up to
-authenticate users using OIDC. This guide details configuring Talos to use Pocket ID as the Authentication and Authorization server
+Talos is a lightweight, API-driven, full-stack Kubernetes system.
+As with any Kubernetes server, you can set it up to authenticate users with OIDC.
+This guide configures Talos to use Pocket ID as the authentication and authorization server.
 
-## Pocket ID Setup
+::create-client
 
-1. In Pocket-ID create a new OIDC Client, name it i.e. `Kubernetes`.
-2. Set a logo for this OIDC Client if you would like too.
-3. Set the callback URL to: `http://localhost:8000`.
-4. Copy the `Client ID`, and the `Client Secret` for use in the next steps.
+## Configure Talos
 
-## Talos setup
-
-Modify the `cluster.apiServer` block to include the below
+Modify the `cluster.apiServer` block to include the following:
 
 ```diff
 cluster:
     apiServer:
         image: registry.k8s.io/kube-apiserver:v1.33.1 # The container image used in the API server manifest.
 +       extraArgs:
-+           oidc-issuer-url: <url of pocket-id>
-+           oidc-client-id: <Client ID from Pocket ID>
++           oidc-issuer-url: https://id.example.com
++           oidc-client-id: <client-id>
 +           oidc-username-claim: sub
 +           oidc-groups-claim: groups
 +           oidc-groups-prefix: "oidc:"
 ```
 
-Create a Cluster role binding linking the admin group you wish to have in to Kubernetes. In the below example, there is a group
-called `kubernetes` in Pocket ID that our user is assigned to
+Create a cluster role binding that links the admin group you want to use to Kubernetes.
+In the following example, there is a group called `kubernetes` in Pocket ID that the user is assigned to.
 
 ```yaml
 # filename=crb.yaml
@@ -48,31 +50,30 @@ subjects:
     name: oidc:kubernetes
 ```
 
-Apply this
+Apply it:
 
 ```shell
 kubectl apply -f crb.yaml
 ```
 
-### Modify Kubeconfig file
+### Modify the kubeconfig file
 
-You will need to install a command line tool [kubelogin](https://github.com/int128/kubelogin) - Refer to the github repo for
-instructions related to your system.
+Install the command line tool [kubelogin](https://github.com/int128/kubelogin).
+Refer to its GitHub repository for instructions for your system.
 
-Run the below command to generate a config and validate the token is working
+Run the following command to generate a config and validate that the token works:
 
 ```shell
 kubectl oidc-login setup \
---oidc-issuer-url=<pocket ID url> \
---oidc-client-id=<client ID> \
---oidc-client-secret=<client secret> \
+--oidc-issuer-url=https://id.example.com \
+--oidc-client-id=<client-id> \
+--oidc-client-secret=<client-secret> \
 --oidc-extra-scope=groups,email,name,sub,email_verified
 ```
 
-You need to ensure that your email is verified as [Kubernetes requires this](https://github.com/kubernetes/kubernetes/blob/77bd3f89fbc389d5dfebbed880e08a1e4949312c/staging/src/k8s.io/apiserver/plugin/pkg/authenticator/token/oidc/oidc.go#L833-L847)
-when working with OIDC
+Make sure that your email is verified, as [Kubernetes requires this](https://github.com/kubernetes/kubernetes/blob/77bd3f89fbc389d5dfebbed880e08a1e4949312c/staging/src/k8s.io/apiserver/plugin/pkg/authenticator/token/oidc/oidc.go#L833-L847) when working with OIDC.
 
-You _should_ get a response similar to
+You _should_ get a response similar to this:
 
 ```json
 {
@@ -82,13 +83,13 @@ You _should_ get a response similar to
   "exp": 1749867571,
   "groups": ["kubernetes"],
   "iat": 1749863971,
-  "iss": "<Pocket ID url>",
+  "iss": "https://id.example.com",
   "nonce": "sLY0SUaiLxe9JDfUpNEsBDbhKceOB-T1zxxRYJPQbvk",
   "sub": "643c3fba-370a-4738-92a6-9ergec96cd99"
 }
 ```
 
-Create a new user in your `~/.kube/config` file with the below
+Create a new user in your `~/.kube/config` file:
 
 ```yaml
 - name: pocket-id
@@ -106,7 +107,7 @@ Create a new user in your `~/.kube/config` file with the below
         - --oidc-extra-scope=name
 ```
 
-Then update your current context to use this user
+Then update your current context to use this user:
 
 ```diff
  - context:
@@ -117,7 +118,7 @@ Then update your current context to use this user
     name: testing
 ```
 
-## Further Reading
+## Further reading
 
 - [Kubernetes OIDC](https://kubernetes.io/docs/reference/access-authn-authz/authentication/)
-- [More indepth documentation and possible errors](https://documentation.breadnet.co.uk/kubernetes/oidc/talos-oidc-pocket-id/)
+- [More in-depth documentation and possible errors](https://documentation.breadnet.co.uk/kubernetes/oidc/talos-oidc-pocket-id/)

@@ -1,41 +1,33 @@
 ---
 title: Dockhand
-description: Configure Dockhand with Pocket ID authentication
+description: Sign in to Dockhand with Pocket ID.
+client:
+  callbackUrls:
+    - https://dockhand.example.com/api/auth/oidc/callback
+  values:
+    - clientId
+    - clientSecret
 ---
 
-## Create the Dockhand OIDC Client in PocketID
+::create-client
 
-### Required Settings
+For a local Docker installation of Dockhand, the callback URL can also use the local IP address with `http` and the Dockhand port, for example `http://192.168.x.xxx:3866/api/auth/oidc/callback`.
 
-- **Callback-URL:** `https://your-dockhand-url/api/auth/oidc/callback`
-- **Grant Type:** `Authorization Code`
-- **Scopes:** `openid`, `profile`, `email`
+## Configure Dockhand
 
-The Callback-URL in a local docker installation of Dockhand can also be the local IP address with http and the port of Dockhand, for example 'http://192.168.x.xxx:3866/api/auth/oidc/callback'
+1. In Dockhand, open **Settings → Authentication → SSO / OIDC** and click **+Add Provider**.
+2. Fill in the fields:
 
-### Copy the ID and Client Secret from PocketID
+   | Field              | Description                             | Example                                               |
+   | ------------------ | --------------------------------------- | ----------------------------------------------------- |
+   | Name               | Display name                            | `Pocket ID`                                           |
+   | Issuer URL         | The URL of Pocket ID                    | `https://id.example.com`                              |
+   | Client ID          | The **Client ID** from Pocket ID        | `<client-id>`                                         |
+   | Client Secret      | The **Client secret** from Pocket ID    | `<client-secret>`                                     |
+   | Redirect URI       | The callback URL you added in Pocket ID | `https://dockhand.example.com/api/auth/oidc/callback` |
+   | Scopes             | Scopes requested from Pocket ID         | `openid profile email`                                |
+   | Username claim     | Username claim                          | `preferred_username`                                  |
+   | Email claim        | Email claim                             | `email`                                               |
+   | Display name claim | Display name claim                      | `name`                                                |
 
-- **Client ID**
-- **Client Secret**
-
----
-
-## Configuration of PocketID in Dockhand
-
-The SSO settings in Dockhand are in the Settings menu of Authentication and then SSO / OIDC and then +Add Provider
-
-### Configuration
-
-| Field              | Description                          | Example                                            |
-| ------------------ | ------------------------------------ | -------------------------------------------------- |
-| Name               | Display name                         | `"PocketID"`                                       |
-| Issuer URL         | The URL of PocketID                  | `https://pocketid.example.com`                     |
-| Client ID          | From PocketID                        | `client-id`                                        |
-| Client Secret      | From PocketID                        | `secret`                                           |
-| Redirect URI       | Dockhand Callback URL from Pocket ID | `https://your-dockhand-url/api/auth/oidc/callback` |
-| Scopes             | Scopes from PocketID                 | openid profile email                               |
-| Username claim     | Username claim                       | preferred_username                                 |
-| Email claim        | Email claim                          | email                                              |
-| Display name claim | Display name claim                   | name                                               |
-
-Attention: When accessing a local Dockhand installation, then the Callback URL in the Dockhand SSO / OIDC settings can be 'http://192.168.x.xxx:3866/api/auth/oidc/callback' without https!
+When you access a local Dockhand installation, the **Redirect URI** in the Dockhand SSO / OIDC settings can be `http://192.168.x.xxx:3866/api/auth/oidc/callback` without HTTPS.

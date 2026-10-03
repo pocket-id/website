@@ -1,51 +1,38 @@
 ---
 title: Linkding
-description: Set up Linkding bookmark manager with OIDC
+description: Sign in to the Linkding bookmark manager with Pocket ID.
+client:
+  callbackUrls:
+    - https://linkding.example.com/oidc/callback/
+  values:
+    - clientId
+    - clientSecret
 ---
 
-The following example variables are used, and should be replaced with your actual URLS.
+::create-client
 
-- **linkding.example.com:** The URL of your Linkding instance.
-- **pocketid.example.com:** The URL of your Pocket ID instance.
+## Configure Linkding
 
-## Pocket ID Setup
+This example assumes you are using a docker-compose deployment for Linkding.
+For more details, see the [Linkding documentation](https://linkding.link/installation) or, more specifically, [the OIDC section](https://linkding.link/options/#ld_enable_oidc).
 
-1. **Create a New OIDC Client:**  
-   In your Pocket ID instance, create a new OIDC Client and give it a name (e.g., "Linkding").
-
-2. **Set a Logo (Optional):**  
-   Set a logo for the OIDC Client if desired.
-
-3. **Configure the Callback URL:**  
-   Set the callback URL to:
-
-   ```
-   https://linkding.example.com/oidc/callback/
-   ```
-
-4. **Copy Credentials:**  
-   Copy the Client ID and Client Secret provided by Pocket ID for use in Linkding.
-
-## Linkding Setup
-
-This example assumes you are using a docker-compose deployment for Linkding. For more details, see the [Linkding Documentation](https://linkding.link/installation) or more specifically, [the OIDC section](https://linkding.link/options/#ld_enable_oidc).
-
-1. **Edit Your .env File:**  
-   Add the following environment variables to your Linkding `.env` file. Replace the placeholder values with those from Pocket ID:
+1. Add the following environment variables to your Linkding `.env` file.
+   Replace `<client-id>` and `<client-secret>` with the **Client ID** and **Client secret** from Pocket ID.
+   The endpoints are listed in Pocket ID under **Show more details** (**Authorization URL**, **Token URL**, **Userinfo URL** and **Certificate URL**).
 
    ```ini
    # Enable OIDC in Linkding
    LD_ENABLE_OIDC=True
 
    # Client credentials from Pocket ID
-   OIDC_RP_CLIENT_ID=<your client id from Pocket ID>
-   OIDC_RP_CLIENT_SECRET=<your client secret from Pocket ID>
+   OIDC_RP_CLIENT_ID=<client-id>
+   OIDC_RP_CLIENT_SECRET=<client-secret>
 
    # OIDC endpoints
-   OIDC_OP_AUTHORIZATION_ENDPOINT=https://pocketid.example.com/authorize
-   OIDC_OP_TOKEN_ENDPOINT=https://pocketid.example.com/api/oidc/token
-   OIDC_OP_USER_ENDPOINT=https://pocketid.example.com/api/oidc/userinfo
-   OIDC_OP_JWKS_ENDPOINT=https://pocketid.example.com/.well-known/jwks.json
+   OIDC_OP_AUTHORIZATION_ENDPOINT=https://id.example.com/authorize
+   OIDC_OP_TOKEN_ENDPOINT=https://id.example.com/api/oidc/token
+   OIDC_OP_USER_ENDPOINT=https://id.example.com/api/oidc/userinfo
+   OIDC_OP_JWKS_ENDPOINT=https://id.example.com/.well-known/jwks.json
 
    # Use PKCE if required (adjust based on your setup, True by default)
    OIDC_USE_PKCE=False
@@ -57,7 +44,6 @@ This example assumes you are using a docker-compose deployment for Linkding. For
    # OIDC_USERNAME_CLAIM=preferred_username
    ```
 
-2. **Redeploy Linkding:**  
-   Save the changes to your `.env` file and redeploy your Linkding instance using docker-compose.
+2. Save the changes to your `.env` file and redeploy your Linkding instance using docker-compose.
 
-Once redeployed, you should be able to log in using OIDC with Pocket ID.
+Once redeployed, you should be able to sign in using OIDC with Pocket ID.

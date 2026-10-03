@@ -275,8 +275,6 @@ definitions:
     - logo_download_failed
     - logo_type_not_supported
     - logo_too_large
-    - logo_presets_disabled
-    - logo_presets_unavailable
     - oidc_par_required
     type: string
     x-enum-varnames:
@@ -335,8 +333,6 @@ definitions:
     - CodeLogoDownloadFailed
     - CodeLogoTypeNotSupported
     - CodeLogoTooLarge
-    - CodeLogoPresetsDisabled
-    - CodeLogoPresetsUnavailable
     - CodeOidcPARRequired
   devicelogin.decisionDto:
     properties:
@@ -485,8 +481,6 @@ definitions:
         type: string
       ldapUserSearchFilter:
         type: string
-      oidcClientLogoPresetsEnabled:
-        type: string
       requireUserEmail:
         type: string
       sessionDuration:
@@ -542,7 +536,6 @@ definitions:
     - ldapEnabled
     - ldapSkipCertVerify
     - ldapSoftDeleteUsers
-    - oidcClientLogoPresetsEnabled
     - requireUserEmail
     - sessionDuration
     - smtpSkipCertVerify
@@ -1347,17 +1340,6 @@ definitions:
         type: array
       pagination:
         $ref: '#/definitions/dto.Pagination'
-    type: object
-  logopreset.logoPresetDto:
-    properties:
-      darkLogoUrl:
-        type: string
-      logoUrl:
-        type: string
-      name:
-        type: string
-      reference:
-        type: string
     type: object
   onetimeaccess.emailAsAdminDto:
     properties:
@@ -3027,31 +3009,6 @@ paths:
           schema:
             type: object
       summary: Introspect OIDC tokens
-      tags:
-      - OIDC
-  /api/oidc/logo-presets:
-    get:
-      description: Search the selfh.st icon collection for logos that can be used
-        for OIDC clients
-      parameters:
-      - description: Search term matched against the icon name
-        in: query
-        name: search
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/logopreset.logoPresetDto'
-            type: array
-        default:
-          description: Error
-          schema:
-            $ref: '#/definitions/dto.ErrorDto'
-      summary: Search logo presets
       tags:
       - OIDC
   /api/oidc/userinfo:

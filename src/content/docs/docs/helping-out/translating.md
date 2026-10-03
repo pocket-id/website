@@ -1,6 +1,6 @@
 ---
 title: Translating
-description: Help translate Pocket ID into your language
+description: Help translate the Pocket ID interface into your language on Crowdin, or add a language that is missing.
 ---
 
 Help us make Pocket ID accessible in your language by contributing translations.

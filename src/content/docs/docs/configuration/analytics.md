@@ -1,6 +1,6 @@
 ---
 title: Analytics
-description: Analytics notice for Pocket ID
+description: What the anonymous daily heartbeat of a Pocket ID instance contains, and how to turn it off.
 ---
 
 By default Pocket ID sends a heartbeat to our analytics server once every 24 hours. Seeing how many active Pocket ID instances are out there genuinely motivates our team to keep developing and maintaining the project. The instance count is also displayed on the [Pocket ID website](https://pocket-id.org).

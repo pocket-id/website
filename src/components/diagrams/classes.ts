@@ -9,7 +9,8 @@ const sub = 'text-[11.5px]';
 const edge = 'fill-none';
 
 // Edge labels get a halo in the card color so they stay readable where they cross a line
-const edgeLabel = 'text-[11px] [paint-order:stroke] stroke-dg-card stroke-4 [stroke-linejoin:round]';
+const edgeLabel =
+	'text-[11px] [paint-order:stroke] stroke-dg-card stroke-4 [stroke-linejoin:round]';
 
 export const dg = {
 	zone: `${zone} stroke-dg-edge`,
@@ -41,6 +42,12 @@ export const dg = {
 
 // The shared box, title and subtitle sets for a box that may be the key one or a muted one
 export const dgBox = (tone?: 'key' | 'muted' | 'danger') =>
-	tone === 'key' ? dg.boxKey : tone === 'muted' ? dg.boxMuted : tone === 'danger' ? dg.boxDanger : dg.box;
+	tone === 'key'
+		? dg.boxKey
+		: tone === 'muted'
+			? dg.boxMuted
+			: tone === 'danger'
+				? dg.boxDanger
+				: dg.box;
 export const dgTitle = (key?: boolean) => (key ? dg.titleOnKey : dg.title);
 export const dgSub = (key?: boolean) => (key ? dg.subOnKey : dg.sub);

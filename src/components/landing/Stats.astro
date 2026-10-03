@@ -1,0 +1,27 @@
+---
+// The project's numbers, rendered as a server island so they stay current between deploys
+// A number whose service didn't answer is left out, and when none did the row disappears
+import { cacheIsland } from "../../lib/island-cache";
+import { projectStats } from "../../lib/release";
+import StatsGrid from "./StatsGrid.astro";
+
+const stats = await projectStats();
+const compact = (n: number) =>
+  new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 })
+    .format(n)
+    .toLowerCase();
+const items = [
+  { value: stats.instances, label: "active instances", suffix: "+" },
+  { value: stats.dockerPulls, label: "Docker pulls", suffix: "" },
+  { value: stats.stars, label: "GitHub stars", suffix: "" },
+  { value: stats.contributors, label: "contributors", suffix: "" },
+].flatMap((n) =>
+  typeof n.value === "number"
+    ? [{ value: compact(n.value) + n.suffix, label: n.label }]
+    : [],
+);
+
+cacheIsland(Astro.response, items.length === 4 ? 6 * 60 * 60 : 60);
+---
+
+{items.length > 0 && <StatsGrid items={items} />}

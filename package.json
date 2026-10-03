@@ -1,28 +1,32 @@
 {
-  "name": "pocket-id-website",
-  "private": true,
-  "type": "module",
-  "packageManager": "pnpm@11.20.0+sha512.9a6f330a95b66446ea088faf1521405a8a01f07fde7124cc9958dfed52d4bb436737e65b08f85f37b46fcba375092558ac51262b816844b22f63406ed166bfee",
-  "scripts": {
-    "openapi": "node scripts/openapi.mjs",
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "check": "astro check",
-    "screenshots": "node scripts/screenshots.mjs"
-  },
-  "dependencies": {
-    "@astrojs/starlight": "^0.42.4",
-    "@lucide/astro": "^1.49.0",
-    "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.3.5",
-    "sharp": "^0.35.4",
-    "starlight-llms-txt": "^0.12.0",
-    "tailwindcss": "^4.3.3"
-  },
-  "devDependencies": {
-    "@astrojs/check": "^0.9.10",
-    "playwright": "1.63.0",
-    "typescript": "^6.0.3"
-  }
+	"name": "pocket-id-website",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"openapi": "node scripts/openapi.mjs",
+		"dev": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"check": "astro check && vp check",
+		"screenshots": "node scripts/screenshots.mjs",
+		"prepare": "vp config"
+	},
+	"dependencies": {
+		"@astrojs/starlight": "^0.42.4",
+		"@astrojs/vercel": "^11.0.11",
+		"@lucide/astro": "^1.49.0",
+		"@tailwindcss/vite": "^4.3.3",
+		"astro": "^7.3.5",
+		"satori": "^0.35.0",
+		"sharp": "^0.35.4",
+		"starlight-llms-txt": "^0.12.0",
+		"tailwindcss": "^4.3.3"
+	},
+	"devDependencies": {
+		"@astrojs/check": "^0.9.10",
+		"playwright": "1.63.0",
+		"typescript": "^6.0.3",
+		"vite-plus": "catalog:"
+	},
+	"packageManager": "pnpm@11.20.0+sha512.9a6f330a95b66446ea088faf1521405a8a01f07fde7124cc9958dfed52d4bb436737e65b08f85f37b46fcba375092558ac51262b816844b22f63406ed166bfee"
 }

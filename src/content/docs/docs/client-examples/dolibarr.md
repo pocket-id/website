@@ -1,31 +1,36 @@
 ---
 title: Dolibarr
-description: Configure Dolibarr authentication with Pocket ID
+description: Sign in to the Dolibarr ERP and CRM with Pocket ID.
+client:
+  callbackUrls:
+    - https://dolibarr.example.com/core/modules/openid_connect/callback.php
+  values:
+    - clientId
+    - clientSecret
+    - authorizationUrl
+    - tokenUrl
+    - userinfoUrl
+    - logoutUrl
 ---
 
-> The following example uses `dolibarr.example.com` and `id.example.com`, make sure to update these to your server names.
+::create-client
 
-1. In Pocket-ID create a new OIDC Client, name it i.e. `Dolibarr`
-2. Set the callback url to: `https://dolibarr.example.com/core/modules/openid_connect/callback.php`.
-3. Copy the `Client ID`, `Client Secret`, `Authorization URL`, `Token URL`, `Userinfo URL` and `Logout URL` for the next steps.
-
-## Dolibarr Setup
+## Configure Dolibarr
 
 :::caution
-The email address between the Pocket ID and Dolibarr account have to match.
+The email addresses of the Pocket ID and Dolibarr accounts must match.
 :::
 
-1. Login to Dolibarr as the admin user.
-2. Go to **Home** -> **Setup** -> **Security** and select **OpenID authentication parameters**.
-3. Enter the values for the fields as given below:
-   - `Display Name` as 'Pocket ID' or something similar.
-   - `Client Id` as the `Client ID` from above.
-   - `Client secret` as the `Client Secret` from above.
-   - `Scopes` as 'openid profile email'.
-   - `Authorize URL` as `Authorization URL` from above.
-   - `Token URL` as `Token URL` from above.
-   - `User info URL` as `Userinfo URL` from above.
-   - `Token URL` as `Token URL` from above.
-   - `Logout URL` as `Logout URL` from above.
-4. Edit the file `conf.php` to replace the current value of `dolibarr_main_authentication` with `openid_connect,dolibarr`.
-5. Logout and test the OAuth based login.
+1. Log in to Dolibarr as the admin user.
+2. Open **Home → Setup → Security** and select **OpenID authentication parameters**.
+3. Fill in the fields:
+   - **Display Name**: `Pocket ID` or something similar.
+   - **Client Id**: the **Client ID** from Pocket ID.
+   - **Client secret**: the **Client secret** from Pocket ID.
+   - **Scopes**: `openid profile email`
+   - **Authorize URL**: the **Authorization URL** from Pocket ID.
+   - **Token URL**: the **Token URL** from Pocket ID.
+   - **User info URL**: the **Userinfo URL** from Pocket ID.
+   - **Logout URL**: the **Logout URL** from Pocket ID.
+4. In the file `conf.php`, replace the current value of `dolibarr_main_authentication` with `openid_connect,dolibarr`.
+5. Log out and sign in with Pocket ID to test it.

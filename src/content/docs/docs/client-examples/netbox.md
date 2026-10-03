@@ -1,45 +1,43 @@
 ---
 title: NetBox
-description: Configure NetBox IPAM with Pocket ID OIDC
+description: Sign in to the NetBox IPAM tool with Pocket ID.
+client:
+  callbackUrls:
+    - https://netbox.example.com/oauth/complete/oidc/
+  values:
+    - clientId
+    - clientSecret
 ---
 
-**This guide does not currently show how to map groups in netbox from OIDC claims**
+**This guide doesn't currently show how to map groups in NetBox from OIDC claims.**
 
-The following example variables are used, and should be replaced with your actual URLS.
+Replace `netbox.example.com` with the domain of your NetBox instance and `id.example.com` with the domain of your Pocket ID instance.
 
-- netbox.example.com (The url of your netbox instance.)
-- id.example.com (The url of your Pocket ID instance.)
+::create-client
 
-## Pocket ID Setup
+## Configure NetBox
 
-1. In Pocket-ID create a new OIDC Client, name it i.e. `Netbox`.
-2. Set a logo for this OIDC Client if you would like too.
-3. Set the callback URL to: `https://netbox.example.com/oauth/complete/oidc/`.
-4. Copy the `Client ID`, and the `Client Secret` for use in the next steps.
+This guide assumes you use the Git-based installation of NetBox.
 
-## Netbox Setup
+1. On your NetBox server, open `/opt/netbox/netbox/netbox`.
+2. Add the following to your `configuration.py` file, with the **Client ID** and the **Client secret** from Pocket ID:
 
-This guide assumes you are using the git based install of netbox.
+   ```python
+   # Remote authentication support
+   REMOTE_AUTH_ENABLED = True
+   REMOTE_AUTH_BACKEND = 'social_core.backends.open_id_connect.OpenIdConnectAuth'
+   REMOTE_AUTH_HEADER = 'HTTP_REMOTE_USER'
+   REMOTE_AUTH_USER_FIRST_NAME = 'HTTP_REMOTE_USER_FIRST_NAME'
+   REMOTE_AUTH_USER_LAST_NAME = 'HTTP_REMOTE_USER_LAST_NAME'
+   REMOTE_AUTH_USER_EMAIL = 'HTTP_REMOTE_USER_EMAIL'
+   REMOTE_AUTH_AUTO_CREATE_USER = True
+   REMOTE_AUTH_DEFAULT_GROUPS = []
+   REMOTE_AUTH_DEFAULT_PERMISSIONS = {}
 
-1. On your netbox server navigate to `/opt/netbox/netbox/netbox`
-2. Add the following to your `configuration.py` file:
+   SOCIAL_AUTH_OIDC_ENDPOINT = 'https://id.example.com'
+   SOCIAL_AUTH_OIDC_KEY = '<client-id>'
+   SOCIAL_AUTH_OIDC_SECRET = '<client-secret>'
+   LOGOUT_REDIRECT_URL = 'https://netbox.example.com'
+   ```
 
-```python
-# Remote authentication support
-REMOTE_AUTH_ENABLED = True
-REMOTE_AUTH_BACKEND = 'social_core.backends.open_id_connect.OpenIdConnectAuth'
-REMOTE_AUTH_HEADER = 'HTTP_REMOTE_USER'
-REMOTE_AUTH_USER_FIRST_NAME = 'HTTP_REMOTE_USER_FIRST_NAME'
-REMOTE_AUTH_USER_LAST_NAME = 'HTTP_REMOTE_USER_LAST_NAME'
-REMOTE_AUTH_USER_EMAIL = 'HTTP_REMOTE_USER_EMAIL'
-REMOTE_AUTH_AUTO_CREATE_USER = True
-REMOTE_AUTH_DEFAULT_GROUPS = []
-REMOTE_AUTH_DEFAULT_PERMISSIONS = {}
-
-SOCIAL_AUTH_OIDC_ENDPOINT = 'https://id.example.com'
-SOCIAL_AUTH_OIDC_KEY = '<client id from the first part of this guide>'
-SOCIAL_AUTH_OIDC_SECRET = '<client id from the first part of this guide>'
-LOGOUT_REDIRECT_URL = 'https://netbox.example.com'
-```
-
-3. Save the file and restart netbox: `sudo systemctl restart netbox netbox-rq`
+3. Save the file and restart NetBox: `sudo systemctl restart netbox netbox-rq`.

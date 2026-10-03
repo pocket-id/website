@@ -1,0 +1,58 @@
+---
+// A card per company that gives the project its tools for free, with its logo in the reader's theme
+const tools = [
+	{
+		name: 'JetBrains',
+		href: 'https://jb.gg/OpenSource',
+		light: '/img/sponsors/jetbrains-light.svg',
+		dark: '/img/sponsors/jetbrains-dark.svg',
+		logo: 'h-8',
+		text: 'Free All Products Pack subscriptions for open source maintainers.'
+	},
+	{
+		name: 'Depot',
+		href: 'https://depot.dev',
+		light: '/img/sponsors/depot-light.svg',
+		dark: '/img/sponsors/depot-dark.svg',
+		logo: 'h-8',
+		text: 'Fast CI/CD pipelines, free for open source projects.'
+	},
+	{
+		name: 'Snyk',
+		href: 'https://snyk.io',
+		light: '/img/sponsors/snyk-light.svg',
+		dark: '/img/sponsors/snyk-dark.svg',
+		logo: 'h-14',
+		text: 'Free licenses that help keep Pocket ID secure.'
+	},
+	{
+		name: 'Vercel',
+		href: 'https://vercel.com',
+		light: '/img/sponsors/vercel-light.svg',
+		dark: '/img/sponsors/vercel-dark.svg',
+		logo: 'h-6',
+		text: 'Free hosting for this website trough the Vercel OSS program.'
+	}
+];
+---
+
+<ul class="not-content m-0 mt-6 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2">
+	{
+		tools.map((t) => (
+			<li class="m-0">
+				<a
+					href={t.href}
+					target="_blank"
+					rel="noopener"
+					class="flex h-full flex-col gap-4 rounded-2xl border border-surface-border bg-surface p-5 no-underline [box-shadow:var(--surface-shadow)] transition-[border-color,translate] duration-200 hover:-translate-y-0.5 hover:border-gray-4"
+				>
+					<span class="flex h-14 items-center">
+						<img src={t.light} alt={t.name} class:list={['w-auto dark:hidden', t.logo]} />
+						<img src={t.dark} alt={t.name} class:list={['w-auto light:hidden', t.logo]} />
+					</span>
+					<span class="text-sm leading-relaxed text-gray-3">{t.text}</span>
+				</a>
+			</li>
+		))
+	}
+</ul>

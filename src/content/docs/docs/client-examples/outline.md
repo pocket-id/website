@@ -1,54 +1,49 @@
 ---
 title: Outline
-description: Set up Outline wiki with Pocket ID OIDC
+description: Sign in to the Outline wiki with Pocket ID.
+client:
+  callbackUrls:
+    - https://outline.example.com/auth/oidc.callback
+  values:
+    - clientId
+    - clientSecret
+    - authorizationUrl
+    - tokenUrl
+    - userinfoUrl
+    - logoutUrl
 ---
 
-Setting up [Outline](https://docs.getoutline.com/s/hosting/doc/oidc-8CPBm6uC0I) to authenticate with Pocket ID can be accomplished with the configuration below.
+Setting up [Outline](https://docs.getoutline.com/s/hosting/doc/oidc-8CPBm6uC0I) to authenticate with Pocket ID can be done with the configuration below.
 
-Your Outline and Pocket ID server URLs must both use HTTPS.
+## Requirements
 
-## Create OIDC Client
+- Your Outline and Pocket ID server URLs must both use HTTPS.
 
-1. Login to your **Pocket ID** server as an admin
-1. Go to **OIDC Clients** and click **Add OIDC Client**
-1. Set an app **Name** like `Outline`
-1. Set the **Callback URL** to the following.
-   `https://outline.yourdomain.com/auth/oidc.callback`
-1. Upload a **Logo** if desired
-1. Click **Save**. Then copy these values for later:
-   - Client ID
-   - Client Secret
-   - Authorization URL
-   - Token URL
-   - Userinfo URL
-   - Logout URL
+::create-client
 
-## Configure Outline for OIDC
+## Configure Outline
 
-To configure Outline, use the following variables to utilize OpenID Connect.
+1. Add the following to your Outline container's `docker.env`:
 
-1. Add the following to your **Outline** container `docker.env`:
-
-   ```
-   OIDC_CLIENT_ID=Client ID
-   OIDC_CLIENT_SECRET=Client Secret
-   OIDC_AUTH_URI=Authorization URL
-   OIDC_TOKEN_URI=Token URL
-   OIDC_USERINFO_URI=Userinfo URL
-   OIDC_LOGOUT_URI=Logout URL
+   ```ini
+   OIDC_CLIENT_ID=<client-id>
+   OIDC_CLIENT_SECRET=<client-secret>
+   OIDC_AUTH_URI=https://id.example.com/authorize
+   OIDC_TOKEN_URI=https://id.example.com/api/oidc/token
+   OIDC_USERINFO_URI=https://id.example.com/api/oidc/userinfo
+   OIDC_LOGOUT_URI=https://id.example.com/api/oidc/end-session
 
    OIDC_DISPLAY_NAME=Pocket ID
    OIDC_USERNAME_CLAIM=preferred_username
    OIDC_SCOPES=openid profile email groups
    ```
 
-1. Restart your **Outline** container:
+2. Restart your Outline container:
 
    ```bash
    docker compose down
    docker compose up -d
    ```
 
-1. Login to **Outline** with your Pocket ID
-1. Review and update SSO settings at:
-   **Settings > Workspace > Security**
+3. Sign in to Outline with Pocket ID to test it.
+4. Review and update the SSO settings under **Settings → Workspace → Security**.

@@ -2337,43 +2337,6 @@
         }
       }
     },
-    "/api/oidc/logo-presets": {
-      "get": {
-        "description": "Search the selfh.st icon collection for logos that can be used for OIDC clients",
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "OIDC"
-        ],
-        "summary": "Search logo presets",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Search term matched against the icon name",
-            "name": "search",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/logopreset.logoPresetDto"
-              }
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/dto.ErrorDto"
-            }
-          }
-        }
-      }
-    },
     "/api/oidc/userinfo": {
       "get": {
         "security": [
@@ -4449,8 +4412,6 @@
         "logo_download_failed",
         "logo_type_not_supported",
         "logo_too_large",
-        "logo_presets_disabled",
-        "logo_presets_unavailable",
         "oidc_par_required"
       ],
       "x-enum-varnames": [
@@ -4509,8 +4470,6 @@
         "CodeLogoDownloadFailed",
         "CodeLogoTypeNotSupported",
         "CodeLogoTooLarge",
-        "CodeLogoPresetsDisabled",
-        "CodeLogoPresetsUnavailable",
         "CodeOidcPARRequired"
       ]
     },
@@ -4640,7 +4599,6 @@
         "ldapEnabled",
         "ldapSkipCertVerify",
         "ldapSoftDeleteUsers",
-        "oidcClientLogoPresetsEnabled",
         "requireUserEmail",
         "sessionDuration",
         "smtpSkipCertVerify",
@@ -4757,9 +4715,6 @@
           "type": "string"
         },
         "ldapUserSearchFilter": {
-          "type": "string"
-        },
-        "oidcClientLogoPresetsEnabled": {
           "type": "string"
         },
         "requireUserEmail": {
@@ -6013,23 +5968,6 @@
         },
         "pagination": {
           "$ref": "#/definitions/dto.Pagination"
-        }
-      }
-    },
-    "logopreset.logoPresetDto": {
-      "type": "object",
-      "properties": {
-        "darkLogoUrl": {
-          "type": "string"
-        },
-        "logoUrl": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "reference": {
-          "type": "string"
         }
       }
     },

@@ -1,6 +1,6 @@
 ---
 title: Migrate to v1
-description: Migrate from previous versions to Pocket ID v1.0
+description: The breaking changes in Pocket ID v1.0, from the new default port to renamed environment variables, and how to upgrade.
 ---
 
 :::caution

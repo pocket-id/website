@@ -1,80 +1,81 @@
 ---
 title: Pangolin
-description: Configure Pangolin with Pocket ID authentication
+description: Sign in to Pangolin with Pocket ID.
+client:
+  callbackUrls:
+    - "https://pangolin.example.com/auth/idp/<identity-provider-id>/oidc/callback"
+  values:
+    - clientId
+    - clientSecret
+    - authorizationUrl
+    - tokenUrl
 ---
 
-## Pocket ID Setup
+::create-client
 
-1. In Pocket ID create a new OIDC Client, name it, for example, `Pangolin`
-2. Note the `Client ID`, `Client Secret`, `Authorization URL` and `Token URL` for the following steps
-3. Set the `Callback URL` to `https://pangolin.example.com/auth/idp/<identity-provider-id>/oidc/callback`. Replace `<identity-provider-id>` with the ID from the redirect URL shown by Pangolin after creating the identity provider.
+Pangolin shows the ID for `<identity-provider-id>` only after you create the identity provider, so you update the callback URL later.
 
+## Configure Pangolin
 
-## Pangolin Setup
+1. Sign in to Pangolin with your superuser account.
+2. Under **Server Admin**, select **Identity Providers**, then **Add Identity Provider**.
+3. Fill in the fields:
+   - **Identity Provider**
+     - **Name**: `Pocket ID` (or anything you want)
+     - Enable **Auto Provision Users** (only if you want auto provisioning)
+   - **Provider Type**: select **OAuth2/OIDC**.
+   - **OAuth2/OIDC Configuration**
+     - **Client ID**: the **Client ID** from Pocket ID.
+     - **Client Secret**: the **Client secret** from Pocket ID.
+     - **Authorization URL**: the **Authorization URL** from Pocket ID.
+     - **Token URL**: the **Token URL** from Pocket ID.
+   - **Token Configuration**
+     - **Identifier Path**: one of `email`, `preferred_username` or `sub` (Advanced)
+     - **Email Path**: `email`
+     - **Name Path**: `name`
+     - **Scopes**: `openid profile email` (include `groups` for auto provisioning)
+4. Save the new identity provider.
+5. Copy the **Redirect URL** shown by Pangolin and update the callback URL of the client in Pocket ID so that the two values match exactly.
 
- 1. Log into Pangolin using your superuser account
- 2. Under Server Admin, select Identity Providers, then "**+ Add Identity Provider**"
- 3. Enter the following:
-	- ### Identity Provider
-		 1. Name: **PocketID** (or anything you want)
-		 2. Enable **Auto Provision Users** (only if you want auto provisioning)
-	- ### Provider Type
-		1. Select **OAuth2/OIDC**
+## Create users
 
-	- ### OAuth2/OIDC Configuration
-		1. Client ID: Your **Client ID** from Pocket ID
-		2. Client Secret: Your **Client Secret** from Pocket ID.
-		3. Authorization URL: Your **Authorization URL** from Pocket ID.
-		4. Token URL: Your **Token URL** from Pocket ID.
+Create users either with auto provisioning or manually.
+Once you have created a user, sign out of Pangolin and sign in with Pocket ID to test it.
 
-	- ### Token Configuration
-		1. Identifier Path: One of `email`, `preferred_username` or `sub` (Advanced)
-		2. Email Path: `email`
-		3. Name Path: `name`
-		4. Scopes: `openid profile email` (include `groups` for auto provisioning)
+### Auto provisioning
 
-5. Save your new Identity Provider
-6. Copy the **Redirect URL** shown by Pangolin and update the **Callback URL** in Pocket ID so that the two values match exactly.
-7. Create User
+See [Pangolin's docs on auto provisioning](https://docs.pangolin.net/manage/identity-providers/auto-provisioning) for more advanced setups.
 
-	 - ### Auto Provision
-		View [Pangolin's docs on Auto Provisioning](https://docs.pangolin.net/manage/identity-providers/auto-provisioning) for more advanced setups
-		1. Create **User Group** in Pocket ID
-			- Friendly Name: `Admin` (or anything you want)
-			- Name: `admin` (or anything you want)
-		 2. Add desired admin users to group
-		 3. (In your Pangolin instance under Server Admin, Identity Providers, edit Pocket ID) Make sure **Auto Provision Users** is enabled and your token **scopes** include `groups`
-		 4. Navigate to **Organization Policies**
-		 5. Enter the following:
-			 - #### Default Mappings
-				 1. Default Role Mapping: `contains(groups, 'admin') && 'Admin' || 'Member'` (replace `admin` with whatever your user group name is)
-				 2. Default Organization Mapping: `'YOUR PANGOLIN ORGANIZATION ID'` (there is examples of [advanced mappings in Pangolin's docs](https://docs.pangolin.net/manage/identity-providers/auto-provisioning#selecting-organizations)
-				 3. **Save Default Mappings**
+1. In Pocket ID, open **Administration → User Groups**, click **Add Group** and create a group:
+   - **Friendly Name**: `Admin` (or anything you want)
+   - **Name**: `admin` (or anything you want)
+2. Add the desired admin users to the group.
+3. In Pangolin, under **Server Admin → Identity Providers**, edit the Pocket ID provider and make sure **Auto Provision Users** is enabled and the **Scopes** include `groups`.
+4. Open **Organization Policies**.
+5. Under **Default Mappings**, set:
+   - **Default Role Mapping**: `contains(groups, 'admin') && 'Admin' || 'Member'` (replace `admin` with the name of your user group)
+   - **Default Organization Mapping**: `'YOUR PANGOLIN ORGANIZATION ID'` (see the examples of [advanced mappings in Pangolin's docs](https://docs.pangolin.net/manage/identity-providers/auto-provisioning#selecting-organizations))
+6. Click **Save Default Mappings**.
 
-	
-	 -  ### Manually 
-		1. Back in your Pangolin instance, go to your organization, select Users, then "+ Create User".
-		2. Select "External User", select your Pocket ID Identity provider, and fill in the relevant details.
+### Manually
 
-			Depending on what you configured in `Identifier Path`, you'll need to add that in the `username` field.
+1. In Pangolin, go to your organization, select **Users**, then **Create User**.
+2. Select **External User**, select your Pocket ID identity provider and fill in the relevant details.
+   Enter the value that matches your **Identifier Path** in the **Username** field:
+   - `email` is your Pocket ID email.
+   - `preferred_username` is your Pocket ID username.
 
-			- `email` will be your Pocket ID email.
-			- `preferred_username` will be your Pocket ID username.
-
-8. Once you have your user created, you can save, log out from Pangolin, and test your new OIDC connection.
-
-## Errors
+## Troubleshooting
 
 ### User not provisioned (Manual) in the system
 
-Make sure you have a user created in Pangolin and that the "Username" matches the `Identifier Path` used.
+Make sure you have created a user in Pangolin and that its **Username** matches the **Identifier Path** used.
 
-### After logging in with OIDC connection (Auto Provisioned) `There was a problem connecting to Pocket ID. Please contact your administrator.`
+### After signing in with OIDC (auto provisioned): `There was a problem connecting to Pocket ID. Please contact your administrator.`
 
-Make sure in your Pangolin instance under Server Admin, Identity Providers, edit Pocket ID, the token **scopes** include `groups`
+In Pangolin, under **Server Admin → Identity Providers**, edit the Pocket ID provider and make sure the **Scopes** include `groups`.
 
 ### Invalid callback URL, it might be necessary for an admin to fix this
 
-Your Callback URL is not correctly defined in Pocket ID. Make sure this matches the `Redirect URL` in your Pangolin OIDC config.
-
-Example: `https://pangolin.example.com/auth/idp/1/oidc/callback`
+The callback URL isn't set correctly in Pocket ID.
+Make sure it matches the **Redirect URL** in your Pangolin OIDC configuration, for example `https://pangolin.example.com/auth/idp/1/oidc/callback`.

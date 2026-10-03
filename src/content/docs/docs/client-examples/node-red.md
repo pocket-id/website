@@ -1,51 +1,56 @@
 ---
 title: Node-RED
-description: Set up Node-RED with Pocket ID authentication
+description: Sign in to the Node-RED editor with Pocket ID.
+client:
+  callbackUrls:
+    - https://nodered.example.com/auth/strategy/callback
+  values:
+    - clientId
+    - clientSecret
+    - authorizationUrl
+    - tokenUrl
+    - userinfoUrl
 ---
 
-## Pocket ID Setup
+::create-client
 
-1. In Pocket-ID create a new OIDC Client, name it i.e. `node-red`.
-2. Set a logo for this OIDC Client if you would like too.
-3. Set the callback URL to: `https://nodered.yoururl.com/auth/strategy/callback`.
-4. Copy the `Client ID`, and `Client Secret` for use in the next steps.
+## Configure Node-RED
 
-## Node-RED Setup
+1. Make sure the following Passport strategy package is installed:
 
-Make sure the following "Passport strategy" package is installed:
+   ```bash
+   npm install passport-openidconnect
+   ```
 
-```sh
-npm install passport-openidconnect
-```
+2. Replace the `adminAuth` section in `settings.js` (adjust it to your requirements):
 
-Replace the adminAuth section in settings.js (adjust to your specific requirements):
+   ```js
+   adminAuth: {
+       type: 'strategy',
+       strategy: {
+           name: 'openidconnect',
+           label: 'Sign in with Pocket ID',
+           icon: 'fa-openid',
+           strategy: require('passport-openidconnect').Strategy,
+           options: {
+               issuer: 'https://id.example.com',
+               authorizationURL: 'https://id.example.com/authorize',
+               tokenURL: 'https://id.example.com/api/oidc/token',
+               userInfoURL: 'https://id.example.com/api/oidc/userinfo',
+               clientID: '<client-id>',
+               clientSecret: '<client-secret>',
+               callbackURL: 'https://nodered.example.com/auth/strategy/callback',
+               scope: ['openid', 'email', 'profile', 'groups'],
+               proxy: true,
+               verify: function(issuer, profile, done) {
+                   done(null, profile)
+               }
+           }
+       },
+       users: function(user) {
+           return Promise.resolve({ username: user, permissions: "*" });
+       }
+   },
+   ```
 
-```yaml
-adminAuth: {
-    type: 'strategy',
-    strategy: {
-        name: 'openidconnect',
-        label: 'Sign in with Pocked-ID',
-        icon: 'fa-openid',
-        strategy: require('passport-openidconnect').Strategy,
-        options: {
-            issuer: 'https://pocketid.yoururl.com',
-            authorizationURL: 'https://pocketid.yoururl.com/authorize',
-            tokenURL: 'https://pocketid.yoururl.com/api/oidc/token',
-            userInfoURL: 'https://pocketid.yoururl.com/api/oidc/userinfo',
-            clientID: 'yourclientid',
-            clientSecret: 'yourclientsecret',
-            callbackURL: 'https://node-red.yoururl.com/auth/strategy/callback',
-            scope: ['openid', 'email', 'profile', 'groups'],
-            proxy: true,
-            verify: function(issuer, profile, done) {
-                done(null, profile)
-            }
-        }
-    },
-    users: function(user) {
-        return Promise.resolve({ username: user, permissions: "*" });
-    }
-},
-```
-Restart the container after editing the settings.js file.
+3. Restart the container after editing `settings.js`.

@@ -1,6 +1,15 @@
 ---
 title: Beszel
-description: Set up Pocket ID authentication for Beszel
+description: Sign in to the Beszel server monitoring hub with Pocket ID.
+client:
+  callbackUrls:
+    - https://beszel.example.com/api/oauth2-redirect
+  values:
+    - clientId
+    - clientSecret
+    - authorizationUrl
+    - tokenUrl
+    - userinfoUrl
 ---
 
 ## Requirements
@@ -8,58 +17,50 @@ description: Set up Pocket ID authentication for Beszel
 - [Beszel server](https://www.beszel.dev/guide/oauth)
 - HTTPS connection to your Beszel server
 
-## Create OIDC Client in Pocket ID
+::create-client
 
-1. Create a new OIDC Client in Pocket ID (e.g., `beszel`).
-2. Set the **Callback URL** to the value below.
-   ```
-   https://<your-beszel-url>/api/oauth2-redirect
-   ```
-3. _Optional:_ Download a PNG or SVG **logo** from the [Beszel project](https://github.com/henrygd/beszel) and upload it now.
-4. Copy the **Client ID**, **Client Secret**, **Authorization URL**, **Token URL**, and **Userinfo URL** for use in the next section.
+## Verify emails in Pocket ID
 
-## Configure Pocket ID
-
-1. Open the Pocket ID settings page and navigate to **`Application Configuration`**.
-2. Enable **Emails Verified**.
-3. Navigate to **Users** and select the user account. Ensure the email address is marked as Verified. If the icon next to the email is not green, click it to manually toggle the status to verified.
+1. In Pocket ID, open **Administration → Application Configuration → Email** and turn on **Emails verified by default**.
+2. Open **Administration → Users** and select the user account.
+   Make sure the email address is marked as verified.
+   If the icon next to the email isn't green, click it to mark the email as verified.
 
 :::note
 Beszel requires the OAuth provider to return a valid, verified email address to create new users.
-If you see an error like:
-`Failed to create record. { "email": "cannot be blank" }`
-It means your OAuth provider is not returning a usable email.
-Make sure **"Emails Verified"** is enabled in Pocket ID or that your identity provider returns a verified email in its `userinfo` response.
+If you see an error like `Failed to create record. { "email": "cannot be blank" }`, your OAuth provider isn't returning a usable email.
+Make sure **Emails verified by default** is turned on in Pocket ID, or that your identity provider returns a verified email in its `userinfo` response.
 :::
 
 ## Configure Beszel
 
-1. Open the Beszel superuser interface (`/_/#/settings`) then navigate to: **`Settings > Application`**.
-2. Disable the **`Hide collection create and edit controls`** setting.
-3. Navigate to **`Collections > Users`**.
-4. Modify the `users` collection using the gear icon near the title.
-5. Navigate to **`Options > OAuth2`**.
-6. Enable the **Active** checkmark then click **`Add provider`**.
+1. Open the Beszel superuser interface (`/_/#/settings`) and go to **Settings → Application**.
+2. Turn off **Hide collection create and edit controls**.
+3. Go to **Collections → Users**.
+4. Edit the `users` collection with the gear icon next to the title.
+5. Go to **Options → OAuth2**.
+6. Select **Active** and click **Add provider**.
 7. Select the `oidc` provider.
-8. Fill in the required fields with values from Pocket ID:
-   - **Client ID**
-   - **Client Secret**
-   - **Display Name** of your choice (i.e.: `Pocket`)
-   - **Auth URL**
-   - **Token URL**
-   - Set **Fetch user info from** to **`User info URL`**
-   - Leave **`Support PKCE`** enabled
+8. Fill in the fields with the values from Pocket ID:
+   - **Client ID**: the **Client ID** from Pocket ID.
+   - **Client Secret**: the **Client secret** from Pocket ID.
+   - **Display Name**: a name of your choice, such as `Pocket`.
+   - **Auth URL**: the **Authorization URL** from Pocket ID.
+   - **Token URL**: the **Token URL** from Pocket ID.
+   - **Fetch user info from**: `User info URL`, then enter the **Userinfo URL** from Pocket ID.
+   - Leave **Support PKCE** turned on.
 9. Save the settings.
-10. Re-enable **`Hide collection create and edit controls`** from step 2.
-11. Test the OAuth login to ensure it works.
+10. Turn **Hide collection create and edit controls** from step 2 back on, then sign in with Pocket ID to test it.
 
 ### Disable password login
 
-To disable password login, set `DISABLE_PASSWORD_AUTH=true` in the hub environment variables. Changing in the UI alone will see the value overwritten on next restart.
+To disable password login, set `DISABLE_PASSWORD_AUTH=true` in the hub environment variables.
+If you only change it in the UI, the value is overwritten on the next restart.
 
 ### Automatic user creation
 
-Beszel does not allow automatic user creation by default. To enable it, set `USER_CREATION=true` in the hub environment variables.
+Beszel doesn't allow automatic user creation by default.
+To enable it, set `USER_CREATION=true` in the hub environment variables.
 
 ## Sources
 

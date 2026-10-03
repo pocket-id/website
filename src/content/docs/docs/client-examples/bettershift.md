@@ -1,34 +1,27 @@
 ---
 title: BetterShift
-description: Configure OIDC authentication for BetterShift
+description: Sign in to the BetterShift shift planner with Pocket ID.
+client:
+  callbackUrls:
+    - https://bettershift.example.com/api/auth/oauth2/callback/custom-oidc
 ---
 
-The following example variables are used, and should be replaced with your actual URLs.
+::create-client
 
-- `bettershift.example.com` (The URL of your bettershift instance.)
-- `id.example.com` (The URL of your Pocket ID instance.)
+## Configure BetterShift
 
-## Pocket-ID Setup
+Add or edit the following lines in your BetterShift `.env` file, using the values you copied from Pocket ID:
 
-1. In Pocket-ID create a new OIDC Client, name it, for example `bettershift`
-2. Set a logo for this OIDC Client if you would like to.
-3. Set the callback URLs to: `https://bettershift.example.com/api/auth/oauth2/callback/custom-oidc`.
-4. Copy the `Client ID`, `Client Secret` and `OIDC-Discovery-URL` for use in the next steps.
-
-## BetterShift Setup
-
-Add/edit the following lines to your bettershift `.env` file replacing the values with the ones you copied above:
-
-```env
+```ini
 CUSTOM_OIDC_ENABLED=true
-CUSTOM_OIDC_NAME=Login with PocketID # BUTTON_TEXT
-CUSTOM_OIDC_CLIENT_ID=<your OIDC-Discovery-URL from above>
-CUSTOM_OIDC_CLIENT_SECRET=<your client secret from above>
-CUSTOM_OIDC_ISSUER=<your OIDC-Discovery-URL from above>
+CUSTOM_OIDC_NAME=Login with Pocket ID # BUTTON_TEXT
+CUSTOM_OIDC_CLIENT_ID=<client-id>
+CUSTOM_OIDC_CLIENT_SECRET=<client-secret>
+CUSTOM_OIDC_ISSUER=https://id.example.com/.well-known/openid-configuration
 CUSTOM_OIDC_SCOPES=openid profile email  # Space-separated list
 ```
 
-Save and redeploy bettershift and you should be able to login using OIDC with Pocket ID.
+Save the file, redeploy BetterShift and sign in with Pocket ID to test it.
 
 ## Sources
 

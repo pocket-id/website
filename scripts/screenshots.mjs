@@ -21,7 +21,10 @@ const viewport = { width: 1180, height: 740 };
 // The container ---------------------------------------------------------------
 
 function docker(...args) {
-	return execFileSync('docker', args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+	return execFileSync('docker', args, {
+		encoding: 'utf8',
+		stdio: ['ignore', 'pipe', 'pipe']
+	}).trim();
 }
 
 // The static API key seeds the demo data, and the second start drops it again, which also deletes the user it created from the users list
@@ -38,14 +41,27 @@ async function start({ withApiKey }) {
 		ANALYTICS_DISABLED: 'true',
 		...(withApiKey ? { STATIC_API_KEY: apiKey } : {})
 	};
-	docker('run', '-d', '--name', container, '-p', `${port}:1411`, '-v', `${volume}:/app/data`, ...Object.entries(env).flatMap(([k, v]) => ['-e', `${k}=${v}`]), image);
+	docker(
+		'run',
+		'-d',
+		'--name',
+		container,
+		'-p',
+		`${port}:1411`,
+		'-v',
+		`${volume}:/app/data`,
+		...Object.entries(env).flatMap(([k, v]) => ['-e', `${k}=${v}`]),
+		image
+	);
 	for (let i = 0; i < 180; i++) {
 		try {
 			if ((await fetch(`${base}/healthz`)).ok) return;
 		} catch {}
 		await new Promise((r) => setTimeout(r, 500));
 	}
-	throw new Error(`Pocket ID did not become healthy:\n${docker('logs', '--tail', '30', container)}`);
+	throw new Error(
+		`Pocket ID did not become healthy:\n${docker('logs', '--tail', '30', container)}`
+	);
 }
 
 function stop() {
@@ -77,7 +93,13 @@ async function icon(name) {
 }
 
 const users = [
-	{ username: 'taylor', firstName: 'Taylor', lastName: 'Morgan', isAdmin: true, groups: ['admins', 'family', 'developers', 'media'] },
+	{
+		username: 'taylor',
+		firstName: 'Taylor',
+		lastName: 'Morgan',
+		isAdmin: true,
+		groups: ['admins', 'family', 'developers', 'media']
+	},
 	{ username: 'alex', firstName: 'Alex', lastName: 'Rivera', groups: ['family', 'media'] },
 	{ username: 'sam', firstName: 'Sam', lastName: 'Lee', groups: ['developers'] },
 	{ username: 'jordan', firstName: 'Jordan', lastName: 'Patel', groups: ['family'] },
@@ -91,14 +113,56 @@ const groups = [
 	{ name: 'media', friendlyName: 'Media' }
 ];
 const clients = [
-	{ name: 'Nextcloud', icon: 'nextcloud', host: 'cloud', groups: ['family', 'admins'], callback: '/apps/user_oidc/code' },
-	{ name: 'Jellyfin', icon: 'jellyfin', host: 'jellyfin', groups: ['media'], callback: '/sso/OID/redirect/pocket-id' },
-	{ name: 'Grafana', icon: 'grafana', host: 'grafana', groups: ['developers', 'admins'], callback: '/login/generic_oauth' },
-	{ name: 'Paperless-ngx', icon: 'paperless-ngx', host: 'paperless', groups: ['family'], callback: '/accounts/oidc/pocket-id/login/callback/' },
-	{ name: 'Gitea', icon: 'gitea', host: 'git', groups: ['developers'], callback: '/user/oauth2/PocketID/callback' },
-	{ name: 'Home Assistant', icon: 'home-assistant', host: 'home', groups: ['family', 'admins'], callback: '/auth/oidc/callback' },
+	{
+		name: 'Nextcloud',
+		icon: 'nextcloud',
+		host: 'cloud',
+		groups: ['family', 'admins'],
+		callback: '/apps/user_oidc/code'
+	},
+	{
+		name: 'Jellyfin',
+		icon: 'jellyfin',
+		host: 'jellyfin',
+		groups: ['media'],
+		callback: '/sso/OID/redirect/pocket-id'
+	},
+	{
+		name: 'Grafana',
+		icon: 'grafana',
+		host: 'grafana',
+		groups: ['developers', 'admins'],
+		callback: '/login/generic_oauth'
+	},
+	{
+		name: 'Paperless-ngx',
+		icon: 'paperless-ngx',
+		host: 'paperless',
+		groups: ['family'],
+		callback: '/accounts/oidc/pocket-id/login/callback/'
+	},
+	{
+		name: 'Gitea',
+		icon: 'gitea',
+		host: 'git',
+		groups: ['developers'],
+		callback: '/user/oauth2/PocketID/callback'
+	},
+	{
+		name: 'Home Assistant',
+		icon: 'home-assistant',
+		host: 'home',
+		groups: ['family', 'admins'],
+		callback: '/auth/oidc/callback'
+	},
 	{ name: 'Proxmox', icon: 'proxmox', host: 'proxmox', groups: ['admins'], callback: '' },
-	{ name: 'Audiobookshelf', icon: 'audiobookshelf', host: 'audiobooks', groups: ['media'], callback: '/auth/openid/callback' }
+	{
+		name: 'Audiobookshelf',
+		icon: 'audiobookshelf',
+		host: 'audiobooks',
+		groups: ['media'],
+		callback: '/auth/openid/callback'
+	}
 ];
 
 async function seed() {
@@ -108,9 +172,16 @@ async function seed() {
 	const userIds = {};
 	for (const u of users) {
 		const { groups: memberOf, ...fields } = u;
-		const created = await api('POST', '/api/users', { ...fields, email: `${u.username}@example.com`, emailVerified: true, displayName: `${u.firstName} ${u.lastName}` });
+		const created = await api('POST', '/api/users', {
+			...fields,
+			email: `${u.username}@example.com`,
+			emailVerified: true,
+			displayName: `${u.firstName} ${u.lastName}`
+		});
 		userIds[u.username] = created.id;
-		await api('PUT', `/api/users/${created.id}/user-groups`, { userGroupIds: memberOf.map((name) => groupIds[name]) });
+		await api('PUT', `/api/users/${created.id}/user-groups`, {
+			userGroupIds: memberOf.map((name) => groupIds[name])
+		});
 	}
 
 	const clientIds = {};
@@ -123,22 +194,32 @@ async function seed() {
 			isGroupRestricted: true
 		});
 		clientIds[c.name] = created.id;
-		await api('PUT', `/api/oidc/clients/${created.id}/allowed-user-groups`, { userGroupIds: c.groups.map((name) => groupIds[name]) });
+		await api('PUT', `/api/oidc/clients/${created.id}/allowed-user-groups`, {
+			userGroupIds: c.groups.map((name) => groupIds[name])
+		});
 		const form = new FormData();
 		form.append('file', await icon(c.icon), `${c.icon}.png`);
 		await api('POST', `/api/oidc/clients/${created.id}/logo?light=true`, undefined, { form });
 	}
 
 	// An API with two permissions, which a client of its own may request on behalf of its users
-	const ordersApi = await api('POST', '/api/apis', { name: 'Orders API', resource: 'https://api.orders.example.com' });
+	const ordersApi = await api('POST', '/api/apis', {
+		name: 'Orders API',
+		resource: 'https://api.orders.example.com'
+	});
 	const withPermissions = await api('PUT', `/api/apis/${ordersApi.id}/permissions`, {
 		permissions: [
 			{ key: 'read:orders', name: 'Read orders', description: 'View orders and their status' },
 			{ key: 'write:orders', name: 'Write orders', description: 'Create, change and cancel orders' }
 		]
 	});
-	const ordersApp = await api('POST', '/api/oidc/clients', { name: 'Orders App', callbackURLs: ['https://orders.example.com/callback'] });
-	const permissionIds = (withPermissions?.permissions ?? (await api('GET', `/api/apis/${ordersApi.id}`)).permissions).map((p) => p.id);
+	const ordersApp = await api('POST', '/api/oidc/clients', {
+		name: 'Orders App',
+		callbackURLs: ['https://orders.example.com/callback']
+	});
+	const permissionIds = (
+		withPermissions?.permissions ?? (await api('GET', `/api/apis/${ordersApi.id}`)).permissions
+	).map((p) => p.id);
 	await api('PUT', `/api/apis/${ordersApi.id}/clients/${ordersApp.id}`, {
 		userDelegatedAccess: true,
 		userDelegatedPermissionIds: permissionIds,
@@ -147,7 +228,9 @@ async function seed() {
 	});
 
 	// Animations off for steady captures, and example LDAP settings so the LDAP form isn't empty
-	const config = Object.fromEntries((await api('GET', '/api/application-configuration/all')).map((c) => [c.key, c.value]));
+	const config = Object.fromEntries(
+		(await api('GET', '/api/application-configuration/all')).map((c) => [c.key, c.value])
+	);
 	await api('PUT', '/api/application-configuration', {
 		...config,
 		disableAnimations: 'true',
@@ -164,17 +247,27 @@ async function seed() {
 		ldapAdminGroupName: 'pocket-id-admins'
 	});
 
-	const { token } = await api('POST', `/api/users/${userIds.taylor}/one-time-access-token`, { ttl: '1h' });
+	const { token } = await api('POST', `/api/users/${userIds.taylor}/one-time-access-token`, {
+		ttl: '1h'
+	});
 	return { token, groupIds, ordersApiId: ordersApi.id };
 }
 
 // The captures ----------------------------------------------------------------
 
 // A regular desktop Chrome user agent, so the audit log names the device the way it would for a real visitor
-const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36';
+const userAgent =
+	'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36';
 
 async function context(browser, theme, storageState) {
-	return browser.newContext({ viewport, deviceScaleFactor: 2, colorScheme: theme, reducedMotion: 'reduce', storageState, userAgent });
+	return browser.newContext({
+		viewport,
+		deviceScaleFactor: 2,
+		colorScheme: theme,
+		reducedMotion: 'reduce',
+		storageState,
+		userAgent
+	});
 }
 
 // Pages settle once the network is idle and fonts are in, and a short pause lets late layout shifts end
@@ -189,10 +282,12 @@ async function tidy(page) {
 	await page.evaluate((from) => {
 		const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
 		for (let node = walker.nextNode(); node; node = walker.nextNode()) {
-			if (node.nodeValue?.includes(from)) node.nodeValue = node.nodeValue.replaceAll(from, 'https://id.example.com');
+			if (node.nodeValue?.includes(from))
+				node.nodeValue = node.nodeValue.replaceAll(from, 'https://id.example.com');
 		}
 		for (const input of document.querySelectorAll('input')) {
-			if (input.value.includes(from)) input.value = input.value.replaceAll(from, 'https://id.example.com');
+			if (input.value.includes(from))
+				input.value = input.value.replaceAll(from, 'https://id.example.com');
 		}
 		if (!document.getElementById('docs-capture')) {
 			const style = document.createElement('style');
@@ -228,10 +323,62 @@ async function shoot(page, name, theme, target, { until } = {}) {
 	const pad = 20;
 	const left = Math.max(box.x + scroll.x - pad, 0);
 	const top = Math.max(box.y + scroll.y - pad, 0);
-	const bottom = until ? (await until.boundingBox()).y + scroll.y - 8 : box.y + scroll.y + box.height + pad;
+	const bottom = until
+		? (await until.boundingBox()).y + scroll.y - 8
+		: box.y + scroll.y + box.height + pad;
 	const clip = { x: left, y: top, width: box.width + pad * 2, height: bottom - top };
 	await page.screenshot({ path: file, clip, fullPage: true });
 	console.log(`screenshots: ${path.relative(docs, file)}`);
+}
+
+// The landing page shows single cards of the app on its feature tiles, captured at a phone-sized viewport so they're narrow enough for a tile
+// Everything but the card is hidden and the page has no background, so the PNG is the card with its shadow on transparency
+// `until` cuts a long card off above an element inside it, like in shoot
+async function shootCard(page, name, theme, target, { width, until } = {}) {
+	const before = page.viewportSize();
+	await page.setViewportSize({ width, height: 1200 });
+	await settle(page);
+	await tidy(page);
+	const handle = await target.elementHandle();
+	await page.evaluate((el) => {
+		// Opacity does nothing on a display: contents wrapper like SvelteKit's app root, so those hide their children instead
+		const hide = (node) => {
+			if (['SCRIPT', 'STYLE', 'LINK'].includes(node.tagName)) return;
+			if (getComputedStyle(node).display === 'contents')
+				for (const child of node.children) hide(child);
+			else node.style.setProperty('opacity', '0', 'important');
+		};
+		for (let node = el; node && node !== document.documentElement; node = node.parentElement) {
+			for (const sibling of node.parentElement?.children ?? []) {
+				if (sibling !== node) hide(sibling);
+			}
+			if (node !== el) node.style.setProperty('background', 'transparent', 'important');
+		}
+		document.documentElement.style.setProperty('background', 'transparent', 'important');
+		for (const overlay of document.querySelectorAll(
+			'[data-slot="dialog-overlay"], [data-dialog-overlay]'
+		))
+			overlay.style.setProperty('display', 'none', 'important');
+	}, handle);
+	const file = path.join(outDir, `landing-${name}-${theme}.png`);
+	const scroll = await page.evaluate(() => ({ x: window.scrollX, y: window.scrollY }));
+	const box = await target.boundingBox();
+	const pad = 16;
+	const top = box.y + scroll.y - pad;
+	const bottom = until
+		? (await until.boundingBox()).y + scroll.y - 8
+		: box.y + scroll.y + box.height + pad;
+	const clip = {
+		x: box.x + scroll.x - pad,
+		y: top,
+		width: box.width + pad * 2,
+		height: bottom - top
+	};
+	await page.screenshot({ path: file, clip, fullPage: true, omitBackground: true });
+	console.log(`screenshots: ${path.relative(docs, file)}`);
+	await page.setViewportSize(before);
+	await page.reload();
+	await settle(page);
 }
 
 async function main() {
@@ -261,13 +408,21 @@ async function main() {
 		const cdp = await ctx.newCDPSession(page);
 		await cdp.send('WebAuthn.enable');
 		await cdp.send('WebAuthn.addVirtualAuthenticator', {
-			options: { protocol: 'ctap2', transport: 'internal', hasResidentKey: true, hasUserVerification: true, isUserVerified: true }
+			options: {
+				protocol: 'ctap2',
+				transport: 'internal',
+				hasResidentKey: true,
+				hasUserVerification: true,
+				isUserVerified: true
+			}
 		});
 		await page.goto(`${base}/lc/${token}`);
 		await page.waitForURL(/\/settings\/account/);
 		await page.getByRole('button', { name: 'Add Passkey' }).first().click();
 		await page.waitForTimeout(1500);
-		await page.evaluate(() => localStorage.setItem('dismissed-alerts', JSON.stringify(['single-passkey'])));
+		await page.evaluate(() =>
+			localStorage.setItem('dismissed-alerts', JSON.stringify(['single-passkey']))
+		);
 		const session = await ctx.storageState();
 		await ctx.close();
 
@@ -284,11 +439,11 @@ async function main() {
 			const admin = await context(browser, theme, session);
 			const p = await admin.newPage();
 
-			// The account page with its passkey, and the audit log of the sign-ins so far, for the landing page
-			await p.goto(`${base}/settings/account`);
-			await shoot(p, 'account', theme);
+			// The audit log of the sign-ins so far, for the landing page
 			await p.goto(`${base}/settings/audit-log`);
-			await shoot(p, 'audit-log', theme);
+			await shootCard(p, 'audit-log', theme, p.locator('[data-slot="card"]').first(), {
+				width: 640
+			});
 
 			// The create form, filled in for an app, and the connection details the new client shows once
 			await p.goto(`${base}/settings/admin/oidc-clients`);
@@ -296,7 +451,10 @@ async function main() {
 			await p.getByLabel('Name', { exact: true }).fill('Immich');
 			await p.getByRole('button', { name: 'Add callback URL' }).click();
 			await p.getByTestId('callback-url-1').fill('https://photos.example.com/auth/login');
-			const createCard = p.locator('[data-slot="card"]').filter({ hasText: 'Create OIDC Client' }).first();
+			const createCard = p
+				.locator('[data-slot="card"]')
+				.filter({ hasText: 'Create OIDC Client' })
+				.first();
 			await shoot(p, 'oidc-client-create', theme, createCard);
 			await p.getByRole('button', { name: 'Create', exact: true }).click();
 			await p.waitForURL(/oidc-clients\/[^/]+$/);
@@ -309,14 +467,23 @@ async function main() {
 			// The logo comes through the API with the admin's session once the details are captured, since reloading hides the secret the page shows once
 			const createdId = new URL(p.url()).pathname.split('/').pop();
 			await p.request.post(`${base}/api/oidc/clients/${createdId}/logo?light=true`, {
-				multipart: { file: { name: 'immich.png', mimeType: 'image/png', buffer: Buffer.from(await (await icon('immich')).arrayBuffer()) } }
+				multipart: {
+					file: {
+						name: 'immich.png',
+						mimeType: 'image/png',
+						buffer: Buffer.from(await (await icon('immich')).arrayBuffer())
+					}
+				}
 			});
 			await p.reload();
 			await settle(p);
 
 			// The access tab with the allowed groups, after picking two of them
 			await p.getByRole('tab', { name: 'Access' }).click();
-			const groupsCard = p.locator('[data-slot="card"]').filter({ hasText: 'Allowed User Groups' }).first();
+			const groupsCard = p
+				.locator('[data-slot="card"]')
+				.filter({ hasText: 'Allowed User Groups' })
+				.first();
 			for (const group of ['Family', 'Media']) {
 				await groupsCard.getByRole('row').filter({ hasText: group }).getByRole('checkbox').click();
 			}
@@ -324,6 +491,7 @@ async function main() {
 			await p.getByRole('button', { name: 'Save', exact: true }).click();
 			await p.getByText('You have unsaved changes').waitFor({ state: 'hidden' });
 			await shoot(p, 'oidc-client-allowed-groups', theme, groupsCard);
+			await shootCard(p, 'allowed-groups', theme, groupsCard, { width: 420 });
 
 			// The consent screen users see the first time they sign in to a client
 			const clientId = new URL(p.url()).pathname.split('/').pop();
@@ -343,17 +511,34 @@ async function main() {
 			await dialog.getByRole('button', { name: 'Show Code' }).click();
 			await dialog.getByTestId('login-code-link').waitFor();
 			await shoot(p, 'login-code', theme, dialog);
+			await shootCard(p, 'login-code', theme, dialog, { width: 480 });
 
 			await p.goto(`${base}/settings/apps`);
 			await shoot(p, 'my-apps', theme);
+			const apps = p.locator('.settings-content .grid').first();
+			await shootCard(p, 'my-apps', theme, apps, {
+				width: 420,
+				until: apps.locator(':scope > *').nth(3)
+			});
 
 			await p.goto(`${base}/settings/admin/apis/${ordersApiId}`);
 			await shoot(p, 'api-permissions', theme);
+			await shootCard(
+				p,
+				'api-permissions',
+				theme,
+				p.locator('[data-slot="card"]').filter({ hasText: 'The permissions (scopes)' }).first(),
+				{ width: 820 }
+			);
 
 			await p.goto(`${base}/settings/admin/application-configuration#ldap`);
 			await settle(p);
 			const ldapCard = p.locator('[data-slot="card"]').filter({ hasText: 'LDAP' }).first();
 			await shoot(p, 'ldap', theme, ldapCard, { until: ldapCard.getByText('Attribute Mapping') });
+			await shootCard(p, 'ldap', theme, ldapCard, {
+				width: 420,
+				until: ldapCard.getByText('Attribute Mapping')
+			});
 
 			await admin.close();
 		}

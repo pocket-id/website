@@ -17,6 +17,8 @@ This repository holds [pocket-id.org](https://pocket-id.org): the landing page a
 
 The site runs at `http://localhost:4321` and reloads when you save a file.
 
+Formatting, linting and type checks run with [Vite+](https://viteplus.dev): `pnpm check` runs all of them, and a commit hook fixes the staged files. With the [`vp` CLI](https://viteplus.dev/guide/) installed, `vp install`, `vp run dev` and `vp check` work as well.
+
 ### Structure
 
 | Path                     | Contents                                                                   |
@@ -36,10 +38,10 @@ See [the documentation guide](https://pocket-id.org/docs/helping-out/documentati
 
 ## Deployment
 
-The site is hosted on [Vercel](https://vercel.com), which builds it from the repository with `pnpm build`, and `vercel.json` holds the redirects and URL settings.
+The site is hosted on [Vercel](https://vercel.com), which builds it from the repository with `pnpm build`, and redirects for moved pages go in `redirects` in `astro.config.mjs`.
 
 - Pushes to `main` deploy to production
 - Pushes to `preview` deploy the docs of the unreleased version, at the domain assigned to the branch in Vercel
 - Pull requests get a preview deployment, linked in a comment by Vercel
 
-The optional `GITHUB_TOKEN` environment variable in Vercel raises the GitHub API rate limit for the stats on the landing page.
+Every page is prerendered, except for two server islands that Vercel renders on request and caches for an hour: the numbers on the landing page and the sponsor list.

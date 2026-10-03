@@ -1,63 +1,36 @@
 ---
-// The landing page's footer, with the mark, the license and the places people look for next
+// The landing page's footer, with the mark, the license and a few places people look for next
 import Logo from '../brand/Logo.astro';
 
-const columns = [
-	{
-		title: 'Product',
-		links: [
-			{ href: '/docs/introduction', text: 'Documentation' },
-			{ href: '/docs/setup/installation', text: 'Installation' },
-			{ href: '/docs/client-examples', text: 'Integrations' },
-			{ href: '/changelog', text: 'Changelog' },
-			{ href: 'https://demo.pocket-id.org', text: 'Demo' }
-		]
-	},
-	{
-		title: 'Developers',
-		links: [
-			{ href: '/docs/api', text: 'REST API' },
-			{ href: '/docs/guides/apis', text: 'Protect your APIs' },
-			{ href: '/docs/guides/scopes-and-claims', text: 'Scopes and claims' },
-			{ href: '/docs/helping-out/contributing', text: 'Contributing' }
-		]
-	},
-	{
-		title: 'Community',
-		links: [
-			{ href: 'https://github.com/pocket-id/pocket-id', text: 'GitHub' },
-			{ href: 'https://discord.gg/8wudU9KaxM', text: 'Discord' },
-			{ href: 'https://crowdin.com/project/pocket-id', text: 'Translate' },
-			{ href: '/docs/helping-out/sponsors', text: 'Sponsors' }
-		]
-	}
+const links = [
+	{ href: '/docs/introduction', text: 'Docs' },
+	{ href: '/changelog', text: 'Changelog' },
+	{ href: 'https://github.com/pocket-id/pocket-id', text: 'GitHub' },
+	{ href: '/docs/helping-out/sponsors', text: 'Sponsors' }
 ];
 ---
 
 <footer class="border-t border-hairline">
-	<div class="mx-auto grid max-w-[76rem] grid-cols-3 gap-x-6 gap-y-10 px-5 py-14 sm:px-6 md:grid-cols-[1.4fr_repeat(3,1fr)]">
-		<div class="col-span-full md:col-span-1">
+	<div class="mx-auto flex max-w-[76rem] flex-col gap-6 px-5 py-10 sm:px-6 md:flex-row md:items-center md:justify-between">
+		<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
 			<a href="/" class="inline-flex items-center gap-2.5 text-fg no-underline">
-				<Logo class="h-7 w-auto" />
-				<span class="font-display text-[1.375rem] leading-none">Pocket ID</span>
+				<Logo class="h-6 w-auto" />
+				<span class="font-display text-[1.25rem] leading-none">Pocket ID</span>
 			</a>
-			<p class="m-0 mt-4 text-xs text-gray-3">Open source under the BSD 2-Clause license.</p>
+			<p class="m-0 text-xs text-gray-3">Open source under the BSD 2-Clause license.</p>
 		</div>
-		{
-			columns.map((c) => (
-				<nav aria-label={c.title}>
-					<p class="m-0 mb-3 text-sm font-semibold text-fg">{c.title}</p>
-					<ul class="m-0 grid list-none gap-2 p-0">
-						{c.links.map((l) => (
-							<li class="m-0">
-								<a class="text-sm text-gray-3 no-underline transition-colors hover:text-fg" href={l.href}>
-									{l.text}
-								</a>
-							</li>
-						))}
-					</ul>
-				</nav>
-			))
-		}
+		<nav aria-label="Footer">
+			<ul class="m-0 flex list-none flex-wrap gap-x-6 gap-y-2 p-0">
+				{
+					links.map((l) => (
+						<li class="m-0">
+							<a class="text-sm text-gray-3 no-underline transition-colors hover:text-fg" href={l.href}>
+								{l.text}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
 	</div>
 </footer>

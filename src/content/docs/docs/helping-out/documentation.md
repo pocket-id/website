@@ -1,6 +1,6 @@
 ---
 title: Documentation
-description: Contribute to the Pocket ID website and documentation
+description: Run the Pocket ID website locally, write or edit a docs page, and add a setup guide for an app.
 ---
 
 The website is built with [Astro](https://astro.build) and [Starlight](https://starlight.astro.build), and lives in the [pocket-id/website](https://github.com/pocket-id/website) repository.
@@ -32,6 +32,42 @@ description: One sentence about what the page helps with, shown in search result
 Add a new page to the `sidebar` in `astro.config.mjs`, except client examples, which the sidebar lists automatically.
 
 Use `.mdx` instead of `.md` when a page needs components, such as [tabs](https://starlight.astro.build/components/tabs/) or [steps](https://starlight.astro.build/components/steps/).
+
+## Add a client example
+
+A client example is a file in `src/content/docs/docs/client-examples/`, named like the app's icon in [selfh.st icons](https://selfh.st/icons), such as `immich.md`.
+It appears on the overview with that icon automatically.
+
+Describe the OIDC client in the frontmatter, and the `::create-client` line turns it into the steps for Pocket ID, so you only write how to configure the app:
+
+```md
+---
+title: Immich
+description: Sign in to the Immich photo library with Pocket ID.
+client:
+  callbackUrls:
+    - https://immich.example.com/auth/login
+---
+
+::create-client
+
+## Configure Immich
+
+1. In Immich, open **Administration → Settings → Authentication Settings → OAuth**.
+```
+
+| Field | What it does |
+| --- | --- |
+| `callbackUrls` | The app's callback URLs, required |
+| `logoutCallbackUrls` | Where the app sends users after signing out |
+| `public` | `true` for apps that can't keep a client secret, such as single-page and mobile apps |
+| `pkce` | `true` to turn on PKCE for a confidential client |
+| `customClientId` | A fixed client ID the app expects |
+| `launchUrl` | The address the app opens from **My Apps** |
+| `allowedGroups` | The groups the guide created for the app, which then may sign in instead of groups the reader chooses |
+| `values` | What the app asks for, from `clientId`, `clientSecret`, `discoveryUrl`, `issuerUrl`, `authorizationUrl`, `tokenUrl`, `userinfoUrl`, `logoutUrl` and `certificateUrl`, the client ID, secret and discovery URL if left out |
+
+Use `https://id.example.com` for Pocket ID and `https://<app>.example.com` for the app, and the app's exact field names in bold.
 
 ## Callouts
 

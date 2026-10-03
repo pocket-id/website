@@ -1,35 +1,31 @@
 ---
 title: InvenTree
-description: Configure Pocket ID with InvenTree
+description: Sign in to the InvenTree inventory management system with Pocket ID.
+client:
+  callbackUrls:
+    - https://<inventree-domain.tld>/accounts/<provider-id>/login/callback/
+  pkce: true
+  launchUrl: https://<inventree-domain.tld>
+  values:
+    - clientId
+    - clientSecret
 ---
 
 ## Requirements
 
-- [InvenTree](https://github.com/inventree/InvenTree).
-- Pocket ID on https, reachable at `https://<pocketid-domain.tld>`
-- InvenTree server on https, reachable at `https://<inventree-domain.tld>`
+- [InvenTree](https://github.com/inventree/InvenTree)
+- Pocket ID on HTTPS, reachable at `https://<pocketid-domain.tld>`
+- InvenTree server on HTTPS, reachable at `https://<inventree-domain.tld>`
 
-## Create OIDC Client in Pocket ID
+::create-client
 
-1. Create a new OIDC Client in Pocket ID (e.g., `inventree`).
-2. Set the **Callback URL** to the value below.
-   ```
-   https://<inventree-domain.tld>/accounts/<provider-id>/login/callback/
-   ```
-   _Choose a name for `<provider-id>` (e.g., `pocket-id`) — you will use this same value as `provider_id` in the configuration below._
-3. _Optional:_ Download a PNG or SVG **logo** from [selfhst](https://cdn.jsdelivr.net/gh/selfhst/icons@main/svg/inventree.svg) and upload.
-4. Client Launch URL:
-   ```bash
-   https://<inventree-domain.tld>
-   ```
-5. Enable **PKCE**.
-6. Copy the **Client ID**, **Client Secret** for configuring with InvenTree.
+Choose a name for `<provider-id>` (e.g. `pocket-id`) and use the same value as `provider_id` in the configuration below.
 
 ## Configure InvenTree
 
 The following is the minimal configuration needed to set up Pocket ID OIDC with InvenTree.
 
-### Option A: Configuration File (Recommended)
+### Option A: Configuration file (recommended)
 
 1. Add the following to your `config.yaml`, replacing values from Step 6:
 ```yaml
@@ -50,7 +46,7 @@ social_providers:
           token_auth_method: client_secret_post
 ```
 
-### Option B: Environment Variables
+### Option B: Environment variables
 
 1. Add the following lines to your InvenTree `.env`, replacing the values from Step 7:
    ```bash
@@ -63,14 +59,15 @@ social_providers:
 
 Once InvenTree is restarted, enable SSO via the admin UI:
 
-1. Login as admin
+1. Sign in as an admin.
 2. Navigate to **System Settings → Authentication**.
 3. Enable the following options:
-   - **Enable SSO** 
-   - **Enable SSO registration** 
-   - **Auto-fill SSO users** 
+   - **Enable SSO**
+   - **Enable SSO registration**
+   - **Auto-fill SSO users**
 
-> **Note:** If **Email Required** is enabled but SMTP is not configured, SSO login may fail during user registration. Add the following to use the console email backend as a workaround:
+> **Note:** If **Email Required** is enabled but SMTP is not configured, SSO login may fail during user registration.
+> Add the following to use the console email backend as a workaround:
 > ```bash
 > INVENTREE_EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
 > INVENTREE_EMAIL_SENDER=inventree@inventree-tld.com

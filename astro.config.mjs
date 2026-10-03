@@ -1,8 +1,10 @@
 // @ts-check
 import starlight from '@astrojs/starlight';
+import vercel from '@astrojs/vercel';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig, envField } from 'astro/config';
 import starlightLlmsTxt from 'starlight-llms-txt';
+import { clientExamples } from './src/lib/client-example.ts';
 import { sharedHead } from './src/sharedHead.ts';
 
 const site = 'https://pocket-id.org';
@@ -10,17 +12,40 @@ const site = 'https://pocket-id.org';
 export default defineConfig({
 	site,
 	trailingSlash: 'never',
-	build: { format: 'preserve' },
+	// Pages stay prerendered, the adapter only serves the server islands for the landing page numbers and the sponsor list
+	adapter: vercel(),
+	// Permanent redirects for moved pages, which the adapter writes into Vercel's routing
+	redirects: {
+		'/docs': { status: 308, destination: '/docs/introduction' },
+		'/sitemap.xml': { status: 308, destination: '/sitemap-index.xml' },
+		'/docs/advanced/nginx-reverse-proxy': { status: 308, destination: '/docs/setup/reverse-proxy' },
+		// Addresses of the SvelteKit site that search engines still have indexed
+		'/docs/changelog': { status: 308, destination: '/changelog' },
+		'/api.md': { status: 308, destination: '/docs/api' }
+	},
 	env: {
 		schema: {
 			// Optional, raises the GitHub API rate limit for the stats on the landing page
-			GITHUB_TOKEN: envField.string({ context: 'server', access: 'secret', optional: true })
+			GITHUB_TOKEN: envField.string({ context: 'server', access: 'secret', optional: true }),
+			// Classic tokens with the read:user scope of each maintainer, without which the sponsors page shows no sponsor list
+			SPONSORS_GITHUB_TOKEN_STONITH404: envField.string({
+				context: 'server',
+				access: 'secret',
+				optional: true
+			}),
+			SPONSORS_GITHUB_TOKEN_KMENDELL: envField.string({
+				context: 'server',
+				access: 'secret',
+				optional: true
+			})
 		}
 	},
 	vite: {
 		plugins: [tailwindcss()]
 	},
 	integrations: [
+		// Writes the "Create the client in Pocket ID" section of client examples from their frontmatter
+		clientExamples(),
 		starlight({
 			title: 'Pocket ID',
 			plugins: [
@@ -28,10 +53,17 @@ export default defineConfig({
 				starlightLlmsTxt({
 					promote: ['docs/introduction', 'docs/setup/**', 'docs/configuration/**'],
 					demote: ['docs/client-examples/**', 'changelog'],
-					optionalLinks: [{ label: 'OpenAPI spec', url: `${site}/swagger.json`, description: 'every route of the Pocket ID REST API with its parameters and schemas' }]
+					optionalLinks: [
+						{
+							label: 'OpenAPI spec',
+							url: `${site}/swagger.json`,
+							description: 'every route of the Pocket ID REST API with its parameters and schemas'
+						}
+					]
 				})
 			],
-			description: 'Pocket ID is the most user-friendly OpenID Connect Certified™ and OAuth 2.0 provider that lets users sign in to your applications with passkeys.',
+			description:
+				'Pocket ID is the most user-friendly OpenID Connect Certified™ and OAuth 2.0 provider that lets users sign in to your applications with passkeys.',
 			favicon: '/favicon.svg',
 			head: sharedHead(site),
 			routeMiddleware: './src/routeData.ts',
@@ -84,7 +116,12 @@ export default defineConfig({
 				// The sidebar follows a reader's path: get it running, manage who gets in, connect apps, run it in production, look things up
 				{
 					label: 'Getting started',
-					items: ['docs/introduction', 'docs/setup/installation', 'docs/setup/reverse-proxy', 'docs/setup/connect-an-app']
+					items: [
+						'docs/introduction',
+						'docs/setup/installation',
+						'docs/setup/reverse-proxy',
+						'docs/setup/connect-an-app'
+					]
 				},
 				{
 					label: 'Users and access',
@@ -131,7 +168,12 @@ export default defineConfig({
 				},
 				{
 					label: 'Helping out',
-					items: ['docs/helping-out/contributing', 'docs/helping-out/documentation', 'docs/helping-out/translating', 'docs/helping-out/sponsors']
+					items: [
+						'docs/helping-out/contributing',
+						'docs/helping-out/documentation',
+						'docs/helping-out/translating',
+						'docs/helping-out/sponsors'
+					]
 				},
 				{
 					label: 'Community',

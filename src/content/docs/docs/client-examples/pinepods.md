@@ -1,49 +1,54 @@
 ---
 title: Pinepods
-description: Configure Pinepods with Pocket ID authentication
+description: Sign in to the Pinepods podcast manager with Pocket ID.
+client:
+  callbackUrls:
+    - https://pinepods.example.com/api/auth/callback
+  values:
+    - clientId
+    - clientSecret
+    - authorizationUrl
+    - tokenUrl
+    - userinfoUrl
 ---
 
-## Create OIDC Client in Pocket ID
+::create-client
 
-1. Create a new OIDC Client in Pocket ID (e.g., `Pinepods`).
-2. Set the Callback URL to `https://<pinepods-url>/api/auth/callback`.
-3. Copy the **Client ID**, **Client Secret**, **Authorization URL**, **Token URL**, and **Userinfo URL**.
-4. _(Optional)_ Find and upload a logo from [Self-Hosted Dashboard Icons](https://selfh.st/icons)
+## Configure Pinepods
 
-## Configure OIDC in PinePods
-
-OIDC configuration can be done through the UI or through environment variables, the latter method requires version 0.8.2+.
+OIDC can be configured through the UI or through environment variables.
+Environment variables require version 0.8.2+.
 
 ### Using the UI
 
-Note: Only Admin users can configure OIDC/SSO settings.
+Only admin users can configure OIDC/SSO settings.
 
-1. Open Pinepods and navigate to: **`Settings > Admin Settings > OIDC/SSO Settings`**
+1. Open Pinepods and navigate to **Settings → Admin Settings → OIDC/SSO Settings**.
 2. Fill in the required fields:
-    - **Provider Name**: Set to `Pocket ID`.
-    - **Client ID**: Paste the `Client ID` from Pocket ID.
-    - **Client Secret**: Paste the `Client Secret` from Pocket ID.
-    - **Authorization URL**: Paste the `Authorization URL` from Pocket ID.
-    - **Token URL**: Paste the `Token URL` from Pocket ID.
-    - **User Info URL**: Paste the `Userinfo URL` from Pocket ID.
-3. _(Optional)_ Update button text e.g. _Login with Pocket ID_
+   - **Provider Name**: `Pocket ID`
+   - **Client ID**: the **Client ID** from Pocket ID.
+   - **Client Secret**: the **Client secret** from Pocket ID.
+   - **Authorization URL**: the **Authorization URL** from Pocket ID.
+   - **Token URL**: the **Token URL** from Pocket ID.
+   - **User Info URL**: the **Userinfo URL** from Pocket ID.
+3. _(Optional)_ Change the button text, for example to `Login with Pocket ID`.
 
 ### Using environment variables
 
-Note: This method requires PinePods v0.8.2+
+This method requires Pinepods v0.8.2+.
 
-Check out [PinePods](https://www.pinepods.online/docs/tutorial-basics/environment-variables#oidc-openid-connect-configuration) documentation for the full list of available environment variables.
+Check out the [Pinepods documentation](https://www.pinepods.online/docs/tutorial-basics/environment-variables#oidc-openid-connect-configuration) for the full list of available environment variables.
 
 Example config using a `.env` file:
 
 ```sh
 # Basic OIDC Configuration
 OIDC_PROVIDER_NAME: "Pocket ID"
-OIDC_CLIENT_ID: "your-client-id"
-OIDC_CLIENT_SECRET: "your-client-secret"
-OIDC_AUTHORIZATION_URL: "https://your.domain/oauth2/authorize"
-OIDC_TOKEN_URL: "https://your.domain/oauth2/token"
-OIDC_USER_INFO_URL: "https://your.domain/oauth2/userinfo"
+OIDC_CLIENT_ID: "<client-id>"
+OIDC_CLIENT_SECRET: "<client-secret>"
+OIDC_AUTHORIZATION_URL: "https://id.example.com/oauth2/authorize"
+OIDC_TOKEN_URL: "https://id.example.com/oauth2/token"
+OIDC_USER_INFO_URL: "https://id.example.com/oauth2/userinfo"
 
 # Optional OIDC Customization
 OIDC_BUTTON_TEXT: "Login with Pocket ID"

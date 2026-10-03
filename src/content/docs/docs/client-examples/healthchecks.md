@@ -1,20 +1,22 @@
 ---
 title: Healthchecks
-description: Enable OIDC for Healthchecks monitoring
+description: Sign in to the Healthchecks monitoring service with Pocket ID.
+client:
+  callbackUrls:
+    - https://hc.example.com/oauth2/callback
+  pkce: true
+  values:
+    - clientId
+    - clientSecret
 ---
 
 ## Requirements
 
-- [Healthchecks.io](https://healthchecks.io/docs/self_hosted_docker/) container self hosted on Docker
+- [Healthchecks.io](https://healthchecks.io/docs/self_hosted_docker/) container self-hosted on Docker
 - [oauth2-proxy](https://github.com/oauth2-proxy/oauth2-proxy) reverse proxy container for authentication
 - Reverse proxy with SSL termination at the edge (HTTPS)
 
-## Pocket ID Setup
-
-1. Create a new OIDC client (example: `healthchecks`)
-2. Enable the **PKCE** checkmark for maximum security
-3. Copy the **Client ID** and **Client Secret** for use below
-4. Set the **Callback URL** to `https://hc.example.com/oauth2/callback`.
+::create-client
 
 ## Configure oauth2-proxy
 
@@ -22,7 +24,7 @@ In the same `docker-compose.yml` you use for Healthchecks:
 
 1. Add a new **oauth2-proxy** container under the `services:` section with the following config:
 
-   ```yml
+   ```yaml
    oauth2-proxy:
      image: quay.io/oauth2-proxy/oauth2-proxy
      restart: unless-stopped
@@ -35,20 +37,21 @@ In the same `docker-compose.yml` you use for Healthchecks:
 
 2. Add the following to the Healthchecks `environment:` section:
 
-   ```
+   ```yaml
    - REMOTE_USER_HEADER=HTTP_X_FORWARDED_EMAIL
    ```
 
 3. Comment out the `ports:` section on Healthchecks, so that oauth2-proxy picks up the authentication request instead of Healthchecks directly.
 
-4. Create a file beside `docker-compose.yml` called `oauth2-proxy.cfg` with the following config. Make sure to update with your own **Client ID**, **Client Secret**, and **Pocket ID URL**:
+4. Create a file beside `docker-compose.yml` called `oauth2-proxy.cfg` with the following config.
+   Replace `<client-id>` and `<client-secret>` with the **Client ID** and **Client secret** from Pocket ID:
 
-   ```
+   ```toml
    provider_display_name="Pocket ID"
    provider="oidc"
-   oidc_issuer_url="<<Pocket ID URL>>"
-   client_id="<<Client ID>>"
-   client_secret="<<Client Secret>>"
+   oidc_issuer_url="https://id.example.com"
+   client_id="<client-id>"
+   client_secret="<client-secret>"
    cookie_secret="xxx" # generate with: openssl rand -base64 32 | tr -- '+/' '-_'
    upstreams="http://healthchecks:8000" # internal port
    code_challenge_method="S256" # PKCE challenges plain or S256
@@ -65,20 +68,20 @@ In the same `docker-compose.yml` you use for Healthchecks:
    insecure_oidc_allow_unverified_email = "true"
    ```
 
-5. Update your public facing edge reverse proxy config (Caddy, Nginx, etc.) to forward `https://hc.domain.com` to **port `1234`** (the external port for the oauth2-proxy)
+5. Update your public-facing edge reverse proxy config (Caddy, Nginx, etc.) to forward `https://hc.example.com` to **port `1234`** (the external port for oauth2-proxy).
 
-6. Restart the entire stack with
-   ```sh
+6. Restart the entire stack:
+   ```bash
    docker compose down
    docker compose pull
    docker compose up -d
    ```
 
-You can now login to Healthchecks with Pocket ID.
+You can now sign in to Healthchecks with Pocket ID.
 
 ## Example full stack
 
-```yml
+```yaml
 ---
 services:
   healthchecks:

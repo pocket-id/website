@@ -1,63 +1,66 @@
 ---
-title: Patchmon
-description: Configure OIDC authentication for Patchmon
+title: PatchMon
+description: Sign in to PatchMon with Pocket ID.
+client:
+  callbackUrls:
+    - https://patchmon.example.com/api/v1/auth/oidc/callback
+  pkce: true
 ---
 
-The following example variables are used, and should be replaced with your actual URLs.
+Replace `patchmon.example.com` with the domain of your PatchMon frontend and `id.example.com` with the domain of your Pocket ID instance.
 
-- `patchmon.example.com` (The URL of your patchmon frontend instance.)
-- `id.example.com` (The URL of your Pocket ID instance.)
+## Requirements
 
-## Pocket-ID Setup
+- PatchMon 1.4.0 or later (PatchMon added OIDC SSO in version 1.4.0)
 
-1. In Pocket-ID create a new OIDC Client, name it, for example `patchmon`
-2. Set a logo for this OIDC Client if you would like to.
-3. Set the callback URLs to: `https://patchmon.example.com/api/v1/auth/oidc/callback`.
-4. Enable **PKCE** for improved security.
-5. Copy the `Client ID`, `Client Secret` and `OIDC-Discovery-URL` for use in the next steps.
+::create-client
 
-## Patchmon Setup
+## Configure PatchMon
 
-Patchmon added OIDC SSO in Version 1.4.0
+This example uses the Docker Compose deployment of PatchMon.
+See the [official docs](https://docs.patchmon.net/books/patchmon-application-documentation/page/setting-up-oidc-sso-single-sign-on-integration) for more information.
 
-**This example uses the docker-compose deployment type of patchmon** See the [Official Docs](https://docs.patchmon.net/books/patchmon-application-documentation/page/setting-up-oidc-sso-single-sign-on-integration) for more information.
+1. Add or edit the following lines in your PatchMon `.env` file, with the **OIDC Discovery URL**, **Client ID** and **Client secret** from Pocket ID:
 
-Add/edit the following lines to your patchmon `.env` file replacing the values with the ones you copied above:
+   ```ini
+   OIDC_ENABLED=true
+   OIDC_ISSUER_URL=<your OIDC-Discovery-URL from above>
+   OIDC_CLIENT_ID=<client-id>
+   OIDC_CLIENT_SECRET=<client-secret>
+   OIDC_REDIRECT_URI=https://patchmon.example.com/api/v1/auth/oidc/callback
+   OIDC_SCOPES=openid email profile
+   OIDC_AUTO_CREATE_USERS=true
+   OIDC_DEFAULT_ROLE=user
+   OIDC_DISABLE_LOCAL_AUTH=false
+   OIDC_BUTTON_TEXT=Login with PocketID
+   OIDC_SYNC_ROLES=false
+   ```
 
-```env
-OIDC_ENABLED=true
-OIDC_ISSUER_URL=<your OIDC-Discovery-URL from above>
-OIDC_CLIENT_ID=<your client id from above>
-OIDC_CLIENT_SECRET=<your client secret from above>
-OIDC_REDIRECT_URI=https://patchmon.example.com/api/v1/auth/oidc/callback
-OIDC_SCOPES=openid email profile
-OIDC_AUTO_CREATE_USERS=true
-OIDC_DEFAULT_ROLE=user
-OIDC_DISABLE_LOCAL_AUTH=false
-OIDC_BUTTON_TEXT=Login with PocketID
-OIDC_SYNC_ROLES=false
-```
+2. Save and redeploy PatchMon, then sign in with Pocket ID to test it.
 
-Save and redeploy patchmon and you should be able to login using OIDC with Pocket ID.
+## Group claim
 
-### Group Claim
+You can automatically assign permissions based on group membership.
+Group matching is case-insensitive, so `patchmon admins` matches `PatchMon Admins`.
 
-If you want to automatically assign permissions based on group membership.
-Group matching is case-insensitive, so patchmon admins matches PatchMon Admins
+### Create groups in Pocket ID
 
-#### Pocket-ID Groups
+1. In Pocket ID, open **Administration → User Groups** and click **Add Group** to create a group for every role you want to use.
+2. Add users to the groups depending on the permissions you want them to have.
 
-Create groups for everey role, which you want to use, via **User Groups → Add Group**. Add the users depending on what permissions you want them to have to the groups.
-You only need to define the groups you intend to use. Any variables left unset are simply ignored.
+You only need to define the groups you intend to use.
+Any variables left unset are ignored.
 
-#### Patchmon Group Environment Variables
+### PatchMon group environment variables
 
-Change the values of and add the roles you want to manage by pocketid.
+Change these values in your `.env` file:
 
 - `OIDC_SCOPES` → `OIDC_SCOPES=openid email profile groups`
 - `OIDC_SYNC_ROLES` → `OIDC_SYNC_ROLES=true`
 
-```env
+Then add the groups for the roles you want to manage with Pocket ID:
+
+```ini
 OIDC_ADMIN_GROUP=PatchMon Admins
 OIDC_USER_GROUP=PatchMon Users
 OIDC_SUPERADMIN_GROUP=PatchMon SuperAdmins
