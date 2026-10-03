@@ -1,7 +1,7 @@
 ---
 title: Introduction
-seoTitle: Pocket ID, a simple OIDC provider for passkey sign-in
-description: A self-hosted OpenID Connect provider that lets your users sign in to every app you host with a passkey instead of a password.
+seoTitle: Pocket ID, an easy-to-use OIDC and OAuth 2.0 provider for passkey sign-in
+description: A self-hosted OpenID Connect Certified™ and OAuth 2.0 provider that lets your users sign in to every app you host with a passkey instead of a password.
 ---
 
 import { CardGrid, LinkCard } from '@astrojs/starlight/components';
@@ -9,9 +9,9 @@ import Screenshot from '../../../components/Screenshot.astro';
 import SignInFlow from '../../../components/diagrams/SignInFlow.astro';
 
 Pocket ID is the one place where your users sign in, for every app you connect to it through OpenID Connect (OIDC).
-It's made for homelabs and small teams that find [Keycloak](https://www.keycloak.org) or [Authentik](https://goauthentik.io) too much for what they need.
+It's made for small teams, startups and homelabs that find [Keycloak](https://www.keycloak.org) or [Authentik](https://goauthentik.io) too much for what they need.
 
-Pocket ID only supports [passkeys](https://www.passkeys.io), so there are no passwords to reuse, leak or phish.
+Pocket ID only supports passwordless authentication methods, primarily [passkeys](https://www.passkeys.io), so there are no passwords to reuse, leak or phish.
 A passkey can live in a password manager, on a phone or on a hardware key such as a YubiKey, and it unlocks with a fingerprint, face scan or PIN.
 
 <Screenshot name="sign-in" alt="The Pocket ID sign-in page with an Authenticate button" />
@@ -21,7 +21,9 @@ You can try it on the [demo instance](https://demo.pocket-id.org).
 ## How sign-in works
 
 Any app that offers sign-in with OpenID Connect, often labeled as SSO, OAuth or OIDC, can use Pocket ID.
-You register the app in Pocket ID as an **OIDC client**, and the app sends its users to Pocket ID when they sign in:
+You register the app in Pocket ID as an **OIDC client**, and the app sends its users to Pocket ID when they sign in.
+
+If you are interested in the technical details, the diagram below shows the typical sign-in flow with Pocket ID. No worries though, you don't have to understand how OIDC and OAuth 2.0 work to use it.
 
 <SignInFlow />
 
@@ -35,7 +37,7 @@ Apps without OIDC support, and apps that only support LDAP or SAML, can still si
 - **Users** sign in with their passkeys, and an admin can let a user in once with a **login code**, such as to add their first passkey.
 - **Groups** decide which users may sign in to which client, and the apps you connect receive them in the token to assign roles.
 - **OIDC clients** are the apps that use Pocket ID for sign-in, each with its own client ID, secret and callback URLs.
-- **APIs** are your own backends that accept access tokens from Pocket ID, which you only need for [API access](/docs/guides/apis).
+- **APIs** are your own backends that accept access tokens from Pocket ID, which you only need for [API access](/docs/guides/apis). This is a more advanced use case.
 
 ## Next steps
 

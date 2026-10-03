@@ -13,11 +13,5 @@ Before you start working on a feature, open an issue or comment on an existing o
 ## Contribute code
 
 [CONTRIBUTING.md](https://github.com/pocket-id/pocket-id/blob/main/CONTRIBUTING.md) in the repository describes the development setup, the tests and the rules for pull requests, including how AI tools may be used.
-In short:
-
-- The backend is written in Go with [Gin](https://gin-gonic.com), the frontend in TypeScript with [SvelteKit](https://svelte.dev/docs/kit), and you need Node.js 24 or newer and Go 1.27 or newer, or the repository's dev container.
-- Start the backend with `go run -tags exclude_frontend ./cmd` in `backend`, and the frontend with `pnpm dev`, which serves both on `localhost:3000`.
-- New features need tests: Playwright end-to-end tests in `tests`, and Go unit tests next to the code.
-- Name the pull request after [Conventional Commits](https://www.conventionalcommits.org), such as `fix: hide global audit log switch for non admin users`, and run `pnpm format` before opening it.
 
 To improve these docs, see [Documentation](/docs/helping-out/documentation), and to translate Pocket ID, see [Translating](/docs/helping-out/translating).

@@ -26,7 +26,7 @@ export default defineConfig({
 					optionalLinks: [{ label: 'OpenAPI spec', url: `${site}/swagger.json`, description: 'every route of the Pocket ID REST API with its parameters and schemas' }]
 				})
 			],
-			description: 'Pocket ID is a simple OpenID Connect provider that lets users sign in to your services with passkeys.',
+			description: 'Pocket ID is the most user-friendly OpenID Connect Certified™ and OAuth 2.0 provider that lets users sign in to your applications with passkeys.',
 			favicon: '/favicon.svg',
 			head: sharedHead(site),
 			routeMiddleware: './src/routeData.ts',
@@ -74,7 +74,7 @@ export default defineConfig({
 			},
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/pocket-id/pocket-id' }],
 			editLink: { baseUrl: 'https://github.com/pocket-id/website/edit/main/' },
-			lastUpdated: true,
+			lastUpdated: false,
 			sidebar: [
 				// The sidebar follows a reader's path: get it running, manage who gets in, connect apps, run it in production, look things up
 				{
@@ -108,7 +108,6 @@ export default defineConfig({
 					items: [
 						'docs/configuration/environment-variables',
 						'docs/setup/upgrading',
-						'docs/setup/major-releases/migrate-v2',
 						'docs/setup/data-export-import',
 						'docs/advanced/hardening',
 						'docs/advanced/custom-keys',
