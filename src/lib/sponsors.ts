@@ -75,21 +75,29 @@ const month = 30 * 24 * 60 * 60 * 1000;
 // Like on GitHub, a one-time payment counts as a current sponsorship for a month, with its amount as the monthly one
 const isCurrent = (s: Sponsorship) => s.isActive || (s.isOneTimePayment && Date.now() - Date.parse(s.tierSelectedAt ?? s.createdAt) < month);
 
-// Undefined when a token is missing or GitHub doesn't answer, since a list without one maintainer's sponsors would quietly drop people
-export async function fetchSponsors(): Promise<Sponsor[] | undefined> {
-	if (maintainers.some((m) => !m.token)) return undefined;
-
-	let results: Sponsorship[][];
-	try {
-		results = await Promise.all(maintainers.map((m) => fetchSponsorships(m.login, m.token!)));
-	} catch (err) {
-		console.error(err);
-		return undefined;
-	}
+// A maintainer whose token is missing or whose request fails is left out, so the others' sponsors still show
+// Undefined only when no maintainer's sponsors could be fetched, and complete tells whether everyone's were
+export async function fetchSponsors(): Promise<{ sponsors: Sponsor[]; complete: boolean } | undefined> {
+	const results = await Promise.all(
+		maintainers.map(async (m) => {
+			if (!m.token) {
+				console.warn(`SPONSORS_GITHUB_TOKEN_${m.login.toUpperCase()} is not set, so the sponsors of ${m.login} are left out`);
+				return undefined;
+			}
+			try {
+				return await fetchSponsorships(m.login, m.token);
+			} catch (err) {
+				console.error(err);
+				return undefined;
+			}
+		})
+	);
+	const fetched = results.filter((r) => r !== undefined);
+	if (fetched.length === 0) return undefined;
 
 	// Someone sponsoring both maintainers appears once, with their monthly amounts added up
 	const byLogin = new Map<string, Omit<Sponsor, 'tier'> & { monthly: number; since: string }>();
-	for (const s of results.flat()) {
+	for (const s of fetched.flat()) {
 		const entity = s.sponsorEntity;
 		if (!entity || s.privacyLevel !== 'PUBLIC') continue;
 
@@ -107,10 +115,11 @@ export async function fetchSponsors(): Promise<Sponsor[] | undefined> {
 		byLogin.set(entity.login, sponsor);
 	}
 
-	return (
+	const sponsors = (
 		[...byLogin.values()]
 			// Current sponsors by amount, then everyone by how long they've supported the project
 			.sort((a, b) => Number(b.monthly > 0) - Number(a.monthly > 0) || b.monthly - a.monthly || a.since.localeCompare(b.since))
-			.map(({ monthly, since, ...s }) => ({ ...s, tier: monthly > 0 ? tiers.find((t) => monthly >= t.from)!.name : 'past' }))
+			.map(({ monthly, since, ...s }): Sponsor => ({ ...s, tier: monthly > 0 ? tiers.find((t) => monthly >= t.from)!.name : 'past' }))
 	);
+	return { sponsors, complete: fetched.length === maintainers.length };
 }

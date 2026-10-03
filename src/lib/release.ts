@@ -29,20 +29,27 @@ export async function projectStats(): Promise<Stats> {
 }
 
 // Fetches a URL and reads a number from the response, giving up after ten seconds so a slow service can't stall the build
+// A failure only hides the number, so it's logged to show up in the build and function logs
 async function count(url: string, read: (res: Response) => Promise<number | undefined>, headers: Record<string, string> = {}) {
 	try {
 		const res = await fetch(url, { headers: { 'User-Agent': 'pocket-id-website', ...headers }, signal: AbortSignal.timeout(10_000) });
-		if (!res.ok) return undefined;
+		if (!res.ok) {
+			console.warn(`Fetching ${url} failed with ${res.status}: ${(await res.text()).slice(0, 300)}`);
+			return undefined;
+		}
 		const n = await read(res);
+		if (!Number.isFinite(n)) console.warn(`No number found in the response of ${url}`);
 		return Number.isFinite(n) ? n : undefined;
-	} catch {
+	} catch (err) {
+		console.warn(`Fetching ${url} failed: ${err}`);
 		return undefined;
 	}
 }
 
 const activeInstances = () => count('https://analytics.pocket-id.org/stats', async (res) => (await res.json()).total);
 
-// A token raises GitHub's limit from 60 to 5000 requests an hour, which matters on shared CI runners
+// A token raises GitHub's limit from 60 to 5000 requests an hour, which matters on shared CI runners and Vercel's functions
+// The pocket-id organization rejects classic tokens that live longer than 366 days, even for public data
 const githubHeaders = { Accept: 'application/vnd.github+json', ...(GITHUB_TOKEN && { Authorization: `Bearer ${GITHUB_TOKEN}` }) };
 
 export const githubStars = () => count('https://api.github.com/repos/pocket-id/pocket-id', async (res) => (await res.json()).stargazers_count, githubHeaders);
