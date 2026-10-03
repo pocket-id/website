@@ -1,6 +1,12 @@
 ---
 title: Penpot
-description: Configure Penpot with Pocket ID
+description: Sign in to the Penpot design tool with Pocket ID.
+client:
+  callbackUrls:
+    - https://penpot.example.com/api/auth/oidc/callback
+  values:
+    - clientId
+    - clientSecret
 ---
 
 ## Requirements
@@ -8,22 +14,12 @@ description: Configure Penpot with Pocket ID
 - Self-hosted [Penpot](https://help.penpot.app/technical-guide/configuration/#authentication-providers)
 - HTTPS connection to your Penpot instance
 
-## Configure Pocket ID
+::create-client
 
-### Create the OIDC client
+## Verify emails in Pocket ID
 
-1. Go to **Administration → OIDC Clients** and create a new OIDC client for Penpot.
-2. Set the **Callback URLs** to:
-   ```
-   https://penpot.example.com/api/auth/oidc/callback
-   ```
-3. _Optional:_ Set the **Logo** to the Penpot logo from [Dashboard Icons](https://dashboardicons.com/icons/external/penpot).
-4. Copy the **Client ID** and **Client secret** for the next section.
-
-### Verify the users' emails
-
-1. Go to **Administration → Users** and edit the user that should have access.
-2. If the icon next to the email isn't green, click it to mark the email as verified, then save.
+Open **Administration → Users** and select each user that should have access.
+If the icon next to the email isn't green, click it to mark the email as verified, then save.
 
 :::note
 Penpot only links Pocket ID to an existing profile, for example one created with a password, if Pocket ID returns a verified email that matches it.
