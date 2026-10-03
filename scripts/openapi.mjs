@@ -1,5 +1,5 @@
 // Generates the Swagger spec of the Pocket ID backend into src/generated, so the API reference matches the code it documents
-// Runs before every docs build and dev server, see package.json
+// The spec is committed, so builds need neither Go nor the backend, and the update-api-spec workflow keeps it current
 // The backend comes from a pocket-id checkout at POCKET_ID_DIR, by default a sibling folder named pocket-id
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
@@ -43,24 +43,13 @@ function swag(args) {
 	}
 }
 
-// Without a spec, the site still builds locally with an empty endpoints page, but a CI build must never ship one
-function fallback(reason) {
-	if (process.env.CI) {
-		console.error(`openapi: ${reason}`);
-		process.exit(1);
-	}
-	if (fs.existsSync(out)) {
-		console.warn(`openapi: ${reason}, keeping the existing ${path.relative(docs, out)}`);
-		process.exit(0);
-	}
-	console.warn(`openapi: ${reason}, writing an empty spec so the site builds`);
-	fs.mkdirSync(outDir, { recursive: true });
-	fs.writeFileSync(out, JSON.stringify({ swagger: '2.0', info: { title: 'Pocket ID API', version: '1.0' }, paths: {}, definitions: {}, tags }, null, 2));
-	fs.writeFileSync(path.join(outDir, 'swagger.yaml'), 'swagger: "2.0"\npaths: {}\n');
-	process.exit(0);
+// The committed spec stays as it is when generating fails, so a broken run never replaces it
+function fail(reason) {
+	console.error(`openapi: ${reason}`);
+	process.exit(1);
 }
 
-if (!fs.existsSync(path.join(backend, 'go.mod'))) fallback(`no pocket-id checkout at ${repo}, set POCKET_ID_DIR to one`);
+if (!fs.existsSync(path.join(backend, 'go.mod'))) fail(`no pocket-id checkout at ${repo}, set POCKET_ID_DIR to one`);
 
 // main.go reads the API description from a Markdown file in the -md folder, so a temporary folder holds both it and swag's output
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'pocket-id-swagger-'));
@@ -80,5 +69,5 @@ try {
 	fs.rmSync(tmp, { recursive: true, force: true });
 } catch (err) {
 	fs.rmSync(tmp, { recursive: true, force: true });
-	fallback(`couldn't generate the spec: ${err.stderr?.toString().trim() || err.message}`);
+	fail(`couldn't generate the spec: ${err.stderr?.toString().trim() || err.message}`);
 }

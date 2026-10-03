@@ -14,10 +14,8 @@ pnpm dev
 
 The dev server runs at `http://localhost:4321` and reloads when you save a page.
 
-The API endpoints page is generated from the backend's code with [swag](https://github.com/swaggo/swag).
-With a checkout of [pocket-id/pocket-id](https://github.com/pocket-id/pocket-id) next to the website repository and Go installed, `pnpm dev` generates it automatically.
-Point `POCKET_ID_DIR` at a checkout somewhere else.
-Without one, the rest of the site works and the endpoints page stays empty.
+The API endpoints page is generated from the backend's code with [swag](https://github.com/swaggo/swag), and a workflow keeps the generated spec in the repository up to date.
+To see endpoint changes before that, run `pnpm openapi` with Go installed and a checkout of [pocket-id/pocket-id](https://github.com/pocket-id/pocket-id) next to the website repository, or point `POCKET_ID_DIR` at a checkout somewhere else.
 
 ## Add or edit a page
 

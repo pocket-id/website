@@ -5,9 +5,6 @@ node_modules
 /dist
 /.astro
 
-# Generated from the pocket-id backend before every build, see scripts/openapi.mjs
-/src/generated
-
 # The pocket-id checkout CI uses to generate the API spec
 /pocket-id
 

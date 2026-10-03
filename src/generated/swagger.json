@@ -1,0 +1,6247 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Pocket ID API Reference\n",
+    "title": "Pocket ID API",
+    "contact": {},
+    "version": "1.0"
+  },
+  "paths": {
+    "/.well-known/jwks.json": {
+      "get": {
+        "description": "Returns the JSON Web Key Set used for token verification",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Well Known"
+        ],
+        "summary": "Get JSON Web Key Set (JWKS)",
+        "responses": {
+          "200": {
+            "description": "{ \\\"keys\\\": []interface{} }",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/.well-known/oauth-authorization-server": {
+      "get": {
+        "description": "Returns the RFC 8414 OAuth 2.0 authorization server metadata document with endpoints and capabilities",
+        "tags": [
+          "Well Known"
+        ],
+        "summary": "Get OAuth 2.0 authorization server metadata",
+        "responses": {
+          "200": {
+            "description": "OAuth 2.0 authorization server metadata",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/.well-known/openid-configuration": {
+      "get": {
+        "description": "Returns the OpenID Connect discovery document with endpoints and capabilities",
+        "tags": [
+          "Well Known"
+        ],
+        "summary": "Get OpenID Connect discovery configuration",
+        "responses": {
+          "200": {
+            "description": "OpenID Connect configuration",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/api-access/{clientId}/apis": {
+      "get": {
+        "description": "Get every API the OIDC client may request tokens for, with its access and permissions split into user-delegated and client (machine-to-machine) access",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "APIs"
+        ],
+        "summary": "List APIs a client may access",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "OIDC Client ID",
+            "name": "clientId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/api.clientApiGrantDto"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/api-access/{clientId}/assignable-apis": {
+      "get": {
+        "description": "Get a paginated list of APIs the OIDC client cannot already reach",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "APIs"
+        ],
+        "summary": "List APIs a client can still be granted access to",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "OIDC Client ID",
+            "name": "clientId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "Search term to filter APIs by name or resource",
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 1,
+            "description": "Page number for pagination",
+            "name": "pagination[page]",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 20,
+            "description": "Number of items per page",
+            "name": "pagination[limit]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Column to sort by",
+            "name": "sort[column]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "\"asc\"",
+            "description": "Sort direction (asc or desc)",
+            "name": "sort[direction]",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-api_apiResponseDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/api-keys": {
+      "get": {
+        "description": "Get a paginated list of API keys belonging to the current user",
+        "tags": [
+          "API Keys"
+        ],
+        "summary": "List API keys",
+        "parameters": [
+          {
+            "type": "integer",
+            "default": 1,
+            "description": "Page number for pagination",
+            "name": "pagination[page]",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 20,
+            "description": "Number of items per page",
+            "name": "pagination[limit]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Column to sort by",
+            "name": "sort[column]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "\"asc\"",
+            "description": "Sort direction (asc or desc)",
+            "name": "sort[direction]",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-apikey_apiKeyDto"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Create a new API key for the current user",
+        "tags": [
+          "API Keys"
+        ],
+        "summary": "Create API key",
+        "parameters": [
+          {
+            "description": "API key information",
+            "name": "api_key",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apikey.apiKeyCreateDto"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created API key with token",
+            "schema": {
+              "$ref": "#/definitions/apikey.apiKeyResponseDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/api-keys/{id}": {
+      "delete": {
+        "description": "Revoke (delete) an existing API key by ID",
+        "tags": [
+          "API Keys"
+        ],
+        "summary": "Revoke API key",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "API Key ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/api/api-keys/{id}/renew": {
+      "post": {
+        "description": "Renew an existing API key by ID",
+        "tags": [
+          "API Keys"
+        ],
+        "summary": "Renew API key",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "API Key ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Renewed API key with new token",
+            "schema": {
+              "$ref": "#/definitions/apikey.apiKeyResponseDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/apis": {
+      "get": {
+        "description": "Get a paginated list of APIs with optional search and sorting",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "APIs"
+        ],
+        "summary": "List APIs",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Search term to filter APIs by name or resource",
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 1,
+            "description": "Page number for pagination",
+            "name": "pagination[page]",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 20,
+            "description": "Number of items per page",
+            "name": "pagination[limit]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Column to sort by",
+            "name": "sort[column]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "\"asc\"",
+            "description": "Sort direction (asc or desc)",
+            "name": "sort[direction]",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-api_apiResponseDto"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Create a new API resource server",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "APIs"
+        ],
+        "summary": "Create API",
+        "parameters": [
+          {
+            "description": "API information",
+            "name": "api",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/api.apiCreateDto"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created API",
+            "schema": {
+              "$ref": "#/definitions/api.apiResponseDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/apis/{id}": {
+      "get": {
+        "description": "Retrieve a single API including its permissions",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "APIs"
+        ],
+        "summary": "Get API by ID",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "API ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/api.apiResponseDto"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Update an existing API by ID",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "APIs"
+        ],
+        "summary": "Update API",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "API ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "API information",
+            "name": "api",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/api.apiUpdateDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated API",
+            "schema": {
+              "$ref": "#/definitions/api.apiResponseDto"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete an API by ID",
+        "tags": [
+          "APIs"
+        ],
+        "summary": "Delete API",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "API ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/api/apis/{id}/assignable-clients": {
+      "get": {
+        "description": "Get a paginated list of OIDC clients that have no grant on the API yet",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "APIs"
+        ],
+        "summary": "List clients that can still be granted access to an API",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "API ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "Search term to filter clients by name",
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 1,
+            "description": "Page number for pagination",
+            "name": "pagination[page]",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 20,
+            "description": "Number of items per page",
+            "name": "pagination[limit]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Column to sort by",
+            "name": "sort[column]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "\"asc\"",
+            "description": "Sort direction (asc or desc)",
+            "name": "sort[direction]",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-api_apiClientDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/apis/{id}/cimd-access": {
+      "put": {
+        "description": "Replace which permissions of an API every client registered through a Client ID Metadata Document may request",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "APIs"
+        ],
+        "summary": "Update metadata document client access",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "API ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "Metadata document client access",
+            "name": "access",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/api.apiCimdAccessUpdateDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated API",
+            "schema": {
+              "$ref": "#/definitions/api.apiResponseDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/apis/{id}/clients": {
+      "get": {
+        "description": "Get a paginated list of OIDC clients that may reach the API, with their permissions split into user-delegated and client (machine-to-machine) access",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "APIs"
+        ],
+        "summary": "List clients with access to an API",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "API ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "Search term to filter clients by name",
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 1,
+            "description": "Page number for pagination",
+            "name": "pagination[page]",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 20,
+            "description": "Number of items per page",
+            "name": "pagination[limit]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Column to sort by",
+            "name": "sort[column]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "\"asc\"",
+            "description": "Sort direction (asc or desc)",
+            "name": "sort[direction]",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-api_apiClientAccessDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/apis/{id}/clients/{clientId}": {
+      "put": {
+        "description": "Replace the permissions of this API a single OIDC client may request, leaving its grants on other APIs untouched",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "APIs"
+        ],
+        "summary": "Update a client's access to an API",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "API ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "OIDC Client ID",
+            "name": "clientId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "Access and allowed permission IDs per subject type",
+            "name": "access",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/api.apiClientGrantUpdateDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/api.apiClientGrantDto"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Remove every permission of this API a single OIDC client was allowed to request",
+        "tags": [
+          "APIs"
+        ],
+        "summary": "Revoke a client's access to an API",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "API ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "OIDC Client ID",
+            "name": "clientId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/api/apis/{id}/permissions": {
+      "put": {
+        "description": "Replace the full set of permissions for an API",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "APIs"
+        ],
+        "summary": "Update API permissions",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "API ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "Permissions to set",
+            "name": "permissions",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/api.apiPermissionsUpdateDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated API",
+            "schema": {
+              "$ref": "#/definitions/api.apiResponseDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/application-configuration": {
+      "get": {
+        "description": "Get all public application configurations",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Application Configuration"
+        ],
+        "summary": "List public application configurations",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/dto.PublicAppConfigVariableDto"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Update application configuration settings",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Application Configuration"
+        ],
+        "summary": "Update application configurations",
+        "parameters": [
+          {
+            "description": "Application Configuration",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dto.AppConfigUpdateDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/dto.AppConfigVariableDto"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/application-configuration/all": {
+      "get": {
+        "description": "Get all application configurations including private ones",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Application Configuration"
+        ],
+        "summary": "List all application configurations",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/dto.AppConfigVariableDto"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/application-configuration/sync-ldap": {
+      "post": {
+        "description": "Manually trigger LDAP synchronization",
+        "tags": [
+          "Application Configuration"
+        ],
+        "summary": "Synchronize LDAP",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/api/application-configuration/test-email": {
+      "post": {
+        "description": "Send a test email to verify email configuration",
+        "tags": [
+          "Application Configuration"
+        ],
+        "summary": "Send test email",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/application-images/background": {
+      "get": {
+        "description": "Get the background image for the application",
+        "produces": [
+          "image/png",
+          "image/jpeg"
+        ],
+        "tags": [
+          "Application Images"
+        ],
+        "summary": "Get background image",
+        "responses": {
+          "200": {
+            "description": "Background image",
+            "schema": {
+              "type": "file"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Update the application background image",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "tags": [
+          "Application Images"
+        ],
+        "summary": "Update background image",
+        "parameters": [
+          {
+            "type": "file",
+            "description": "Background image file",
+            "name": "file",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete the application background image",
+        "tags": [
+          "Application Images"
+        ],
+        "summary": "Delete background image",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/application-images/default-profile-picture": {
+      "get": {
+        "description": "Get the default profile picture image for the application",
+        "produces": [
+          "image/png",
+          "image/jpeg"
+        ],
+        "tags": [
+          "Application Images"
+        ],
+        "summary": "Get default profile picture image",
+        "responses": {
+          "200": {
+            "description": "Default profile picture image",
+            "schema": {
+              "type": "file"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Update the default profile picture image",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "tags": [
+          "Application Images"
+        ],
+        "summary": "Update default profile picture image",
+        "parameters": [
+          {
+            "type": "file",
+            "description": "Profile picture image file",
+            "name": "file",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete the default profile picture image",
+        "tags": [
+          "Application Images"
+        ],
+        "summary": "Delete default profile picture image",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/application-images/email": {
+      "get": {
+        "description": "Get the email logo image for use in emails",
+        "produces": [
+          "image/png",
+          "image/jpeg"
+        ],
+        "tags": [
+          "Application Images"
+        ],
+        "summary": "Get email logo image",
+        "responses": {
+          "200": {
+            "description": "Email logo image",
+            "schema": {
+              "type": "file"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Update the email logo for use in emails",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "tags": [
+          "Application Images"
+        ],
+        "summary": "Update email logo",
+        "parameters": [
+          {
+            "type": "file",
+            "description": "Email logo image file",
+            "name": "file",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/application-images/favicon": {
+      "get": {
+        "description": "Get the favicon for the application",
+        "produces": [
+          "image/x-icon"
+        ],
+        "tags": [
+          "Application Images"
+        ],
+        "summary": "Get favicon",
+        "responses": {
+          "200": {
+            "description": "Favicon image",
+            "schema": {
+              "type": "file"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Update the application favicon",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "tags": [
+          "Application Images"
+        ],
+        "summary": "Update favicon",
+        "parameters": [
+          {
+            "type": "file",
+            "description": "Favicon file (.svg/.png/.ico)",
+            "name": "file",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/application-images/logo": {
+      "get": {
+        "description": "Get the logo image for the application",
+        "produces": [
+          "image/png",
+          "image/jpeg",
+          "image/svg+xml"
+        ],
+        "tags": [
+          "Application Images"
+        ],
+        "summary": "Get logo image",
+        "parameters": [
+          {
+            "type": "boolean",
+            "description": "Light mode logo (true) or dark mode logo (false)",
+            "name": "light",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "description": "Return the bundled default logo if no custom logo is set (default true)",
+            "name": "default",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Logo image",
+            "schema": {
+              "type": "file"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Update the application logo",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "tags": [
+          "Application Images"
+        ],
+        "summary": "Update logo",
+        "parameters": [
+          {
+            "type": "boolean",
+            "description": "Light mode logo (true) or dark mode logo (false)",
+            "name": "light",
+            "in": "query"
+          },
+          {
+            "type": "file",
+            "description": "Logo image file",
+            "name": "file",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete the custom application logo and restore the default logo",
+        "tags": [
+          "Application Images"
+        ],
+        "summary": "Delete logo image",
+        "parameters": [
+          {
+            "type": "boolean",
+            "description": "Light mode logo (true) or dark mode logo (false)",
+            "name": "light",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/audit-logs": {
+      "get": {
+        "description": "Get a paginated list of audit logs for the current user",
+        "tags": [
+          "Audit Logs"
+        ],
+        "summary": "List audit logs",
+        "parameters": [
+          {
+            "type": "integer",
+            "default": 1,
+            "description": "Page number for pagination",
+            "name": "pagination[page]",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 20,
+            "description": "Number of items per page",
+            "name": "pagination[limit]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Column to sort by",
+            "name": "sort[column]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "\"asc\"",
+            "description": "Sort direction (asc or desc)",
+            "name": "sort[direction]",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_AuditLogDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/audit-logs/all": {
+      "get": {
+        "description": "Get a paginated list of all audit logs (admin only)",
+        "tags": [
+          "Audit Logs"
+        ],
+        "summary": "List all audit logs",
+        "parameters": [
+          {
+            "type": "integer",
+            "default": 1,
+            "description": "Page number for pagination",
+            "name": "pagination[page]",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 20,
+            "description": "Number of items per page",
+            "name": "pagination[limit]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Column to sort by",
+            "name": "sort[column]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "\"asc\"",
+            "description": "Sort direction (asc or desc)",
+            "name": "sort[direction]",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_AuditLogDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/audit-logs/filters/client-names": {
+      "get": {
+        "description": "Get a list of all client names for audit log filtering",
+        "tags": [
+          "Audit Logs"
+        ],
+        "summary": "List client names",
+        "responses": {
+          "200": {
+            "description": "List of client names",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/audit-logs/filters/users": {
+      "get": {
+        "description": "Get a list of all usernames with their IDs for audit log filtering",
+        "tags": [
+          "Audit Logs"
+        ],
+        "summary": "List users with IDs",
+        "responses": {
+          "200": {
+            "description": "Map of user IDs to usernames",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/custom-claims/suggestions": {
+      "get": {
+        "description": "Get a list of suggested custom claim names",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Custom Claims"
+        ],
+        "summary": "Get custom claim suggestions",
+        "responses": {
+          "200": {
+            "description": "List of suggested custom claim names",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/custom-claims/user-group/{userGroupId}": {
+      "put": {
+        "description": "Update or create custom claims for a specific user group",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Custom Claims"
+        ],
+        "summary": "Update custom claims for a user group",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "User Group ID",
+            "name": "userGroupId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "List of custom claims to set for the user group",
+            "name": "claims",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/dto.CustomClaimCreateDto"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated custom claims",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/dto.CustomClaimDto"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/custom-claims/user/{userId}": {
+      "put": {
+        "description": "Update or create custom claims for a specific user",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Custom Claims"
+        ],
+        "summary": "Update custom claims for a user",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "User ID",
+            "name": "userId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "List of custom claims to set for the user",
+            "name": "claims",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/dto.CustomClaimCreateDto"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated custom claims",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/dto.CustomClaimDto"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/device-login/requests": {
+      "post": {
+        "description": "Create a short-lived request that can be approved from another authenticated device",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Device Login"
+        ],
+        "summary": "Create device login request",
+        "responses": {
+          "201": {
+            "description": "Created device login request",
+            "schema": {
+              "$ref": "#/definitions/devicelogin.requestCreateDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/device-login/requests/{id}/exchange": {
+      "post": {
+        "description": "Wait for a device login decision and create a browser session after it has been approved",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Device Login"
+        ],
+        "summary": "Exchange device login request",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Device login request ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Approved request exchanged for a user session",
+            "schema": {
+              "$ref": "#/definitions/dto.UserDto"
+            }
+          },
+          "202": {
+            "description": "Authorization pending"
+          }
+        }
+      }
+    },
+    "/api/device-login/verification": {
+      "post": {
+        "description": "Retrieve the requesting device details for an authenticated user before approval or denial",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Device Login"
+        ],
+        "summary": "Inspect device login request",
+        "parameters": [
+          {
+            "description": "Device login code",
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/devicelogin.verificationDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Device login request details",
+            "schema": {
+              "$ref": "#/definitions/devicelogin.verificationInfoDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/device-login/verification/decision": {
+      "post": {
+        "description": "Approve or deny a device login request; approval requires fresh passkey reauthentication",
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "Device Login"
+        ],
+        "summary": "Decide device login request",
+        "parameters": [
+          {
+            "description": "Device login decision",
+            "name": "decision",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/devicelogin.decisionDto"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/api/oidc/clients": {
+      "get": {
+        "description": "Get a paginated list of OIDC clients with optional search and sorting",
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "List OIDC clients",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Search term to filter clients by name",
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 1,
+            "description": "Page number for pagination",
+            "name": "pagination[page]",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 20,
+            "description": "Number of items per page",
+            "name": "pagination[limit]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Column to sort by",
+            "name": "sort[column]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "\"asc\"",
+            "description": "Sort direction (asc or desc)",
+            "name": "sort[direction]",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_OidcClientWithAllowedGroupsDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Create a new OIDC client",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "Create OIDC client",
+        "parameters": [
+          {
+            "description": "Client information",
+            "name": "client",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dto.OidcClientCreateDto"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created client",
+            "schema": {
+              "$ref": "#/definitions/dto.OidcClientCreatedDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/oidc/clients/{id}": {
+      "get": {
+        "description": "Get detailed information about an OIDC client",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "Get OIDC client",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Client ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Client information",
+            "schema": {
+              "$ref": "#/definitions/dto.OidcClientWithAllowedUserGroupsDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Update an existing OIDC client",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "Update OIDC client",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Client ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "Client information",
+            "name": "client",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dto.OidcClientUpdateDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated client",
+            "schema": {
+              "$ref": "#/definitions/dto.OidcClientWithAllowedUserGroupsDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete an OIDC client by ID",
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "Delete OIDC client",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Client ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/oidc/clients/{id}/allowed-user-groups": {
+      "put": {
+        "description": "Update the user groups allowed to access an OIDC client",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "Update allowed user groups",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Client ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "User group IDs",
+            "name": "groups",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dto.OidcUpdateAllowedUserGroupsDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated client",
+            "schema": {
+              "$ref": "#/definitions/dto.OidcClientDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/oidc/clients/{id}/logo": {
+      "get": {
+        "description": "Get the logo image for an OIDC client",
+        "produces": [
+          "image/png",
+          "image/jpeg",
+          "image/svg+xml"
+        ],
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "Get client logo",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Client ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "boolean",
+            "description": "Light mode logo (true) or dark mode logo (false)",
+            "name": "light",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Logo image",
+            "schema": {
+              "type": "file"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Upload or update the logo for an OIDC client",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "Update client logo",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Client ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "file",
+            "description": "Logo image file (PNG, JPG, or SVG)",
+            "name": "file",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "boolean",
+            "description": "Light mode logo (true) or dark mode logo (false)",
+            "name": "light",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete the logo for an OIDC client",
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "Delete client logo",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Client ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "boolean",
+            "description": "Light mode logo (true) or dark mode logo (false)",
+            "name": "light",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/oidc/clients/{id}/meta": {
+      "get": {
+        "description": "Get OIDC client metadata for discovery and configuration",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "Get client metadata",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Client ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Client metadata",
+            "schema": {
+              "$ref": "#/definitions/dto.OidcClientMetaDataDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/oidc/clients/{id}/preview/{userId}": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Get a preview of the OIDC data (ID token, access token, userinfo) that would be sent to the client for a specific user",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "Preview OIDC client data for user",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Client ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "User ID to preview data for",
+            "name": "userId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "Scopes to include in the preview (comma-separated)",
+            "name": "scopes",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Preview data including ID token, access token, and userinfo payloads",
+            "schema": {
+              "$ref": "#/definitions/dto.OidcClientPreviewDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/oidc/clients/{id}/refresh": {
+      "post": {
+        "description": "Force a re-fetch of the OAuth Client ID Metadata Document for a CIMD client",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "Refresh client metadata document",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Client ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Refreshed client",
+            "schema": {
+              "$ref": "#/definitions/dto.OidcClientWithAllowedUserGroupsDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/oidc/clients/{id}/scim-service-provider": {
+      "get": {
+        "description": "Get the SCIM service provider configuration for an OIDC client",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "Get SCIM service provider",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Client ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SCIM service provider configuration",
+            "schema": {
+              "$ref": "#/definitions/scimsync.ScimServiceProviderDTO"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/oidc/clients/{id}/secrets": {
+      "get": {
+        "description": "List the secrets of an OIDC client, without disclosing their values",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "List client secrets",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Client ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Client secrets",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/dto.OidcClientSecretDto"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Add a new secret to an OIDC client, leaving the existing ones usable. The value is only returned by this endpoint and cannot be retrieved later.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "Create client secret",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Client ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "Client secret",
+            "name": "payload",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/dto.OidcClientSecretCreateDto"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created client secret",
+            "schema": {
+              "$ref": "#/definitions/dto.OidcClientSecretCreatedDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/oidc/clients/{id}/secrets/{secretId}": {
+      "delete": {
+        "description": "Delete a single secret of an OIDC client, making it immediately unusable",
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "Delete client secret",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Client ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "Client secret ID",
+            "name": "secretId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/oidc/introspect": {
+      "post": {
+        "description": "Pass a token to verify if it is considered valid.",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "Introspect OIDC tokens",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "The token to be introspected.",
+            "name": "token",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response with the introspection result.",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/api/oidc/logo-presets": {
+      "get": {
+        "description": "Search the selfh.st icon collection for logos that can be used for OIDC clients",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "Search logo presets",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Search term matched against the icon name",
+            "name": "search",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/logopreset.logoPresetDto"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/oidc/userinfo": {
+      "get": {
+        "security": [
+          {
+            "OAuth2AccessToken": []
+          }
+        ],
+        "description": "Get user information based on the access token",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "Get user information",
+        "responses": {
+          "200": {
+            "description": "User claims based on requested scopes",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/api/oidc/users/me/authorized-clients": {
+      "get": {
+        "description": "Get a paginated list of OIDC clients that the current user has authorized",
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "List authorized clients for current user",
+        "parameters": [
+          {
+            "type": "integer",
+            "default": 1,
+            "description": "Page number for pagination",
+            "name": "pagination[page]",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 20,
+            "description": "Number of items per page",
+            "name": "pagination[limit]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Column to sort by",
+            "name": "sort[column]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "\"asc\"",
+            "description": "Sort direction (asc or desc)",
+            "name": "sort[direction]",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "description": "Filter clients by whether a launch URL is configured",
+            "name": "filters[hasLaunchURL]",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_AuthorizedOidcClientDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/oidc/users/me/authorized-clients/{clientId}": {
+      "delete": {
+        "description": "Revoke the authorization for a specific OIDC client for the current user",
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "Revoke authorization for an OIDC client",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Client ID to revoke authorization for",
+            "name": "clientId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/oidc/users/me/clients": {
+      "get": {
+        "description": "Get a list of OIDC clients that the current user can access",
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "List accessible OIDC clients for current user",
+        "parameters": [
+          {
+            "type": "integer",
+            "default": 1,
+            "description": "Page number for pagination",
+            "name": "pagination[page]",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 20,
+            "description": "Number of items per page",
+            "name": "pagination[limit]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Column to sort by",
+            "name": "sort[column]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "\"asc\"",
+            "description": "Sort direction (asc or desc)",
+            "name": "sort[direction]",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "description": "Filter clients by whether a launch URL is configured",
+            "name": "filters[hasLaunchURL]",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_AccessibleOidcClientDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/oidc/users/{id}/authorized-clients": {
+      "get": {
+        "description": "Get a paginated list of OIDC clients that a specific user has authorized",
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "List authorized clients for a user",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "User ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "default": 1,
+            "description": "Page number for pagination",
+            "name": "pagination[page]",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 20,
+            "description": "Number of items per page",
+            "name": "pagination[limit]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Column to sort by",
+            "name": "sort[column]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "\"asc\"",
+            "description": "Sort direction (asc or desc)",
+            "name": "sort[direction]",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "description": "Filter clients by whether a launch URL is configured",
+            "name": "filters[hasLaunchURL]",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_AuthorizedOidcClientDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/one-time-access-email": {
+      "post": {
+        "description": "Request a one-time access email for unauthenticated users",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Request one-time access email",
+        "parameters": [
+          {
+            "description": "Email request information",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/onetimeaccess.emailAsUnauthenticatedUserDto"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/api/one-time-access-token/{token}": {
+      "post": {
+        "description": "Exchange a one-time access token for a session token",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Exchange one-time access token",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "One-time access token",
+            "name": "token",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/dto.UserDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/scim/service-provider": {
+      "post": {
+        "description": "Create a new SCIM service provider",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "SCIM"
+        ],
+        "summary": "Create SCIM service provider",
+        "parameters": [
+          {
+            "description": "SCIM service provider information",
+            "name": "serviceProvider",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/scimsync.ScimServiceProviderCreateDTO"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created SCIM service provider",
+            "schema": {
+              "$ref": "#/definitions/scimsync.ScimServiceProviderDTO"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/scim/service-provider/{id}": {
+      "put": {
+        "description": "Update an existing SCIM service provider",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "SCIM"
+        ],
+        "summary": "Update SCIM service provider",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Service Provider ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "SCIM service provider information",
+            "name": "serviceProvider",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/scimsync.ScimServiceProviderCreateDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated SCIM service provider",
+            "schema": {
+              "$ref": "#/definitions/scimsync.ScimServiceProviderDTO"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete a SCIM service provider by ID",
+        "tags": [
+          "SCIM"
+        ],
+        "summary": "Delete SCIM service provider",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Service Provider ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/scim/service-provider/{id}/sync": {
+      "post": {
+        "description": "Trigger synchronization for a SCIM service provider",
+        "tags": [
+          "SCIM"
+        ],
+        "summary": "Sync SCIM service provider",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Service Provider ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/signup": {
+      "post": {
+        "description": "Create a new user account",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Sign up",
+        "parameters": [
+          {
+            "description": "User information",
+            "name": "user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/usersignup.signUpDto"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/dto.UserDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/signup-tokens": {
+      "get": {
+        "description": "Get a paginated list of signup tokens",
+        "tags": [
+          "Users"
+        ],
+        "summary": "List signup tokens",
+        "parameters": [
+          {
+            "type": "integer",
+            "default": 1,
+            "description": "Page number for pagination",
+            "name": "pagination[page]",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 20,
+            "description": "Number of items per page",
+            "name": "pagination[limit]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Column to sort by",
+            "name": "sort[column]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "\"asc\"",
+            "description": "Sort direction (asc or desc)",
+            "name": "sort[direction]",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-usersignup_signupTokenDto"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Create a new signup token that allows user registration",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create signup token",
+        "parameters": [
+          {
+            "description": "Signup token information",
+            "name": "token",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/usersignup.signupTokenCreateDto"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/usersignup.signupTokenDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/signup-tokens/{id}": {
+      "delete": {
+        "description": "Delete a signup token by ID",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Delete signup token",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Token ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/api/signup/setup": {
+      "post": {
+        "description": "Sign up and generate setup access token for initial admin user",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Sign up initial admin user",
+        "parameters": [
+          {
+            "description": "User information",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/usersignup.signUpDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/dto.UserDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/storage/sqlite-warning": {
+      "get": {
+        "description": "Reports whether Pocket ID found its SQLite database on a networked filesystem, which is unsupported and can lead to database corruption",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Storage"
+        ],
+        "summary": "Get whether the SQLite storage warning should be shown",
+        "responses": {
+          "200": {
+            "description": "SQLite storage warning state",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "boolean"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/user-groups": {
+      "get": {
+        "description": "Get a paginated list of user groups with optional search and sorting",
+        "tags": [
+          "User Groups"
+        ],
+        "summary": "List user groups",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Search term to filter user groups by name",
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 1,
+            "description": "Page number for pagination",
+            "name": "pagination[page]",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 20,
+            "description": "Number of items per page",
+            "name": "pagination[limit]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Column to sort by",
+            "name": "sort[column]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "\"asc\"",
+            "description": "Sort direction (asc or desc)",
+            "name": "sort[direction]",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_UserGroupMinimalDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Create a new user group",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "User Groups"
+        ],
+        "summary": "Create user group",
+        "parameters": [
+          {
+            "description": "User group information",
+            "name": "userGroup",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dto.UserGroupCreateDto"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created user group",
+            "schema": {
+              "$ref": "#/definitions/dto.UserGroupDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/user-groups/{id}": {
+      "get": {
+        "description": "Retrieve detailed information about a specific user group including its users",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "User Groups"
+        ],
+        "summary": "Get user group by ID",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "User Group ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/dto.UserGroupDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Update an existing user group by ID",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "User Groups"
+        ],
+        "summary": "Update user group",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "User Group ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "User group information",
+            "name": "userGroup",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dto.UserGroupCreateDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated user group",
+            "schema": {
+              "$ref": "#/definitions/dto.UserGroupDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete a specific user group by ID",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "User Groups"
+        ],
+        "summary": "Delete user group",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "User Group ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/user-groups/{id}/allowed-oidc-clients": {
+      "put": {
+        "description": "Update the OIDC clients allowed for a specific user group",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "OIDC"
+        ],
+        "summary": "Update allowed OIDC clients",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "User Group ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "OIDC client IDs to allow",
+            "name": "groups",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dto.UserGroupUpdateAllowedOidcClientsDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated user group",
+            "schema": {
+              "$ref": "#/definitions/dto.UserGroupDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/user-groups/{id}/users": {
+      "put": {
+        "description": "Update the list of users belonging to a specific user group",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "User Groups"
+        ],
+        "summary": "Update users in a group",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "User Group ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "List of user IDs to assign to this group",
+            "name": "users",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dto.UserGroupUpdateUsersDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/dto.UserGroupDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "get": {
+        "description": "Get a paginated list of users with optional search and sorting",
+        "tags": [
+          "Users"
+        ],
+        "summary": "List users",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Search term to filter users",
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 1,
+            "description": "Page number for pagination",
+            "name": "pagination[page]",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "default": 20,
+            "description": "Number of items per page",
+            "name": "pagination[limit]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Column to sort by",
+            "name": "sort[column]",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "\"asc\"",
+            "description": "Sort direction (asc or desc)",
+            "name": "sort[direction]",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_UserDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Create a new user",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create user",
+        "parameters": [
+          {
+            "description": "User information",
+            "name": "user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dto.UserCreateDto"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/dto.UserDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/users/me": {
+      "get": {
+        "description": "Retrieve information about the currently authenticated user",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get current user",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/dto.UserDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Update the currently authenticated user's information",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update current user",
+        "parameters": [
+          {
+            "description": "User information",
+            "name": "user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dto.UserCreateDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/dto.UserDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/users/me/profile-picture": {
+      "put": {
+        "description": "Update the currently authenticated user's profile picture",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update current user's profile picture",
+        "parameters": [
+          {
+            "type": "file",
+            "description": "Profile picture image file (PNG, JPG, or JPEG)",
+            "name": "file",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Reset the currently authenticated user's profile picture to the default",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Reset current user's profile picture",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/users/me/send-email-verification": {
+      "post": {
+        "description": "Send an email verification to the currently authenticated user",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Send email verification",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/api/users/me/verify-email": {
+      "post": {
+        "description": "Verify the currently authenticated user's email using a verification token",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Verify email",
+        "parameters": [
+          {
+            "description": "Email verification token",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dto.EmailVerificationDto"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/api/users/{id}": {
+      "get": {
+        "description": "Retrieve detailed information about a specific user",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get user by ID",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "User ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/dto.UserDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Update an existing user by ID",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update user",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "User ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "User information",
+            "name": "user",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dto.UserCreateDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/dto.UserDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete a specific user by ID",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Delete user",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "User ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{id}/groups": {
+      "get": {
+        "description": "Retrieve all groups a specific user belongs to",
+        "tags": [
+          "Users",
+          "User Groups"
+        ],
+        "summary": "Get user groups",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "User ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/dto.UserGroupDto"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{id}/one-time-access-email": {
+      "post": {
+        "description": "Request a one-time access email for a specific user (admin only)",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Request one-time access email (admin)",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "User ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "Email request options",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/onetimeaccess.emailAsAdminDto"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/api/users/{id}/one-time-access-token": {
+      "post": {
+        "description": "Generate a one-time access token for a specific user (admin only)",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create one-time access token for user (admin)",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "User ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "Token options",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/onetimeaccess.tokenCreateDto"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "{ \\\"token\\\": \\\"string\\\" }",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{id}/profile-picture": {
+      "put": {
+        "description": "Update a specific user's profile picture",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update user profile picture",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "User ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "file",
+            "description": "Profile picture image file (PNG, JPG, or JPEG)",
+            "name": "file",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Reset a specific user's profile picture to the default",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Reset user profile picture",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "User ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{id}/profile-picture.png": {
+      "get": {
+        "description": "Retrieve a specific user's profile picture",
+        "produces": [
+          "image/png"
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get user profile picture",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "User ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "PNG image",
+            "schema": {
+              "type": "file"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{id}/user-groups": {
+      "put": {
+        "description": "Update the groups a specific user belongs to",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update user groups",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "User ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "User group IDs",
+            "name": "groups",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dto.UserUpdateUserGroupDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/dto.UserDto"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{id}/webauthn-credentials": {
+      "get": {
+        "description": "Retrieve all WebAuthn credentials for a specific user",
+        "tags": [
+          "Users"
+        ],
+        "summary": "List user passkeys",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "User ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/dto.WebauthnCredentialDto"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{id}/webauthn-credentials/{credentialId}": {
+      "delete": {
+        "description": "Delete a specific WebAuthn credential for a user",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Delete user passkey",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "User ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "Credential ID",
+            "name": "credentialId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/version/current": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Version"
+        ],
+        "summary": "Get current deployed version of Pocket ID",
+        "responses": {
+          "200": {
+            "description": "Current version information",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/version/latest": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Version"
+        ],
+        "summary": "Get latest available version of Pocket ID",
+        "responses": {
+          "200": {
+            "description": "Latest version information",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/healthz": {
+      "get": {
+        "description": "Responds with a successful status code to healthcheck requests",
+        "tags": [
+          "Health"
+        ],
+        "summary": "Responds to healthchecks",
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/dto.ErrorDto"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "api.apiCimdAccessUpdateDto": {
+      "type": "object",
+      "required": [
+        "permissionIds"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "permissionIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "api.apiClientAccessDto": {
+      "type": "object",
+      "properties": {
+        "cimdGrantedAccess": {
+          "type": "boolean"
+        },
+        "cimdGrantedPermissionIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "client": {
+          "$ref": "#/definitions/api.apiClientDto"
+        },
+        "clientAccess": {
+          "type": "boolean"
+        },
+        "clientPermissionIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "userDelegatedAccess": {
+          "type": "boolean"
+        },
+        "userDelegatedPermissionIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "api.apiClientDto": {
+      "type": "object",
+      "properties": {
+        "clientType": {
+          "type": "string"
+        },
+        "hasDarkLogo": {
+          "type": "boolean"
+        },
+        "hasLogo": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "isPublic": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "api.apiClientGrantDto": {
+      "type": "object",
+      "properties": {
+        "clientAccess": {
+          "type": "boolean"
+        },
+        "clientPermissionIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "userDelegatedAccess": {
+          "type": "boolean"
+        },
+        "userDelegatedPermissionIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "api.apiClientGrantUpdateDto": {
+      "type": "object",
+      "required": [
+        "clientPermissionIds",
+        "userDelegatedPermissionIds"
+      ],
+      "properties": {
+        "clientAccess": {
+          "type": "boolean"
+        },
+        "clientPermissionIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "userDelegatedAccess": {
+          "type": "boolean"
+        },
+        "userDelegatedPermissionIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "api.apiCreateDto": {
+      "type": "object",
+      "required": [
+        "name",
+        "resource"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 50,
+          "minLength": 1
+        },
+        "resource": {
+          "type": "string",
+          "maxLength": 350
+        }
+      }
+    },
+    "api.apiPermissionInputDto": {
+      "type": "object",
+      "required": [
+        "key",
+        "name"
+      ],
+      "properties": {
+        "description": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "key": {
+          "type": "string",
+          "maxLength": 128,
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 50,
+          "minLength": 1
+        }
+      }
+    },
+    "api.apiPermissionResponseDto": {
+      "type": "object",
+      "properties": {
+        "allowedForCimdClients": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "api.apiPermissionsUpdateDto": {
+      "type": "object",
+      "properties": {
+        "permissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/api.apiPermissionInputDto"
+          }
+        }
+      }
+    },
+    "api.apiResponseDto": {
+      "type": "object",
+      "properties": {
+        "allowCimdClients": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/api.apiPermissionResponseDto"
+          }
+        },
+        "resource": {
+          "type": "string"
+        }
+      }
+    },
+    "api.apiUpdateDto": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 50,
+          "minLength": 1
+        }
+      }
+    },
+    "api.clientApiGrantDto": {
+      "type": "object",
+      "properties": {
+        "api": {
+          "$ref": "#/definitions/api.apiResponseDto"
+        },
+        "cimdGrantedAccess": {
+          "type": "boolean"
+        },
+        "cimdGrantedPermissionIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "clientAccess": {
+          "type": "boolean"
+        },
+        "clientPermissionIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "userDelegatedAccess": {
+          "type": "boolean"
+        },
+        "userDelegatedPermissionIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "apikey.apiKeyCreateDto": {
+      "type": "object",
+      "required": [
+        "expiresAt",
+        "name"
+      ],
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "expiresAt": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 50,
+          "minLength": 3
+        }
+      }
+    },
+    "apikey.apiKeyDto": {
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "expirationEmailSent": {
+          "type": "boolean"
+        },
+        "expiresAt": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "lastUsedAt": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "apikey.apiKeyResponseDto": {
+      "type": "object",
+      "properties": {
+        "apiKey": {
+          "$ref": "#/definitions/apikey.apiKeyDto"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "apperror.Code": {
+      "type": "string",
+      "enum": [
+        "internal_error",
+        "validation_failed",
+        "invalid_request_body",
+        "request_timeout",
+        "not_found",
+        "already_in_use",
+        "forbidden",
+        "invalid_token",
+        "rate_limited",
+        "file_too_large",
+        "invalid_image",
+        "invalid_webauthn_response",
+        "webauthn_authentication_failed",
+        "passkey_user_verification_required",
+        "synced_passkey_not_allowed",
+        "invalid_webauthn_session",
+        "user_not_found",
+        "user_disabled",
+        "api_key_not_found",
+        "invalid_api_key",
+        "device_login_expired",
+        "reauthentication_required",
+        "invalid_email_verification_token",
+        "setup_not_available",
+        "setup_already_completed",
+        "token_invalid_or_expired",
+        "device_code_invalid",
+        "oidc_missing_authorization",
+        "oidc_invalid_callback_url",
+        "file_type_not_supported",
+        "not_signed_in",
+        "missing_session_id",
+        "reserved_claim",
+        "duplicate_claim",
+        "ldap_disabled",
+        "ldap_user_update",
+        "ldap_user_group_update",
+        "oidc_access_denied",
+        "oidc_client_id_not_matching",
+        "ui_config_disabled",
+        "one_time_access_disabled",
+        "device_login_denied",
+        "no_api_key_provided",
+        "api_key_not_expired",
+        "invalid_api_key_expiration",
+        "api_key_auth_not_allowed",
+        "oidc_device_code_expired",
+        "oidc_invalid_device_code",
+        "open_signup_disabled",
+        "client_id_already_exists",
+        "user_email_not_set",
+        "image_not_found",
+        "logo_download_failed",
+        "logo_type_not_supported",
+        "logo_too_large",
+        "logo_presets_disabled",
+        "logo_presets_unavailable",
+        "oidc_par_required"
+      ],
+      "x-enum-varnames": [
+        "CodeInternal",
+        "CodeValidationFailed",
+        "CodeInvalidRequestBody",
+        "CodeRequestTimeout",
+        "CodeNotFound",
+        "CodeAlreadyInUse",
+        "CodeForbidden",
+        "CodeInvalidToken",
+        "CodeRateLimited",
+        "CodeFileTooLarge",
+        "CodeInvalidImage",
+        "CodeInvalidWebAuthnResponse",
+        "CodeWebAuthnAuthenticationFailed",
+        "CodePasskeyUserVerificationRequired",
+        "CodeSyncedPasskeyNotAllowed",
+        "CodeInvalidWebAuthnSession",
+        "CodeUserNotFound",
+        "CodeUserDisabled",
+        "CodeAPIKeyNotFound",
+        "CodeInvalidAPIKey",
+        "CodeDeviceLoginExpired",
+        "CodeReauthenticationRequired",
+        "CodeEmailVerificationTokenInvalid",
+        "CodeSetupNotAvailable",
+        "CodeSetupAlreadyCompleted",
+        "CodeTokenInvalidOrExpired",
+        "CodeDeviceCodeInvalid",
+        "CodeOidcMissingAuthorization",
+        "CodeOidcInvalidCallbackURL",
+        "CodeFileTypeNotSupported",
+        "CodeNotSignedIn",
+        "CodeMissingSessionID",
+        "CodeReservedClaim",
+        "CodeDuplicateClaim",
+        "CodeLdapDisabled",
+        "CodeLdapUserUpdate",
+        "CodeLdapUserGroupUpdate",
+        "CodeOidcAccessDenied",
+        "CodeOidcClientIDNotMatching",
+        "CodeUIConfigDisabled",
+        "CodeOneTimeAccessDisabled",
+        "CodeDeviceLoginDenied",
+        "CodeNoAPIKeyProvided",
+        "CodeAPIKeyNotExpired",
+        "CodeInvalidAPIKeyExpiration",
+        "CodeAPIKeyAuthNotAllowed",
+        "CodeOidcDeviceCodeExpired",
+        "CodeOidcInvalidDeviceCode",
+        "CodeOpenSignupDisabled",
+        "CodeClientIDAlreadyExists",
+        "CodeUserEmailNotSet",
+        "CodeImageNotFound",
+        "CodeLogoDownloadFailed",
+        "CodeLogoTypeNotSupported",
+        "CodeLogoTooLarge",
+        "CodeLogoPresetsDisabled",
+        "CodeLogoPresetsUnavailable",
+        "CodeOidcPARRequired"
+      ]
+    },
+    "devicelogin.decisionDto": {
+      "type": "object",
+      "required": [
+        "code",
+        "decision"
+      ],
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "decision": {
+          "type": "string",
+          "enum": [
+            "approve",
+            "deny"
+          ]
+        }
+      }
+    },
+    "devicelogin.requestCreateDto": {
+      "type": "object",
+      "properties": {
+        "expiresAt": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "interval": {
+          "type": "integer"
+        },
+        "userCode": {
+          "type": "string"
+        },
+        "verificationUri": {
+          "type": "string"
+        },
+        "verificationUriComplete": {
+          "type": "string"
+        }
+      }
+    },
+    "devicelogin.verificationDto": {
+      "type": "object",
+      "required": [
+        "code"
+      ],
+      "properties": {
+        "code": {
+          "type": "string"
+        }
+      }
+    },
+    "devicelogin.verificationInfoDto": {
+      "type": "object",
+      "properties": {
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "device": {
+          "type": "string"
+        },
+        "expiresAt": {
+          "type": "string"
+        },
+        "ipAddress": {
+          "type": "string"
+        },
+        "userCode": {
+          "type": "string"
+        }
+      }
+    },
+    "dto.AccessibleOidcClientDto": {
+      "type": "object",
+      "properties": {
+        "clientType": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "hasDarkLogo": {
+          "type": "boolean"
+        },
+        "hasLogo": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "lastUsedAt": {
+          "type": "string"
+        },
+        "launchURL": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "requiresReauthentication": {
+          "type": "boolean"
+        }
+      }
+    },
+    "dto.AppConfigUpdateDto": {
+      "type": "object",
+      "required": [
+        "allowOwnAccountEdit",
+        "allowUserSignups",
+        "appName",
+        "autoCreateOidcClientSecret",
+        "disableAnimations",
+        "emailApiKeyExpirationEnabled",
+        "emailLoginNotificationEnabled",
+        "emailOneTimeAccessAsAdminEnabled",
+        "emailOneTimeAccessAsUnauthenticatedEnabled",
+        "emailVerificationEnabled",
+        "emailsVerified",
+        "homePageUrl",
+        "ldapEnabled",
+        "ldapSkipCertVerify",
+        "ldapSoftDeleteUsers",
+        "oidcClientLogoPresetsEnabled",
+        "requireUserEmail",
+        "sessionDuration",
+        "smtpSkipCertVerify",
+        "smtpTls",
+        "webauthnAllowSyncedPasskeys",
+        "webauthnAuthenticatorAttachment",
+        "webauthnUserVerification"
+      ],
+      "properties": {
+        "accentColor": {
+          "type": "string"
+        },
+        "allowOwnAccountEdit": {
+          "type": "string"
+        },
+        "allowUserSignups": {
+          "type": "string",
+          "enum": [
+            "disabled",
+            "withToken",
+            "open"
+          ]
+        },
+        "appName": {
+          "type": "string",
+          "maxLength": 30,
+          "minLength": 1
+        },
+        "autoCreateOidcClientSecret": {
+          "type": "string"
+        },
+        "cimdUrlAllowlist": {
+          "type": "string"
+        },
+        "disableAnimations": {
+          "type": "string"
+        },
+        "emailApiKeyExpirationEnabled": {
+          "type": "string"
+        },
+        "emailLoginNotificationEnabled": {
+          "type": "string"
+        },
+        "emailOneTimeAccessAsAdminEnabled": {
+          "type": "string"
+        },
+        "emailOneTimeAccessAsUnauthenticatedEnabled": {
+          "type": "string"
+        },
+        "emailVerificationEnabled": {
+          "type": "string"
+        },
+        "emailsVerified": {
+          "type": "string"
+        },
+        "homePageUrl": {
+          "type": "string"
+        },
+        "ldapAdminGroupName": {
+          "type": "string"
+        },
+        "ldapAttributeGroupMember": {
+          "type": "string"
+        },
+        "ldapAttributeGroupName": {
+          "type": "string"
+        },
+        "ldapAttributeGroupUniqueIdentifier": {
+          "type": "string"
+        },
+        "ldapAttributeUserDisplayName": {
+          "type": "string"
+        },
+        "ldapAttributeUserEmail": {
+          "type": "string"
+        },
+        "ldapAttributeUserFirstName": {
+          "type": "string"
+        },
+        "ldapAttributeUserLastName": {
+          "type": "string"
+        },
+        "ldapAttributeUserProfilePicture": {
+          "type": "string"
+        },
+        "ldapAttributeUserUniqueIdentifier": {
+          "type": "string"
+        },
+        "ldapAttributeUserUsername": {
+          "type": "string"
+        },
+        "ldapBase": {
+          "type": "string"
+        },
+        "ldapBindDn": {
+          "type": "string"
+        },
+        "ldapBindPassword": {
+          "type": "string"
+        },
+        "ldapEnabled": {
+          "type": "string"
+        },
+        "ldapSkipCertVerify": {
+          "type": "string"
+        },
+        "ldapSoftDeleteUsers": {
+          "type": "string"
+        },
+        "ldapUrl": {
+          "type": "string"
+        },
+        "ldapUserGroupSearchFilter": {
+          "type": "string"
+        },
+        "ldapUserSearchFilter": {
+          "type": "string"
+        },
+        "oidcClientLogoPresetsEnabled": {
+          "type": "string"
+        },
+        "requireUserEmail": {
+          "type": "string"
+        },
+        "sessionDuration": {
+          "type": "string"
+        },
+        "signupDefaultCustomClaims": {
+          "type": "string"
+        },
+        "signupDefaultUserGroupIDs": {
+          "type": "string"
+        },
+        "smtpFrom": {
+          "type": "string"
+        },
+        "smtpHost": {
+          "type": "string"
+        },
+        "smtpPassword": {
+          "type": "string"
+        },
+        "smtpPort": {
+          "type": "string"
+        },
+        "smtpSkipCertVerify": {
+          "type": "string"
+        },
+        "smtpTls": {
+          "type": "string",
+          "enum": [
+            "none",
+            "starttls",
+            "tls"
+          ]
+        },
+        "smtpUser": {
+          "type": "string"
+        },
+        "webauthnAllowSyncedPasskeys": {
+          "type": "string"
+        },
+        "webauthnAuthenticatorAttachment": {
+          "type": "string",
+          "enum": [
+            "any",
+            "platform",
+            "cross-platform"
+          ]
+        },
+        "webauthnUserVerification": {
+          "type": "string",
+          "enum": [
+            "required",
+            "preferred"
+          ]
+        }
+      }
+    },
+    "dto.AppConfigVariableDto": {
+      "type": "object",
+      "properties": {
+        "isPublic": {
+          "type": "boolean"
+        },
+        "key": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "dto.AuditLogDto": {
+      "type": "object",
+      "properties": {
+        "actorUsername": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "device": {
+          "type": "string"
+        },
+        "event": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "ipAddress": {
+          "type": "string"
+        },
+        "userID": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "dto.AuthorizedOidcClientDto": {
+      "type": "object",
+      "properties": {
+        "client": {
+          "$ref": "#/definitions/dto.OidcClientMetaDataDto"
+        },
+        "lastUsedAt": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        }
+      }
+    },
+    "dto.CustomClaimCreateDto": {
+      "type": "object",
+      "required": [
+        "key",
+        "value"
+      ],
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "dto.CustomClaimDto": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "dto.EmailVerificationDto": {
+      "type": "object",
+      "required": [
+        "token"
+      ],
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "dto.ErrorDto": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "$ref": "#/definitions/apperror.Code"
+        },
+        "details": {
+          "type": "object",
+          "additionalProperties": {}
+        },
+        "error": {
+          "type": "string"
+        },
+        "request_id": {
+          "type": "string"
+        }
+      }
+    },
+    "dto.OidcClientCreateDto": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "accessTokenDurationMinutes": {
+          "type": "integer"
+        },
+        "backchannelLogoutURL": {
+          "type": "string"
+        },
+        "callbackURLs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "credentials": {
+          "$ref": "#/definitions/dto.OidcClientCredentialsDto"
+        },
+        "darkLogoUrl": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 150
+        },
+        "hasDarkLogo": {
+          "type": "boolean"
+        },
+        "hasLogo": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string",
+          "maxLength": 128,
+          "minLength": 2
+        },
+        "isGroupRestricted": {
+          "type": "boolean"
+        },
+        "isPublic": {
+          "type": "boolean"
+        },
+        "launchURL": {
+          "type": "string"
+        },
+        "logoUrl": {
+          "type": "string"
+        },
+        "logoutCallbackURLs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 50
+        },
+        "pkceEnabled": {
+          "type": "boolean"
+        },
+        "refreshTokenDurationMinutes": {
+          "type": "integer"
+        },
+        "requiresPushedAuthorizationRequests": {
+          "type": "boolean"
+        },
+        "requiresReauthentication": {
+          "type": "boolean"
+        },
+        "skipConsent": {
+          "type": "boolean"
+        }
+      }
+    },
+    "dto.OidcClientCreatedDto": {
+      "type": "object",
+      "properties": {
+        "accessTokenDurationMinutes": {
+          "type": "integer"
+        },
+        "allowedUserGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dto.UserGroupMinimalDto"
+          }
+        },
+        "backchannelLogoutURL": {
+          "type": "string"
+        },
+        "callbackURLs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "clientType": {
+          "type": "string"
+        },
+        "createdSecret": {
+          "$ref": "#/definitions/dto.OidcClientSecretCreatedDto"
+        },
+        "credentials": {
+          "$ref": "#/definitions/dto.OidcClientCredentialsDto"
+        },
+        "description": {
+          "type": "string"
+        },
+        "hasDarkLogo": {
+          "type": "boolean"
+        },
+        "hasLogo": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "isGroupRestricted": {
+          "type": "boolean"
+        },
+        "isPublic": {
+          "type": "boolean"
+        },
+        "launchURL": {
+          "type": "string"
+        },
+        "logoutCallbackURLs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "pkceEnabled": {
+          "type": "boolean"
+        },
+        "pkceSupported": {
+          "type": "boolean"
+        },
+        "refreshTokenDurationMinutes": {
+          "type": "integer"
+        },
+        "requiresPushedAuthorizationRequests": {
+          "type": "boolean"
+        },
+        "requiresReauthentication": {
+          "type": "boolean"
+        },
+        "skipConsent": {
+          "type": "boolean"
+        }
+      }
+    },
+    "dto.OidcClientCredentialsDto": {
+      "type": "object",
+      "properties": {
+        "federatedIdentities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dto.OidcClientFederatedIdentityDto"
+          }
+        },
+        "secrets": {
+          "description": "Secrets is read-only: secrets are managed through the dedicated client secret endpoints and any value sent by a client is ignored",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dto.OidcClientSecretDto"
+          }
+        }
+      }
+    },
+    "dto.OidcClientDto": {
+      "type": "object",
+      "properties": {
+        "accessTokenDurationMinutes": {
+          "type": "integer"
+        },
+        "backchannelLogoutURL": {
+          "type": "string"
+        },
+        "callbackURLs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "clientType": {
+          "type": "string"
+        },
+        "credentials": {
+          "$ref": "#/definitions/dto.OidcClientCredentialsDto"
+        },
+        "description": {
+          "type": "string"
+        },
+        "hasDarkLogo": {
+          "type": "boolean"
+        },
+        "hasLogo": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "isGroupRestricted": {
+          "type": "boolean"
+        },
+        "isPublic": {
+          "type": "boolean"
+        },
+        "launchURL": {
+          "type": "string"
+        },
+        "logoutCallbackURLs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "pkceEnabled": {
+          "type": "boolean"
+        },
+        "pkceSupported": {
+          "type": "boolean"
+        },
+        "refreshTokenDurationMinutes": {
+          "type": "integer"
+        },
+        "requiresPushedAuthorizationRequests": {
+          "type": "boolean"
+        },
+        "requiresReauthentication": {
+          "type": "boolean"
+        },
+        "skipConsent": {
+          "type": "boolean"
+        }
+      }
+    },
+    "dto.OidcClientFederatedIdentityDto": {
+      "type": "object",
+      "properties": {
+        "audience": {
+          "type": "string"
+        },
+        "issuer": {
+          "type": "string"
+        },
+        "jwks": {
+          "type": "string"
+        },
+        "publicKeys": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "replayProtection": {
+          "type": "boolean"
+        },
+        "subject": {
+          "type": "string"
+        }
+      }
+    },
+    "dto.OidcClientMetaDataDto": {
+      "type": "object",
+      "properties": {
+        "clientType": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "hasDarkLogo": {
+          "type": "boolean"
+        },
+        "hasLogo": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "launchURL": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "requiresReauthentication": {
+          "type": "boolean"
+        }
+      }
+    },
+    "dto.OidcClientPreviewDto": {
+      "type": "object",
+      "properties": {
+        "accessToken": {
+          "type": "object",
+          "additionalProperties": {}
+        },
+        "idToken": {
+          "type": "object",
+          "additionalProperties": {}
+        },
+        "userInfo": {
+          "type": "object",
+          "additionalProperties": {}
+        }
+      }
+    },
+    "dto.OidcClientSecretCreateDto": {
+      "type": "object",
+      "properties": {
+        "expiresAt": {
+          "description": "ExpiresAt makes the secret unusable after the given time (if nil, secrets don't expire)",
+          "type": "string"
+        },
+        "secret": {
+          "description": "Secret allows callers to supply their own value instead of having Pocket ID generate one",
+          "type": "string",
+          "minLength": 16
+        }
+      }
+    },
+    "dto.OidcClientSecretCreatedDto": {
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "type": "string"
+        },
+        "expiresAt": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "prefix": {
+          "description": "Prefix holds the first few characters of the secret in clear text, and is empty for secrets migrated from the single-secret column",
+          "type": "string"
+        },
+        "secret": {
+          "type": "string"
+        }
+      }
+    },
+    "dto.OidcClientSecretDto": {
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "type": "string"
+        },
+        "expiresAt": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "prefix": {
+          "description": "Prefix holds the first few characters of the secret in clear text, and is empty for secrets migrated from the single-secret column",
+          "type": "string"
+        }
+      }
+    },
+    "dto.OidcClientUpdateDto": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "accessTokenDurationMinutes": {
+          "type": "integer"
+        },
+        "backchannelLogoutURL": {
+          "type": "string"
+        },
+        "callbackURLs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "credentials": {
+          "$ref": "#/definitions/dto.OidcClientCredentialsDto"
+        },
+        "darkLogoUrl": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 150
+        },
+        "hasDarkLogo": {
+          "type": "boolean"
+        },
+        "hasLogo": {
+          "type": "boolean"
+        },
+        "isGroupRestricted": {
+          "type": "boolean"
+        },
+        "isPublic": {
+          "type": "boolean"
+        },
+        "launchURL": {
+          "type": "string"
+        },
+        "logoUrl": {
+          "type": "string"
+        },
+        "logoutCallbackURLs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 50
+        },
+        "pkceEnabled": {
+          "type": "boolean"
+        },
+        "refreshTokenDurationMinutes": {
+          "type": "integer"
+        },
+        "requiresPushedAuthorizationRequests": {
+          "type": "boolean"
+        },
+        "requiresReauthentication": {
+          "type": "boolean"
+        },
+        "skipConsent": {
+          "type": "boolean"
+        }
+      }
+    },
+    "dto.OidcClientWithAllowedGroupsDto": {
+      "type": "object",
+      "properties": {
+        "accessTokenDurationMinutes": {
+          "type": "integer"
+        },
+        "allowedUserGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dto.UserGroupMinimalDto"
+          }
+        },
+        "backchannelLogoutURL": {
+          "type": "string"
+        },
+        "callbackURLs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "clientType": {
+          "type": "string"
+        },
+        "credentials": {
+          "$ref": "#/definitions/dto.OidcClientCredentialsDto"
+        },
+        "description": {
+          "type": "string"
+        },
+        "hasDarkLogo": {
+          "type": "boolean"
+        },
+        "hasLogo": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "isGroupRestricted": {
+          "type": "boolean"
+        },
+        "isPublic": {
+          "type": "boolean"
+        },
+        "launchURL": {
+          "type": "string"
+        },
+        "logoutCallbackURLs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "pkceEnabled": {
+          "type": "boolean"
+        },
+        "pkceSupported": {
+          "type": "boolean"
+        },
+        "refreshTokenDurationMinutes": {
+          "type": "integer"
+        },
+        "requiresPushedAuthorizationRequests": {
+          "type": "boolean"
+        },
+        "requiresReauthentication": {
+          "type": "boolean"
+        },
+        "skipConsent": {
+          "type": "boolean"
+        }
+      }
+    },
+    "dto.OidcClientWithAllowedUserGroupsDto": {
+      "type": "object",
+      "properties": {
+        "accessTokenDurationMinutes": {
+          "type": "integer"
+        },
+        "allowedUserGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dto.UserGroupMinimalDto"
+          }
+        },
+        "backchannelLogoutURL": {
+          "type": "string"
+        },
+        "callbackURLs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "clientType": {
+          "type": "string"
+        },
+        "credentials": {
+          "$ref": "#/definitions/dto.OidcClientCredentialsDto"
+        },
+        "description": {
+          "type": "string"
+        },
+        "hasDarkLogo": {
+          "type": "boolean"
+        },
+        "hasLogo": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "isGroupRestricted": {
+          "type": "boolean"
+        },
+        "isPublic": {
+          "type": "boolean"
+        },
+        "launchURL": {
+          "type": "string"
+        },
+        "logoutCallbackURLs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "pkceEnabled": {
+          "type": "boolean"
+        },
+        "pkceSupported": {
+          "type": "boolean"
+        },
+        "refreshTokenDurationMinutes": {
+          "type": "integer"
+        },
+        "requiresPushedAuthorizationRequests": {
+          "type": "boolean"
+        },
+        "requiresReauthentication": {
+          "type": "boolean"
+        },
+        "skipConsent": {
+          "type": "boolean"
+        }
+      }
+    },
+    "dto.OidcUpdateAllowedUserGroupsDto": {
+      "type": "object",
+      "required": [
+        "userGroupIds"
+      ],
+      "properties": {
+        "userGroupIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "dto.Pagination": {
+      "type": "object",
+      "properties": {
+        "currentPage": {
+          "type": "integer"
+        },
+        "itemsPerPage": {
+          "type": "integer"
+        },
+        "totalItems": {
+          "type": "integer"
+        },
+        "totalPages": {
+          "type": "integer"
+        }
+      }
+    },
+    "dto.PublicAppConfigVariableDto": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "dto.UserCreateDto": {
+      "type": "object",
+      "required": [
+        "username"
+      ],
+      "properties": {
+        "disabled": {
+          "type": "boolean"
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "email": {
+          "type": "string"
+        },
+        "emailVerified": {
+          "type": "boolean"
+        },
+        "firstName": {
+          "type": "string",
+          "maxLength": 50
+        },
+        "id": {
+          "type": "string"
+        },
+        "isAdmin": {
+          "type": "boolean"
+        },
+        "lastName": {
+          "type": "string",
+          "maxLength": 50
+        },
+        "locale": {
+          "type": "string"
+        },
+        "userGroupIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "username": {
+          "type": "string",
+          "maxLength": 50,
+          "minLength": 1
+        }
+      }
+    },
+    "dto.UserDto": {
+      "type": "object",
+      "properties": {
+        "customClaims": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dto.CustomClaimDto"
+          }
+        },
+        "disabled": {
+          "type": "boolean"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "emailVerified": {
+          "type": "boolean"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "isAdmin": {
+          "type": "boolean"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "ldapId": {
+          "type": "string"
+        },
+        "locale": {
+          "type": "string"
+        },
+        "userGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dto.UserGroupMinimalDto"
+          }
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "dto.UserGroupCreateDto": {
+      "type": "object",
+      "required": [
+        "friendlyName",
+        "name"
+      ],
+      "properties": {
+        "friendlyName": {
+          "type": "string",
+          "maxLength": 50,
+          "minLength": 2
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 2
+        }
+      }
+    },
+    "dto.UserGroupDto": {
+      "type": "object",
+      "properties": {
+        "allowedOidcClients": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dto.OidcClientMetaDataDto"
+          }
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "customClaims": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dto.CustomClaimDto"
+          }
+        },
+        "friendlyName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "ldapId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dto.UserDto"
+          }
+        }
+      }
+    },
+    "dto.UserGroupMinimalDto": {
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "type": "string"
+        },
+        "customClaims": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dto.CustomClaimDto"
+          }
+        },
+        "friendlyName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "ldapId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "userCount": {
+          "type": "integer"
+        }
+      }
+    },
+    "dto.UserGroupUpdateAllowedOidcClientsDto": {
+      "type": "object",
+      "required": [
+        "oidcClientIds"
+      ],
+      "properties": {
+        "oidcClientIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "dto.UserGroupUpdateUsersDto": {
+      "type": "object",
+      "required": [
+        "userIds"
+      ],
+      "properties": {
+        "userIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "dto.UserUpdateUserGroupDto": {
+      "type": "object",
+      "required": [
+        "userGroupIds"
+      ],
+      "properties": {
+        "userGroupIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "dto.WebauthnCredentialDto": {
+      "type": "object",
+      "properties": {
+        "aaguid": {
+          "type": "string"
+        },
+        "attestationType": {
+          "type": "string"
+        },
+        "backupEligible": {
+          "type": "boolean"
+        },
+        "backupState": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "credentialID": {
+          "type": "string"
+        },
+        "hasIcon": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "transport": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-api_apiClientAccessDto": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/api.apiClientAccessDto"
+          }
+        },
+        "pagination": {
+          "$ref": "#/definitions/dto.Pagination"
+        }
+      }
+    },
+    "github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-api_apiClientDto": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/api.apiClientDto"
+          }
+        },
+        "pagination": {
+          "$ref": "#/definitions/dto.Pagination"
+        }
+      }
+    },
+    "github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-api_apiResponseDto": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/api.apiResponseDto"
+          }
+        },
+        "pagination": {
+          "$ref": "#/definitions/dto.Pagination"
+        }
+      }
+    },
+    "github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-apikey_apiKeyDto": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apikey.apiKeyDto"
+          }
+        },
+        "pagination": {
+          "$ref": "#/definitions/dto.Pagination"
+        }
+      }
+    },
+    "github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_AccessibleOidcClientDto": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dto.AccessibleOidcClientDto"
+          }
+        },
+        "pagination": {
+          "$ref": "#/definitions/dto.Pagination"
+        }
+      }
+    },
+    "github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_AuditLogDto": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dto.AuditLogDto"
+          }
+        },
+        "pagination": {
+          "$ref": "#/definitions/dto.Pagination"
+        }
+      }
+    },
+    "github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_AuthorizedOidcClientDto": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dto.AuthorizedOidcClientDto"
+          }
+        },
+        "pagination": {
+          "$ref": "#/definitions/dto.Pagination"
+        }
+      }
+    },
+    "github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_OidcClientWithAllowedGroupsDto": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dto.OidcClientWithAllowedGroupsDto"
+          }
+        },
+        "pagination": {
+          "$ref": "#/definitions/dto.Pagination"
+        }
+      }
+    },
+    "github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_UserDto": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dto.UserDto"
+          }
+        },
+        "pagination": {
+          "$ref": "#/definitions/dto.Pagination"
+        }
+      }
+    },
+    "github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_UserGroupMinimalDto": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dto.UserGroupMinimalDto"
+          }
+        },
+        "pagination": {
+          "$ref": "#/definitions/dto.Pagination"
+        }
+      }
+    },
+    "github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-usersignup_signupTokenDto": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/usersignup.signupTokenDto"
+          }
+        },
+        "pagination": {
+          "$ref": "#/definitions/dto.Pagination"
+        }
+      }
+    },
+    "logopreset.logoPresetDto": {
+      "type": "object",
+      "properties": {
+        "darkLogoUrl": {
+          "type": "string"
+        },
+        "logoUrl": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "reference": {
+          "type": "string"
+        }
+      }
+    },
+    "onetimeaccess.emailAsAdminDto": {
+      "type": "object",
+      "properties": {
+        "ttl": {
+          "$ref": "#/definitions/utils.JSONDuration"
+        }
+      }
+    },
+    "onetimeaccess.emailAsUnauthenticatedUserDto": {
+      "type": "object",
+      "required": [
+        "email"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "redirectPath": {
+          "type": "string"
+        }
+      }
+    },
+    "onetimeaccess.tokenCreateDto": {
+      "type": "object"
+    },
+    "scimsync.ScimServiceProviderCreateDTO": {
+      "type": "object",
+      "required": [
+        "endpoint",
+        "oidcClientId"
+      ],
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "oidcClientId": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "scimsync.ScimServiceProviderDTO": {
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "type": "string"
+        },
+        "endpoint": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "lastSyncedAt": {
+          "type": "string"
+        },
+        "oidcClient": {
+          "$ref": "#/definitions/dto.OidcClientMetaDataDto"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "usersignup.signUpDto": {
+      "type": "object",
+      "required": [
+        "username"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string",
+          "maxLength": 50
+        },
+        "lastName": {
+          "type": "string",
+          "maxLength": 50
+        },
+        "token": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string",
+          "maxLength": 50,
+          "minLength": 1
+        }
+      }
+    },
+    "usersignup.signupTokenCreateDto": {
+      "type": "object",
+      "required": [
+        "ttl",
+        "usageLimit"
+      ],
+      "properties": {
+        "ttl": {
+          "$ref": "#/definitions/utils.JSONDuration"
+        },
+        "usageLimit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1
+        },
+        "userGroupIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "usersignup.signupTokenDto": {
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "type": "string"
+        },
+        "expiresAt": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        },
+        "usageCount": {
+          "type": "integer"
+        },
+        "usageLimit": {
+          "type": "integer"
+        },
+        "userGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dto.UserGroupMinimalDto"
+          }
+        }
+      }
+    },
+    "utils.JSONDuration": {
+      "type": "object"
+    }
+  },
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Users, their passkeys and profile pictures, login codes and signup tokens."
+    },
+    {
+      "name": "User Groups",
+      "description": "Groups and their members."
+    },
+    {
+      "name": "OIDC",
+      "description": "OIDC clients with their secrets, logos and allowed groups, plus the clients each user has authorized."
+    },
+    {
+      "name": "APIs",
+      "description": "Your own APIs, their permissions and the clients that may request them."
+    },
+    {
+      "name": "Custom Claims",
+      "description": "Extra claims that Pocket ID adds to the tokens of a user or of every member of a group."
+    },
+    {
+      "name": "API Keys",
+      "description": "Keys for this REST API."
+    },
+    {
+      "name": "Application Configuration",
+      "description": "The settings of the Application Configuration page, the LDAP sync and the test email."
+    },
+    {
+      "name": "Application Images",
+      "description": "The logo, favicon, background, email logo and default profile picture."
+    },
+    {
+      "name": "Audit Logs",
+      "description": "Sign-ins and other security events, of the current user or of everyone."
+    },
+    {
+      "name": "SCIM",
+      "description": "SCIM provisioning of an OIDC client."
+    },
+    {
+      "name": "Device Login",
+      "description": "The requests behind sign-in with another device."
+    },
+    {
+      "name": "Well Known",
+      "description": "Discovery documents and signing keys, which OIDC clients read without authentication."
+    },
+    {
+      "name": "Version",
+      "description": "The running version and the latest release."
+    },
+    {
+      "name": "Health",
+      "description": "A health check for container orchestrators and load balancers."
+    },
+    {
+      "name": "Storage",
+      "description": "Storage warnings for the admin UI."
+    }
+  ]
+}

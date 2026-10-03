@@ -28,9 +28,9 @@ The site runs at `http://localhost:4321` and reloads when you save a file.
 
 ### API reference
 
-`pnpm dev` and `pnpm build` generate the API reference from the backend's code with [swag](https://github.com/swaggo/swag), which needs Go and a checkout of [pocket-id/pocket-id](https://github.com/pocket-id/pocket-id).
-The checkout is expected next to this repository, or wherever `POCKET_ID_DIR` points.
-Without one, the rest of the site builds and the endpoints page stays empty.
+The API reference reads the Swagger spec in `src/generated`, which is generated from the backend's code with [swag](https://github.com/swaggo/swag) and committed, so the site builds without Go.
+The `Update API spec` workflow regenerates it from the `main` branch of [pocket-id/pocket-id](https://github.com/pocket-id/pocket-id) every hour and commits it when it changed.
+To regenerate it yourself, run `pnpm openapi` with Go installed and a checkout of pocket-id next to this repository, or wherever `POCKET_ID_DIR` points.
 
 See [the documentation guide](https://pocket-id.org/docs/helping-out/documentation) for how to write pages.
 

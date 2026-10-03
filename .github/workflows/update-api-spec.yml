@@ -1,0 +1,90 @@
+name: Update API spec
+
+# Regenerates the committed spec in src/generated from the pocket-id backend, so the site builds without Go or the backend
+on:
+  schedule:
+    - cron: "30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: update-api-spec
+  cancel-in-progress: false
+
+jobs:
+  update-api-spec:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          persist-credentials: false
+
+      - name: Checkout pocket-id repo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: pocket-id/pocket-id
+          path: pocket-id
+          ref: main
+          persist-credentials: false
+
+      - name: Setup Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: pocket-id/backend/go.mod
+          cache-dependency-path: pocket-id/backend/go.sum
+
+      - name: Install swag
+        run: go install github.com/swaggo/swag/cmd/swag@latest
+
+      - name: Setup Node.js and pnpm
+        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        with:
+          install: false
+
+      - name: Generate API spec
+        run: pnpm openapi
+        env:
+          POCKET_ID_DIR: pocket-id
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if [[ -n "$(git status --porcelain src/generated)" ]]; then
+            echo "updated=true" >> "$GITHUB_OUTPUT"
+            echo "commit=$(git -C pocket-id rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+          else
+            echo "The API spec is up to date." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Create bot app token
+        if: steps.changes.outputs.updated == 'true'
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.BOT_APP_CLIENT_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          permission-contents: write
+
+      # The bot pushes to main directly, which needs the app as a bypass actor of the branch ruleset
+      - name: Commit API spec to main
+        if: steps.changes.outputs.updated == 'true'
+        env:
+          POCKET_ID_COMMIT: ${{ steps.changes.outputs.commit }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+        run: |
+          bot_name="${APP_SLUG}[bot]"
+          bot_id=$(gh api "users/$bot_name" --jq .id)
+          git config user.name "Pocket ID Bot"
+          git config user.email "$bot_id+$bot_name@users.noreply.github.com"
+          gh auth setup-git
+
+          git add src/generated
+          git commit --signoff -m "docs(api): update the API spec to pocket-id@$POCKET_ID_COMMIT"
+          # Another bot commit, such as the changelog's, may have landed since the checkout
+          git pull --rebase origin main
+          git push origin HEAD:refs/heads/main
