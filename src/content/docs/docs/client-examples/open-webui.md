@@ -23,7 +23,7 @@ Add the following to your Docker `.env` file for Open WebUI:
 ENABLE_OAUTH_SIGNUP=true
 OAUTH_CLIENT_ID=<client-id>
 OAUTH_CLIENT_SECRET=<client-secret>
-OAUTH_PROVIDER_NAME="Pocket ID"
+OAUTH_PROVIDER_NAME=Pocket ID
 OPENID_PROVIDER_URL=https://id.example.com/.well-known/openid-configuration
 OAUTH_MERGE_ACCOUNTS_BY_EMAIL=true
 
@@ -32,10 +32,10 @@ ENABLE_OAUTH_ROLE_MANAGEMENT=true
 ENABLE_OAUTH_GROUP_MANAGEMENT=true
 ENABLE_OAUTH_GROUP_CREATION=true
 # Make sure these match the groups you created in Pocket ID
-OAUTH_ALLOWED_ROLES="users, admins"
+OAUTH_ALLOWED_ROLES=users,admins
 OAUTH_ADMIN_ROLES=admins
 OAUTH_ROLES_CLAIM=groups
-OAUTH_SCOPES="openid email profile groups"
+OAUTH_SCOPES=openid email profile groups
 
 # Optional but useful variables:
 
