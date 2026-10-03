@@ -1,14 +1,16 @@
 ---
 title: Headscale
-description: Configure Headscale VPN with Pocket ID OIDC
+description: Sign in to the Headscale VPN control server with Pocket ID.
+client:
+  callbackUrls:
+    - https://headscale.example.com/oidc/callback
+  pkce: true
+  values:
+    - clientId
+    - clientSecret
 ---
 
-## Create OIDC Client in Pocket ID
-
-1. Create a new OIDC Client in Pocket ID (e.g., `Headscale`).
-2. Set the callback URL: `https://<HEADSCALE-DOMAIN>/oidc/callback`.
-3. Enable `PKCE`.
-4. Copy the **Client ID** and **Client Secret**.
+::create-client
 
 ## Configure Headscale
 
@@ -20,20 +22,21 @@ Add the following to `config.yaml`:
 
 ```yaml
 oidc:
-  issuer: 'https://<POCKET-ID-DOMAIN>'
-  client_id: '<CLIENT-ID>'
-  client_secret: '<CLIENT-SECRET>'
+  issuer: 'https://id.example.com'
+  client_id: '<client-id>'
+  client_secret: '<client-secret>'
   pkce:
     enabled: true
     method: S256
 ```
 
-### (Optional) Restrict Access to Certain Groups
+### Restrict access to certain groups
 
-To allow only specific groups, add:
+_(Optional)_ To allow only specific groups, add the following under `oidc:`:
 
 ```yaml
-scope: ['openid', 'profile', 'email', 'groups']
-allowed_groups:
-  - <POCKET-ID-GROUP-NAME> #example: headscale
+oidc:
+  scope: ['openid', 'profile', 'email', 'groups']
+  allowed_groups:
+    - <POCKET-ID-GROUP-NAME> # example: headscale
 ```

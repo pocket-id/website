@@ -1,37 +1,28 @@
 ---
 title: DBackup
-description: Configure DBackup with Pocket ID authentication
+description: Sign in to the DBackup database backup tool with Pocket ID.
+client:
+  callbackUrls:
+    - "https://dbackup.example.com/api/auth/sso/callback/<provider-id>"
+  values:
+    - clientId
+    - clientSecret
 ---
 
-## Create the DBackup OIDC Client in PocketID
+::create-client
 
-### Required Settings
+`<provider-id>` must be the **Provider ID** you get when you create the SSO/OIDC settings in DBackup.
+DBackup proposes an ID such as `pocket-id-1234`.
+In a local Docker installation of DBackup, the callback URL can also use the local IP address and port of DBackup, for example `https://192.168.x.xxx:3000/api/auth/sso/callback/pocket-id-123`.
 
-- **Callback-URL:** `https://your-dbackup-url/api/auth/sso/callback/<provider-id>`
-- **Grant Type:** `Authorization Code`
-- **Scopes:** `openid`, `profile`, `email`
+## Configure DBackup
 
-Attention: The `<provider-id>` must be the Provider ID you get when creating the SSO/OIDC settings in DBackup. DBackup will propose an ID, e.g. pocket-id-1234
+The SSO settings in DBackup are under **Users & Groups → SSO / OIDC**.
 
-The Callback-URL in a local docker installation of DBackup can also be the local IP address and the port of DBackup, for example `https://192.168.x.xxx:3000/api/auth/sso/callback/pocket-id-123`
-
-### Copy the ID and Client Secret from PocketID
-
-- **Client ID**
-- **Client Secret**
-
----
-
-## Configuration of PocketID in DBackup
-
-The SSO settings in DBackup are in the menu of Users & Groups and then SSO / OIDC
-
-### Configuration
-
-| Field         | Description                                               | Example                        |
-| ------------- | --------------------------------------------------------- | ------------------------------ |
-| Name          | Display name                                              | `"PocketID"`                   |
-| Provider ID   | The ID to be used in the client configuration in PocketID | `pocket-id-1234`               |
-| Provider      | PocketID URL                                              | `https://pocketid.example.com` |
-| Client ID     | From PocketID                                             | `client-id`                    |
-| Client Secret | From PocketID                                             | `secret`                       |
+| Field         | Description                                          | Example                  |
+| ------------- | ---------------------------------------------------- | ------------------------ |
+| Name          | Display name                                         | `"Pocket ID"`            |
+| Provider ID   | The ID used in the callback URL in Pocket ID         | `pocket-id-1234`         |
+| Provider      | Pocket ID URL                                        | `https://id.example.com` |
+| Client ID     | The **Client ID** from Pocket ID                     | `<client-id>`            |
+| Client Secret | The **Client secret** from Pocket ID                 | `<client-secret>`        |

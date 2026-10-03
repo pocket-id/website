@@ -1,45 +1,41 @@
 ---
 title: Gotify
-description: Integrate Pocket ID with Gotify
+description: Sign in to the Gotify notification server with Pocket ID.
+client:
+  callbackUrls:
+    - https://gotify.example.com/auth/oidc/callback
+    - gotify://oidc/callback
+  pkce: true
+  values:
+    - clientId
+    - clientSecret
 ---
 
 ## Requirements
 
 - Gotify Server version `3.0` or higher
 
-## Create OIDC Client in Pocket ID
+::create-client
 
-1. Create a new OIDC Client in Pocket ID (e.g., `Gotify`).
-2. Set the **Callback URL** to the value below (replacing `example.com` with your actual domain).
-
-```
-https://gotify.example/auth/oidc/callback
-```
-
-3. _Optional:_ If using the Android app, add a second Callback URL:
-
-```
-gotify://oidc/callback
-```
-
-4. **Enable PKCE.**
-5. _Optional:_ Download a PNG or SVG logo from the [Gotify project](https://github.com/gotify) and upload.
-6. Copy the **Client ID** and **Client Secret** for use in the next section.
+The `gotify://oidc/callback` URL is only needed for the Android app.
 
 ## Configure Gotify
 
-[OIDC for Gotify is configured via environment variables](https://gotify.net/docs/config). There is no GUI for managing it. Therefore, depending on the installation method used, these variables would need to be passed in different ways. However, the same variables are used for every case, and [they are all referenced in Gotify's docs](https://gotify.net/docs/oidc).
+[OIDC for Gotify is configured with environment variables](https://gotify.net/docs/config).
+There is no GUI for managing it.
+Depending on the installation method, these variables need to be passed in different ways.
+However, the same variables are used in every case, and [they are all referenced in Gotify's docs](https://gotify.net/docs/oidc).
 
-For Docker deployments, Docker environment variables can be used.
+For Docker deployments, use Docker environment variables.
 
-Either way, set the variables as the following:
+Set the following variables, replacing `gotify.example.com` and `id.example.com` with your own domains:
 
-```
+```ini
 GOTIFY_OIDC_ENABLED=true
-GOTIFY_OIDC_ISSUER=https://auth.example.org
-GOTIFY_OIDC_CLIENTID=YOUR_CLIENT_ID
-GOTIFY_OIDC_CLIENTSECRET=YOUR_CLIENT_SECRET
-GOTIFY_OIDC_REDIRECTURL=https://gotify.example.org/auth/oidc/callback
+GOTIFY_OIDC_ISSUER=https://id.example.com
+GOTIFY_OIDC_CLIENTID=<client-id>
+GOTIFY_OIDC_CLIENTSECRET=<client-secret>
+GOTIFY_OIDC_REDIRECTURL=https://gotify.example.com/auth/oidc/callback
 GOTIFY_OIDC_AUTOREGISTER=true
 GOTIFY_OIDC_USERNAMECLAIM=preferred_username
 GOTIFY_OIDC_LINK_BY_USERNAME=false
@@ -48,10 +44,10 @@ GOTIFY_OIDC_SCOPES=openid,profile,email
 
 Where:
 
-- **`GOTIFY_OIDC_CLIENTID`:** Is the Client ID you saved in the first step.
-- **`GOTIFY_OIDC_CLIENTSECRET`:** Is the Client Secret you saved in the first step.
-- **`GOTIFY_OIDC_AUTOREGISTER`:** Can be set to `false` to disable auto-provisioning.
-- **`GOTIFY_OIDC_LINK_BY_USERNAME`:** Can be set to `true` if you want your Pocket ID to be mapped with an already existing internal Gotify user (assuming they have the same username).
+- **`GOTIFY_OIDC_CLIENTID`**: the **Client ID** from Pocket ID.
+- **`GOTIFY_OIDC_CLIENTSECRET`**: the **Client secret** from Pocket ID.
+- **`GOTIFY_OIDC_AUTOREGISTER`**: can be set to `false` to disable auto-provisioning.
+- **`GOTIFY_OIDC_LINK_BY_USERNAME`**: can be set to `true` if you want your Pocket ID user to be mapped to an already existing internal Gotify user with the same username.
 
 ### Docker Compose example
 
@@ -67,10 +63,10 @@ services:
       - gotify-data:/app/data
     environment:
       - GOTIFY_OIDC_ENABLED=true
-      - GOTIFY_OIDC_ISSUER=https://auth.example.org
-      - GOTIFY_OIDC_CLIENTID=YOUR_CLIENT_ID
-      - GOTIFY_OIDC_CLIENTSECRET=YOUR_CLIENT_SECRET
-      - GOTIFY_OIDC_REDIRECTURL=https://gotify.example.org/auth/oidc/callback
+      - GOTIFY_OIDC_ISSUER=https://id.example.com
+      - GOTIFY_OIDC_CLIENTID=<client-id>
+      - GOTIFY_OIDC_CLIENTSECRET=<client-secret>
+      - GOTIFY_OIDC_REDIRECTURL=https://gotify.example.com/auth/oidc/callback
       - GOTIFY_OIDC_AUTOREGISTER=true
       - GOTIFY_OIDC_USERNAMECLAIM=preferred_username
       - GOTIFY_OIDC_LINK_BY_USERNAME=false
@@ -84,10 +80,10 @@ docker run -d --name gotify --restart unless-stopped \
   -p 8080:80 \
   -v gotify-data:/app/data \
   -e GOTIFY_OIDC_ENABLED=true \
-  -e GOTIFY_OIDC_ISSUER=https://auth.example.org \
-  -e GOTIFY_OIDC_CLIENTID=YOUR_CLIENT_ID \
-  -e GOTIFY_OIDC_CLIENTSECRET=YOUR_CLIENT_SECRET \
-  -e GOTIFY_OIDC_REDIRECTURL=https://gotify.example.org/auth/oidc/callback \
+  -e GOTIFY_OIDC_ISSUER=https://id.example.com \
+  -e GOTIFY_OIDC_CLIENTID=<client-id> \
+  -e GOTIFY_OIDC_CLIENTSECRET=<client-secret> \
+  -e GOTIFY_OIDC_REDIRECTURL=https://gotify.example.com/auth/oidc/callback \
   -e GOTIFY_OIDC_AUTOREGISTER=true \
   -e GOTIFY_OIDC_USERNAMECLAIM=preferred_username \
   -e GOTIFY_OIDC_LINK_BY_USERNAME=false \

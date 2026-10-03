@@ -1,20 +1,21 @@
 ---
 title: MeshCentral
-description: Configure MeshCentral device manager with PocketID.
+description: Sign in to the MeshCentral device manager with Pocket ID.
 ---
-The following example variables are used, and should be replaced with your actual URLs.
 
-    meshcentral.example.com (The URL of your MeshCentral instance.)
-    id.example.com (The URL of your Pocket ID instance.)
+Replace `meshcentral.example.com` with the domain of your MeshCentral instance and `id.example.com` with the domain of your Pocket ID instance.
 
-## Pocket ID Setup
+## Create the client in Pocket ID
 
-1. In Pocket ID create a new OIDC Client, name it i.e. `MeshCentral`
-2. Copy the Client ID and Client Secret for use in the next steps.
+1. In Pocket ID, open **Administration → OIDC Clients** and click **Add OIDC Client**.
+2. Enter a name such as `MeshCentral`.
+3. Click **Create** and copy the **Client ID** and the **Client secret**.
+   The client secret is only shown once.
+4. On the client's **Access** tab, select the groups that may sign in under **Allowed User Groups**, or choose **All Users**.
 
-## MeshCentral Setup
+## Configure MeshCentral
 
-Update the `authStrategies` object in your `config.json` to match the following:
+Update the `authStrategies` object in your `config.json` to match the following, with the **Client ID** and the **Client secret** from Pocket ID:
 
 ```json
   "domains": {
@@ -22,8 +23,8 @@ Update the `authStrategies` object in your `config.json` to match the following:
       "authStrategies": {
         "oidc": {
           "client": {
-            "client_id": "<POCKET_ID_CLIENT_ID>",
-            "client_secret": "<POCKET_ID_SECRET>",
+            "client_id": "<client-id>",
+            "client_secret": "<client-secret>",
             "redirect_uri": "https://meshcentral.example.com/auth-oidc-callback"
           },
           "issuer": {

@@ -1,39 +1,48 @@
 ---
 title: Homarr
-description: Enable OIDC login for Homarr dashboard
+description: Sign in to the Homarr dashboard with Pocket ID.
+client:
+  callbackUrls:
+    - https://homarr.example.com/api/auth/callback/oidc
+  pkce: true
+  values:
+    - clientId
+    - clientSecret
 ---
 
-## Pocket ID Setup
+## Create a group in Pocket ID
 
-1. In Pocket ID, create a new OIDC client (example: `homarr`).
-2. Set the Callback URL to `https://<homarr-url>/api/auth/callback/oidc`.
-3. Enable **PKCE** for improved security.
-4. Copy the generated **Client ID** and **Client Secret** values for next steps.
-5. Create a group in Pocket ID called `homarr_admin` (or your preferred admin group name).
+1. In Pocket ID, open **Administration → User Groups** and click **Add Group**.
+2. Create a group called `homarr_admin` (or your preferred admin group name).
 
-## Homarr Docker Setup
+::create-client
+
+## Configure Homarr
 
 Add the following variables to your Homarr container `.env` file and restart:
 
-```
+```ini
 NEXTAUTH_SECRET=<generate-a-random-secret, f.e. using: openssl rand -base64 32 >
 AUTH_PROVIDERS=oidc
-AUTH_OIDC_CLIENT_ID=<Client ID from Pocket ID>
-AUTH_OIDC_CLIENT_SECRET=<Client Secret from Pocket ID>
-AUTH_OIDC_ISSUER=https://<pocket-id-domain>
+AUTH_OIDC_CLIENT_ID=<client-id>
+AUTH_OIDC_CLIENT_SECRET=<client-secret>
+AUTH_OIDC_ISSUER=https://id.example.com
 AUTH_OIDC_CLIENT_NAME="Pocket ID"
 AUTH_OIDC_SCOPE_OVERWRITE=openid email profile groups
 AUTH_OIDC_GROUPS_ATTRIBUTE=groups
-AUTH_LOGOUT_REDIRECT_URL=https://<pocket-id-domain>
+AUTH_LOGOUT_REDIRECT_URL=https://id.example.com
 AUTH_OIDC_AUTO_LOGIN=true
 ```
 
-### Admin Group Configuration
+### Admin group
 
-During the initial setup of Homarr, you will be prompted to enter an admin group. Enter the group name that exists in Pocket ID and should receive admin rights (e.g., `homarr_admin`).
+During the initial setup of Homarr, you will be prompted to enter an admin group.
+Enter the name of the Pocket ID group that should receive admin rights (e.g., `homarr_admin`).
 
-**Note:** You can optionally include `,credentials` in `AUTH_PROVIDERS` to keep local accounts as fallback:
-```
+:::note
+You can optionally include `,credentials` in `AUTH_PROVIDERS` to keep local accounts as a fallback:
+
+```ini
 AUTH_PROVIDERS=oidc,credentials
 ```
-
+:::

@@ -1,15 +1,24 @@
 ---
 title: Tandoor Recipes
-description: Configure Tandoor Recipes with Pocket ID
+description: Sign in to the Tandoor Recipes manager with Pocket ID.
+client:
+  callbackUrls:
+    - https://tandoor.example.com/accounts/oidc/pocket-id/login/callback/
+  values:
+    - clientId
+    - clientSecret
 ---
 
-1. In Pocket-ID, create a new OIDC Client, name it e.g. `Tandoor`
-2. Set the callback URL to: `https://<your-tandoor-domain>/accounts/oidc/pocket-id/login/callback/`.
-3. Add the following environment variables to your Tandoor setup, e.g. via the `.env` file. Make sure to replace the 3 placeholders in `SOCIALACCOUNT_PROVIDERS`:
+::create-client
 
-```ini
-SOCIAL_PROVIDERS=allauth.socialaccount.providers.openid_connect
-SOCIALACCOUNT_PROVIDERS='{"openid_connect":{"APPS":[{"provider_id":"pocket-id","name":"Pocket ID","client_id":"<pocket-id-client-id>","secret":"<pocket-id-client-secret>","settings":{"server_url":"https://<your-pocket-id-domain>/.well-known/openid-configuration"}}]}}'
-```
+## Configure Tandoor Recipes
 
-Restart Tandoor and you will see an option to login with Pocket ID on the login page. You can also link existing accounts with Pocket ID through your Tandoor profile settings.
+1. Add the following environment variables to your Tandoor setup, for example in the `.env` file.
+   In `SOCIALACCOUNT_PROVIDERS`, replace `<client-id>` and `<client-secret>` with the **Client ID** and the **Client secret** from Pocket ID, and `id.example.com` with your Pocket ID domain.
+   ```ini
+   SOCIAL_PROVIDERS=allauth.socialaccount.providers.openid_connect
+   SOCIALACCOUNT_PROVIDERS='{"openid_connect":{"APPS":[{"provider_id":"pocket-id","name":"Pocket ID","client_id":"<client-id>","secret":"<client-secret>","settings":{"server_url":"https://id.example.com/.well-known/openid-configuration"}}]}}'
+   ```
+2. Restart Tandoor.
+   The login page now has an option to sign in with Pocket ID.
+   You can also link existing accounts with Pocket ID in your Tandoor profile settings.

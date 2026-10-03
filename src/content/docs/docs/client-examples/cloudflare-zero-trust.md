@@ -1,29 +1,34 @@
 ---
 title: Cloudflare Zero Trust
-description: Integrate with Cloudflare Zero Trust Access
+description: Use Pocket ID as an identity provider for Cloudflare Zero Trust Access.
+client:
+  callbackUrls:
+    - "https://<your-team-name>.cloudflareaccess.com/cdn-cgi/access/callback"
+  values:
+    - clientId
+    - clientSecret
+    - authorizationUrl
+    - tokenUrl
+    - certificateUrl
 ---
 
 :::caution
-Cloudflare will need to be able to reach your Pocket ID instance and vice versa for this to work correctly
+Cloudflare needs to be able to reach your Pocket ID instance and vice versa for this to work correctly.
 :::
 
-## Pocket ID Setup
+::create-client
 
-1. In Pocket-ID create a new OIDC Client, name it i.e. `Cloudflare Zero Trust`.
-2. Set a logo for this OIDC Client if you would like too.
-3. Set the callback URL to: `https://<your-team-name>.cloudflareaccess.com/cdn-cgi/access/callback`.
-4. Copy the Client ID, Client Secret, Authorization URL, Token URL, and Certificate URL for the next steps.
+## Configure Cloudflare Zero Trust
 
-## Cloudflare One (Zero Trust) Setup
-
-1. Login to Cloudflare Zero Trust [Dashboard](https://one.dash.cloudflare.com/).
-2. On the left navigation page, go to Integrations > Identity providers
-3. Click `Add an identity provider` under Identity provider integrations
-4. Choose `Open ID Connect` as the identity provider
-5. Create a name for the new login method.
-6. Paste in the `Client ID` from Pocket ID into the `App ID` field.
-7. Paste the `Client Secret` from Pocket ID into the `Client Secret` field.
-8. Paste the `Authorization URL` from Pocket ID into the `Auth URL` field.
-9. Paste the `Token URL` from Pocket ID into the `Token URL` field.
-10. Paste the `Certificate URL` from Pocket ID into the `Certificate URL` field.
-11. Save the new login method and test to make sure it works with Cloudflare.
+1. Sign in to the Cloudflare Zero Trust [dashboard](https://one.dash.cloudflare.com/).
+2. In the left navigation, go to **Integrations → Identity providers**.
+3. Under **Identity provider integrations**, click **Add an identity provider**.
+4. Choose **OpenID Connect** as the identity provider.
+5. Enter a name for the new login method.
+6. Fill in the fields:
+   - **App ID**: the **Client ID** from Pocket ID.
+   - **Client Secret**: the **Client secret** from Pocket ID.
+   - **Auth URL**: the **Authorization URL** from Pocket ID.
+   - **Token URL**: the **Token URL** from Pocket ID.
+   - **Certificate URL**: the **Certificate URL** from Pocket ID.
+7. Save the new login method and test it in Cloudflare.

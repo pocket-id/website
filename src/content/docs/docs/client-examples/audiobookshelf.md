@@ -1,76 +1,76 @@
 ---
 title: Audiobookshelf
-description: Configure OIDC authentication for Audiobookshelf
+description: Sign in to the Audiobookshelf audiobook and podcast server with Pocket ID.
+client:
+  callbackUrls:
+    - https://audiobookshelf.example.com/auth/openid/callback
+    - https://audiobookshelf.example.com/auth/openid/mobile-redirect
+  values:
+    - clientId
+    - clientSecret
 ---
 
-The following example variables are used, and should be replaced with your actual URLs.
+::create-client
 
-- `audiobookshelf.example.com` (The URL of your Audiobookshelf instance.)
-- `id.example.com` (The URL of your Pocket ID instance.)
+## Configure Audiobookshelf
 
-## Pocket-ID setup
-
-1. In Pocket-ID create a new OIDC Client, name it, for example `audiobookshelf`
-2. Set a logo for this OIDC Client if you would like to.
-3. Set the callback URLs to: `https://audiobookshelf.example.com/auth/openid/callback` and add another one, for the mobile app to `https://audiobookshelf.example.com/auth/openid/mobile-redirect`.
-4. Copy the `Client ID` and `Client Secret` for use in the next steps.
-
-## Audiobookshelf setup
-
-1. Log in to Audiobookshelf as an admin.
-2. Go to **Settings → Authentication** check the checkbox for **OpenID Connect Authentication**
-3. In the field **Issuer URL** put `id.example.com` and click on **Auto-Populate**, this should automatically populate all the other URL fields.
-4. Enter the **Client ID**.
-5. Enter the **Client Secret**.
-6. Change the **Subfolder for Redirect URLs** according to how you configured Audiobookshelf. In this example change it to **None**, if you are using a dedicated subdomain for it.
-7. Change **Match existing users by**, to what you want it to match an OIDC user with an existing (Audiobookshelf) user by.
-8. Toggle **Auto Register** to true, if you want to create a new user if it does not exist.
-9. Configure the **group claim** if you want.
+1. Sign in to Audiobookshelf as an admin.
+2. Open **Settings → Authentication** and select **OpenID Connect Authentication**.
+3. Enter `https://id.example.com` in **Issuer URL** and click **Auto-Populate**.
+   This fills in all the other URL fields.
+4. Enter the **Client ID** from Pocket ID.
+5. Enter the **Client secret** from Pocket ID.
+6. Change **Subfolder for Redirect URLs** to match how you set up Audiobookshelf.
+   In this example, change it to **None** if you use a dedicated subdomain for Audiobookshelf.
+7. Set **Match existing users by** to how an OIDC user should be matched with an existing Audiobookshelf user.
+8. Turn on **Auto Register** if you want to create a new user when it doesn't exist yet.
+9. _(Optional)_ Configure the **Group Claim** (see [Group claim](#group-claim)).
    :::danger
-   If you configure **group claim**, you will not be able to sign in as user. If you're not part of admin, user or guest.
+   If you configure **Group Claim**, users who aren't in the `admin`, `user` or `guest` group can't sign in.
    :::
-10. Configure the **abspermissions** claim if you want.
+10. _(Optional)_ Configure the `abspermissions` claim (see [Advanced permission claim](#advanced-permission-claim)).
+    :::danger
+    If you configure `abspermissions`, normal users can't sign in when the claim is missing or invalid.
+    :::
 
-:::danger
-If you configure **abspermissions**, you will not be able to sign in as a normal user. If your configuration for it is not valid or not configured.
-:::
+### Group claim
 
-### Group Claim
-
-If you want to automatically assign permissions based on group membership.
-
-#### Audiobookshelf
-
-Set the **Group Claim** under **Settings → Authentication → OpenID Connect Authentication → Group Claim** to `groups`.
-
-#### Pocket-ID
-
-Create a group `admin`, `user` or `guest` via **User Groups → Add Group**. Add the users depending on what permissions you want them to have to the groups.
-
-### Advanced Permission Claim
+Use this if you want to assign permissions automatically based on group membership.
 
 #### Audiobookshelf
 
-Set the **Advanced permission Claim** under **Settings → Authentication → OpenID Connect Authentication → Advanced Permission Claim** to `abspermissions`.
+Set **Group Claim** under **Settings → Authentication → OpenID Connect Authentication → Group Claim** to `groups`.
 
-#### Pocket-ID
+#### Pocket ID
 
-1. Create a custom claim for the group `yourgroupname` under **User Groups → Manage User Groups → `yourgroupname` → ... → Edit → Custom Claims → + Add custom claim**.
-2. Set Key to `abspermissions`
-3. set value to a valid JSON like this:
+1. In Pocket ID, open **Administration → User Groups**.
+2. Click **Add Group** and create a group with the **Name** `admin`, `user` or `guest`.
+3. Add users to the group that matches the permissions you want them to have.
 
-```json
-{
-  "canDownload": true,
-  "canAccessAllLibraries": true,
-  "canAccessAllTags": true,
-  "tagsAreDenylist": false
-}
-```
+### Advanced permission claim
 
-#### Little explanation of the abspermissions:
+#### Audiobookshelf
 
-```
+Set **Advanced Permission Claim** under **Settings → Authentication → OpenID Connect Authentication → Advanced Permission Claim** to `abspermissions`.
+
+#### Pocket ID
+
+1. In Pocket ID, open **Administration → User Groups** and open the group.
+2. Under **Custom Claims**, add a claim with the key `abspermissions`.
+3. Set the value to valid JSON like this:
+   ```json
+   {
+     "canDownload": true,
+     "canAccessAllLibraries": true,
+     "canAccessAllTags": true,
+     "tagsAreDenylist": false
+   }
+   ```
+4. Save the custom claims.
+
+#### abspermissions fields
+
+```jsonc
 {
   "canDownload": false, //Allows a user to download content
   "canUpload": false,   //Allows a user to Upload content

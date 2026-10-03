@@ -1,76 +1,73 @@
 ---
 title: NetBird
-description: Configure NetBird (using ZITADEL) with Pocket ID OIDC
+description: Sign in to NetBird (through ZITADEL) with Pocket ID.
+client:
+  callbackUrls:
+    - https://netbird.example.com/ui/login/login/externalidp/callback
+    - https://netbird.example.com/idps/callback
+  values:
+    - clientId
+    - clientSecret
 ---
 
-## Requirements 
+## Requirements
 
-- NetBird self-hosted configured using HTTPS
-- Pocket ID configured with HTTPS
+- NetBird self-hosted, configured with HTTPS
+- Pocket ID, configured with HTTPS
 
 ## Overview
 
 The NetBird self-hosted [quick start guide](https://docs.netbird.io/selfhosted/selfhosted-quickstart) configures NetBird with the default ZITADEL identity provider (IdP).
+This guide shows how to configure **pass-through OpenID authentication** via ZITADEL, back to Pocket ID.
 
-This guide will show you how to configure **pass-through OpenID authentication** via ZITADEL, back to Pocket ID. 
+Changing the NetBird IdP _directly_ from ZITADEL to Pocket ID is **not** covered in this guide because of its complexity.
 
-*Note:* Changing the NetBird IDP *directly* to Pocket ID from ZITADEL is **not** covered in this guide because of the complexity.
+::create-client
 
-## Configure OIDC Client
+The first callback URL is for ZITADEL Login V1 and the second for Login V2, so you only need the one your ZITADEL uses.
 
-Create a regular application in Pocket ID.
+## Connect ZITADEL to Pocket ID
 
-- Navigate to **Administration** > **OIDC Clients**
-- Click **Add OIDC Client** 
-- Set the **Name** to `NetBird` or other
-- Set the **Callback URL** to `https://netbird.example.com/ui/login/login/externalidp/callback` for ZITADEL Login V1, or `https://netbird.example.com/idps/callback` for ZITADEL Login V2
-- Set a **Logo** if desired 
-- Click **Save**
-- Save the **Client ID**, **Client Secret** for the following steps
-- **Optional:** Set necessary group restrictions. Only these users will be able to login to NetBird.
+Connect the ZITADEL IdP to Pocket ID for pass-through:
 
-## Connect ZITADEL / NetBird to Pocket ID
+1. Confirm that the **NetBird** management console loads at `https://netbird.example.com`.
+2. Sign in to the **ZITADEL** management console at `https://netbird.example.com/ui/console`.
+3. Open **Organization → Login and Access → Modify**.
+4. Open **Login and Access → Identity Providers**.
+5. Under **Add Provider**, click **Generic OIDC**.
+6. Confirm that the **ZITADEL Callback URL** shown by the provider matches the callback URL in Pocket ID.
+7. Set the **Name** to `Pocket ID` or anything you want.
+8. Set the **Issuer** to your Pocket ID URL, for example `https://id.example.com`.
+9. Set the **Client ID** to the **Client ID** from Pocket ID.
+10. Set the **Client Secret** to the **Client secret** from Pocket ID.
+11. Expand the **Optional** settings.
+12. Add `groups` to the **Scopes** list.
+13. Enable **Automatic creation**.
+14. _(Optional)_ Enable **Automatic update**.
+15. _(Optional)_ Enable **Account creation allowed (manually)**.
+16. _(Optional)_ Enable **Account linking allowed (manually)**.
+17. _(Optional)_ Set the identity prompt dropdown to **Check for existing email** or your choice.
+18. Click **Save**.
+19. Click **Activate**.
+20. Sign in to ZITADEL with Pocket ID to test it.
 
-Next we will connect ZITADEL IdP to Pocket ID for pass through:
+## Auto-approve NetBird users
 
-- Confirm that the **NetBird** management console loads at: `https://netbird.example.com`
-- Login to the **ZITADEL** management console at: `https://netbird.example.com/ui/console`
-- Navigate to **Organization** > **Login and Access** > **Modify**
-- Navigate to **Login and Access** > **Identity Providers**
-- Under the **Add Provider** section, click **Generic OIDC**
-- Confirm that the **ZITADEL Callback URL** shown by the provider matches the callback URL configured in Pocket ID
-- Set the **Name** to `PocketID` or other
-- Set the **Issuer** to your main Pocket ID URL (i.e.: `https://id.example.com`)
-- Set the **Client ID** to the value you saved earlier
-- Set the **Client Secret** to the value you saved earlier
-- Expand the **Optional** settings 
-- Add `groups` to the **Scopes** list 
-- Enable the **Automatic creation** option
-- **Optional:** Enable the **Automatic update** option
-- **Optional:** Enable the **Account creation allowed (manually)** option
-- **Optional:** Enable the **Account linking allowed (manually)** option
-- **Optional:** Set the identity prompt dropdown to **Check for existing email** or your choice
-- Click **Save** 
-- Click **Activate** 
-- Test to confirm that you can successfully login to ZITADEL with your Pocket ID
+We recommend auto-approving NetBird users (via IdP from ZITADEL) to avoid manual work:
 
-## Recommended: Auto-approve NetBird users
+1. Sign in to **NetBird** with an existing admin account.
+2. Open **Settings → Authentication**.
+3. Disable **User Approval Required**.
+4. Click **Save Changes**.
 
-This will auto-approve NetBird users (via IdP from ZITADEL) to avoid manual work:
+## Set ZITADEL login preferences
 
-- Login to **NetBird** as an existing admin account 
-- Navigate to **Settings** > **Authentication**
-- Disable the **User Approval Required** option
-- Click **Save Changes**
+_(Optional)_ Return to the ZITADEL management console and set your preferences:
 
-## Optional: Set ZITADEL login preferences
-
-Return to the ZITADEL management console and set preferences
-
-- Navigate back to **Organization** > **Login and Access** > **Modify**
-- On the **Login Behaviour and Security** section, scroll down 
-- Under **Login Form**
-  - Disable **Username and Password allowed**
-  - Disable **User Registration allowed** 
-  - Enable **External Login allowed** 
-  - Enable **Password Reset hidden**
+1. Open **Organization → Login and Access → Modify** again.
+2. In the **Login Behaviour and Security** section, scroll down.
+3. Under **Login Form**:
+   - Disable **Username and Password allowed**.
+   - Disable **User Registration allowed**.
+   - Enable **External Login allowed**.
+   - Enable **Password Reset hidden**.

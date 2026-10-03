@@ -1,49 +1,39 @@
 ---
 title: tududi
-description: Configure Pocket ID with tududi
+description: Sign in to the tududi task manager with Pocket ID.
+client:
+  callbackUrls:
+    - https://tududi.example.com/api/oidc/callback/pocketid
+  launchUrl: https://tududi.example.com
+  values:
+    - clientId
+    - clientSecret
 ---
 
 ## Requirements
 
-- [tududi](https://github.com/chrisvel/tududi/releases/tag/v1.1.0) version `v1.1.0` or higher
-- Pocket ID on https, reachable at `https://<pocketid-domain.tld>`
-- tududi server on https, reachable at `https://<tududi-domain.tld>`
+- [tududi](https://github.com/chrisvel/tududi/releases/tag/v1.1.0) `v1.1.0` or later
+- Pocket ID on HTTPS, reachable at `https://id.example.com`
+- tududi server on HTTPS, reachable at `https://tududi.example.com`
 
-## Create OIDC Client in Pocket ID
-
-1. Create a new OIDC Client in Pocket ID (e.g., `Tududi`).
-2. Set the **Callback URL** to the value below.
-    ```
-    https://<tududi-domain.tld>/api/oidc/callback/pocketid
-    ```
-3. _Optional:_ Download or link a PNG or SVG **logo** from [selfh.st/icons/](https://selfh.st/icons/) to match the style of your setup.
-4. Client Launch URL:
-    ```bash
-    https://<tududi-domain.tld>
-    ```
-5. PKCE: Keep it disabled.
-6. Copy the **Client ID**, **Client Secret** for configuring with tududi environment variables.
+::create-client
 
 ## Configure tududi
 
-This is the minimal configuration needed to setup Pocket ID OIDC with tududi.
+This is the minimal configuration needed to set up Pocket ID with tududi, taken from [the tududi OIDC SSO docs](https://github.com/chrisvel/tududi/blob/main/docs/10-oidc-sso.md#pocketid).
 
-from [the Tududi OIDC-SSO docs](https://github.com/chrisvel/tududi/blob/main/docs/10-oidc-sso.md#pocketid).
+1. Add the following lines to your environment variables file, replacing `<client-id>` and `<client-secret>` with the **Client ID** and the **Client secret** from Pocket ID:
+   ```ini
+   OIDC_ENABLED=true
+   OIDC_PROVIDER_NAME=PocketID
+   OIDC_PROVIDER_SLUG=pocketid
+   OIDC_ISSUER_URL=https://id.example.com
+   OIDC_CLIENT_ID=<client-id>
+   OIDC_CLIENT_SECRET=<client-secret>
+   OIDC_SCOPE=openid profile email
+   OIDC_AUTO_PROVISION=true
 
-1. Add the following lines environment variables file, filling in the secrets from Step 6:
-
-```bash
-OIDC_ENABLED=true
-OIDC_PROVIDER_NAME=PocketID
-OIDC_PROVIDER_SLUG=pocketid
-OIDC_ISSUER_URL=https://<pocketid-domain.tld>
-OIDC_CLIENT_ID=xxxxxxxxxxxxxxxxxxxx
-OIDC_CLIENT_SECRET=xxxxxxxxxxxxxxxxxxxx
-OIDC_SCOPE=openid profile email
-OIDC_AUTO_PROVISION=true
-
-# when tududi is behind a reverse proxy:
-TUDUDI_TRUST_PROXY=true # required for proper session handling after OIDC login
-```
-
-2. Save and restart the tududi docker-compose stack/app.
+   # when tududi is behind a reverse proxy:
+   TUDUDI_TRUST_PROXY=true # required for proper session handling after OIDC login
+   ```
+2. Save and restart the tududi Docker Compose stack or app.

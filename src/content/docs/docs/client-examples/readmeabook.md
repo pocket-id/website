@@ -1,29 +1,20 @@
 ---
 title: ReadMeABook
-description: Configure ReadMeABook with Pocket ID authentication
+description: Sign in to ReadMeABook with Pocket ID.
+client:
+  callbackUrls:
+    - https://readmeabook.example.com/api/auth/oidc/callback
 ---
 
-## Create in PocketID an OIDC Client for ReadMeABook
+::create-client
 
-### Required Settings in PocketID to create the OIDC Client
-- **Redirect URI:** `https://your.rmab.domain.com/api/auth/oidc/callback)`
-- **Grant Type:** `Authorization Code`
-- **Scopes:** `openid`, `profile`, `email`
+## Configure ReadMeABook
 
-### Obtain
+Fill in the OIDC settings in ReadMeABook:
 
-- **Client ID**
-- **Client Secret**
-
----
-
-## Configuration of PocketID in RMAB
-
-### Configuration
-
-| Field | Description | Example |
-|---|---|---|
-| Provider Name | Display Name | `PocketID` |
-| Issuer URL | PocketID instance URL | `https://pocketid.example.com/.well-known/openid-configuration` |
-| Client ID | From PocketID | `client-id` |
-| Client Secret | From PocketID | `secret` |
+| Field         | Description                                | Example                                                    |
+| ------------- | ------------------------------------------ | ---------------------------------------------------------- |
+| Provider Name | Display name                               | `Pocket ID`                                                |
+| Issuer URL    | The **OIDC Discovery URL** from Pocket ID  | `https://id.example.com/.well-known/openid-configuration`  |
+| Client ID     | The **Client ID** from Pocket ID           | `<client-id>`                                              |
+| Client Secret | The **Client secret** from Pocket ID       | `<client-secret>`                                          |

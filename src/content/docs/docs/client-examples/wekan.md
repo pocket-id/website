@@ -1,6 +1,12 @@
 ---
 title: Wekan
-description: Set up Wekan kanban board with Pocket ID OIDC
+description: Sign in to the Wekan kanban board with Pocket ID.
+client:
+  callbackUrls:
+    - https://wekan.example.com/_oauth/oidc
+  values:
+    - clientId
+    - clientSecret
 ---
 
 ## Requirements
@@ -8,19 +14,12 @@ description: Set up Wekan kanban board with Pocket ID OIDC
 - [Wekan](https://github.com/wekan/wekan)
 - HTTPS connection to your Wekan server
 
-## Create OIDC Client in Pocket ID
+::create-client
 
-1. Create a new OIDC Client in Pocket ID (e.g., `wekan`).
-2. Set the **Callback URL** to the value below.
-   ```
-   https://<wekan-url>/_oauth/oidc
-   ```
-3. _Optional:_ Download a PNG or SVG **logo** from the [Wekan project](https://github.com/wekan/wekan) and upload.
-4. Copy the **Client ID**, and **Client Secret** for use in the next section.
+## Configure Wekan
 
-## Configure Wekan env variables
-
-Use the following `environment` variables to configure OpenID (Docker shown):
+Use the following environment variables to configure OpenID (Docker shown).
+Replace `<client-id>` and `<client-secret>` with the **Client ID** and the **Client secret** from Pocket ID.
 
 ```yaml
 services:
@@ -31,9 +30,9 @@ services:
       - OAUTH2_ENABLED=true
       - OIDC_REDIRECTION_ENABLED=true # for mandatory
       - OAUTH2_LOGIN_STYLE=popup # or redirect
-      - OAUTH2_CLIENT_ID=xxxxx-xxxxx-xxxxx
-      - OAUTH2_SECRET=xxxxx-xxxxx-xxxxx
-      - OAUTH2_SERVER_URL=https://pocket-id.tld
+      - OAUTH2_CLIENT_ID=<client-id>
+      - OAUTH2_SECRET=<client-secret>
+      - OAUTH2_SERVER_URL=https://id.example.com
       - OAUTH2_AUTH_ENDPOINT=/authorize
       - OAUTH2_USERINFO_ENDPOINT=/api/oidc/userinfo
       - OAUTH2_TOKEN_ENDPOINT=/api/oidc/token
@@ -44,8 +43,7 @@ services:
 ...
 ```
 
-After configuration is tested and working, you can adjust a few other OpenID settings in the gui at **Admin Panel > Settings Layout**:
-
 ## Notes
 
-Configuration adapted from the [Authentik guide for Wekan](https://docs.goauthentik.io/integrations/services/wekan/#wekan-configuration). Tested and working in Wekan `v7.90`.
+Configuration adapted from the [Authentik guide for Wekan](https://docs.goauthentik.io/integrations/services/wekan/#wekan-configuration).
+Tested and working in Wekan `v7.90`.

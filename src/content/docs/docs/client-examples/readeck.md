@@ -1,35 +1,38 @@
 ---
 title: Readeck
-description: Configure Readeck with Pocket ID
+description: Sign in to the Readeck read-it-later app with Pocket ID.
+client:
+  callbackUrls:
+    - https://readeck.example.com/login/oidc
+  values:
+    - clientId
+    - clientSecret
 ---
 
-## PocketID Setup
+::create-client
 
-1. In Pocket-ID, create a new OIDC Client, name it i.e. `Readeck`.
-2. Set the callback URL to: `https://<your-readeck-domain>/login/oidc`.
+## Configure Readeck
 
-## Readeck configuration
-
-1. Add the following to your docker `compose` or `.env` file for Readeck:
+Add the following to your Docker Compose file or `.env` file for Readeck.
+You usually need to give the Pocket ID URL without a trailing slash.
 
 Example directly in `compose.yaml`:
+
 ```yaml
 environment:
   READECK_AUTH_OIDC_PROVIDERS_1_NAME: PocketID
-  READECK_AUTH_OIDC_PROVIDERS_1_URL: https://<your pocket ID domain> # You usually need to give a URL without trailing slash
-  READECK_AUTH_OIDC_PROVIDERS_1_CLIENT_ID: <client id from pocket ID>
-  READECK_AUTH_OIDC_PROVIDERS_1_CLIENT_SECRET: <client secret from pocket ID>
+  READECK_AUTH_OIDC_PROVIDERS_1_URL: https://id.example.com
+  READECK_AUTH_OIDC_PROVIDERS_1_CLIENT_ID: <client-id>
+  READECK_AUTH_OIDC_PROVIDERS_1_CLIENT_SECRET: <client-secret>
 ```
 
 Example using an `.env` file:
+
 ```ini
-  READECK_AUTH_OIDC_PROVIDERS_1_NAME= PocketID
-  READECK_AUTH_OIDC_PROVIDERS_1_URL= https://<your pocket ID domain> # You usually need to give a URL without trailing slash
-  READECK_AUTH_OIDC_PROVIDERS_1_CLIENT_ID= <client id from pocket ID>
-  READECK_AUTH_OIDC_PROVIDERS_1_CLIENT_SECRET= <client secret from pocket ID>
+READECK_AUTH_OIDC_PROVIDERS_1_NAME=PocketID
+READECK_AUTH_OIDC_PROVIDERS_1_URL=https://id.example.com
+READECK_AUTH_OIDC_PROVIDERS_1_CLIENT_ID=<client-id>
+READECK_AUTH_OIDC_PROVIDERS_1_CLIENT_SECRET=<client-secret>
 ```
 
-2. Additional Configuration (Optional):
-
-For advanced setups like _Group mapping_ or _Custom claims_, refer to the [official Readeck documentation](https://readeck.org/en/docs/external-auth).
-
+For advanced setups like group mapping or custom claims, refer to the [official Readeck documentation](https://readeck.org/en/docs/external-auth).

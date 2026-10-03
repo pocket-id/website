@@ -1,48 +1,48 @@
 ---
 title: Seafile
-description: Configure Seafile Community Edition authentication with Pocket ID
+description: Sign in to Seafile Community Edition with Pocket ID.
+client:
+  callbackUrls:
+    - https://seafile.example.com/oauth/callback
+  launchUrl: https://seafile.example.com
+  values:
+    - clientId
+    - clientSecret
+    - authorizationUrl
+    - tokenUrl
+    - userinfoUrl
 ---
 
-> The following example uses `seafile.example.com` and `id.example.com`, make sure to update these to your server names.
+Replace `seafile.example.com` with the URL of your Seafile instance and `id.example.com` with the URL of your Pocket ID instance.
 
+::create-client
 
-### Create Pocket-ID OIDC Client
-1. In Pocket-ID create a new OIDC Client, name it i.e. `Seafile`.
-2. Set the client launch URL to: `https://seafile.example.com`.
-2. Set the callback url to: `https://seafile.example.com/oauth/callback`.
-3. Save the configuration and copy the following information for use in the following steps:<br>
-  a) `Client ID`<br>
-  b) `Client Secret`<br>
-  c) `Authorization Endpoint`<br>
-  d) `Token Endpoint`<br> 
-  e) `Userinfo Endpoint`<br>
+## Configure Seafile
 
+Set the following variables in your `seahub_settings.py` file, which is normally located at `/opt/seafile/conf/seahub_settings.py` on your Seafile server:
 
-### Seafile Seahub-settings.py OIDC Settings
-Set the following variables in your seahub-settings.py file, which is normally located at `/opt/seafile/conf/seahub_settings.py` on your Seafile server:
-
-```bash
-ENABLE_OAUTH = True 
+```python
+ENABLE_OAUTH = True
 OAUTH_CREATE_UNKNOWN_USER = True
 OAUTH_ACTIVATE_USER_AFTER_CREATION = True
 
 # Only set this to True if you are NOT using HTTPS
 OAUTH_ENABLE_INSECURE_TRANSPORT = False
 
-# ---- Pocket-ID Client Credentials ----
-OAUTH_CLIENT_ID = # Paste in Client ID copied above
-OAUTH_CLIENT_SECRET = # Paste in Client Secret copied above
+# ---- Pocket ID client credentials ----
+OAUTH_CLIENT_ID = "<client-id>"
+OAUTH_CLIENT_SECRET = "<client-secret>"
 
-# ---- Redirect URL (must match Pocket-ID client config) ----
+# ---- Redirect URL (must match the Pocket ID callback URL) ----
 OAUTH_REDIRECT_URL = "https://seafile.example.com/oauth/callback"
 
-# ---- Pocket-ID OIDC Endpoints ----
+# ---- Pocket ID OIDC endpoints ----
 OAUTH_PROVIDER = "pocket-id"
 OAUTH_PROVIDER_DOMAIN = "pocket-id"   # <= required for Seafile < 11.0 compatibility
 
-OAUTH_AUTHORIZATION_URL = # Paste in Authorization Endpoint copied above
-OAUTH_TOKEN_URL = # Paste in Token Endpoint copied above
-OAUTH_USER_INFO_URL = # Paste in Userinfo Endpoint copied above
+OAUTH_AUTHORIZATION_URL = "https://id.example.com/authorize"   # Authorization URL from Pocket ID
+OAUTH_TOKEN_URL = "https://id.example.com/api/oidc/token"      # Token URL from Pocket ID
+OAUTH_USER_INFO_URL = "https://id.example.com/api/oidc/userinfo"   # Userinfo URL from Pocket ID
 
 # ---- OIDC Scopes ----
 OAUTH_SCOPE = [
@@ -62,37 +62,39 @@ OAUTH_ATTRIBUTE_MAP = {
 CLIENT_SSO_VIA_LOCAL_BROWSER = True
 ```
 
+## Match existing local users to OIDC login
 
-### Match Existing Local Users to OIDC Login
-When OIDC is configured in Seafile, users with an existing local account who log in will have a brand new account created for them. Seafile will not automatically match the user to their existing local Seafile account. Automatic user matching is only available for LDAP accounts. This appears to be a deliberate design decision, rather than a feature which is not yet implemented.
+When OIDC is configured in Seafile, users with an existing local account who sign in get a brand new account.
+Seafile doesn't automatically match the user to their existing local Seafile account.
+Automatic user matching is only available for LDAP accounts.
+This appears to be a deliberate design decision rather than a feature that isn't implemented yet.
 
-This can cause issues if the existing local account has the *User ID* set to an email address, but *Contact Email* address is blank. The OIDC login will create a new account with *LONG_GUID@auth.local* as the User ID and the email address as the *Contact Email*. The original account now can't log in because the *User ID* clashes with the new account *Contact Email*. An administrator will need to resolve this.
+This can cause issues if the existing local account has the **User ID** set to an email address, but the **Contact Email** is blank.
+The OIDC login creates a new account with `LONG_GUID@auth.local` as the **User ID** and the email address as the **Contact Email**.
+The original account then can't sign in because its **User ID** clashes with the new account's **Contact Email**.
+An administrator needs to resolve this.
 
-To match OIDC logins to existing local accounts, manual changes need to be made to the Seafile databases using the following steps:
+To match OIDC logins to existing local accounts, make manual changes to the Seafile databases with the following steps.
 
+### Get the Seafile user ID
 
-#### Get Seafile User ID
-1. To get the *User ID* (email) of a user, login in to Seafile as an admin, click on the user photo at to the top-right and click on *System Admin*.
+1. To get the **User ID** (email) of a user, sign in to Seafile as an admin, click the user photo at the top right and click **System Admin**.
+2. Click **Users**, then click the name of the user you want to enable for OIDC.
+   Copy the **User ID**.
 
-2. Click on *Users* and then click on the name of the user you want to enable for OIDC. Copy the *User ID*.
+### Get the Pocket ID user sub
 
+1. Sign in to Pocket ID as an admin.
+2. Open **Administration → OIDC Clients** and open the client you created for Seafile.
+3. Click **OIDC Data Preview** at the top of the client's page.
+4. Select the correct user, then copy the value of `sub`.
 
-#### Get Pocket-ID User UID/Sub
-3. To get the UID/Sub from Pocket-ID, log in to Pocket-ID as an admin.
+### Match the user in the MariaDB database
 
-4. Click on *Administration - OIDC Clients*, then edit the OIDC Client you set up for Seafile.
+Connect to the command line of your Seafile database server or container and run the following commands (the first command requires the MariaDB root password):
 
-5. Scroll to the bottom of the settings screen and click the *Show* button next to *OIDC Data Preview*.
-
-6. In the new window, make sure the correct user is select from the *Users* drop-down menu, then scroll to the bottom and copy the value for *sub*.
-
-
-#### Match User in MariaDB Database
-
-Connect to the command line of your Seafile database server/container and run the following commands (the first command requires the MariaDB root password):
-
-```Bash
-MySQL -u root -p
+```bash
+mysql -u root -p
 
 # Connect to ccnet_db database
 MariaDB [(none)]> use ccnet_db;
@@ -119,7 +121,7 @@ MariaDB [ccnet_db]> select email,left(passwd,25) from EmailUser where email = 'j
 # Connect to the seahub_db database
 MariaDB [ccnet_db]> use seahub_db;
 
-# Add the email, provider (Pocket-ID provider created earlier) and Sub from Pocket-ID to the social_auth_usersocialauth table
+# Add the email, provider (the pocket-id provider configured earlier) and sub from Pocket ID to the social_auth_usersocialauth table
 MariaDB [seahub_db]> insert into `social_auth_usersocialauth` (`username`, `provider`, `uid`, `extra_data`) values ('joe@example.com', 'pocket-id', '5942c94c-1b20-509d-964f-dc95835d3484', '');
 
 # Check the command has worked
@@ -131,4 +133,4 @@ MariaDB [seahub_db]> select * from social_auth_usersocialauth;
 +----+-------------------------+-----------+--------------------------------------+------------+
 ```
 
-When joe@example.com now authenticates to Seafile using Pocket-ID, he will see his existing account, rather than having a new one created for him.
+When `joe@example.com` now signs in to Seafile with Pocket ID, he sees his existing account instead of getting a new one.

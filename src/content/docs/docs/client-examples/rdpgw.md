@@ -1,21 +1,22 @@
 ---
 title: RDP Gateway
-description: Set up RDP Gateway with Pocket ID authentication
+description: Sign in to RDP Gateway with Pocket ID to connect to remote desktops.
+client:
+  callbackUrls:
+    - https://rd.example.com/callback
+  values:
+    - clientId
+    - clientSecret
 ---
 
 [RDPGW](https://github.com/bolkedebruin/rdpgw) allows you to connect with the official Microsoft RDP clients to remote desktops over HTTPS.
-The following example assumes you want to deploy rdpgw behind caddy reverse proxy with pocket-id.
+The following example deploys RDPGW behind a Caddy reverse proxy with Pocket ID.
 
-## Pocket ID Setup
+::create-client
 
-1. In Pocket-ID create a new OIDC Client, name it i.e. `rdpgw`.
-2. Set a logo for this OIDC Client if you would like too.
-3. Set the callback URL to: `https://rd.example.com/callback`.
-4. Copy the `Client ID`, and `Client Secret` for use in the next steps.
+## Configure RDPGW
 
-## RDPGW Setup
-
-rdpgw.yaml (adjust to your specific requirements):
+`rdpgw.yaml` (adjust to your specific requirements):
 
 ```yaml
 Server:
@@ -34,9 +35,9 @@ Server:
   SessionStore: cookie
 # Open ID Connect specific settings
 OpenId:
-  ProviderUrl: https://pocketid.example.com
-  ClientId: your-client-id-from-pocket-id-for-rdpgw
-  ClientSecret: your-client-secret-from-pocket-id-for-rdpgw
+  ProviderUrl: https://id.example.com
+  ClientId: <client-id>
+  ClientSecret: <client-secret>
 Caps:
   SmartCardAuth: false
   # required for openid connect
@@ -58,12 +59,15 @@ Security:
   VerifyClientIp: false
 ```
 
-## Caddy config
+## Configure Caddy
 
-You then need to setup your caddy proxy with caddy-security and pocket-id config following the [pocket-id documentation](https://pocket-id.org/docs/guides/proxy-services#caddy).
+Then set up your Caddy proxy with caddy-security and Pocket ID by following the [Pocket ID documentation](/docs/guides/proxy-services#caddy).
 
 :::note
-You should have two different oidc clients, one for caddy-security and one for rdpgw. For caddy-security the callback looks like `https://example.com/auth/oauth2/generic/authorization-code-callback` and for rdpgw its: `https://rd.example.com/callback` you need both oidc clients. For the `/auth/oath2/generic/` route this is the route that caddy-security is handling (not rdpgw, rdpgw is handling `rd.example.com/connect?host=` and then `rd.example.com/callback`).
+You need two different OIDC clients in Pocket ID: one for caddy-security and one for RDPGW.
+For caddy-security, the callback URL looks like `https://example.com/auth/oauth2/generic/authorization-code-callback`, and for RDPGW it's `https://rd.example.com/callback`.
+The `/auth/oauth2/generic/` route is handled by caddy-security, not RDPGW.
+RDPGW handles `rd.example.com/connect?host=` and then `rd.example.com/callback`.
 :::
 
 ```ini
@@ -74,13 +78,13 @@ You should have two different oidc clients, one for caddy-security and one for r
     client_id your-client-id-from-pocket-id-for-caddy-security
     client_secret your-client-secret-from-pocket-id-for-caddy-security
     scopes openid email profile
-    base_auth_url https://pocketid.example.com
-    metadata_url https://pocketid.example.com/.well-known/openid-configuration
+    base_auth_url https://id.example.com
+    metadata_url https://id.example.com/.well-known/openid-configuration
   }
 
   transform user {
     match role user
-    ui link "Pocket-ID" https://pocketid.example.com/ target_blank icon "las la-id-card"
+    ui link "Pocket-ID" https://id.example.com/ target_blank icon "las la-id-card"
     ui link "RDPGW Unraid-vm" https://rd.example.com/connect?host=unraid-vm.local%3A3389 target_blank icon "las la-desktop"
     ui link "RDPGW My-PC" https://rd.example.com/connect?host=192.168.100.14%3A3389 target_blank icon "las la-desktop"
   }
@@ -121,7 +125,7 @@ You should have two different oidc clients, one for caddy-security and one for r
 	}
 }
 
-pocketid.example.com {
+id.example.com {
 	route {
 		reverse_proxy http://pocket-id {
 			header_up X-Real-IP {remote_host}

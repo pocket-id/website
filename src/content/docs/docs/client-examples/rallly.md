@@ -1,36 +1,32 @@
 ---
 title: Rallly
-description: Configure Rallly scheduling with Pocket ID
+description: Sign in to the Rallly scheduling tool with Pocket ID.
+client:
+  callbackUrls:
+    - https://rallly.example.com/api/auth/callback/oidc
+  values:
+    - clientId
+    - clientSecret
 ---
 
-Below URLs are used as placeholders for the rallly and Pocket ID instances. Replace them with the actual URLs.
+Replace `rallly.example.com` with the URL of your Rallly instance and `id.example.com` with the URL of your Pocket ID instance.
 
-- rallly.example.com (The url of your rallly instance.)
-- pocketid.example.com (The url of your Pocket ID instance.)
+::create-client
 
-## Pocket ID Setup
+## Configure Rallly
 
-1. In Pocket ID, create a new OIDC client named `rallly` (or any name you prefer).
-2. (Optional) Set a logo for the OIDC client.
-3. Set the callback URL to: `https://rallly.example.com/api/auth/callback/oidc`.
-4. Copy the `Client ID` and `Client Secret` for the next steps.
+If you follow the [Rallly Docker setup](https://support.rallly.co/self-hosting/installation/docker#setup-instructions), you are encouraged to create a `config.env` file in the root of your Rallly project directory.
+This file sets the environment variables for the Rallly web server container.
 
-## rallly Docker Setup
+The `config.env` file should look like this:
 
-If you follow the [rallly docker setup](https://support.rallly.co/self-hosting/installation/docker#setup-instructions), you are encouraged to create a `config.env` file in the root of your rallly project directory. This file will be used to set environment variables for the rallly web server container.
+```ini
+# other environment variables...
 
-`config.env` file should look like this:
-
-```env
-other environment variables...
-
-OIDC_DISCOVERY_URL=https://pocketid.example.com/.well-known/openid-configuration
-
-OIDC_CLIENT_ID=your-client-id-here
-
-OIDC_CLIENT_SECRET=your-client-secret-here
-
-OIDC_ISSUER_URL=https://pocketid.example.com
+OIDC_DISCOVERY_URL=https://id.example.com/.well-known/openid-configuration
+OIDC_CLIENT_ID=<client-id>
+OIDC_CLIENT_SECRET=<client-secret>
+OIDC_ISSUER_URL=https://id.example.com
 ```
 
-Restart your docker containers and you should be able to login to rallly using Pocket ID.
+Restart your Docker containers and sign in to Rallly with Pocket ID to test it.

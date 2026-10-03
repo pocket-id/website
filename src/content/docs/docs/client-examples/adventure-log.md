@@ -1,6 +1,12 @@
 ---
 title: AdventureLog
-description: Integrate Pocket ID with AdventureLog
+description: Sign in to the AdventureLog travel tracker with Pocket ID.
+client:
+  callbackUrls:
+    - "https://adventurelog.example.com/accounts/oidc/<client-id>/login/callback/"
+  values:
+    - clientId
+    - clientSecret
 ---
 
 ## Requirements
@@ -8,41 +14,32 @@ description: Integrate Pocket ID with AdventureLog
 - [AdventureLog](https://adventurelog.app/docs/configuration/social_auth.html)
 - HTTPS connection to your AdventureLog server
 
-## Create OIDC Client in Pocket ID
+::create-client
 
-1. Create a new OIDC Client in Pocket ID (e.g., `AdventureLog`).
-2. Set the **Callback URL** to the value below.
-   ```
-   https://<adventurelogbackend.example.com>/accounts/oidc/<client id>/login/callback/
-   ```
-3. _Optional:_ Download a PNG or SVG **logo** from the [AdventureLog project](https://github.com/seanmorley15/AdventureLog/tree/main/documentation/static/img) and upload.
-4. Copy the **Client ID**, **Client Secret**, and **OIDC Discovery URL** for use in the next section.
+## Configure AdventureLog
 
-## Configure AdventureLog using the UI
-
-1. Open AdventureLog and navigate to:
-   **`User Icon > Admin Settings > Social Accounts > Social applications`**
+1. In AdventureLog, open **User Icon → Admin Settings → Social Accounts → Social applications**.
 2. Click **Add Social Application**.
-3. Fill in the required fields:
-   - **Provider**: Choose `OpenID Connect`
-   - **Provider ID**: Paste the `Client ID` from Pocket ID.
-   - **Name**: Pocket-ID.
-   - **Client ID**: Paste the `Client ID` from Pocket ID.
-   - **Secret Key**: Paste the `Client Secret` from Pocket ID.
-   - **Settings**: Enter `{"server_url": "https://<pocket-id_url>/"`.
-4. Click the green plus button under "Sites:" and add the following:
-   - **Domain Name:**: 'example.com' (yes, 'example.com' not your domain)
-   - **Display Name:**: 'example.com' (yes, 'example.com' not your domain)
-5. Click on the 'example.com' in the 'Available Sites' column and move it over to 'Chosen sites'.
+3. Fill in the fields:
+   - **Provider**: choose `OpenID Connect`.
+   - **Provider ID**: the **Client ID** from Pocket ID.
+   - **Name**: `Pocket ID`.
+   - **Client ID**: the **Client ID** from Pocket ID.
+   - **Secret Key**: the **Client secret** from Pocket ID.
+   - **Settings**: `{"server_url": "https://id.example.com/"`.
+4. Click the green plus button under **Sites** and add the following:
+   - **Domain Name**: `example.com` (yes, `example.com`, not your domain)
+   - **Display Name**: `example.com` (yes, `example.com`, not your domain)
+5. Click `example.com` in the **Available Sites** column and move it to **Chosen sites**.
 6. Click **Save**.
-7. Navigate to your AdventureLog URL and test OpenID login.
+7. Open your AdventureLog URL and sign in with Pocket ID to test it.
 
-## Linking Existing Accounts
+## Link existing accounts
 
-Users can manually link their accounts by:
+Users can link their existing accounts manually:
 
-1. Clicking their profile picture.
-2. Clicking Settings.
-3. Clicking Security.
-4. Select 'Launch Account Connections'.
+1. Click the profile picture.
+2. Click **Settings**.
+3. Click **Security**.
+4. Select **Launch Account Connections**.
 5. Add the account you want to link.

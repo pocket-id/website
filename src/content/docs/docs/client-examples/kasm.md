@@ -1,54 +1,57 @@
 ---
 title: Kasm Workspaces
-description: Integrate Kasm with Pocket ID OIDC
+description: Sign in to Kasm Workspaces with Pocket ID.
+client:
+  callbackUrls:
+    - https://kasm.example.com/api/oidc_callback
+  values:
+    - clientId
+    - clientSecret
+    - authorizationUrl
+    - tokenUrl
+    - userinfoUrl
 ---
 
-## Kasm Setup
+## Get the redirect URL from Kasm
 
-1. In Kasm, login using an administrator account
-2. From the navigation pane on the left, select 'Access Management' --> 'Authentication' --> 'OpenID'
-3. Click the 'Add Config' button on the right. Scroll to the bottom of the page and copy the 'redirect URL' - this will be the callback URL configured in PocketID
-4. Open PocketID in a new tab and continue configuration below.
+1. In Kasm, sign in with an administrator account.
+2. From the navigation pane on the left, select **Access Management → Authentication → OpenID**.
+3. Click the **Add Config** button on the right.
+   Scroll to the bottom of the page and copy the **Redirect URL**; this will be the callback URL in Pocket ID.
+4. Open Pocket ID in a new tab and continue below.
 
-## Pocket ID Setup
+::create-client
 
-1. In Pocket ID, create a new OIDC client (example: `kasm`).
-2. Set the Callback URL to the value of the 'redirect URL' copied from Kasm (example: `https://kasm.domain.com/api/oidc_callback`).
-3. Do _not_ enable PKCE, as it is not supported by Kasm
-4. Copy the generated **Client ID** and **Client Secret** values for next steps.
+Use the **Redirect URL** you copied from Kasm as the callback URL.
 
-## Kasm Setup, continued
+:::note
+Don't turn on **PKCE**, as Kasm doesn't support it.
+:::
+
+## Configure Kasm
 
 1. Back in the Kasm admin view, fill out the fields as follows:
+   - **Display name**: the text a Kasm user will see when signing in (example: `Click here to authenticate with Pocket ID`, or similar).
+   - **Auto login**: _(Optional)_ Enable this to bypass the Kasm local login and go straight to Pocket ID.
+     This can be enabled _after_ setup is complete.
+   - **Client ID**: the **Client ID** from Pocket ID.
+   - **Client Secret**: the **Client secret** from Pocket ID.
+   - **Authorization URL**: the **Authorization URL** from Pocket ID.
+   - **Token URL**: the **Token URL** from Pocket ID.
+   - **User Info URL**: the **Userinfo URL** from Pocket ID.
+   - **Scope**: The following values can be entered: [`openid, email, profile, groups`].
+     These values can be found by opening the **OIDC Discovery URL** in a web browser and looking for the `scopes_supported` string.
+   - **Username attribute**: `preferred_username`
+   - **Groups attribute**: `groups`
+   - **Redirect URL**: This value is pre-populated and doesn't need to be changed.
+   - **OpenID Connect Issuer**: This URL is optional and is simply the base URL where Pocket ID is accessed (example: `https://id.example.com`).
+   - **Logout with OIDC provider**: This is configured in conjunction with the **OpenID Connect Issuer** above.
+     If configured, a user who signs out of Kasm is also signed out of Pocket ID for additional security.
+2. Save the configuration and sign in to Kasm in a private browser window to test it.
+   You should be able to click the Pocket ID button to sign in.
+   If auto login was enabled, Kasm redirects to Pocket ID immediately, skipping the Kasm local login.
 
-   a. Display name: the string a Kasm user will see when logging in (example: `Click here to authenticate with PocketID`, or similar)
-
-   b. Auto login: This can be optionally enabled to bypass the Kasm local login and go straight to PocketID. This can be enabled _after_ setup is complete.
-
-   c. Client ID: Enter the Client ID value from PocketID
-
-   d. Client Secret: Enter the Client Secret value copied from PocketID
-
-   e. Authorization URL: Enter the Authorization URL copied from PocketID
-
-   f. Token URL: Enter the Token URL copied from PocketID
-
-   g. User Info URL: Enter the Userinfo URL copied from PocketID
-
-   h. Scope: The following values can be entered: [`openid, email, profile, groups`]. These values can be extracted by entering the OIDC Discovery URL in a web browser, and looking for the "scopes_supported" string
-
-   i. Username attribute: Enter "preferred_username"
-
-   j. Groups attribute: Enter "groups"
-
-   k. Redirect URL: This value is pre-populated and doesn't need to be changed
-
-   l. OpenID Connect Issuer: This URL is optional and is simply the base URL where PocketID is accessed (example: `https://auth.domain.com`)
-
-   m. Logout with OIDC provider: This is configured in conjunction with the value from step `l` above. If configured, this will prompt a user who logs out of Kasm to also log out of PocketID for additional security.
-
-## Testing
-
-Once setup, save all configurations and login to Kasm in a private/incognito browser window. You should be able to click PocketID to login accordingly. If auto-login was enabled, it will redirect to PocketID immediately, skipping the Kasm local login.
-
-**Note**: In case you need to login to Kasm using local accounts (for instance, admin access), this can be done by click "Cancel" in PocketID before selecting your passkey. If auto login is enabled, this has to be done quickly before PocketID redirects to Kasm.
+:::note
+If you need to sign in to Kasm using local accounts (for instance, admin access), click **Cancel** in Pocket ID before selecting your passkey.
+If auto login is enabled, this has to be done quickly before Pocket ID redirects to Kasm.
+:::

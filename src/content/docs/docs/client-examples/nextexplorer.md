@@ -1,36 +1,40 @@
 ---
 title: nextExplorer
-description: Configure nextExplorer file manager with PocketID.
+description: Sign in to the nextExplorer file manager with Pocket ID.
 ---
-The following example variables are used, and should be replaced with your actual URLs.
 
-    id.example.com (The URL of your Pocket ID instance.)
+Replace `id.example.com` with the domain of your Pocket ID instance.
 
-## Pocket ID Setup
+## Create the client in Pocket ID
 
-1. In Pocket ID create a new OIDC Client, name it i.e. `nextExplorer`
-2. Copy the Client ID and Client Secret for use in the next steps.
+1. In Pocket ID, open **Administration → OIDC Clients** and click **Add OIDC Client**.
+2. Enter a name such as `nextExplorer`.
+3. Click **Create** and copy the **Client ID** and the **Client secret**.
+   The client secret is only shown once.
+4. On the client's **Access** tab, select the groups that may sign in under **Allowed User Groups**, or choose **All Users**.
 
-## nextExplorer Setup
+## Configure nextExplorer
 
-Set the following environment variables:
+1. Set the following environment variables:
 
-    OIDC_ENABLED: true
-    OIDC_ISSUER: https://id.example.com
-    OIDC_CLIENT_ID: <POCKET_ID_CLIENT_ID>
-    OIDC_CLIENT_SECRET: <POCKET_ID_SECRET>
-    OIDC_SCOPES: "openid profile email"
-    OIDC_ADMIN_GROUPS: <Admin group in PocketID>
-    OIDC_REQUIRE_EMAIL_VERIFIED: true/false
-    OIDC_AUTO_CREATE_USERS: true/false
-    AUTH_MODE: oidc/local/both/disabled
-    
-Setting AUTH_MODE will configure the authentication flow:
-  - oidc sets it to OIDC only and disables local passwords.
-  - local sets it to username/password and disables OIDC from showing.
-  - both allows choice between OIDC and local login.
-  - disabled turns off the login page entirely.
+   ```yaml
+   OIDC_ENABLED: true
+   OIDC_ISSUER: https://id.example.com
+   OIDC_CLIENT_ID: <client-id>
+   OIDC_CLIENT_SECRET: <client-secret>
+   OIDC_SCOPES: "openid profile email"
+   OIDC_ADMIN_GROUPS: <admin group in Pocket ID>
+   OIDC_REQUIRE_EMAIL_VERIFIED: true/false
+   OIDC_AUTO_CREATE_USERS: true/false
+   AUTH_MODE: oidc/local/both/disabled
+   ```
 
-Start the instance and test to see if login now works via OIDC.
+   `AUTH_MODE` sets the authentication flow:
+   - `oidc` allows OIDC only and disables local passwords.
+   - `local` allows username and password only and hides OIDC.
+   - `both` allows a choice between OIDC and local login.
+   - `disabled` turns off the login page entirely.
 
-More details can be found in nextExplorer's documentation [here](https://explorer.nxz.ai/integrations/oidc.html).
+2. Start the instance and sign in with Pocket ID to test it.
+
+See the [nextExplorer documentation](https://explorer.nxz.ai/integrations/oidc.html) for more details.

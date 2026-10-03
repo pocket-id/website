@@ -3,6 +3,7 @@ import starlight from '@astrojs/starlight';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig, envField } from 'astro/config';
 import starlightLlmsTxt from 'starlight-llms-txt';
+import { clientExamples } from './src/lib/client-example.ts';
 import { sharedHead } from './src/sharedHead.ts';
 
 const site = 'https://pocket-id.org';
@@ -21,6 +22,8 @@ export default defineConfig({
 		plugins: [tailwindcss()]
 	},
 	integrations: [
+		// Writes the "Create the client in Pocket ID" section of client examples from their frontmatter
+		clientExamples(),
 		starlight({
 			title: 'Pocket ID',
 			plugins: [

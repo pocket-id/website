@@ -1,36 +1,34 @@
 ---
 title: Wallos
-description: Set up Pocket ID authentication for Wallos
+description: Sign in to the Wallos subscription tracker with Pocket ID.
+client:
+  callbackUrls:
+    - https://wallos.example.com
+  values:
+    - clientId
+    - clientSecret
+    - authorizationUrl
+    - tokenUrl
+    - userinfoUrl
 ---
 
-Below URLs are used as placeholders for the [Wallos] and Pocket ID instances. Replace them with the actual URLs.
-- wallos.example.com (The url of your Wallos instance.)
-- pocketid.example.com (The url of your Pocket ID instance.)
+Replace `wallos.example.com` with the URL of your [Wallos] instance and `id.example.com` with the URL of your Pocket ID instance.
 
-## Create OIDC Client in Pocket ID
-1. Create a new OIDC Client in Pocket ID (e.g., `Wallos`).
-2. Set the **Callback URL** to the value below.
-   ```
-   https://wallos.example.com
-   ```
-3. _Optional:_ Download a PNG or SVG **logo** from the [Wallos] GitHub or somewhere else and upload it to Pocket ID.
-4. Ensure that PKCE is not on.
-5. Click save.
-6. Copy the **Client ID**, **Client Secret**, and **Authorization URL**, **Token URL**, and **Userinfo URL** for use in the next section.
+::create-client
 
 ## Configure Wallos
-1. Open the Wallos admin interface (`/admin.php`) and navigate to: **`OIDC Settings`**
+
+1. Open the Wallos admin interface (`/admin.php`) and go to **OIDC Settings**.
 2. Fill in the required fields with values from Pocket ID:
-   - **Display Name** of your choice (i.e.: `PocketID`)
-   - **Client ID**
-   - **Client Secret**
-   - **Auth URL**
-   - **Token URL**
-   - **User info URL**.
-3. _Optional:_ Enable Create User automatically.
-4. Set **Redirect URL** to wallos.example.com/index.php
-5. Turn the OIDC toggle on
-6. Save the settings.
-7. Test the OAuth login to ensure it works.
+   - **Display Name** of your choice (for example `PocketID`)
+   - **Client ID**: the **Client ID** from Pocket ID
+   - **Client Secret**: the **Client secret** from Pocket ID
+   - **Auth URL**: the **Authorization URL** from Pocket ID
+   - **Token URL**: the **Token URL** from Pocket ID
+   - **User info URL**: the **Userinfo URL** from Pocket ID
+3. _(Optional)_ Enable automatic user creation.
+4. Set **Redirect URL** to `wallos.example.com/index.php`.
+5. Turn the OIDC toggle on.
+6. Save the settings and sign in with Pocket ID to test it.
 
 [Wallos]: https://github.com/ellite/Wallos#readme
