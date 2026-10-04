@@ -229,8 +229,11 @@ starlight-theme-select select {
 	background-color: var(--sl-color-hairline);
 }
 
-/* Tables: a rounded card with a soft header row and hairlines between rows */
+/* Tables: a rounded card with a soft header row and hairlines between rows.
+   Starlight renders tables as scrollable blocks, so the card shrinks to its rows instead of leaving an empty strip beside them */
 .sl-markdown-content table:not(:where(.not-content *)) {
+	width: fit-content;
+	max-width: 100%;
 	border: 1px solid var(--surface-border);
 	border-radius: var(--radius);
 	border-collapse: separate;
