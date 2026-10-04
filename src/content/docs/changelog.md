@@ -6,6 +6,33 @@ tableOfContents:
   maxHeadingLevel: 2
 ---
 
+## v2.18.0 - 2026-10-04
+
+[Release](https://github.com/pocket-id/pocket-id/releases/tag/v2.18.0)
+
+ <img src="https://github.com/stonith404/umpteenth/raw/main/branding/lockup/lockup-on-dark.svg" alt="Umpteenth" width="200">
+
+If you are interested, checkout [Umpteenth](https://github.com/stonith404/umpteenth), a side project I just open-sourced. With Pocket ID for example we are using it to enrich the translation context in Crowdin automatically and very token efficiently.
+
+
+--- 
+### Features
+
+- display passkey setup page for users coming from the login page ([4d2a5e4](https://github.com/pocket-id/pocket-id/commit/4d2a5e423e0038728344c4fef860b88591e1777b) by @stonith404)
+- add ability to search and select icons from selfh.st ([\#1807](https://github.com/pocket-id/pocket-id/pull/1807) by @stonith404)
+- pin table row actions and add them to details pages ([3e201b5](https://github.com/pocket-id/pocket-id/commit/3e201b5bb254b8acaa7ae8bfafe6584723d685f5) by @stonith404)
+
+### Other
+
+- Bump the "all-dependencies" group with 4 updates across multiple ecosystems ([\#1805](https://github.com/pocket-id/pocket-id/pull/1805) by @dependabot\[bot\])
+- add project_id to crowdin.yml ([5560060](https://github.com/pocket-id/pocket-id/commit/556006074cc8e05a753c593669a31aa353a24793) by @stonith404)
+- upgrade to SvelteKit 3 ([10efd16](https://github.com/pocket-id/pocket-id/commit/10efd1647c9cc3e83b247d4879587d9d74d80b16) by @stonith404)
+- fix vulnerable dependency versions ([c968123](https://github.com/pocket-id/pocket-id/commit/c9681234dd95c1f3e91c83b9ed01f09b44910df1) by @stonith404)
+- add vite-plus as node toolchain ([\#1806](https://github.com/pocket-id/pocket-id/pull/1806) by @kmendell)
+
+**Full Changelog**: https://github.com/pocket-id/pocket-id/compare/v2.17.0...v2.18.0
+
+
 ## v2.17.0 - 2026-10-01
 
 [Release](https://github.com/pocket-id/pocket-id/releases/tag/v2.17.0)
