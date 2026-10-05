@@ -88,6 +88,7 @@ Pocket ID shows where a sign-in came from in the audit log and in new-device ema
 | `UI_CONFIG_DISABLED` | `false` | Take the settings of **Application Configuration** from environment variables. See [Overriding the UI configuration](#overriding-the-ui-configuration). |
 | `ANALYTICS_DISABLED` | `false` | Turn off the daily [heartbeat](/docs/configuration/analytics) that counts running instances. |
 | `VERSION_CHECK_DISABLED` | `false` | Turn off the check for new releases on GitHub. |
+| `ICON_LIBRARY_URL` | The selfh.st icons on jsDelivr | Where the logo picker of OIDC clients searches for icons. A mirror needs the layout of the [selfh.st icons](https://github.com/selfhst/icons) repository and may be on your local network. Set it to `disabled` to turn the icon search off. |
 | `DISMISS_SQLITE_STORAGE_WARNING` | | Set to `i accept the risks` to hide the admin warning about a SQLite database on a network share. |
 | `ACTORS_PORT`, `ACTORS_HOST` | `1414`, `0.0.0.0` | The UDP port and address of Pocket ID's internal task runtime. Only change the port if 1414 is taken. |
 

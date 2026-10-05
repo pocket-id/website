@@ -89,17 +89,18 @@ Open `https://id.example.com/setup` and fill in your username, email address and
 
 <Screenshot name="setup" alt="The Sign Up to Pocket ID page with fields for username, email, first name and last name" />
 
-After **Sign Up**, add a passkey with **Add Passkey** on your account page, since that's how you sign in from now on.
+After **Sign Up**, Pocket ID asks you to set up a passkey: click **Add Passkey**, since that's how you sign in from now on.
 The setup page only works until the first account exists.
 
 Next, [connect your first app](/docs/setup/connect-an-app), or [add users](/docs/setup/user-management).
 
 ## Offline use
 
-Pocket ID makes two kinds of outgoing requests, which you can turn off for air-gapped servers:
+Pocket ID makes three kinds of outgoing requests, which you can turn off for air-gapped servers:
 
 - `VERSION_CHECK_DISABLED=true` stops the check for new releases on GitHub.
 - `ANALYTICS_DISABLED=true` stops the daily [heartbeat](/docs/configuration/analytics) that counts running instances.
+- `ICON_LIBRARY_URL=disabled` stops the icon search for client logos, which loads the [selfh.st icons](https://selfh.st/icons) from jsDelivr.
 
 ## Community installation methods
 
