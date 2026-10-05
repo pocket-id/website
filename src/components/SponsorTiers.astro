@@ -1,12 +1,12 @@
 ---
 // The project's GitHub sponsors by tier, rendered as a server island so new sponsors show up without a deploy
-import { cacheIsland } from '../lib/island-cache';
+import { cacheIsland, FALLBACK_SECONDS } from '../lib/island-cache';
 import { fetchSponsors, type Sponsor, type Tier } from '../lib/sponsors';
 
 const result = await fetchSponsors();
 const sponsors = result?.sponsors;
 // A list missing one maintainer's sponsors is shown, but kept only briefly so the next visitors get the full one
-cacheIsland(Astro.response, result?.complete ? 60 * 60 : 60);
+cacheIsland(Astro.response, result?.complete ? 60 * 60 : FALLBACK_SECONDS);
 
 const byTier = (tier: Tier) => (sponsors ?? []).filter((s) => s.tier === tier);
 const label = (s: Sponsor) => s.name ?? s.login;

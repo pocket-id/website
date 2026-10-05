@@ -42,7 +42,8 @@ export async function projectStats(): Promise<Stats> {
 }
 
 // Fetches a URL and reads a number from the response, giving up after five seconds so a slow service can't stall the build
-// GitHub's API now and then hangs and answers 504, so a timeout or server error gets one more try
+// GitHub's API now and then hangs and answers 504, so a timeout or gateway error gets one more try
+// Other server errors, like a 500, tend to persist, and retrying them only doubles the requests to a service that's already failing
 // A failure only hides the number, so it's logged to show up in the build and function logs
 async function count(
 	url: string,
@@ -58,7 +59,8 @@ async function count(
 		});
 		if (!res.ok) {
 			const body = (await res.text()).slice(0, 300);
-			if (res.status >= 500 && retry) return count(url, read, headers, attempt + 1);
+			if (res.status >= 502 && res.status <= 504 && retry)
+				return count(url, read, headers, attempt + 1);
 			console.warn(`Fetching ${url} failed with ${res.status}: ${body}`);
 			return undefined;
 		}

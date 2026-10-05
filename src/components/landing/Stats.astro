@@ -1,7 +1,7 @@
 ---
 // The project's numbers, rendered as a server island so they stay current between deploys
 // A number whose service didn't answer is left out, and when none did the row disappears
-import { cacheIsland } from "../../lib/island-cache";
+import { cacheIsland, FALLBACK_SECONDS } from "../../lib/island-cache";
 import { projectStats } from "../../lib/release";
 import StatsGrid from "./StatsGrid.astro";
 
@@ -21,7 +21,7 @@ const items = [
     : [],
 );
 
-cacheIsland(Astro.response, items.length === 4 ? 6 * 60 * 60 : 60);
+cacheIsland(Astro.response, items.length === 4 ? 6 * 60 * 60 : FALLBACK_SECONDS);
 ---
 
 {items.length > 0 && <StatsGrid items={items} />}
