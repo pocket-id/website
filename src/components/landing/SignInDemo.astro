@@ -19,7 +19,7 @@ const scopes = [
 <div
 	class="relative grid overflow-hidden rounded-[1.75rem] border border-surface-border bg-page [box-shadow:var(--surface-shadow-lg)] select-none lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]"
 	role="img"
-	aria-label="The Pocket ID sign-in page asking whether to share your email, profile and groups with Immich"
+	aria-label="The Pocket ID sign-in page asking whether to share your email, profile and groups with Pangolin"
 >
 	{/* The sign-in column, with the same spacing, cards and buttons as the app's interaction page */}
 	<div class="flex flex-col items-center justify-center px-6 py-12 text-center text-sm sm:px-12 lg:py-16" aria-hidden="true">
@@ -29,17 +29,18 @@ const scopes = [
 			</div>
 			<ConnectArrow class="w-32 text-fg max-sm:w-24" draw />
 			<div class="rounded-2xl bg-surface-muted p-3">
-				<img src="https://cdn.jsdelivr.net/gh/selfhst/icons@main/svg/immich.svg" alt="" width="40" height="40" class="size-10" />
+				<img src="https://cdn.jsdelivr.net/gh/selfhst/icons@main/svg/pangolin-dark.svg" alt="" width="40" height="40" class="size-10 dark:hidden" />
+				<img src="https://cdn.jsdelivr.net/gh/selfhst/icons@main/svg/pangolin-light.svg" alt="" width="40" height="40" class="hidden size-10 dark:block" />
 			</div>
 		</div>
 
-		<p class="m-0 mt-5 font-display text-3xl font-bold text-fg sm:text-4xl">Sign in to Immich</p>
+		<p class="m-0 mt-5 font-display text-3xl font-bold text-fg sm:text-4xl">Sign in to Pangolin</p>
 		<p class="m-0 mt-2 mb-10 text-base text-gray-3">
-			Do you want to sign in to <b class="font-bold">Immich</b> with your Pocket ID account?
+			Do you want to sign in to <b class="font-bold">Pangolin</b> with your Pocket ID account?
 		</p>
 
 		<div class="mb-10 flex w-full max-w-md flex-col gap-3 overflow-hidden rounded-[1.625rem] border border-[color-mix(in_oklch,var(--sl-color-white),transparent_95%)] bg-surface-raised py-6 shadow-sm dark:border-[color-mix(in_oklch,var(--sl-color-white),transparent_90%)]">
-			<p class="m-0 px-6 text-start text-gray-3"><b class="font-bold">Immich</b> wants to access the following information:</p>
+			<p class="m-0 px-6 text-start text-gray-3"><b class="font-bold">Pangolin</b> wants to access the following information:</p>
 			<div class="flex flex-col gap-1 px-6">
 				{
 					scopes.map((s) => (
