@@ -338,6 +338,33 @@ definitions:
     - CodeLogoPresetsDisabled
     - CodeLogoPresetsUnavailable
     - CodeOidcPARRequired
+  auditlogs.auditLogDto:
+    properties:
+      actorUsername:
+        type: string
+      city:
+        type: string
+      country:
+        type: string
+      createdAt:
+        type: string
+      data:
+        additionalProperties:
+          type: string
+        type: object
+      device:
+        type: string
+      event:
+        type: string
+      id:
+        type: string
+      ipAddress:
+        type: string
+      userID:
+        type: string
+      username:
+        type: string
+    type: object
   devicelogin.decisionDto:
     properties:
       code:
@@ -433,7 +460,12 @@ definitions:
         type: string
       emailApiKeyExpirationEnabled:
         type: string
-      emailLoginNotificationEnabled:
+      emailLoginNotificationMode:
+        enum:
+        - disabled
+        - always
+        - ipAndUserAgent
+        - browserRecognition
         type: string
       emailOneTimeAccessAsAdminEnabled:
         type: string
@@ -531,7 +563,7 @@ definitions:
     - autoCreateOidcClientSecret
     - disableAnimations
     - emailApiKeyExpirationEnabled
-    - emailLoginNotificationEnabled
+    - emailLoginNotificationMode
     - emailOneTimeAccessAsAdminEnabled
     - emailOneTimeAccessAsUnauthenticatedEnabled
     - emailVerificationEnabled
@@ -557,33 +589,6 @@ definitions:
       type:
         type: string
       value:
-        type: string
-    type: object
-  dto.AuditLogDto:
-    properties:
-      actorUsername:
-        type: string
-      city:
-        type: string
-      country:
-        type: string
-      createdAt:
-        type: string
-      data:
-        additionalProperties:
-          type: string
-        type: object
-      device:
-        type: string
-      event:
-        type: string
-      id:
-        type: string
-      ipAddress:
-        type: string
-      userID:
-        type: string
-      username:
         type: string
     type: object
   dto.AuthorizedOidcClientDto:
@@ -1282,20 +1287,20 @@ definitions:
       pagination:
         $ref: '#/definitions/dto.Pagination'
     type: object
+  github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-auditlogs_auditLogDto:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/auditlogs.auditLogDto'
+        type: array
+      pagination:
+        $ref: '#/definitions/dto.Pagination'
+    type: object
   github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_AccessibleOidcClientDto:
     properties:
       data:
         items:
           $ref: '#/definitions/dto.AccessibleOidcClientDto'
-        type: array
-      pagination:
-        $ref: '#/definitions/dto.Pagination'
-    type: object
-  github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_AuditLogDto:
-    properties:
-      data:
-        items:
-          $ref: '#/definitions/dto.AuditLogDto'
         type: array
       pagination:
         $ref: '#/definitions/dto.Pagination'
@@ -2331,7 +2336,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_AuditLogDto'
+            $ref: '#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-auditlogs_auditLogDto'
         default:
           description: Error
           schema:
@@ -2366,7 +2371,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_AuditLogDto'
+            $ref: '#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-auditlogs_auditLogDto'
         default:
           description: Error
           schema:
@@ -3076,6 +3081,10 @@ paths:
         name: id
         required: true
         type: string
+      - description: Search term to filter clients by name
+        in: query
+        name: search
+        type: string
       - default: 1
         description: Page number for pagination
         in: query
@@ -3086,7 +3095,7 @@ paths:
         in: query
         name: pagination[limit]
         type: integer
-      - description: Column to sort by
+      - description: Column to sort by (name or lastUsedAt)
         in: query
         name: sort[column]
         type: string
@@ -3116,6 +3125,10 @@ paths:
       description: Get a paginated list of OIDC clients that the current user has
         authorized
       parameters:
+      - description: Search term to filter clients by name
+        in: query
+        name: search
+        type: string
       - default: 1
         description: Page number for pagination
         in: query
@@ -3126,7 +3139,7 @@ paths:
         in: query
         name: pagination[limit]
         type: integer
-      - description: Column to sort by
+      - description: Column to sort by (name or lastUsedAt)
         in: query
         name: sort[column]
         type: string
@@ -3175,6 +3188,10 @@ paths:
     get:
       description: Get a list of OIDC clients that the current user can access
       parameters:
+      - description: Search term to filter clients by name
+        in: query
+        name: search
+        type: string
       - default: 1
         description: Page number for pagination
         in: query
@@ -3185,7 +3202,7 @@ paths:
         in: query
         name: pagination[limit]
         type: integer
-      - description: Column to sort by
+      - description: Column to sort by (name or lastUsedAt)
         in: query
         name: sort[column]
         type: string

@@ -1298,7 +1298,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_AuditLogDto"
+              "$ref": "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-auditlogs_auditLogDto"
             }
           },
           "default": {
@@ -1350,7 +1350,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_AuditLogDto"
+              "$ref": "#/definitions/github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-auditlogs_auditLogDto"
             }
           },
           "default": {
@@ -2411,6 +2411,12 @@
         "summary": "List authorized clients for current user",
         "parameters": [
           {
+            "type": "string",
+            "description": "Search term to filter clients by name",
+            "name": "search",
+            "in": "query"
+          },
+          {
             "type": "integer",
             "default": 1,
             "description": "Page number for pagination",
@@ -2426,7 +2432,7 @@
           },
           {
             "type": "string",
-            "description": "Column to sort by",
+            "description": "Column to sort by (name or lastUsedAt)",
             "name": "sort[column]",
             "in": "query"
           },
@@ -2498,6 +2504,12 @@
         "summary": "List accessible OIDC clients for current user",
         "parameters": [
           {
+            "type": "string",
+            "description": "Search term to filter clients by name",
+            "name": "search",
+            "in": "query"
+          },
+          {
             "type": "integer",
             "default": 1,
             "description": "Page number for pagination",
@@ -2513,7 +2525,7 @@
           },
           {
             "type": "string",
-            "description": "Column to sort by",
+            "description": "Column to sort by (name or lastUsedAt)",
             "name": "sort[column]",
             "in": "query"
           },
@@ -2563,6 +2575,12 @@
             "required": true
           },
           {
+            "type": "string",
+            "description": "Search term to filter clients by name",
+            "name": "search",
+            "in": "query"
+          },
+          {
             "type": "integer",
             "default": 1,
             "description": "Page number for pagination",
@@ -2578,7 +2596,7 @@
           },
           {
             "type": "string",
-            "description": "Column to sort by",
+            "description": "Column to sort by (name or lastUsedAt)",
             "name": "sort[column]",
             "in": "query"
           },
@@ -4514,6 +4532,47 @@
         "CodeOidcPARRequired"
       ]
     },
+    "auditlogs.auditLogDto": {
+      "type": "object",
+      "properties": {
+        "actorUsername": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "device": {
+          "type": "string"
+        },
+        "event": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "ipAddress": {
+          "type": "string"
+        },
+        "userID": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
     "devicelogin.decisionDto": {
       "type": "object",
       "required": [
@@ -4631,7 +4690,7 @@
         "autoCreateOidcClientSecret",
         "disableAnimations",
         "emailApiKeyExpirationEnabled",
-        "emailLoginNotificationEnabled",
+        "emailLoginNotificationMode",
         "emailOneTimeAccessAsAdminEnabled",
         "emailOneTimeAccessAsUnauthenticatedEnabled",
         "emailVerificationEnabled",
@@ -4680,8 +4739,14 @@
         "emailApiKeyExpirationEnabled": {
           "type": "string"
         },
-        "emailLoginNotificationEnabled": {
-          "type": "string"
+        "emailLoginNotificationMode": {
+          "type": "string",
+          "enum": [
+            "disabled",
+            "always",
+            "ipAndUserAgent",
+            "browserRecognition"
+          ]
         },
         "emailOneTimeAccessAsAdminEnabled": {
           "type": "string"
@@ -4829,47 +4894,6 @@
           "type": "string"
         },
         "value": {
-          "type": "string"
-        }
-      }
-    },
-    "dto.AuditLogDto": {
-      "type": "object",
-      "properties": {
-        "actorUsername": {
-          "type": "string"
-        },
-        "city": {
-          "type": "string"
-        },
-        "country": {
-          "type": "string"
-        },
-        "createdAt": {
-          "type": "string"
-        },
-        "data": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "device": {
-          "type": "string"
-        },
-        "event": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        },
-        "ipAddress": {
-          "type": "string"
-        },
-        "userID": {
-          "type": "string"
-        },
-        "username": {
           "type": "string"
         }
       }
@@ -5914,13 +5938,13 @@
         }
       }
     },
-    "github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_AccessibleOidcClientDto": {
+    "github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-auditlogs_auditLogDto": {
       "type": "object",
       "properties": {
         "data": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/dto.AccessibleOidcClientDto"
+            "$ref": "#/definitions/auditlogs.auditLogDto"
           }
         },
         "pagination": {
@@ -5928,13 +5952,13 @@
         }
       }
     },
-    "github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_AuditLogDto": {
+    "github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-dto_AccessibleOidcClientDto": {
       "type": "object",
       "properties": {
         "data": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/dto.AuditLogDto"
+            "$ref": "#/definitions/dto.AccessibleOidcClientDto"
           }
         },
         "pagination": {
