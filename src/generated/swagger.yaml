@@ -2826,29 +2826,6 @@ paths:
       summary: Update client logo
       tags:
       - OIDC
-  /api/oidc/clients/{id}/meta:
-    get:
-      description: Get OIDC client metadata for discovery and configuration
-      parameters:
-      - description: Client ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Client metadata
-          schema:
-            $ref: '#/definitions/dto.OidcClientMetaDataDto'
-        default:
-          description: Error
-          schema:
-            $ref: '#/definitions/dto.ErrorDto'
-      summary: Get client metadata
-      tags:
-      - OIDC
   /api/oidc/clients/{id}/preview/{userId}:
     get:
       description: Get a preview of the OIDC data (ID token, access token, userinfo)

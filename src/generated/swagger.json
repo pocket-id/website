@@ -2032,41 +2032,6 @@
         }
       }
     },
-    "/api/oidc/clients/{id}/meta": {
-      "get": {
-        "description": "Get OIDC client metadata for discovery and configuration",
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "OIDC"
-        ],
-        "summary": "Get client metadata",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Client ID",
-            "name": "id",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Client metadata",
-            "schema": {
-              "$ref": "#/definitions/dto.OidcClientMetaDataDto"
-            }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/dto.ErrorDto"
-            }
-          }
-        }
-      }
-    },
     "/api/oidc/clients/{id}/preview/{userId}": {
       "get": {
         "security": [
