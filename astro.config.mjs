@@ -170,6 +170,7 @@ export default defineConfig({
 					label: 'Helping out',
 					items: [
 						'docs/helping-out/contributing',
+						'docs/helping-out/development',
 						'docs/helping-out/documentation',
 						'docs/helping-out/translating',
 						'docs/helping-out/sponsors'

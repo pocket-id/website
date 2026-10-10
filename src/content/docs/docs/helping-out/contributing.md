@@ -12,6 +12,7 @@ Before you start working on a feature, open an issue or comment on an existing o
 
 ## Contribute code
 
-[CONTRIBUTING.md](https://github.com/pocket-id/pocket-id/blob/main/CONTRIBUTING.md) in the repository describes the development setup, the tests and the rules for pull requests, including how AI tools may be used.
+[The contribution guidelines](https://github.com/pocket-id/.github/blob/main/CONTRIBUTING.md) describe the rules for pull requests, including how AI tools may be used.
+See [Development](/docs/helping-out/development) for the development setup, formatting, and tests.
 
 To improve these docs, see [Documentation](/docs/helping-out/documentation), and to translate Pocket ID, see [Translating](/docs/helping-out/translating).
