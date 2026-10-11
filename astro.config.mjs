@@ -17,6 +17,7 @@ export default defineConfig({
 	// Permanent redirects for moved pages, which the adapter writes into Vercel's routing
 	redirects: {
 		'/docs': { status: 308, destination: '/docs/introduction' },
+		'/sponsors': { status: 308, destination: '/docs/helping-out/sponsors' },
 		'/sitemap.xml': { status: 308, destination: '/sitemap-index.xml' },
 		'/docs/advanced/nginx-reverse-proxy': { status: 308, destination: '/docs/setup/reverse-proxy' },
 		// Addresses of the SvelteKit site that search engines still have indexed
