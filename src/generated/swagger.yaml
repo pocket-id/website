@@ -243,6 +243,8 @@ definitions:
     - device_login_expired
     - reauthentication_required
     - invalid_email_verification_token
+    - email_verification_required
+    - email_change_not_started
     - setup_not_available
     - setup_already_completed
     - token_invalid_or_expired
@@ -303,6 +305,8 @@ definitions:
     - CodeDeviceLoginExpired
     - CodeReauthenticationRequired
     - CodeEmailVerificationTokenInvalid
+    - CodeEmailVerificationRequired
+    - CodeEmailChangeNotStarted
     - CodeSetupNotAvailable
     - CodeSetupAlreadyCompleted
     - CodeTokenInvalidOrExpired
@@ -471,7 +475,11 @@ definitions:
         type: string
       emailOneTimeAccessAsUnauthenticatedEnabled:
         type: string
-      emailVerificationEnabled:
+      emailVerification:
+        enum:
+        - disabled
+        - optional
+        - required
         type: string
       emailsVerified:
         type: string
@@ -566,7 +574,7 @@ definitions:
     - emailLoginNotificationMode
     - emailOneTimeAccessAsAdminEnabled
     - emailOneTimeAccessAsUnauthenticatedEnabled
-    - emailVerificationEnabled
+    - emailVerification
     - emailsVerified
     - homePageUrl
     - ldapEnabled
@@ -1120,6 +1128,8 @@ definitions:
         type: string
       email:
         type: string
+      emailVerificationDeadline:
+        type: string
       emailVerified:
         type: boolean
       firstName:
@@ -1250,6 +1260,13 @@ definitions:
         items:
           type: string
         type: array
+    type: object
+  emailverification.emailChangeDto:
+    properties:
+      email:
+        type: string
+      expiresAt:
+        type: string
     type: object
   github_com_pocket-id_pocket-id_backend_internal_dto.Paginated-api_apiClientAccessDto:
     properties:
@@ -4046,6 +4063,31 @@ paths:
           schema:
             $ref: '#/definitions/dto.ErrorDto'
       summary: Update current user
+      tags:
+      - Users
+  /api/users/me/email-change:
+    delete:
+      description: Cancel the pending email change of the currently authenticated
+        user, so its verification link stops working
+      responses:
+        "204":
+          description: No Content
+      summary: Cancel pending email change
+      tags:
+      - Users
+    get:
+      description: Get the email change of the currently authenticated user that still
+        has to be confirmed through the emailed link
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/emailverification.emailChangeDto'
+        "204":
+          description: No pending email change
+      summary: Get pending email change
       tags:
       - Users
   /api/users/me/profile-picture:

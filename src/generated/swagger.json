@@ -3444,6 +3444,41 @@
         }
       }
     },
+    "/api/users/me/email-change": {
+      "get": {
+        "description": "Get the email change of the currently authenticated user that still has to be confirmed through the emailed link",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get pending email change",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/emailverification.emailChangeDto"
+            }
+          },
+          "204": {
+            "description": "No pending email change"
+          }
+        }
+      },
+      "delete": {
+        "description": "Cancel the pending email change of the currently authenticated user, so its verification link stops working",
+        "tags": [
+          "Users"
+        ],
+        "summary": "Cancel pending email change",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
     "/api/users/me/profile-picture": {
       "put": {
         "description": "Update the currently authenticated user's profile picture",
@@ -4400,6 +4435,8 @@
         "device_login_expired",
         "reauthentication_required",
         "invalid_email_verification_token",
+        "email_verification_required",
+        "email_change_not_started",
         "setup_not_available",
         "setup_already_completed",
         "token_invalid_or_expired",
@@ -4460,6 +4497,8 @@
         "CodeDeviceLoginExpired",
         "CodeReauthenticationRequired",
         "CodeEmailVerificationTokenInvalid",
+        "CodeEmailVerificationRequired",
+        "CodeEmailChangeNotStarted",
         "CodeSetupNotAvailable",
         "CodeSetupAlreadyCompleted",
         "CodeTokenInvalidOrExpired",
@@ -4658,7 +4697,7 @@
         "emailLoginNotificationMode",
         "emailOneTimeAccessAsAdminEnabled",
         "emailOneTimeAccessAsUnauthenticatedEnabled",
-        "emailVerificationEnabled",
+        "emailVerification",
         "emailsVerified",
         "homePageUrl",
         "ldapEnabled",
@@ -4719,8 +4758,13 @@
         "emailOneTimeAccessAsUnauthenticatedEnabled": {
           "type": "string"
         },
-        "emailVerificationEnabled": {
-          "type": "string"
+        "emailVerification": {
+          "type": "string",
+          "enum": [
+            "disabled",
+            "optional",
+            "required"
+          ]
         },
         "emailsVerified": {
           "type": "string"
@@ -5649,6 +5693,9 @@
         "email": {
           "type": "string"
         },
+        "emailVerificationDeadline": {
+          "type": "string"
+        },
         "emailVerified": {
           "type": "boolean"
         },
@@ -5844,6 +5891,17 @@
           "items": {
             "type": "string"
           }
+        }
+      }
+    },
+    "emailverification.emailChangeDto": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "expiresAt": {
+          "type": "string"
         }
       }
     },
