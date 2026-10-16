@@ -81,6 +81,16 @@ You can disable the built-in login form in two ways, with slightly different out
 
 ## Troubleshooting
 
+If you get the error "Could not update the provider: The discovery endpoint is not reachable." when creating the OIDC provider in Nextcloud:
+
+1. Check the Nextcloud server log for a detailed error message
+2. If you are on a local network, you may need to set/adjust the following option in your `config.php` file:
+   ```php
+   'allow_local_remote_servers' => true
+   ```
+   Restart the Nextcloud server and try setting up OIDC again.
+
+
 If you can't sign in to Nextcloud:
 
 1. Using the Nextcloud CLI, reactivate the login form: `occ config:app:set user_oidc allow_multiple_user_backends --value=1`.
