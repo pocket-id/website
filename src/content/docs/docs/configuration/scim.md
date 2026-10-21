@@ -38,4 +38,6 @@ curl -H "Authorization: Bearer <SCIM token>" "<SCIM endpoint>/Groups"
 ```
 
 If they're there, the sync works and the problem lies in the app.
-If they're missing, look for SCIM errors in Pocket ID's logs, and [open an issue](https://github.com/pocket-id/pocket-id/issues/new/choose) if you think Pocket ID is at fault.
+If they're missing, look for SCIM errors in Pocket ID's logs.
+An error saying the connection is blocked means the endpoint resolves to an address that `OUTBOUND_ALLOWED_HOSTS_SCIM` doesn't allow, which [Outbound requests](/docs/configuration/environment-variables#outbound-requests) explains how to change.
+Otherwise, [open an issue](https://github.com/pocket-id/pocket-id/issues/new/choose) if you think Pocket ID is at fault.
