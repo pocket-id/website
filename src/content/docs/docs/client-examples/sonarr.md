@@ -11,7 +11,8 @@ client:
 ---
 
 :::note
-OIDC support was recently added to Sonarr v5, however it may have some issues as it is still in beta. Check the announcement on the [Sonarr forums](https://forums.sonarr.tv/t/sonarr-v5-beta/41099) for more information.
+OIDC support was recently added to Sonarr v5, however it may have some issues as it is still in beta.
+Check the announcement on the [Sonarr forums](https://forums.sonarr.tv/t/sonarr-v5-beta/41099) for more information.
 :::
 
 ::create-client
@@ -19,28 +20,34 @@ OIDC support was recently added to Sonarr v5, however it may have some issues as
 ## Configure Sonarr
 
 :::note
-OIDC authentication in Sonarr is limited to a single user and `OidcUserIdentifier` is required to allow that single user to authenticate with the matching email address or subject identifier.
+OIDC authentication in Sonarr is limited to a **single user** and `OidcUserIdentifier` is required to allow that single user to authenticate with the matching email address or subject identifier.
 For more information on configuring Sonarr, see the [Sonarr docs](https://wiki.servarr.com/sonarr/settings#host).
 :::
 
 ### Via the web interface
 
-1. In Sonarr, go to **Settings** → **General** and enable **Show Advanced**.
-2. Under **Security**, fill in the fields:
-    - **Authentication**: `OIDC`
-    - **Authentication Required**: `Enabled`.
-    - **OIDC Authority**: `https://id.example.com`.
-    - **OIDC Client ID**: the **Client ID** from Pocket ID.
-    - **OIDC Client Secret**: the **Client secret** from Pocket ID.
-    - **OIDC User**: either the verified email or the subject identifier (`sub`) from Pocket ID.
-    - **OIDC Scopes**: `openid email profile`.
-    - **Trusted Networks**: the IP address of your reverse proxy (e.g., Caddy, Nginx, Traefik, etc.).
-3. Save the settings and restart Sonarr.
-4. Click on Login and you will be redirected to Pocket ID for authentication.
+1. Log in to Sonarr
+2. Go to **Settings → General** and enable **Show Advanced**.
+3. Under **Security**, fill in the following fields:
+
+| Field                   | Value                                                                      |
+| ----------------------- | -------------------------------------------------------------------------- |
+| Authentication          | `OIDC`                                                                     |
+| Authentication Required | `Enabled`                                                                  |
+| OIDC Authority          | `https://id.example.com`                                                   |
+| OIDC Client ID          | The **Client ID** from Pocket ID                                           |
+| OIDC Client Secret      | The **Client secret** from Pocket ID                                       |
+| OIDC User               | The user's **Verified email** from Pocket ID                               |
+| OIDC Scopes             | `openid email profile`                                                     |
+| Trusted Networks        | The IP address of your reverse proxy (e.g. Caddy, Nginx, Traefik, etc.)    |
+
+4. Click on **Save Changes** and restart Sonarr.
+5. Click on Login and you will be redirected to Pocket ID for authentication.
 
 ### Via the config file
 
-Fill in the required fields in the `config.xml` file and restart Sonarr (the file location may vary depending on your setup. For more information, check the [Sonarr Appdata Directory](https://wiki.servarr.com/sonarr/appdata-directory)).
+1. Stop Sonarr.
+2. Fill in the required fields in the `config.xml` file (the file location may vary depending on your setup. For more information, check the [Sonarr Appdata Directory](https://wiki.servarr.com/sonarr/appdata-directory)).
 
 ```xml
 # config.xml
@@ -52,11 +59,17 @@ Fill in the required fields in the `config.xml` file and restart Sonarr (the fil
 <OidcUserIdentifier>verified-email@example.com</OidcUserIdentifier>
 <TrustedNetworks>trusted-ip-address</TrustedNetworks>
 ```
+3. Restart Sonarr.
+4. Click on Login and you will be redirected to Pocket ID for authentication.
+
+:::note
+The User Identifier (`OidcUserIdentifier`) can be changed for the subject identifier (`sub`) of the user from Pocket ID.
+:::
 
 ## Troubleshooting
 
-
 - Check that the Trusted Networks is set correctly in Sonarr, otherwise the login will fail.
+- Check that Allowed Hosts is set correctly in Sonarr
 - Check that the email is verified in Pocket ID.
 
 :::danger
