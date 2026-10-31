@@ -1,6 +1,6 @@
 ---
 title: What's up Docker
-description: Sign in to What's up Docker (WUD) webinterface with Pocket ID.
+description: Sign in to What's up Docker (WUD) web interface with Pocket ID.
 client:
   callbackUrls:
     - https://wud.example.com/auth/oidc/pocketid/cb
@@ -17,7 +17,7 @@ client:
 
 ::create-client
 
-On the client's **Access** tab, select the groups that may able to sign in under **Allowed User Groups**. 
+On the clients **Access** tab, select the groups that may able to sign in under **Allowed User Groups**. 
 This group will be mapped later to grant admin permissions in WUD.
 
 ## Configure WUD
@@ -28,8 +28,8 @@ This group will be mapped later to grant admin permissions in WUD.
 ```
 WUD_AUTH_OIDC_POCKETID_CLIENTID=<Client ID>
 WUD_AUTH_OIDC_POCKETID_CLIENTSECRET=<Client Secret>
-WUD_AUTH_OIDC_POCKETID_DISCOVERY=<OIDC Disovery URL>
-WUD_AUTH_OIDC_POCKETID_ADMINGROUP=<Your OIDC group>
+WUD_AUTH_OIDC_POCKETID_DISCOVERY=<OIDC Discovery URL>
+WUD_AUTH_OIDC_POCKETID_ADMINGROUP=<OIDC group>
 ```
 > The OIDC group is the group that you've selected in the "Access" tab in PocketID OIDC Clients settings.
 > Users within this group will have admin permissions in WUD.
