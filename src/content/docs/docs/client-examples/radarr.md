@@ -47,7 +47,7 @@ For more information on configuring Radarr, see the [Radarr docs](https://wiki.s
 ### Via the config file
 
 1. Stop Radarr.
-2. Fill in the required fields in the `config.xml` file (the file location may vary depending on your setup. For more information, check the [Radarr Appdata Directory](https://wiki.servarr.com/Radarr/appdata-directory)).
+2. Fill in the required fields in the `config.xml` file (the file location may vary depending on your setup. For more information, check the [Radarr Appdata Directory](https://wiki.servarr.com/radarr/appdata-directory)).
 
 ```xml
 # config.xml
