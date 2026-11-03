@@ -24,8 +24,8 @@ Plan for a domain such as `id.example.com` and a [reverse proxy](/docs/setup/rev
 1. Download the Compose file and the example `.env` file:
 
    ```bash
-   curl -O https://raw.githubusercontent.com/pocket-id/pocket-id/main/docker-compose.yml
-   curl -o .env https://raw.githubusercontent.com/pocket-id/pocket-id/main/.env.example
+   curl -O https://raw.githubusercontent.com/pocket-id/pocket-id/v2/docker-compose.yml
+   curl -o .env https://raw.githubusercontent.com/pocket-id/pocket-id/v2/.env.example
    ```
 
 2. Set the address you'll open Pocket ID at and an encryption key in `.env`:
@@ -66,7 +66,7 @@ The images are published as `ghcr.io/pocket-id/pocket-id` and `pocketid/pocket-i
 2. Download the example `.env` file next to the binary and set `APP_URL` and `ENCRYPTION_KEY` in it, as in the Docker Compose steps:
 
    ```bash
-   curl -o .env https://raw.githubusercontent.com/pocket-id/pocket-id/main/.env.example
+   curl -o .env https://raw.githubusercontent.com/pocket-id/pocket-id/v2/.env.example
    ```
 
 3. Start Pocket ID:

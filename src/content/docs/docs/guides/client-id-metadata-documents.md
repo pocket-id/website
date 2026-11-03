@@ -41,7 +41,7 @@ Serve it with a `200 OK` response and a JSON content type such as `application/j
 
 Pocket ID supports these metadata-document clients:
 
-- The client ID must be a public HTTPS URL with a path. User information, query strings, fragments, private IP addresses, and local network destinations are not accepted.
+- The client ID must be an HTTPS URL with a path. User information, query strings and fragments are not accepted, and private or local network destinations only when [`OUTBOUND_ALLOWED_HOSTS_CLIENT_METADATA`](/docs/configuration/environment-variables#outbound-requests) allows them.
 - Only public clients are supported, so `token_endpoint_auth_method` must be `none`. PKCE is enabled automatically.
 - Supported grant types are `authorization_code`, `urn:ietf:params:oauth:grant-type:device_code`, and `refresh_token`. At least `authorization_code` or the device code grant is required. If `grant_types` is omitted, only `authorization_code` is enabled.
 - The only supported response type is `code`.

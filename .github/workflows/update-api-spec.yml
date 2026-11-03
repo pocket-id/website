@@ -23,12 +23,19 @@ jobs:
           ref: main
           persist-credentials: false
 
+      # Document the released API, since main can hold an unreleased major version
+      - name: Get latest release
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: echo "tag=$(gh release view --repo pocket-id/pocket-id --json tagName --jq .tagName)" >> "$GITHUB_OUTPUT"
+
       - name: Checkout pocket-id repo
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: pocket-id/pocket-id
           path: pocket-id
-          ref: main
+          ref: ${{ steps.release.outputs.tag }}
           persist-credentials: false
 
       - name: Setup Go

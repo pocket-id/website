@@ -32,6 +32,31 @@ const tools = [
 		dark: '/img/sponsors/vercel-dark.svg',
 		logo: 'h-6',
 		text: 'Free hosting for this website trough the Vercel OSS program.'
+	},
+	{
+		name: 'OrbStack',
+		href: 'https://orbstack.dev',
+		light: '/img/sponsors/orbstack.png',
+		dark: '/img/sponsors/orbstack.png',
+		logo: 'h-10',
+		wordmark: 'OrbStack',
+		text: 'Free OrbStack Pro license for lightweight container development on macOS.'
+	},
+	{
+		name: 'OpenAI',
+		href: 'https://developers.openai.com/community/codex-for-oss',
+		light: '/img/sponsors/openai-light.svg',
+		dark: '/img/sponsors/openai-dark.svg',
+		logo: 'h-6',
+		text: 'Free Codex access through the Codex for Open Source program.'
+	},
+	{
+		name: 'Anthropic',
+		href: 'https://claude.com/contact-sales/claude-for-oss',
+		light: '/img/sponsors/anthropic-light.svg',
+		dark: '/img/sponsors/anthropic-dark.svg',
+		logo: 'h-5',
+		text: 'Free Claude Max access through the Claude for Open Source program.'
 	}
 ];
 ---
@@ -46,9 +71,10 @@ const tools = [
 					rel="noopener"
 					class="flex h-full flex-col gap-4 rounded-2xl border border-surface-border bg-surface p-5 no-underline [box-shadow:var(--surface-shadow)] transition-[border-color,translate] duration-200 hover:-translate-y-0.5 hover:border-gray-4"
 				>
-					<span class="flex h-14 items-center">
+					<span class="flex h-14 items-center gap-3">
 						<img src={t.light} alt={t.name} class:list={['w-auto dark:hidden', t.logo]} />
 						<img src={t.dark} alt={t.name} class:list={['w-auto light:hidden', t.logo]} />
+						{t.wordmark && <span aria-hidden="true" class="text-2xl font-semibold tracking-tight text-gray-1">{t.wordmark}</span>}
 					</span>
 					<span class="text-sm leading-relaxed text-gray-3">{t.text}</span>
 				</a>

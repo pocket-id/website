@@ -4,13 +4,13 @@ import { GITHUB_TOKEN } from 'astro:env/server';
 
 let version: Promise<string | undefined> | undefined;
 
-// The version file on the main branch holds the version of the latest release, such as 2.17.0
+// Read from the latest GitHub release because main can hold an unreleased major version while patches ship from a maintenance branch
 export function latestVersion() {
-	version ??= fetch(
-		'https://raw.githubusercontent.com/pocket-id/pocket-id/refs/heads/main/.version'
-	)
-		.then((res) => (res.ok ? res.text() : undefined))
-		.then((text) => text?.trim() || undefined)
+	version ??= fetch('https://api.github.com/repos/pocket-id/pocket-id/releases/latest', {
+		headers: githubHeaders
+	})
+		.then((res) => (res.ok ? res.json() : undefined))
+		.then((release) => release?.tag_name?.replace(/^v/, '') || undefined)
 		.catch(() => undefined);
 	return version;
 }
