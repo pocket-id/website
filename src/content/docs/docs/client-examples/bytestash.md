@@ -3,7 +3,7 @@ title: ByteStash
 description: Sign in to the ByteStash code snippet manager with Pocket ID.
 client:
   callbackUrls:
-    - https://bytestash.example.com/api/oauth/openid
+    - https://bytestash.example.com/api/auth/oidc/callback
   values:
     - clientId
     - clientSecret
