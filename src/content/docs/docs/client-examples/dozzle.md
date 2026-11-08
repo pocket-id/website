@@ -26,7 +26,7 @@ Dozzle supports OIDC natively, so there is no need for a middleware proxy anymor
        DOZZLE_AUTH_PROVIDER: oidc # do not change.
        DOZZLE_AUTH_OIDC_NAME: pocket-id # this is just a visual control to set the label in the login button, It is not necessary.
        DOZZLE_AUTH_OIDC_ISSUER: https://id.example.com # base domain only, dozzle will automatically fetch the well-known endpoint.
-       DOZZLE_AUTH_OIDC_CLIENT_IDL: <client-id>
+       DOZZLE_AUTH_OIDC_CLIENT_ID: <client-id>
        DOZZLE_AUTH_OIDC_CLIENT_SECRET: <client-secret>
    ```
 2. Dozzle requires a custom claim to allow login.
