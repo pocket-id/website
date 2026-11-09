@@ -4,6 +4,9 @@ description: Sign in to the Dozzle log viewer with Pocket ID.
 client:
   callbackUrls:
     - https://dozzle.example.com/api/auth/callback
+  logoutCallbackUrls:
+    - https://dozzle.example.com/login
+  pkce: true
   values:
     - clientId
     - clientSecret
