@@ -4,6 +4,9 @@ description: Sign in to the ByteStash code snippet manager with Pocket ID.
 client:
   callbackUrls:
     - https://bytestash.example.com/api/auth/oidc/callback
+  logoutCallbackUrls:
+    - https://bytestash.example.com/auth/logout_callback
+  pkce: true
   values:
     - clientId
     - clientSecret
