@@ -22,7 +22,7 @@ More detailed information on the available OIDC features, such as group assignme
 2. Find the `OmniAuth` section of the config file (around line 579).
    You can do the next steps by either uncommenting the options or adding new ones.
 3. Enable OmniAuth: `gitlab_rails['omniauth_enabled'] = true`
-4. Allow single sign-on: `gitlab_rails['omniauth_allow_single_sign_on] = ['openid_connect']`
+4. Allow single sign-on: `gitlab_rails['omniauth_allow_single_sign_on'] = ['openid_connect']`
 5. Create a new provider:
    ```ruby
    gitlab_rails['omniauth_providers'] = [
