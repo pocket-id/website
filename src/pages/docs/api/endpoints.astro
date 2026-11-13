@@ -33,7 +33,7 @@ const headings = all.flatMap((group) => [
 	<p>
 		Send an API key in the <code>X-API-KEY</code> header with each call.{' '}
 		<a href="/docs/api">REST API</a> covers creating keys and the shape of errors.
-		The raw spec is available as <a href="/swagger.json">swagger.json</a> and <a href="/swagger.yaml">swagger.yaml</a> for Postman, code generators and AI assistants.
+		The raw OpenAPI spec is available as <a href="/openapi.json">openapi.json</a> for Postman, code generators and AI assistants.
 	</p>
 
 	{all.length === 0 && <p>The spec wasn't generated for this build, so there are no endpoints to show.</p>}

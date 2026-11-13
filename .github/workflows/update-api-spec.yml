@@ -44,9 +44,6 @@ jobs:
           go-version-file: pocket-id/backend/go.mod
           cache-dependency-path: pocket-id/backend/go.sum
 
-      - name: Install swag
-        run: go install github.com/swaggo/swag/cmd/swag@latest
-
       - name: Setup Node.js and pnpm
         uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
         with:

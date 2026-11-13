@@ -57,7 +57,7 @@ export default defineConfig({
 					optionalLinks: [
 						{
 							label: 'OpenAPI spec',
-							url: `${site}/swagger.json`,
+							url: `${site}/openapi.json`,
 							description: 'every route of the Pocket ID REST API with its parameters and schemas'
 						}
 					]

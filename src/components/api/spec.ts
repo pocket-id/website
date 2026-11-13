@@ -1,5 +1,5 @@
-// Turns the Swagger 2.0 spec that scripts/openapi.mjs generates into the groups, operations and field trees the API endpoints page renders
-import generated from '../../generated/swagger.json';
+// Turns the OpenAPI 3.1 spec that scripts/openapi.mjs generates into the groups, operations and field trees the API endpoints page renders
+import generated from '../../generated/openapi.json';
 
 type Schema = Record<string, any>;
 
@@ -40,7 +40,7 @@ export type Operation = {
 
 export type Group = { id: string; name: string; description?: string; operations: Operation[] };
 
-const schemas: Record<string, Schema> = spec.definitions ?? {};
+const schemas: Record<string, Schema> = spec.components?.schemas ?? {};
 
 // Groups follow a reader's path through the product, and a tag the backend adds later lands at the end instead of vanishing
 const groupOrder: string[] = (spec.tags ?? []).map((t: Schema) => t.name);
@@ -52,8 +52,7 @@ export const slug = (text: string) =>
 		.replace(/[^a-z0-9]+/g, '-')
 		.replace(/^-|-$/g, '');
 
-// swag escapes quotes in descriptions it copies from Go comments, which would show up as backslashes
-const clean = (text: string | undefined) => text?.replace(/\\"/g, '"').trim() || undefined;
+const clean = (text: string | undefined) => text?.trim() || undefined;
 
 // Follows a $ref to the definition it names, so callers always see the schema itself
 function resolve(schema: Schema | undefined): Schema {
@@ -62,8 +61,20 @@ function resolve(schema: Schema | undefined): Schema {
 	return schema;
 }
 
-const isObject = (schema: Schema) =>
-	schema.type === 'object' || (!schema.type && schema.properties);
+// OpenAPI 3.1 allows several types, of which only null matters besides the actual type
+function typeOf(schema: Schema): { base?: string; nullable: boolean } {
+	const types: string[] = Array.isArray(schema.type)
+		? schema.type
+		: schema.type
+			? [schema.type]
+			: [];
+	return { base: types.find((t) => t !== 'null'), nullable: types.includes('null') };
+}
+
+const isObject = (schema: Schema) => {
+	const { base } = typeOf(schema);
+	return base === 'object' || (!base && schema.properties);
+};
 const hasFields = (schema: Schema) =>
 	isObject(schema) && Object.keys(schema.properties ?? {}).length > 0;
 
@@ -79,7 +90,7 @@ function plural(label: string): string {
 // A short type label in the words a reader would use, such as "array of strings" or "date-time string"
 export function typeLabel(input: Schema | undefined): string {
 	const schema = resolve(input);
-	const base: string | undefined = schema.type;
+	const { base, nullable } = typeOf(schema);
 	let label: string;
 	if (base === 'array') label = `array of ${plural(typeLabel(schema.items))}`;
 	else if (
@@ -89,12 +100,12 @@ export function typeLabel(input: Schema | undefined): string {
 		typeof schema.additionalProperties === 'object'
 	) {
 		label = `map of ${plural(typeLabel(schema.additionalProperties))}`;
-	} else if (base === 'file' || (base === 'string' && schema.format === 'binary')) label = 'binary';
+	} else if (base === 'string' && schema.format === 'binary') label = 'binary';
 	else if (base === 'string' && schema.format === 'date-time') label = 'date-time string';
 	else if (base) label = base;
 	else if (schema.properties) label = 'object';
 	else label = 'any';
-	return schema['x-nullable'] ? `${label} or null` : label;
+	return nullable ? `${label} or null` : label;
 }
 
 // Defaults and limits worth knowing before a call fails validation
@@ -112,12 +123,8 @@ function notes(schema: Schema): string[] {
 	const items = range(schema.minItems, schema.maxItems, ' items');
 	if (items) out.push(items);
 	if (schema.pattern) out.push(`matches \`${schema.pattern}\``);
-	// swag writes string defaults with their quotes, such as "\"asc\"", so they are shown as written
 	if (schema.default !== undefined) {
-		const value =
-			typeof schema.default === 'string'
-				? schema.default.replace(/^"(.*)"$/, '$1')
-				: schema.default;
+		const value = schema.default;
 		out.push(`defaults to \`${typeof value === 'string' ? value : JSON.stringify(value)}\``);
 	}
 	return out;
@@ -127,7 +134,7 @@ function notes(schema: Schema): string[] {
 function fieldsOf(schema: Schema): Schema | undefined {
 	const resolved = resolve(schema);
 	if (hasFields(resolved)) return resolved;
-	if (resolved.type === 'array') {
+	if (typeOf(resolved).base === 'array') {
 		const item = resolve(resolved.items);
 		if (hasFields(item)) return item;
 	}
@@ -170,44 +177,45 @@ function schemaBody(contentType: string, input: Schema | undefined, request: boo
 	return { contentType, type: typeLabel(schema), description: clean(schema.description) };
 }
 
-// Swagger 2.0 describes a parameter's type on the parameter itself, except for the body, which carries a schema
+// A parameter describes its type in its own schema
 function param(p: Schema): Param {
+	const schema = resolve(p.schema);
 	return {
 		in: p.in,
 		name: p.name,
-		type: typeLabel(p),
+		type: typeLabel(schema),
 		required: Boolean(p.required),
 		description: clean(p.description),
-		notes: notes(p),
-		values: enumOf(p)
+		notes: notes(schema),
+		values: enumOf(schema)
 	};
+}
+
+// A request or response lists a schema per content type, which share one schema everywhere but in file downloads, so the first one stands for all
+function content(
+	entries: Record<string, Schema> | undefined
+): { contentType: string; schema?: Schema } | undefined {
+	const types = Object.keys(entries ?? {});
+	if (types.length === 0) return undefined;
+	return { contentType: types.join(', '), schema: entries![types[0]].schema };
 }
 
 function operation(path: string, method: string, op: Schema, id: string): Operation {
 	const params: Schema[] = op.parameters ?? [];
-	const bodyParam = params.find((p) => p.in === 'body');
-	const formParams = params.filter((p) => p.in === 'formData');
 
-	// A JSON body is the schema of the body parameter, and an upload is the form fields of a multipart request
-	let body: Body | undefined;
-	if (bodyParam) body = schemaBody(op.consumes?.[0] ?? 'application/json', bodyParam.schema, true);
-	else if (formParams.length)
-		body = {
-			contentType: op.consumes?.[0] ?? 'multipart/form-data',
-			fields: formParams.map(param)
-		};
+	// A JSON body, a form and an upload all describe their fields with the schema of the request body
+	const request = content(op.requestBody?.content);
+	const body = request && schemaBody(request.contentType, request.schema, true);
 
 	// Errors share one shape that the REST API page explains, so each operation lists only its successful answers
 	const responses: Response[] = Object.entries<Schema>(op.responses ?? {})
 		.filter(([status]) => status !== 'default' && Number(status) < 400)
 		.map(([status, response]) => {
 			const description = clean(response.description) ?? '';
-			if (!response.schema) return { status, description };
-			return {
-				status,
-				description,
-				...schemaBody(op.produces?.[0] ?? 'application/json', response.schema, false)
-			};
+			const answer = content(response.content);
+			if (!answer) return { status, description };
+			// The response's own description wins over the one of a schema without fields
+			return { ...schemaBody(answer.contentType, answer.schema, false), status, description };
 		});
 
 	const summary = clean(op.summary) ?? `${method.toUpperCase()} ${path}`;
@@ -218,7 +226,7 @@ function operation(path: string, method: string, op: Schema, id: string): Operat
 		path,
 		summary,
 		description: description && description !== summary ? description : undefined,
-		params: params.filter((p) => p.in !== 'body' && p.in !== 'formData').map(param),
+		params: params.map(param),
 		body,
 		responses
 	};
