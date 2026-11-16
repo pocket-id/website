@@ -188,6 +188,27 @@
 .api-endpoint .api-path {
 	padding-top: 0.0625rem;
 }
+/* The scope a route requires sits right under the endpoint bar, with the credentials that can hold it in the type face */
+.api-access {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0 0.625rem;
+	margin: 0.625rem 0 0;
+	font-size: var(--sl-text-sm);
+	color: var(--sl-color-gray-2);
+}
+.api-access code {
+	font-family: var(--font-mono);
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: var(--sl-color-white);
+}
+.api-access span {
+	font-family: var(--font-mono);
+	font-size: 0.75rem;
+	color: var(--sl-color-gray-3);
+}
 .api-guide {
 	margin: 0.75rem 0 0;
 	font-size: var(--sl-text-sm);

@@ -18,7 +18,7 @@ const locations = [
 	['header', 'Headers']
 ] as const;
 const count = (n: number, noun: string) => `${n} ${noun}${n === 1 ? '' : 's'}`;
-const { body } = operation;
+const { body, access } = operation;
 ---
 
 <section class="api-op">
@@ -28,6 +28,26 @@ const { body } = operation;
 			<Method method={operation.method} />
 			<Path path={operation.path} />
 		</div>
+		{
+			access && (
+				<p class="api-access">
+					{access.credentials.length === 0 ? (
+						'No authentication'
+					) : (
+						<>
+							{access.scope ? (
+								<>
+									Requires <code>{access.scope}</code>
+								</>
+							) : (
+								'Any credential, no scope'
+							)}
+							<span>{access.credentials.join(' · ')}</span>
+						</>
+					)}
+				</p>
+			)
+		}
 		{operation.description && <p class="api-guide">{operation.description}</p>}
 
 		{

@@ -27,12 +27,19 @@ export type Response = {
 	type?: string;
 };
 
+// The scope a route requires and the credentials that can call it, where a public route has none
+export type Access = { scope?: string; credentials: string[] };
+
+// Specs of releases before the backend documented its security schemes say nothing about access, which must not read as public
+const documentsAccess = Boolean(spec.components?.securitySchemes);
+
 export type Operation = {
 	id: string;
 	method: string;
 	path: string;
 	summary: string;
 	description?: string;
+	access?: Access;
 	params: Param[];
 	body?: Body;
 	responses: Response[];
@@ -177,6 +184,26 @@ function schemaBody(contentType: string, input: Schema | undefined, request: boo
 	return { contentType, type: typeLabel(schema), description: clean(schema.description) };
 }
 
+// The names a reader knows the backend's security schemes by
+const credentialNames: Record<string, string> = {
+	apiKey: 'API key',
+	oauth2: 'OAuth access token',
+	oauth2ClientCredentials: 'Client credentials token',
+	session: 'Browser session'
+};
+
+// Every alternative of a route asks for the same scope, so the first one that names a scope stands for all
+function access(security: Schema[] | undefined): Access | undefined {
+	if (!documentsAccess) return undefined;
+	const alternatives = (security ?? []).flatMap((requirement) =>
+		Object.entries<string[]>(requirement)
+	);
+	return {
+		scope: alternatives.find(([, scopes]) => scopes.length > 0)?.[1][0],
+		credentials: alternatives.map(([name]) => credentialNames[name] ?? name)
+	};
+}
+
 // A parameter describes its type in its own schema
 function param(p: Schema): Param {
 	const schema = resolve(p.schema);
@@ -226,6 +253,7 @@ function operation(path: string, method: string, op: Schema, id: string): Operat
 		path,
 		summary,
 		description: description && description !== summary ? description : undefined,
+		access: access(op.security),
 		params: params.map(param),
 		body,
 		responses
