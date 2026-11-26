@@ -5,7 +5,7 @@ export const ogImage = '/og/index.jpg';
 // The size of the link preview images that src/lib/og.ts draws
 export const ogSize = { width: 1200, height: 630 };
 
-type HeadTag = { tag: 'meta' | 'link'; attrs: Record<string, string> };
+type HeadTag = { tag: 'meta' | 'link' | 'script'; attrs: Record<string, string | boolean> };
 
 export const sharedHead = (site: URL | string): HeadTag[] => [
 	// Link previews on chat apps and social sites show the page's title next to the photo of the sign-in screen, see src/lib/og.ts
@@ -32,6 +32,15 @@ export const sharedHead = (site: URL | string): HeadTag[] => [
 			as: 'font',
 			type: 'font/woff2',
 			crossorigin: 'anonymous'
+		}
+	},
+	// Umami counts page views without cookies
+	{
+		tag: 'script',
+		attrs: {
+			defer: true,
+			src: 'https://analytics.eliasschneider.com/script.js',
+			'data-website-id': 'fcf23d48-19b5-450c-9095-7c59277c1337'
 		}
 	}
 ];
