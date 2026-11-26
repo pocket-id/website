@@ -9,6 +9,8 @@ Pocket ID puts the matching claims into the ID token and returns the same claims
 
 ## Scopes
 
+The table below shows the claims of the built-in [claim mapping policy](#claim-mapping-policy).
+
 | Scope | Claims |
 | --- | --- |
 | `openid` | `sub`, the user's ID, which never changes. Every sign-in needs this scope. |
@@ -29,13 +31,29 @@ Apps that map groups to roles, such as Grafana or Jellyfin, need these names.
 Custom claims add your own values to the tokens, such as a role or a quota for one app.
 Set them on a user or a group under **Administration → Users** or **User Groups**, on the **Custom Claims** tab.
 
-- They're released with the `profile` scope, in the ID token and the userinfo response, but not in the access token.
+- They're released with the `profile` scope, in the ID token and the userinfo response.
+  The built-in policy leaves them out of the access token, but a [claim mapping policy](#claim-mapping-policy) can add them.
 - A value that is valid JSON, such as `["admin"]` or `42`, is added as JSON, and anything else as a string.
 - A user's own claim wins over a group's claim with the same name.
   If several of the user's groups set the same claim, which one wins isn't defined, so give every group its own names.
 - Standard claim names such as `email`, `groups`, `name` or `sub` are reserved and can't be used.
 
 To check what an app will receive, open the client and click **OIDC Data Preview**, which shows the ID token, the access token and the userinfo response for any user.
+
+## Claim mapping policy
+
+A claim mapping policy defines which claims each token contains, depending on the requested scopes, as well as the source and the name of each claim.
+
+Use your own policy to change what an app receives, such as setting `preferred_username` to the user's email, or adding `preferred_username` to the access token:
+
+1. Open **Administration → Claim Mapping Policy** and create a new policy.
+2. Assign the policy to the clients that need it.
+
+Clients without a policy of their own use the default policy, which is usually the built-in one.
+
+:::caution
+The access token is the most exposed token, so it shouldn't contain sensitive claims.
+:::
 
 ## Tokens
 
