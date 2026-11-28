@@ -122,7 +122,7 @@ Volume=pocket-id:/app/data:Z
 # Optional: updates the image automatically, needs podman-auto-update.timer
 AutoUpdate=registry
 
-HealthCmd=/app/pocket-id healthcheck
+HealthCmd=CMD /app/pocket-id healthcheck
 HealthInterval=1m30s
 HealthTimeout=5s
 HealthRetries=2
